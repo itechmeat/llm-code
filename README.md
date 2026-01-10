@@ -16,7 +16,9 @@ Each skill is built exclusively from official product documentation to ensure ac
 | Skill                                                       | Description                    |
 | ----------------------------------------------------------- | ------------------------------ |
 | [beads](.llm-code/skills/beads/README.md)                   | Beads Viewer issue tracking    |
+| [changelog](.llm-code/skills/changelog/README.md)           | Keep a Changelog format        |
 | [coderabbit](.llm-code/skills/coderabbit/README.md)         | CodeRabbit code review         |
+| [commits](.llm-code/skills/commits/README.md)               | Conventional Commits format    |
 | [fastapi](.llm-code/skills/fastapi/README.md)               | FastAPI web framework          |
 | [makefile](.llm-code/skills/makefile/README.md)             | GNU Make build automation      |
 | [mantine-dev](.llm-code/skills/mantine-dev/README.md)       | Mantine UI components          |

@@ -1,0 +1,37 @@
+# <type>(<scope>): <subject>
+# |<----  Using a maximum of 50 characters  ---->|
+
+# Explain why this change is being made
+# |<----   Try to limit each line to 72 characters   ---->|
+
+# Provide links or keys to any relevant tickets, articles, or resources
+# Example: Refs: #123, #456
+
+# --- COMMIT END ---
+# Type can be:
+#   feat     - new feature (MINOR in SemVer)
+#   fix      - bug fix (PATCH in SemVer)
+#   docs     - documentation only changes
+#   style    - formatting, missing semicolons, etc; no code change
+#   refactor - code change that neither fixes a bug nor adds a feature
+#   perf     - code change that improves performance
+#   test     - adding missing tests or correcting existing tests
+#   build    - changes to build system or external dependencies
+#   ci       - changes to CI configuration files and scripts
+#   chore    - other changes that don't modify src or test files
+#   revert   - reverts a previous commit
+# --------------------
+# Breaking changes:
+#   Add ! after type/scope: feat!: or feat(api)!:
+#   Or add footer: BREAKING CHANGE: description
+# --------------------
+# Scope is optional and represents the module affected (auth, api, ui, etc.)
+# --------------------
+# Remember:
+#   - Capitalize the subject line
+#   - Use imperative mood: "Add feature" not "Added feature"
+#   - Do not end the subject line with a period
+#   - Separate subject from body with a blank line
+#   - Use the body to explain what and why, not how
+# --------------------
+# For more information: https://www.conventionalcommits.org/

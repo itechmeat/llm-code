@@ -1,0 +1,125 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+# CodeRabbit Configuration - Full Example
+# See full reference: https://docs.coderabbit.ai/reference/configuration
+
+language: en-US
+tone_instructions: "Be concise. Focus on bugs, security issues, and correctness."
+
+reviews:
+  # Review style: chill (fewer comments) or assertive (more detailed)
+  profile: chill
+
+  # Summary and visualization
+  high_level_summary: true
+  sequence_diagrams: true
+  poem: false
+
+  # Auto-review settings
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    drafts: false
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT MERGE"
+      - "[skip ci]"
+    labels:
+      - "!wip" # Skip PRs with 'wip' label
+    base_branches:
+      - "main"
+      - "develop"
+
+  # Path filters - exclude generated/vendor files
+  path_filters:
+    - "!dist/**"
+    - "!build/**"
+    - "!node_modules/**"
+    - "!vendor/**"
+    - "!*.min.js"
+    - "!*.min.css"
+    - "!package-lock.json"
+    - "!yarn.lock"
+    - "!pnpm-lock.yaml"
+
+  # Path-specific instructions
+  path_instructions:
+    - path: "**/*.py"
+      instructions: "Check for type hints, proper exception handling, and PEP 8 compliance."
+    - path: "**/*.ts"
+      instructions: "Verify strict TypeScript types, avoid 'any', check null handling."
+    - path: "src/api/**"
+      instructions: "Verify authentication, authorization, input validation, and rate limiting."
+    - path: "**/*test*"
+      instructions: "Ensure tests are meaningful, cover edge cases, and use proper assertions."
+    - path: "**/migrations/**"
+      instructions: "Check for reversibility, data preservation, and index usage."
+
+  # Finishing touches (Pro feature)
+  finishing_touches:
+    docstrings:
+      enabled: true
+    unit_tests:
+      enabled: true
+
+  # Pre-merge checks
+  pre_merge_checks:
+    title:
+      mode: warning
+    description:
+      mode: warning
+    docstrings:
+      mode: warning
+      threshold: 80
+
+  # Tools configuration
+  tools:
+    # Security
+    gitleaks:
+      enabled: true
+    semgrep:
+      enabled: true
+
+    # Python
+    ruff:
+      enabled: true
+    pylint:
+      enabled: true
+
+    # JavaScript/TypeScript
+    eslint:
+      enabled: true
+    biome:
+      enabled: true
+
+    # Go
+    golangci-lint:
+      enabled: true
+      config_file: ".golangci.yml"
+
+    # Infrastructure
+    hadolint:
+      enabled: true
+    checkov:
+      enabled: true
+    actionlint:
+      enabled: true
+    yamllint:
+      enabled: true
+
+    # Documentation
+    markdownlint:
+      enabled: true
+    shellcheck:
+      enabled: true
+
+# Code generation settings
+code_generation:
+  docstrings:
+    language: en-US
+  unit_tests:
+    path_instructions:
+      - path: "**/*.py"
+        instructions: "Use pytest with fixtures. Include edge cases."
+      - path: "**/*.ts"
+        instructions: "Use Jest or Vitest. Mock external dependencies."

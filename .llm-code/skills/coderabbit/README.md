@@ -1,22 +1,32 @@
 # CodeRabbit Skill
 
-AI-powered code review workflow using CodeRabbit CLI: triage findings by severity, implement focused fixes, and verify with project checks.
+AI-powered code review for pull requests and local changes using CodeRabbit.
 
 ## What This Skill Covers
 
-- **CLI Usage**: Install, authenticate, run reviews (prompt-only mode for agents)
-- **Triage**: Classify findings by severity (CRITICAL/HIGH/MEDIUM/LOW), decide fix/defer/skip
-- **Fixing**: Implement minimal, root-cause oriented fixes one issue at a time
-- **Verification**: Run code checkers and tests after each fix
+- **CLI Usage**: Install, authenticate, run reviews (interactive, plain, prompt-only modes)
+- **Configuration**: .coderabbit.yaml settings, path instructions, tool configuration
+- **PR Commands**: @coderabbitai commands for GitHub/GitLab PR interaction
+- **Tools**: Integration with 40+ linters and security scanners
+- **Platform Integration**: GitHub, GitLab, Azure DevOps, Bitbucket setup
+- **AI Agent Workflow**: Claude Code, Cursor, Codex integration patterns
+- **Triage**: Classify findings by severity (CRITICAL/HIGH/MEDIUM/LOW)
+- **Fixing**: Implement minimal, root-cause oriented fixes
 
 ## Quick Navigation
 
-- [SKILL.md](SKILL.md) — router-style entry point for agents
-- [references/](references/) — topic-specific playbooks
+- [SKILL.md](SKILL.md) — Router with quick start and severity matrix
+- [references/](references/) — Detailed topic references
 
 ## When to Use
 
 Activate this skill when you need to:
-- Run a pre-PR code review to catch issues early
-- Triage CodeRabbit findings into actionable tasks
-- Implement fixes for flagged issues with minimal scope creep
+
+- Run pre-PR code reviews to catch issues early
+- Configure CodeRabbit for your repository
+- Integrate CodeRabbit with AI coding agents
+- Triage and fix CodeRabbit findings
+
+## Source
+
+Based on official documentation: https://docs.coderabbit.ai/

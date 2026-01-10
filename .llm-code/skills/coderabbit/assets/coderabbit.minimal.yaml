@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+# CodeRabbit Configuration - Minimal
+# See full reference: https://docs.coderabbit.ai/reference/configuration
+
+language: en-US
+
+reviews:
+  profile: chill
+  high_level_summary: true
