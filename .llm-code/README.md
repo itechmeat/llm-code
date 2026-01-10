@@ -40,6 +40,17 @@ Shared LLM assets for use across multiple projects and tools.
 .llm-code/link-assets.sh --list
 ```
 
+### Removing Symlinks
+
+To remove a symlink for a specific tool:
+
+```bash
+# Remove Claude Code symlink
+rm .claude/skills
+```
+
+**Note:** `rm` safely removes symlinks without affecting the original `.llm-code/skills/` directory.
+
 ### Options
 
 | Option            | Description                                      |

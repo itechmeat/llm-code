@@ -105,7 +105,7 @@ create_symlink() {
     [[ -L "$symlink_path" ]] && rm "$symlink_path"
     [[ -d "$symlink_path" ]] && rm -rf "$symlink_path"
 
-    local rel_source=".llm-code/${asset_dir}"
+    local rel_source="../.llm-code/${asset_dir}"
     ln -s "$rel_source" "$symlink_path"
     echo "  + ${parent_dir}/${target_name} -> ${rel_source}"
 }
