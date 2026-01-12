@@ -5,7 +5,23 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
-## [2026-01-14]
+## [2025-01-12]
+
+### Added
+
+- **cloudflare-workers** — Cloudflare Workers serverless platform
+- **cloudflare-images** — Cloudflare Images service
+- **cloudflare-pages** — Cloudflare Pages deployment
+- **cloudflare-d1** — Cloudflare D1 SQLite database
+- **cloudflare-r2** — Cloudflare R2 object storage
+- **cloudflare-kv** — Cloudflare Workers KV storage
+- **cloudflare-queues** — Cloudflare Queues message queue
+- **cloudflare-workflows** — Cloudflare Workflows durable execution
+- **cloudflare-durable-objects** — Cloudflare Durable Objects stateful serverless
+- **pydantic-ai** — Pydantic AI agent framework
+- **tavily** — Tavily AI search API
+
+## [2026-01-11]
 
 ### Added
 
