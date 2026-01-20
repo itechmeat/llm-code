@@ -1,5 +1,8 @@
 # Changelog
 
+<!-- IMPORTANT: All changelog entries must be written in English. -->
+<!-- Remove any empty sections; do not keep headers with no entries. -->
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),

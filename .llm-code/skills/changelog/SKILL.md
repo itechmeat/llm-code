@@ -7,6 +7,12 @@ description: "Keep a Changelog format specification: structure, change types, ve
 
 Format specification for CHANGELOG.md based on Keep a Changelog 1.1.0.
 
+## Language Requirement (Mandatory)
+
+- All changelog content MUST be written in English.
+- If source information is provided in another language, translate it to English.
+- Do not mix languages within the same changelog.
+
 ## Quick Reference
 
 ### File Header
@@ -213,16 +219,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Be specific (mention affected component/endpoint)
 - Reference issue/PR numbers when relevant: `(#123)`
 - Keep entries concise but informative
+- Omit empty sections (do not include a section header if there are no entries for it)
 
 ## File Naming
 
-Recommended: `CHANGELOG.md`
+Required: `CHANGELOG.md` (uppercase). Do not use lowercase or alternative names.
 
-Alternatives (less common):
-
-- `HISTORY.md`
-- `NEWS.md`
-- `RELEASES.md`
+Do not use alternative filenames.
 
 ## GitHub Releases vs CHANGELOG.md
 
@@ -287,6 +290,7 @@ Before release:
 - Do not use ambiguous date formats
 - Do not leave changelog inconsistently updated
 - Do not forget to update Unreleased → version at release
+- Do not write changelog entries in any language other than English
 
 ## Links
 

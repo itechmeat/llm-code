@@ -5,6 +5,19 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-01-20]
+
+### Added
+
+- **base-ui** — Base UI (React) unstyled components skill with references
+- **openspec** — OpenSpec (OPSX) workflow skill with references
+- **vite** — Vite project and API skill with references
+
+### Changed
+
+- **changelog** — Enforced English-only entries, required `CHANGELOG.md`, and clarified empty-section handling
+- **coderabbit** — Added a local capture script and guidance for prompt-only reports
+
 ## [2025-01-12]
 
 ### Added
