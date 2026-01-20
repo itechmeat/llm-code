@@ -15,6 +15,7 @@ Each skill is built exclusively from official product documentation to ensure ac
 
 | Skill                                                                               | Description                                    |
 | ----------------------------------------------------------------------------------- | ---------------------------------------------- |
+| [base-ui](.llm-code/skills/base-ui/README.md)                                       | Base UI unstyled React components              |
 | [beads](.llm-code/skills/beads/README.md)                                           | Beads Viewer issue tracking                    |
 | [changelog](.llm-code/skills/changelog/README.md)                                   | Keep a Changelog format                        |
 | [cloudflare-workers](.llm-code/skills/cloudflare-workers/README.md)                 | Cloudflare Workers serverless                  |
@@ -33,6 +34,7 @@ Each skill is built exclusively from official product documentation to ensure ac
 | [mantine-dev](.llm-code/skills/mantine-dev/README.md)                               | Mantine UI components                          |
 | [open-meteo](.llm-code/skills/open-meteo/README.md)                                 | Open-Meteo weather API                         |
 | [openapi](.llm-code/skills/openapi/README.md)                                       | OpenAPI specification                          |
+| [openspec](.llm-code/skills/openspec/README.md)                                     | OpenSpec workflow specification                |
 | [perplexity](.llm-code/skills/perplexity/README.md)                                 | Perplexity AI conversational search            |
 | [postgresql](.llm-code/skills/postgresql/README.md)                                 | PostgreSQL database                            |
 | [pydantic-ai](.llm-code/skills/pydantic-ai/README.md)                               | Pydantic AI agent framework                    |
@@ -44,6 +46,7 @@ Each skill is built exclusively from official product documentation to ensure ac
 | [tavily](.llm-code/skills/tavily/README.md)                                         | Tavily AI search API                           |
 | [telegram](.llm-code/skills/telegram/README.md)                                     | Telegram Bot API                               |
 | [vibekanban](.llm-code/skills/vibekanban/README.md)                                 | AI coding agent orchestration                  |
+| [vite](.llm-code/skills/vite/README.md)                                             | Vite project and API guidance                  |
 | [vitest](.llm-code/skills/vitest/README.md)                                         | Vitest testing framework                       |
 
 > _This collection reflects the author's personal needs. New skills will be added for development, product management, research, analytics, and other workflows._
