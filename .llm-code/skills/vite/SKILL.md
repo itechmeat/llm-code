@@ -1,6 +1,8 @@
 ---
 name: vite
-description: "Build and configure Vite projects. Covers dev server, build/preview, config options, plugin API, HMR, environment variables, and JavaScript API. Use when users ask about Vite setup, configuration, plugins, or troubleshooting. Keywords: Vite, vite.config, HMR, plugin API, env, build, dev server."
+description: "Vite build tool. Covers config, plugins, HMR, env variables. Keywords: vite.config, dev server."
+version: "7.2.6"
+release_date: "2025-12-01"
 ---
 
 # Vite

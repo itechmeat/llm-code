@@ -1,6 +1,8 @@
 ---
 name: fastapi
-description: "Build modern, fast web APIs with FastAPI framework. Covers path/query parameters, request bodies, validation, dependencies, security (OAuth2/JWT), middleware, CORS, SQL databases, background tasks, testing, and deployment. Use when creating REST APIs with Python, working with Pydantic models, or implementing authentication. Keywords: FastAPI, Python API, REST API, Pydantic, async, type hints, OpenAPI, Swagger, authentication, OAuth2, JWT, dependencies, middleware, CORS."
+description: "FastAPI Python framework. Covers REST APIs, validation, dependencies, security. Keywords: Pydantic, async, OAuth2, JWT."
+version: "0.128.0"
+release_date: "2025-12-27"
 ---
 
 # FastAPI

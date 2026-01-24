@@ -39,6 +39,8 @@ Activate this skill when you need to:
 - Integrate CodeRabbit with AI coding agents
 - Triage and fix CodeRabbit findings
 
-## Source
+## Links
 
-Based on official documentation: https://docs.coderabbit.ai/
+- [Documentation](https://docs.coderabbit.ai/)
+- [GitHub](https://github.com/coderabbitai/coderabbit)
+- [npm](https://www.npmjs.com/package/coderabbit)

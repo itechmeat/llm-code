@@ -1,6 +1,8 @@
 ---
 name: changelog
-description: "Keep a Changelog format specification: structure, change types, versioning, best practices. Keywords: CHANGELOG.md, changelog, Added, Changed, Deprecated, Removed, Fixed, Security, Semantic Versioning."
+description: "Keep a Changelog format. Covers structure, change types, versioning. Keywords: CHANGELOG.md, semver."
+version: "1.1.0"
+release_date: "2023-03-06"
 ---
 
 # Changelog
@@ -72,7 +74,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Version in brackets, linked to comparison
 - Date in ISO 8601 format (YYYY-MM-DD)
-- Unreleased section at top: `## [Unreleased]`
+
+### Date-Based Versioning (Alternative)
+
+For projects using date-based versioning instead of semver:
+
+```markdown
+## [YYYY-MM-DD]
+```
+
+Use current date instead of `[Unreleased]`. This project uses date-based versioning.
 
 ### Yanked Releases
 
@@ -291,6 +302,30 @@ Before release:
 - Do not leave changelog inconsistently updated
 - Do not forget to update Unreleased → version at release
 - Do not write changelog entries in any language other than English
+
+## README Synchronization
+
+After writing changelog, review the project's main README.md:
+
+1. **Check for outdated information** — features, skills, tools lists
+2. **Add new entries** — if changelog introduces new skills, features, or components
+3. **Remove deprecated items** — if changelog removes functionality
+4. **Update descriptions** — if changelog changes existing functionality
+
+**What to sync:**
+
+- Skills/features tables
+- Compatibility lists
+- Installation instructions
+- Links and references
+
+**What NOT to sync:**
+
+- Changelog content itself (no duplication)
+- Version history
+- Detailed change descriptions
+
+**Do NOT mention README.md updates in CHANGELOG** — README synchronization is implied and should not be logged as a separate change.
 
 ## Links
 

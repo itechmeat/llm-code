@@ -41,9 +41,13 @@ Every `SKILL.md` MUST start with YAML frontmatter:
 ```yaml
 ---
 name: skill-name
-description: A description of what this skill does and when to use it.
+description: "What it does. Keywords: term1, term2."
+version: "1.2.3"
+release_date: "2025-01-21"
 ---
 ```
+
+**Field order:** `name` → `description` → `version` → `release_date` → other fields
 
 ### Required Fields
 
@@ -56,6 +60,8 @@ description: A description of what this skill does and when to use it.
 
 | Field         | Purpose                                           |
 | ------------- | ------------------------------------------------- |
+| version       | Product version the skill is based on             |
+| release_date  | Product release date (YYYY-MM-DD)                 |
 | license       | License name or reference to bundled LICENSE file |
 | compatibility | Environment requirements (max 500 chars)          |
 | metadata      | Arbitrary key-value pairs (author, version, etc.) |
@@ -75,19 +81,48 @@ name: -pdf            # cannot start with hyphen
 name: pdf--processing # consecutive hyphens not allowed
 ```
 
-### Description Best Practices
+### Description Rules
 
-Good:
+**Purpose:** Tell the LLM what the skill does and when to activate it. Minimize tokens — just enough for activation decision.
 
-```yaml
-description: Extracts text and tables from PDF files, fills PDF forms, and merges PDFs. Use when working with PDF documents or when the user mentions PDFs, forms, or document extraction.
+**Formula:**
+
+```
+[Product] [core function]. Covers [2-3 key topics]. Keywords: [terms].
 ```
 
-Poor:
+**Constraints:**
+
+- Target: 80-150 chars
+- Max: 300 chars
+- No marketing ("powerful", "comprehensive", "modern")
+- No filler ("this skill", "use this for", "helps with")
+- No redundant context (skip "for apps", "for developers")
+
+**Good examples:**
 
 ```yaml
-description: Helps with PDFs.
+description: "Turso SQLite database. Covers encryption, sync, agent patterns. Keywords: Turso, libSQL, SQLite."
+
+description: "Base UI unstyled React components. Covers forms, menus, overlays. Keywords: @base-ui/react, render props."
+
+description: "Inworld TTS API. Covers voice cloning, audio markups, timestamps. Keywords: Inworld, TTS, visemes."
 ```
+
+**Poor examples:**
+
+```yaml
+# Too vague
+description: "Helps with PDFs."
+
+# Too verbose
+description: "Turso embedded SQLite database for modern apps and AI agents. Covers encryption, authorization, sync, partial sync, and agent database patterns."
+
+# Marketing
+description: "A powerful solution for all your database needs."
+```
+
+**Keywords:** product name, package name, 3-5 terms max.
 
 ## How Skills Work (Progressive Disclosure)
 
@@ -191,6 +226,63 @@ For each page:
 - Do NOT keep `SKILL.md` over 500 lines
 - Do NOT skip `name` validation (must match folder name)
 - Do NOT use poor descriptions that lack trigger keywords
+- Do NOT omit product version when creating skills from documentation
+
+## Version Tracking
+
+When creating or updating a skill from external documentation:
+
+1. Add `version` field in frontmatter for product version:
+
+   ```yaml
+   ---
+   name: my-skill
+   description: "..."
+   version: "1.2.3"
+   ---
+   ```
+
+2. Optionally add `release_date` if known:
+
+   ```yaml
+   ---
+   name: my-skill
+   description: "..."
+   version: "1.2.3"
+   release_date: "2025-01-21"
+   ---
+   ```
+
+3. Create `README.md` with:
+   - Skill overview (1-2 sentences)
+   - Usage section (when to use)
+   - Links section (standardized format)
+
+**README.md Links section format:**
+
+```markdown
+## Links
+
+- [Documentation](https://example.com/docs)
+- [Changelog](https://example.com/changelog)
+- [GitHub](https://github.com/org/repo)
+- [npm](https://www.npmjs.com/package/name)
+```
+
+Include only applicable links. Order: Documentation → Changelog/Releases → GitHub → Package registry.
+
+Example frontmatter:
+
+```yaml
+---
+name: turso
+description: "Turso embedded SQLite database..."
+version: "0.4.0"
+release_date: "2025-01-05"
+---
+```
+
+This helps track when the skill was last updated and against which product version.
 
 ## Validation Checklist
 

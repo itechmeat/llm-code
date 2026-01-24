@@ -1,6 +1,8 @@
 ---
 name: base-ui
-description: Build and integrate Base UI (@base-ui/react) unstyled React components and utilities for forms, menus, overlays, and UI primitives with composition, render props, and accessibility.
+description: "Base UI unstyled React components. Covers forms, menus, overlays, composition. Keywords: @base-ui/react, render props."
+version: "1.1.0"
+release_date: "2025-01-13"
 ---
 
 # Base UI (React)

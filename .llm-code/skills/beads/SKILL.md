@@ -1,6 +1,8 @@
 ---
 name: beads
-description: "Task tracking with Beads (bd/bv): spec-grade issues, stage/gate delivery, dependency graphs, bulk operations. Use when creating issues, planning work, or managing daily task workflow. Keywords: beads, bd, bv, issues, tasks, stage-gate, EARS, bulk create."
+description: "Beads task tracking CLI. Covers issues, stage-gate delivery, bulk operations. Keywords: bd, bv, EARS."
+version: "0.46.0"
+release_date: "2025-01-07"
 ---
 
 # Beads Skill

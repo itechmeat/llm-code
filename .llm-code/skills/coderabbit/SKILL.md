@@ -1,6 +1,7 @@
 ---
 name: coderabbit
-description: "CodeRabbit AI code review: CLI usage, configuration, PR commands, triage workflow, AI agent integration. Keywords: CodeRabbit, code review, CLI, @coderabbitai, triage, CRITICAL, HIGH, MEDIUM, LOW, Claude Code, Cursor."
+description: "CodeRabbit AI code review. Covers CLI, configuration, triage workflow. Keywords: @coderabbitai, code review."
+release_date: "2025-12-12"
 ---
 
 # CodeRabbit

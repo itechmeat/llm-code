@@ -15,7 +15,9 @@ A skill for building modern, fast web APIs with FastAPI framework.
 - [SKILL.md](SKILL.md) - Main skill instructions
 - [references/](references/) - Detailed documentation by topic
 
-## Resources
+## Links
 
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [FastAPI Tutorial](https://fastapi.tiangolo.com/tutorial/)
+- [Documentation](https://fastapi.tiangolo.com/)
+- [Releases](https://github.com/fastapi/fastapi/releases)
+- [GitHub](https://github.com/fastapi/fastapi)
+- [PyPI](https://pypi.org/project/fastapi/)

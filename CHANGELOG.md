@@ -5,6 +5,25 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2025-01-24]
+
+### Added
+
+- **agent-browser** — Headless browser automation CLI for AI agents (v0.7.6)
+- **inworld** — Inworld TTS API for voice cloning and audio markups (v1.5)
+- **turso** — Turso SQLite database with encryption and sync (v0.4.0)
+
+### Changed
+
+- **skill-master** — Added Version Tracking section, Description Rules (80-150 chars target), README Links format, frontmatter field order rule
+- **changelog** — Added README Synchronization section for keeping project README in sync
+- **base-ui** — Added version 1.1.0, release date, shortened description, README with Links
+- **beads** — Added version 0.46.0, release date, shortened description
+- **coderabbit** — Shortened description, README Links section
+- **commits** — Added version 1.0.0, release date 2019-02-21, shortened description, README Links section
+- **fastapi** — Added version 0.128.0, release date 2025-12-27, shortened description, README Links section
+- **vite** — Added version 7.2.6, release date, shortened description, README Links section
+
 ## [2026-01-20]
 
 ### Added

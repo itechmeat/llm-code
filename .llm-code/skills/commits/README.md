@@ -28,6 +28,7 @@ Activate this skill when you need to:
 
 - [changelog](../changelog/SKILL.md) — CHANGELOG.md format that commits feed into
 
-## Source
+## Links
 
-Based on official specification: https://www.conventionalcommits.org/en/v1.0.0/
+- [Specification](https://www.conventionalcommits.org/)
+- [GitHub](https://github.com/conventional-commits/conventionalcommits.org)

@@ -39,3 +39,10 @@ This skill summarizes the Vite documentation into actionable guidance for setup,
 - Environment plugins: references/api-environment-plugins.md
 - Environment frameworks: references/api-environment-frameworks.md
 - Environment runtimes: references/api-environment-runtimes.md
+
+## Links
+
+- [Documentation](https://vite.dev/)
+- [Changelog](https://github.com/vitejs/vite/blob/main/packages/vite/CHANGELOG.md)
+- [GitHub](https://github.com/vitejs/vite)
+- [npm](https://www.npmjs.com/package/vite)
