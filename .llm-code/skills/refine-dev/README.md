@@ -16,9 +16,9 @@ Build React admin applications with [Refine](https://refine.dev) - a headless CR
 - Mantine UI integration
 - i18n, notifications, realtime
 
-## Quick Links
+## Links
 
-- [SKILL.md](SKILL.md) — Main guide with quick start
-- [Official Docs](https://refine.dev/docs/)
-- [Mantine Integration](https://refine.dev/docs/ui-integrations/mantine/)
-
+- [Documentation](https://refine.dev/docs/)
+- [Releases](https://github.com/refinedev/refine/releases)
+- [GitHub](https://github.com/refinedev/refine)
+- [npm](https://www.npmjs.com/package/@refinedev/core)

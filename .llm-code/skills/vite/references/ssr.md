@@ -10,8 +10,29 @@ Actionable notes from the SSR guide.
 ## Dev server integration
 
 - Use Vite in middleware mode (`server.middlewareMode: true`, `appType: 'custom'`).
-- Use `vite.transformIndexHtml()` and `vite.ssrLoadModule()` during dev.
-- Call `vite.ssrFixStacktrace()` for errors.
+- Use `vite.transformIndexHtml()` for HTML transforms.
+
+### Legacy: `ssrLoadModule`
+
+- `vite.ssrLoadModule()` — deprecated, use ModuleRunner instead.
+- `vite.ssrFixStacktrace()` — not needed with ModuleRunner.
+- Set `future.removeSsrLoadModule: 'warn'` to see warnings.
+
+### ModuleRunner API (recommended)
+
+- Each environment has a `ModuleRunner` for importing modules.
+- Use `moduleRunner.import(url)` instead of `ssrLoadModule`.
+- Stack traces automatically fixed (unless `sourcemapInterceptor: false`).
+- Works with custom environments running in separate threads/processes.
+
+```js
+// Example with RunnableDevEnvironment
+const environment = server.environments.ssr;
+if (environment instanceof RunnableDevEnvironment) {
+  const runner = environment.runner;
+  const mod = await runner.import("/src/entry-server.js");
+}
+```
 
 ## Production build
 
@@ -29,10 +50,14 @@ Actionable notes from the SSR guide.
 - SSR externalizes deps by default.
 - Use `ssr.noExternal` for deps that need Vite transforms.
 - Use `ssr.external` to force externalization for linked deps.
+- `ssr.resolve.mainFields` — customize main fields resolution for SSR.
+- `ssr.resolve.conditions` — customize export conditions for SSR.
 
 ## Plugin hooks
 
-- SSR-specific transforms get `options.ssr` in plugin hooks.
+- `options.ssr` in hooks — deprecated.
+- Use `this.environment.config.consumer === 'server'` instead.
+- Set `future.removePluginHookSsrArgument: 'warn'` for warnings.
 
 ## Targets and bundling
 

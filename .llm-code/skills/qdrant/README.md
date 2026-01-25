@@ -19,3 +19,10 @@ Operational playbook for Qdrant vector database: collections, points, payload fi
 ## When to Use
 
 Activate this skill when working with Qdrant vector storage: creating collections, ingesting embeddings, tuning search performance, configuring deployment, or troubleshooting issues.
+
+## Links
+
+- [Documentation](https://qdrant.tech/documentation/)
+- [Releases](https://github.com/qdrant/qdrant/releases)
+- [GitHub](https://github.com/qdrant/qdrant)
+- [Docker Hub](https://hub.docker.com/r/qdrant/qdrant)

@@ -20,3 +20,10 @@ PostgreSQL best practices for multi-tenant applications.
 ## When to use
 
 Use this skill when designing multi-tenant tables, debugging tenant isolation, writing migrations, or configuring PostgreSQL runtime settings.
+
+## Links
+
+- [Documentation](https://www.postgresql.org/docs/current/)
+- [Releases](https://www.postgresql.org/about/newsarchive/pgsql/)
+- [GitHub](https://github.com/postgres/postgres)
+- [Wiki](https://wiki.postgresql.org/)

@@ -18,6 +18,7 @@ Actionable notes from the build guide.
 
 - Use `build.rollupOptions` for custom outputs and build-only plugins.
 - Use `build.rollupOptions.output.manualChunks` for chunk splitting.
+- `build.emitLicense` (default: `true`) — emit LICENSE file with bundled deps.
 
 ## Operational hooks
 

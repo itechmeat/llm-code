@@ -51,11 +51,11 @@ coderabbit --plain
 If you need to persist raw prompt-only output to a file, use the bundled script:
 
 ```bash
-# From repository root:
-python3 .llm-code/skills/coderabbit/scripts/run_coderabbit.py --output coderabbit-report.txt
-
-# From .llm-code/skills/coderabbit:
+# Relative path from skill directory:
 python3 scripts/run_coderabbit.py --output coderabbit-report.txt
+
+# Absolute path from repo root:
+python3 .github/skills/coderabbit/scripts/run_coderabbit.py --output coderabbit-report.txt
 ```
 
 Options:
@@ -85,19 +85,22 @@ Options:
 ## AI Agent Workflow Pattern
 
 ```text
-Implement [feature] and then run the capture script (from the skill directory) to generate .code-review/coderabbit-report.txt,
-let it run in the background and fix any critical issues. Ignore nits.
+Implement [feature] and then run the capture script to generate .code-review/coderabbit-report.txt,
+run it in a background terminal and wait for the process to complete before reading the report.
+Fix any critical issues. Ignore nits.
 ```
 
 Key points:
 
 - Use `--prompt-only` for AI-optimized output
-- Reviews take 7-30+ minutes
-- Run in background, then wait for the report file
-- Check for .code-review/coderabbit-report.txt once per minute for up to 20 minutes
-- If the report appears, proceed to review and apply fixes
-- If the report does not appear in 20 minutes or an error occurs, report the failure to the user
-- Limit to 2-3 iterations maximum
+- Reviews take 7-30+ minutes depending on changeset size
+- Run command in **background terminal** (`background=true`)
+- **Wait for terminal to become idle** (not busy) using `get_terminal_output`
+- **Poll every 60 seconds**, not more frequently — CodeRabbit takes time
+- Do NOT just check for file existence — file is created early but populated gradually
+- Once terminal shows completion, read `.code-review/coderabbit-report.txt`
+- If process times out (30 min default) or errors, report failure to user
+- Limit to 2-3 review iterations maximum
 
 ## Minimal Configuration
 

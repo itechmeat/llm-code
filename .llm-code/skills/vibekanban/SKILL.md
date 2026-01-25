@@ -1,6 +1,8 @@
 ---
 name: vibekanban
-description: "Vibe Kanban orchestration platform for AI coding agents: project setup, task management, code review, git worktrees, multi-agent support. Keywords: Vibe Kanban, AI agents, Claude Code, Codex, Gemini, kanban board, git worktree, code review, MCP server."
+description: "Vibe Kanban orchestration platform for AI coding agents: workspaces, sessions, task management, code review, git worktrees, multi-agent support. Keywords: Vibe Kanban, AI agents, Claude Code, Codex, Gemini, kanban board, git worktree, code review, MCP server, workspaces, sessions."
+version: "0.0.161"
+release_date: "2026-01-23"
 ---
 
 # Vibe Kanban
@@ -12,6 +14,7 @@ Orchestration platform for AI coding agents. Plan, review, and manage AI-generat
 | Topic                         | Reference                                               |
 | ----------------------------- | ------------------------------------------------------- |
 | Installation & Setup          | [getting-started.md](references/getting-started.md)     |
+| **Workspaces (Beta)**         | [workspaces.md](references/workspaces.md)               |
 | Projects, Tasks, Review       | [core-features.md](references/core-features.md)         |
 | Subtasks, Attempts, Conflicts | [advanced-features.md](references/advanced-features.md) |
 | Settings, Agents, Tags        | [configuration.md](references/configuration.md)         |
@@ -43,17 +46,35 @@ Opens browser automatically. Use `PORT=8080 npx vibe-kanban` for fixed port.
 4. Create project from existing git repo
 5. Add tasks and start executing
 
+## Two UI Modes
+
+### Classic Kanban (Tasks)
+
+Traditional board with columns: To do → In Progress → In Review → Done
+
+### Workspaces (Beta) — NEW
+
+Modern interface with:
+
+- **Sessions**: Multiple conversation threads per workspace
+- **Command Bar**: `Cmd/Ctrl + K` for all actions
+- **Workspace Notes**: Document requirements and decisions
+- **Multi-repo support**: Work across multiple repositories
+- **Integrated Terminal**: PTY-backed terminal with shell support
+
+Switch between modes via Command Bar → "Open in Old UI"
+
 ## Core Concepts
 
 ### Git Worktrees
 
-Each task runs in an **isolated git worktree**:
+Each task/workspace runs in an **isolated git worktree**:
 
 - Agents can't interfere with each other
 - Safe from main branch changes
 - Automatic cleanup after completion
 
-### Task Flow
+### Task Flow (Classic)
 
 ```
 To do → In Progress → In Review → Done
@@ -85,8 +106,9 @@ One task can have multiple attempts:
 | OpenCode       | DEFAULT               |
 | Qwen Code      | DEFAULT               |
 | Droid          | DEFAULT               |
+| Antigravity    | DEFAULT               |
 
-Select agent when creating task attempt.
+Select agent when creating task attempt or workspace session.
 
 ## Project Configuration
 

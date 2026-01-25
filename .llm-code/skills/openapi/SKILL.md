@@ -1,6 +1,8 @@
 ---
 name: openapi
-description: "Create, validate, and work with OpenAPI specifications (OAS 3.x). Covers document structure, paths, operations, schemas, security, components, parameters, request bodies, responses, and best practices. Use when building APIs, writing OpenAPI docs, validating specs, or generating clients/servers from OpenAPI. Keywords: OpenAPI, OAS, API specification, Swagger, REST API, API documentation, paths, operations, schemas, components, security schemes, parameters, request body, responses."
+description: "OpenAPI Specification (OAS 3.x): document structure, paths, operations, schemas, parameters, security schemes, and validation."
+version: "3.2.0"
+release_date: "2025-09-19"
 ---
 
 # OpenAPI Specification

@@ -442,6 +442,73 @@ vitest --bail 1         # Stop on first failure
 vitest --retry 2        # Retry failed tests
 ```
 
+## OpenTelemetry (Experimental)
+
+Enable distributed tracing for test execution. Requires `@opentelemetry/sdk-node`.
+
+```bash
+npm install @opentelemetry/sdk-node
+```
+
+```ts
+// otel-setup.ts
+import { NodeSDK } from "@opentelemetry/sdk-node";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+
+export async function setup() {
+  const sdk = new NodeSDK({
+    traceExporter: new OTLPTraceExporter({
+      url: "http://localhost:4318/v1/traces",
+    }),
+  });
+  sdk.start();
+  return async () => await sdk.shutdown();
+}
+```
+
+```ts
+// vitest.config.ts
+export default defineConfig({
+  test: {
+    experimental: {
+      openTelemetry: {
+        enabled: true,
+        sdkPath: "./otel-setup.ts",
+      },
+    },
+  },
+});
+```
+
+### Browser Mode OpenTelemetry
+
+```ts
+{
+  browser: {
+    enabled: true,
+    // ...
+  },
+  experimental: {
+    openTelemetry: {
+      enabled: true,
+      sdkPath: './otel-setup-node.ts',      // Node.js SDK
+      browserSdkPath: './otel-setup-browser.ts', // Browser SDK
+    },
+  },
+}
+```
+
+### CI/CD Context Propagation
+
+Pass trace context via environment variables:
+
+```bash
+TRACEPARENT="00-<trace-id>-<span-id>-01" vitest run
+TRACESTATE="key=value" vitest run
+```
+
+This links test spans to parent CI pipeline traces.
+
 ## Config Hierarchy
 
 1. CLI flags (highest priority)

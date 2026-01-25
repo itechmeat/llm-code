@@ -18,7 +18,9 @@ A skill for creating, validating, and working with OpenAPI Specification (OAS) d
 - [references/parameters.md](references/parameters.md) - Parameter serialization and styles
 - [references/security.md](references/security.md) - Security schemes and requirements
 
-## Resources
+## Links
 
-- [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI Learning Portal](https://learn.openapis.org/)
+- [Documentation](https://spec.openapis.org/oas/latest.html)
+- [Releases](https://github.com/OAI/OpenAPI-Specification/releases)
+- [GitHub](https://github.com/OAI/OpenAPI-Specification)
+- [Learning Portal](https://learn.openapis.org/)

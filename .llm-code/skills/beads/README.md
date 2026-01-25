@@ -1,24 +1,35 @@
 # Beads Skill
 
-Task tracking and planning with Beads (bd) + beads_viewer (bv): writing spec-grade issues, stage/gate delivery, dependency graphs, and batch operations.
+Distributed, git-backed issue tracker for AI coding agents. Persistent memory with dependency-aware task tracking.
 
 ## What This Skill Covers
 
-- **Issue Authoring**: Write implementable issues with contract/design/acceptance
-- **Stage/Gate Pattern**: Incremental delivery with mandatory QA checkpoints
-- **Batch Operations**: Bulk create/update/delete from Markdown plans
-- **Daily Workflow**: Ready/blocked queries, status updates, closing with evidence
+- **Daily Workflow**: `bd ready`, status updates, closing tasks, sync
+- **Issue Authoring**: Writing quality issues with EARS patterns
+- **Molecules & Gates**: Incremental delivery with QA checkpoints
+- **Sync & Integration**: Git sync, sync-branch mode, Linear/Jira import
+- **Agent Integration**: JSON output, MCP plugin, claiming work
 
 ## Quick Navigation
 
-- [SKILL.md](SKILL.md) — router-style entry point for agents
-- [references/](references/) — topic-specific playbooks
-- [scripts/](scripts/) — helper scripts for plan generation
+- [SKILL.md](SKILL.md) — Quick start, essential commands, concepts
+- [references/workflow.md](references/workflow.md) — Daily operations
+- [references/authoring.md](references/authoring.md) — Writing quality issues
+- [references/molecules.md](references/molecules.md) — Molecules, gates, formulas
+- [references/sync.md](references/sync.md) — Git sync, integrations
 
 ## When to Use
 
 Activate this skill when you need to:
-- Create high-quality Beads issues (EPIC/STAGE/GATE)
-- Plan incremental delivery with stage/gate dependencies
-- Bulk-create issues from Markdown plans
-- Operate the daily task workflow (bd ready, bd close, etc.)
+
+- Track tasks with dependencies in AI agent workflows
+- Use `bd ready` to find unblocked work
+- Create issues with `bd create`
+- Understand hash-based IDs (`bd-xyz`)
+- Sync issues with git or external tools
+
+## Links
+
+- [Releases](https://github.com/steveyegge/beads/releases)
+- [Documentation](https://github.com/steveyegge/beads#readme)
+- [Community Tools](https://github.com/steveyegge/beads/blob/main/docs/COMMUNITY_TOOLS.md)

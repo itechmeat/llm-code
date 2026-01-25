@@ -1,6 +1,8 @@
 ---
 name: refine-dev
-description: "Refine.dev framework for building React CRUD/admin applications with Vite. Covers data providers, resources, routing, authentication, hooks, forms, tables, Mantine UI integration. Keywords: Refine, refine.dev, useList, useOne, useCreate, useUpdate, useDelete, useForm, useTable, DataProvider, AuthProvider, Mantine, Vite, React admin, CRUD, headless."
+description: "Refine.dev headless React framework for CRUD apps: data providers, resources, routing, authentication, hooks, and forms."
+version: "5.0.8"
+release_date: "2026-01-03"
 ---
 
 # Refine.dev Framework
@@ -65,9 +67,7 @@ function App() {
             },
           ]}
         >
-          <Routes>
-            {/* Your routes here */}
-          </Routes>
+          <Routes>{/* Your routes here */}</Routes>
         </Refine>
       </MantineProvider>
     </BrowserRouter>
@@ -85,7 +85,7 @@ function App() {
 
 ## Steps for New Feature
 
-1. Define the resource in `<Refine resources={[...]}>` 
+1. Define the resource in `<Refine resources={[...]}>`
 2. Create page components (List, Create, Edit, Show)
 3. Set up routes matching resource paths
 4. Use appropriate hooks (`useTable` for lists, `useForm` for create/edit)
@@ -103,21 +103,26 @@ function App() {
 ## References (Detailed Guides)
 
 ### Core
+
 - [data-providers.md](references/data-providers.md) — Data provider interface, available providers, custom implementation
 - [resources.md](references/resources.md) — Resource definition and configuration
 - [routing.md](references/routing.md) — React Router integration and route patterns
 
 ### Hooks
+
 - [hooks.md](references/hooks.md) — All hooks: useList, useOne, useCreate, useUpdate, useDelete, useForm, useTable, useSelect
 
 ### Security & Auth
+
 - [auth.md](references/auth.md) — Auth provider, access control, RBAC/ABAC, Casbin/CASL integration
 
 ### UI & Components
+
 - [mantine-ui.md](references/mantine-ui.md) — Mantine components integration
 - [inferencer.md](references/inferencer.md) — Auto-generate CRUD pages from API schema
 
 ### Utilities & Features
+
 - [notifications.md](references/notifications.md) — Notification provider and useNotification hook
 - [i18n.md](references/i18n.md) — Internationalization with i18nProvider
 - [realtime.md](references/realtime.md) — LiveProvider for websocket/realtime subscriptions

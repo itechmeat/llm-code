@@ -5,6 +5,26 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2025-01-25]
+
+### Changed
+
+- **beads** — Rebuilt for v0.49.0: new architecture (steveyegge/beads), hash-based IDs, molecules/gates, sync-branch mode, Linear/Jira import, daemon, federation; removed deprecated bv/stage-gate references
+- **mantine-dev** — Updated to v8.3.13: shortened description, added version/release_date, README Links
+- **openapi** — Updated to v3.2.0: shortened description, added version/release_date, README Links
+- **openspec** — Updated to v0.23.0: added OPSX Commands table, Schema Management section, Project Configuration example, README Links
+- **perplexity** — Updated to v0.26.0: added version/release_date, README Links (perplexity-py SDK)
+- **postgresql** — Updated to v18.1: shortened description, added version/release_date, README Links
+- **pydantic-ai** — Updated to v1.47.0: added Embeddings API (Embedder class), xAI native provider (XaiModel), Exa neural search tools (ExaToolset), VoyageAI/Google/Cohere embeddings, SambaNova provider, README Links
+- **qdrant** — Updated to v1.16.3: shortened description, added version/release_date, README Links
+- **react-testing-library** — Updated to v16.3.2: added React 19 error handlers (onCaughtError, onRecoverableError), updated peer dependency note, README Links
+- **refine-dev** — Updated to v5.0.8: shortened description, added version/release_date, README Links
+- **tavily** — Updated to v0.7.19: added version/release_date (tavily-python SDK)
+- **telegram** — Updated to v3.24.0: added version/release_date, README Links (aiogram)
+- **vibekanban** — Updated to v0.0.161: added Workspaces (Beta) reference (sessions, command bar, multi-repo, notes, terminal), Antigravity agent, context usage tracking
+- **vite** — Updated to v7.3.1: added `future` deprecation warnings config, `hotUpdate` hook, `this.environment` in hooks, `build.emitLicense`, ModuleRunner API, `ssr.resolve.mainFields`
+- **vitest** — Updated to v4.0.18: added OpenTelemetry support (experimental), CI/CD trace context propagation, browser mode OTEL, README Links
+
 ## [2025-01-24]
 
 ### Added

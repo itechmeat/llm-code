@@ -7,6 +7,7 @@ Actionable notes from the Vite config index.
 - Vite auto-resolves `vite.config.*` from project root.
 - Config can be ESM even without `type: module`.
 - Use `defineConfig()` for IntelliSense.
+- `import.meta.resolve` supported in ESM config (bundle loader).
 
 ## Conditional/async config
 
@@ -27,3 +28,21 @@ Actionable notes from the Vite config index.
 ## Debugging config
 
 - Use VS Code `resolveSourceMapLocations` to debug config when using bundled loader.
+
+## Future deprecations (`future`)
+
+- `future: Record<string, 'warn' | undefined>` — opt-in warnings for next major.
+- Enable warnings for deprecations you use:
+
+```js
+export default defineConfig({
+  future: {
+    removePluginHookSsrArgument: "warn", // options.ssr → this.environment
+    removePluginHookHandleHotUpdate: "warn", // handleHotUpdate → hotUpdate
+    removeSsrLoadModule: "warn", // ssrLoadModule → ModuleRunner
+    removeServerPluginContainer: "warn",
+    removeServerReloadModule: "warn",
+    removeServerHot: "warn",
+  },
+});
+```

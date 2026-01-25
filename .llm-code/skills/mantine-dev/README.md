@@ -12,13 +12,13 @@ A comprehensive guide for building React applications with [Mantine](https://man
 - **Testing**: Vitest setup with custom render
 - **Linting**: eslint-config-mantine
 
-## Quick Links
+## Links
 
-- [Main Guide](SKILL.md) — Start here
-- [Official Docs](https://mantine.dev)
+- [Documentation](https://mantine.dev)
+- [Releases](https://github.com/mantinedev/mantine/releases)
 - [GitHub](https://github.com/mantinedev/mantine)
-- [Vite Template](https://github.com/mantinedev/vite-template)
+- [npm](https://www.npmjs.com/package/@mantine/core)
 
 ## Version
 
-Mantine 7.x / 8.x with React 18+
+Mantine 8.x with React 18+

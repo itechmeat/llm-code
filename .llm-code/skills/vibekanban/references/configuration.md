@@ -4,23 +4,24 @@ Global settings, agent profiles, task tags, and keyboard shortcuts.
 
 ## Supported Agents
 
-| Agent          | Variants              | Notes                  |
-| -------------- | --------------------- | ---------------------- |
-| Claude Code    | DEFAULT, PLAN, ROUTER | Primary recommendation |
-| Codex          | DEFAULT, HIGH         | OpenAI Codex           |
-| Gemini         | DEFAULT, FLASH        | Google Gemini          |
-| GitHub Copilot | —                     | VS Code integration    |
-| Amp            | —                     | Sourcegraph agent      |
-| Cursor Agent   | —                     | Cursor IDE             |
-| OpenCode       | —                     | Open-source agent      |
-| Qwen Code      | —                     | Alibaba's coding agent |
-| Droid          | —                     | —                      |
+| Agent          | Variants              | Notes                    |
+| -------------- | --------------------- | ------------------------ |
+| Claude Code    | DEFAULT, PLAN, ROUTER | Primary recommendation   |
+| Codex          | DEFAULT, HIGH         | OpenAI Codex             |
+| Gemini         | DEFAULT, FLASH        | Google Gemini            |
+| GitHub Copilot | —                     | VS Code integration      |
+| Amp            | —                     | Sourcegraph agent        |
+| Cursor Agent   | —                     | Cursor IDE               |
+| OpenCode       | —                     | Open-source agent        |
+| Qwen Code      | —                     | Alibaba's coding agent   |
+| Droid          | —                     | —                        |
+| Antigravity    | —                     | Google Antigravity agent |
 
 ### Variant Meanings
 
 **Claude Code**: DEFAULT (standard), PLAN (plan → confirm → execute), ROUTER (agentic routing)
 
-**Codex**: DEFAULT (standard), HIGH (high-effort mode)
+**Codex**: DEFAULT (standard), HIGH (high-effort mode), default model: gpt-5.2-codex
 
 **Gemini**: DEFAULT (standard), FLASH (fast mode)
 

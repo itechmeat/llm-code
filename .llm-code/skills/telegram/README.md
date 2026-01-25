@@ -22,3 +22,9 @@ A comprehensive guide for building Telegram bots with [aiogram 3](https://docs.a
 
 - Python 3.11+ with asyncio
 - aiogram 3.x
+
+## Links
+
+- [aiogram Releases](https://github.com/aiogram/aiogram/releases)
+- [Telegram Bot API](https://core.telegram.org/bots/api)
+- [aiogram Documentation](https://docs.aiogram.dev/)

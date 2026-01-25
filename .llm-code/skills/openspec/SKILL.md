@@ -1,6 +1,8 @@
 ---
 name: openspec
-description: "Guidance for OpenSpec artifact-driven workflows (OPSX): artifact graphs, schema/template resolution, change lifecycle, and experimental CLI/skills usage. Keywords: OpenSpec, OPSX, artifact workflow, schema, templates, change, dependency graph, XDG."
+description: "OpenSpec artifact-driven workflow. Covers OPSX commands, schemas, project config. Keywords: OPSX, artifact graph, /opsx:."
+version: "0.23.0"
+release_date: "2025-01-22"
 ---
 
 # OpenSpec (OPSX) Skill
@@ -22,6 +24,50 @@ Use this skill to guide or reason about the OpenSpec artifact-driven workflow sy
 - Schema customization workflow and gaps: references/schema-customization.md
 - End-to-end schema workflow gaps and proposed solution: references/schema-workflow-gaps.md
 - Experimental release plan and rollout checklist: references/experimental-release-plan.md
+
+## OPSX Commands
+
+| Command              | Purpose                                                  |
+| -------------------- | -------------------------------------------------------- |
+| `/opsx:explore`      | Think through ideas, investigate problems (no structure) |
+| `/opsx:new`          | Start a new change                                       |
+| `/opsx:continue`     | Create next artifact based on dependencies               |
+| `/opsx:ff`           | Fast-forward — create all planning artifacts at once     |
+| `/opsx:apply`        | Implement tasks, updating artifacts as needed            |
+| `/opsx:verify`       | Validate implementation matches spec                     |
+| `/opsx:sync`         | Sync delta specs to main specs                           |
+| `/opsx:archive`      | Archive single completed change                          |
+| `/opsx:bulk-archive` | Archive multiple completed changes at once               |
+
+## Schema Management
+
+```bash
+openspec schemas                    # List available schemas
+openspec schema which --all         # Show resolution sources
+openspec schema init my-workflow    # Create new schema interactively
+openspec schema fork spec-driven my-workflow  # Fork existing schema
+openspec schema validate my-workflow  # Validate schema structure
+```
+
+## Project Configuration
+
+Create `openspec/config.yaml` for per-project settings:
+
+```yaml
+schema: spec-driven
+
+context: |
+  Tech stack: TypeScript, React, Node.js
+  Testing: Vitest, Playwright
+
+rules:
+  proposal:
+    - Include rollback plan
+  specs:
+    - Use Given/When/Then format
+```
+
+**Schema precedence:** CLI flag → Change metadata → Project config → Default (`spec-driven`)
 
 ## Core Concepts
 

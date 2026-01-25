@@ -1,6 +1,6 @@
 # Models Reference
 
-Pydantic AI is model-agnostic with 25+ providers.
+Pydantic AI is model-agnostic with 30+ providers.
 
 ## Built-in Providers
 
@@ -10,19 +10,53 @@ Pydantic AI is model-agnostic with 25+ providers.
 | Anthropic    | `AnthropicModel`                       | `anthropic:claude-sonnet-4-5`      |
 | Google       | `GoogleModel`                          | `google-gla:gemini-2.5-flash`      |
 | Vertex AI    | `GoogleModel` + `GoogleVertexProvider` | `vertexai:gemini-pro`              |
+| xAI          | `XaiModel`                             | `xai:grok-4-1-fast-non-reasoning`  |
 | Groq         | `GroqModel`                            | `groq:llama-3.3-70b`               |
 | Mistral      | `MistralModel`                         | `mistral:mistral-large`            |
 | Bedrock      | `BedrockModel`                         | `bedrock:anthropic.claude-v2`      |
 | Cohere       | `CohereModel`                          | `cohere:command-r-plus`            |
 | OpenRouter   | `OpenRouterModel`                      | `openrouter:google/gemini-2.5-pro` |
+| SambaNova    | `SambaNovaModel`                       | `sambanova:...`                    |
 | Hugging Face | `HuggingFaceModel`                     | `huggingface:meta-llama/...`       |
+
+## xAI (Grok)
+
+Native xAI SDK provider (replaces deprecated `GrokProvider`):
+
+```bash
+pip install "pydantic-ai-slim[xai]"
+export XAI_API_KEY='your-api-key'
+```
+
+```python
+from pydantic_ai import Agent
+
+# Via model string
+agent = Agent('xai:grok-4-1-fast-non-reasoning')
+
+# Explicit model
+from pydantic_ai.models.xai import XaiModel
+model = XaiModel('grok-4-1-fast-non-reasoning')
+agent = Agent(model)
+
+# Custom provider
+from pydantic_ai.providers.xai import XaiProvider
+provider = XaiProvider(api_key='your-api-key')
+model = XaiModel('grok-4-1-fast-non-reasoning', provider=provider)
+
+# With xai_sdk client
+from xai_sdk import AsyncClient
+xai_client = AsyncClient(api_key='your-api-key')
+provider = XaiProvider(xai_client=xai_client)
+model = XaiModel('grok-4-1-fast-non-reasoning', provider=provider)
+```
 
 ## OpenAI-Compatible Providers
 
 Use `OpenAIChatModel` with custom provider:
 
 - Azure AI, DeepSeek, Fireworks AI
-- GitHub Models, Grok (xAI), Heroku
+- GitHub Models, Heroku
 - LiteLLM, Ollama, Perplexity
 - Together AI, Vercel AI Gateway
 
@@ -37,6 +71,7 @@ from pydantic_ai import Agent
 agent = Agent('openai:gpt-4o')
 agent = Agent('anthropic:claude-sonnet-4-5')
 agent = Agent('google-gla:gemini-2.5-flash')
+agent = Agent('xai:grok-4-1-fast-non-reasoning')
 
 # Gateway prefix (if using AI gateway)
 agent = Agent('gateway/openai:gpt-5')

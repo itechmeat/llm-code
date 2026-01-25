@@ -855,6 +855,64 @@ agent = Agent(
 result = agent.run_sync('Tell me top GenAI news with links.')
 ```
 
+### Exa Neural Search
+
+Neural search engine for high-quality results. Paid with free credits.
+
+```bash
+pip install "pydantic-ai-slim[exa]"
+```
+
+**Individual Tools:**
+
+```python
+import os
+from pydantic_ai import Agent
+from pydantic_ai.common_tools.exa import exa_search_tool
+
+api_key = os.getenv('EXA_API_KEY')
+
+agent = Agent(
+    'openai:gpt-4o',
+    tools=[exa_search_tool(api_key, num_results=5, max_characters=1000)],
+    instructions='Search the web using Exa.',
+)
+
+result = agent.run_sync('Latest developments in quantum computing')
+```
+
+**Using ExaToolset (recommended):**
+
+```python
+import os
+from pydantic_ai import Agent
+from pydantic_ai.common_tools.exa import ExaToolset
+
+api_key = os.getenv('EXA_API_KEY')
+
+toolset = ExaToolset(
+    api_key,
+    num_results=5,
+    max_characters=1000,  # Limit text for token control
+    include_search=True,  # Web search (default: True)
+    include_find_similar=True,  # Find similar pages (default: True)
+    include_get_contents=False,  # Full content retrieval
+    include_answer=True,  # AI answers with citations (default: True)
+)
+
+agent = Agent('openai:gpt-4o', toolsets=[toolset])
+result = agent.run_sync('Find recent AI papers and summarize findings.')
+```
+
+**Exa Tools Available:**
+
+| Tool                    | Description                           |
+| ----------------------- | ------------------------------------- |
+| `exa_search_tool`       | Web search (auto/keyword/neural/deep) |
+| `exa_find_similar_tool` | Find pages similar to a URL           |
+| `exa_get_contents_tool` | Get full text from URLs               |
+| `exa_answer_tool`       | AI answers with citations             |
+
 ### Common vs Built-in Tools
 
 | Aspect       | Common Tools      | Built-in Tools        |

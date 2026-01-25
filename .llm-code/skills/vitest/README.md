@@ -47,7 +47,9 @@ describe("UserService", () => {
 - **Browser mode** — real browser testing
 - **UI mode** — visual test interface
 
-## Resources
+## Links
 
-- [SKILL.md](./SKILL.md) — main skill file
-- [Vitest Docs](https://vitest.dev/)
+- [Documentation](https://vitest.dev/)
+- [Releases](https://github.com/vitest-dev/vitest/releases)
+- [GitHub](https://github.com/vitest-dev/vitest)
+- [npm](https://www.npmjs.com/package/vitest)

@@ -1,6 +1,8 @@
 ---
 name: tavily
 description: "Tavily AI search API for LLM applications: web search, content extraction, site crawling, mapping, and research. Keywords: Tavily, AI search, RAG, web search API, LLM search, extract, crawl, map, research, tavily-python."
+version: "0.7.19"
+release_date: "2026-01-15"
 ---
 
 # Tavily

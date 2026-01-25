@@ -1,6 +1,8 @@
 ---
 name: pydantic-ai
-description: "Pydantic AI agent framework for Python: type-safe agents, dependency injection, function tools, structured output, multi-model support (OpenAI, Anthropic, Gemini, Groq, Mistral), MCP client/server, A2A, Logfire, evals, graphs, UI streams (AG-UI, Vercel AI), thinking/reasoning, HTTP retries, Temporal durable execution. Keywords: Pydantic AI, pydantic-ai, agent framework, LLM agents, function tools, structured output, dependency injection, RunContext, MCP, MCPServerStdio, MCPServerStreamableHTTP, A2A, Agent2Agent, Logfire, pydantic-graph, BaseNode, GraphRunContext, AG-UI, Vercel AI, TemporalAgent, thinking, WebSearchTool, CodeExecutionTool."
+description: "Build production AI agents with Pydantic AI: type-safe tools, structured output, embeddings, MCP, 30+ model providers, evals, graphs, and observability."
+version: "1.47.0"
+release_date: "2026-01-23"
 ---
 
 # Pydantic AI
@@ -14,6 +16,7 @@ Python agent framework for building production-grade GenAI applications with the
 | Agents       | [agents.md](references/agents.md)             |
 | Tools        | [tools.md](references/tools.md)               |
 | Models       | [models.md](references/models.md)             |
+| Embeddings   | [embeddings.md](references/embeddings.md)     |
 | Evals        | [evals.md](references/evals.md)               |
 | Integrations | [integrations.md](references/integrations.md) |
 | Graphs       | [graphs.md](references/graphs.md)             |
@@ -54,27 +57,31 @@ pip install "pydantic-ai-slim[openai,anthropic,logfire]"
 
 **Optional Groups:**
 
-| Group         | Dependency                |
-| ------------- | ------------------------- |
-| `openai`      | OpenAI models             |
-| `anthropic`   | Anthropic Claude          |
-| `google`      | Google Gemini             |
-| `groq`        | Groq models               |
-| `mistral`     | Mistral models            |
-| `bedrock`     | AWS Bedrock               |
-| `vertexai`    | Google Vertex AI          |
-| `cohere`      | Cohere models             |
-| `huggingface` | Hugging Face Inference    |
-| `logfire`     | Pydantic Logfire          |
-| `evals`       | Pydantic Evals            |
-| `mcp`         | MCP protocol              |
-| `fastmcp`     | FastMCP                   |
-| `a2a`         | Agent-to-Agent            |
-| `tavily`      | Tavily search             |
-| `duckduckgo`  | DuckDuckGo search         |
-| `cli`         | CLI tools                 |
-| `dbos`        | DBOS durable execution    |
-| `prefect`     | Prefect durable execution |
+| Group                   | Dependency                 |
+| ----------------------- | -------------------------- |
+| `openai`                | OpenAI models & embeddings |
+| `anthropic`             | Anthropic Claude           |
+| `google`                | Google Gemini & embeddings |
+| `xai`                   | xAI Grok (native SDK)      |
+| `groq`                  | Groq models                |
+| `mistral`               | Mistral models             |
+| `bedrock`               | AWS Bedrock                |
+| `vertexai`              | Google Vertex AI           |
+| `cohere`                | Cohere models & embeddings |
+| `huggingface`           | Hugging Face Inference     |
+| `voyageai`              | VoyageAI embeddings        |
+| `sentence-transformers` | Local embeddings           |
+| `logfire`               | Pydantic Logfire           |
+| `evals`                 | Pydantic Evals             |
+| `mcp`                   | MCP protocol               |
+| `fastmcp`               | FastMCP                    |
+| `a2a`                   | Agent-to-Agent             |
+| `tavily`                | Tavily search              |
+| `duckduckgo`            | DuckDuckGo search          |
+| `exa`                   | Exa neural search          |
+| `cli`                   | CLI tools                  |
+| `dbos`                  | DBOS durable execution     |
+| `prefect`               | Prefect durable execution  |
 
 ## Quick Start
 
@@ -133,9 +140,10 @@ result = agent.run_sync('What is my name?', deps=Deps(user_id=123))
 | Feature              | Description                     |
 | -------------------- | ------------------------------- |
 | Type-safe            | Full IDE support, type checking |
-| Model-agnostic       | 25+ providers supported         |
+| Model-agnostic       | 30+ providers supported         |
 | Dependency Injection | Pass context to tools           |
 | Structured Output    | Pydantic model validation       |
+| Embeddings           | Multi-provider vector support   |
 | Logfire Integration  | Built-in observability          |
 | MCP Support          | External tools and data         |
 | Evals                | Systematic testing              |
@@ -148,10 +156,12 @@ result = agent.run_sync('What is my name?', deps=Deps(user_id=123))
 | OpenAI    | GPT-4o, GPT-4, o1, o3    |
 | Anthropic | Claude 4, Claude 3.5     |
 | Google    | Gemini 2.0, Gemini 1.5   |
+| xAI       | Grok-4 (native SDK)      |
 | Groq      | Llama, Mixtral           |
 | Mistral   | Mistral Large, Codestral |
 | Azure     | Azure OpenAI             |
-| Bedrock   | AWS Bedrock models       |
+| Bedrock   | AWS Bedrock + Nova 2.0   |
+| SambaNova | SambaNova models         |
 | Ollama    | Local models             |
 
 ## Best Practices
@@ -210,8 +220,50 @@ agent = Agent(model=TestModel())
 result = agent.run_sync('test')  # Deterministic output
 ```
 
+### Embeddings
+
+```python
+from pydantic_ai import Embedder
+
+embedder = Embedder('openai:text-embedding-3-small')
+
+# Embed search query
+result = await embedder.embed_query('What is ML?')
+
+# Embed documents for indexing
+docs = ['Doc 1', 'Doc 2', 'Doc 3']
+result = await embedder.embed_documents(docs)
+```
+
+See [embeddings.md](references/embeddings.md) for providers and settings.
+
+### xAI Provider
+
+```python
+from pydantic_ai import Agent
+
+agent = Agent('xai:grok-4-1-fast-non-reasoning')
+```
+
+See [models.md](references/models.md#xai-grok) for configuration details.
+
+### Exa Neural Search
+
+```python
+import os
+from pydantic_ai import Agent
+from pydantic_ai.common_tools.exa import ExaToolset
+
+api_key = os.getenv('EXA_API_KEY')
+toolset = ExaToolset(api_key, num_results=5, include_search=True)
+agent = Agent('openai:gpt-4o', toolsets=[toolset])
+```
+
+See [tools.md](references/tools.md#exa-neural-search) for all Exa tools.
+
 ## Links
 
 - [Documentation](https://ai.pydantic.dev/)
+- [Releases](https://github.com/pydantic/pydantic-ai/releases)
 - [GitHub](https://github.com/pydantic/pydantic-ai)
-- [Slack](https://slack.pydantic.dev/)
+- [PyPI](https://pypi.org/project/pydantic-ai/)

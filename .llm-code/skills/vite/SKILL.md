@@ -1,8 +1,8 @@
 ---
 name: vite
-description: "Vite build tool. Covers config, plugins, HMR, env variables. Keywords: vite.config, dev server."
-version: "7.2.6"
-release_date: "2025-12-01"
+description: "Vite next-gen frontend tooling: dev server, HMR, build, config, plugins, Environment API, Rolldown. Keywords: vite.config, bundler."
+version: "7.3.1"
+release_date: "2026-01-25"
 ---
 
 # Vite
@@ -49,6 +49,7 @@ release_date: "2025-12-01"
 - Keep `index.html` as a first-class entry point when using Vite defaults.
 - Treat dev server settings and build settings separately.
 - Document mode-dependent behavior for env variables and `define`.
+- Use `future` config to opt-in to deprecation warnings before migration.
 
 ## Recipes
 
@@ -57,8 +58,11 @@ release_date: "2025-12-01"
 - Load `.env` values into config with `loadEnv` when config needs them.
 - Add plugins with `plugins: []` and define `apply` or `enforce` when needed.
 - Use HMR APIs for fine-grained updates when plugin or framework needs it.
-- Use `optimizeDeps.include/exclude` when deps aren’t discovered on startup.
+- Use `optimizeDeps.include/exclude` when deps aren't discovered on startup.
 - Use `build.rollupOptions.input` for multi-page apps.
+- Enable deprecation warnings: `future: { removeSsrLoadModule: 'warn' }`.
+- Use `hotUpdate` hook instead of `handleHotUpdate` for environment-aware HMR.
+- Use `this.environment` instead of `options.ssr` in plugin hooks.
 
 ## Prohibitions
 

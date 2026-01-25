@@ -26,22 +26,27 @@ render(<Component />, {
   container: document.body.appendChild(document.createElement("div")),
   baseElement: document.body,
   hydrate: false,
-  legacyRoot: false, // React 17 mode
+  legacyRoot: false, // React 17 mode (not available in React 19+)
   wrapper: AllProviders,
   queries: { ...queries, ...customQueries },
   reactStrictMode: true,
+  // React 19 error handlers
+  onCaughtError: (error, errorInfo) => {},
+  onRecoverableError: (error, errorInfo) => {},
 });
 ```
 
-| Option            | Description                                  |
-| ----------------- | -------------------------------------------- |
-| `container`       | DOM element to render into                   |
-| `baseElement`     | Element for queries (default: document.body) |
-| `hydrate`         | Use ReactDOM.hydrate for SSR                 |
-| `legacyRoot`      | Use React 17 rendering                       |
-| `wrapper`         | Component to wrap around rendered element    |
-| `queries`         | Custom queries to use                        |
-| `reactStrictMode` | Enable React StrictMode                      |
+| Option               | Description                                      |
+| -------------------- | ------------------------------------------------ |
+| `container`          | DOM element to render into                       |
+| `baseElement`        | Element for queries (default: document.body)     |
+| `hydrate`            | Use ReactDOM.hydrate for SSR                     |
+| `legacyRoot`         | Use React 17 rendering (not in React 19+)        |
+| `wrapper`            | Component to wrap around rendered element        |
+| `queries`            | Custom queries to use                            |
+| `reactStrictMode`    | Enable React StrictMode                          |
+| `onCaughtError`      | Callback for errors caught by Error Boundary     |
+| `onRecoverableError` | Callback for errors React automatically recovers |
 
 ### Render Result
 
@@ -55,6 +60,41 @@ const {
   asFragment, // Get DocumentFragment snapshot
   ...queries // All query functions bound to baseElement
 } = render(<Component />);
+```
+
+### React Error Handlers (v16.2.0+)
+
+Handle errors in tests with React 19 error callbacks:
+
+```tsx
+test("catches error boundary errors", () => {
+  const errors: Error[] = [];
+
+  render(<ComponentWithErrorBoundary />, {
+    onCaughtError: (error, errorInfo) => {
+      errors.push(error);
+      console.log("Caught:", error.message);
+      console.log("Component stack:", errorInfo.componentStack);
+    },
+  });
+
+  // Trigger error and verify
+  fireEvent.click(screen.getByRole("button", { name: /throw/i }));
+  expect(errors).toHaveLength(1);
+});
+
+test("handles recoverable errors", () => {
+  const recoverableErrors: Error[] = [];
+
+  render(<HydratedComponent />, {
+    hydrate: true,
+    onRecoverableError: (error, errorInfo) => {
+      recoverableErrors.push(error);
+    },
+  });
+
+  expect(recoverableErrors).toHaveLength(0);
+});
 ```
 
 ---

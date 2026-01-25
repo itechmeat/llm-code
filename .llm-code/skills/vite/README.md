@@ -9,6 +9,7 @@ This skill summarizes the Vite documentation into actionable guidance for setup,
 - Plugin authoring and HMR APIs
 - Build, deploy, and SSR workflows
 - Environment API (instances, plugins, frameworks, runtimes)
+- Future deprecations and migration guidance
 
 ## References
 
@@ -43,6 +44,7 @@ This skill summarizes the Vite documentation into actionable guidance for setup,
 ## Links
 
 - [Documentation](https://vite.dev/)
+- [Releases](https://github.com/vitejs/vite/releases)
 - [Changelog](https://github.com/vitejs/vite/blob/main/packages/vite/CHANGELOG.md)
 - [GitHub](https://github.com/vitejs/vite)
 - [npm](https://www.npmjs.com/package/vite)

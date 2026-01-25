@@ -1,7 +1,8 @@
 ---
 name: react-testing-library
-description: "React Testing Library: user-centric component testing with queries (getBy/findBy/queryBy), user-event simulation, async utilities, render/cleanup/renderHook API. Keywords: @testing-library/react, getByRole, getByText, userEvent, waitFor, screen, render."
-version: 1.0.0
+description: "React Testing Library: user-centric component testing with queries, user-event simulation, async utilities, and accessibility-first API."
+version: "16.3.2"
+release_date: "2026-01-19"
 ---
 
 # React Testing Library Skill
@@ -22,14 +23,20 @@ version: 1.0.0
 ## Installation
 
 ```bash
+# Core (v16+: @testing-library/dom is peer dependency)
 npm install --save-dev @testing-library/react @testing-library/dom
-# With TypeScript
+
+# TypeScript support
 npm install --save-dev @types/react @types/react-dom
+
 # Recommended: user-event for interactions
 npm install --save-dev @testing-library/user-event
+
 # Recommended: jest-dom for matchers
 npm install --save-dev @testing-library/jest-dom
 ```
+
+**React 19 support**: Requires `@testing-library/react` v16.1.0+
 
 ## Core Philosophy
 

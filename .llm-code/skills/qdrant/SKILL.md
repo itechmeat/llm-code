@@ -1,6 +1,8 @@
 ---
 name: qdrant
-description: "Qdrant vector database playbook: core concepts (collections/points/payload), filtering and indexing, snapshots/restore, deployment (Docker/Kubernetes), ops/performance, and integration patterns (REST/gRPC). Keywords: Qdrant, vector database, embeddings, ANN, collections, points, payload, filtering, indexing, snapshots, docker, kubernetes."
+description: "Qdrant vector database: collections, points, payload filtering, indexing, quantization, snapshots, and Docker/Kubernetes deployment."
+version: "1.16.3"
+release_date: "2025-12-19"
 ---
 
 # Qdrant (Skill Router)

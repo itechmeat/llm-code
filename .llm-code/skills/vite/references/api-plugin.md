@@ -13,7 +13,23 @@ Actionable notes from the plugin API guide.
 - `config` and `configResolved` for config adjustments.
 - `configureServer` / `configurePreviewServer` for middleware.
 - `transformIndexHtml` for HTML transforms (use `order: 'pre' | 'post'`).
-- `handleHotUpdate` for custom HMR handling.
+
+## HMR hooks
+
+- `handleHotUpdate` — legacy hook, deprecated in favor of `hotUpdate`.
+- `hotUpdate` — new environment-aware hook:
+  - Called per environment.
+  - Receives `type: 'create' | 'update' | 'delete'`.
+  - Access current environment via `this.environment`.
+  - Use `this.environment.hot.send()` instead of `server.ws.send()`.
+- Set `future.removePluginHookHandleHotUpdate: 'warn'` for warnings.
+
+## `this.environment` in hooks
+
+- Available in `resolveId`, `load`, `transform`, `options`, `onLog`.
+- Access: `this.environment.config`, `this.environment.moduleGraph`.
+- Replaces `options.ssr` boolean; use `this.environment.config.consumer === 'server'`.
+- Set `future.removePluginHookSsrArgument: 'warn'` for warnings.
 
 ## Ordering and conditions
 

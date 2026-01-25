@@ -42,7 +42,9 @@ test("submits form with user input", async () => {
 });
 ```
 
-## Resources
+## Links
 
-- [SKILL.md](./SKILL.md) — main skill file
-- [Testing Library Docs](https://testing-library.com/)
+- [Documentation](https://testing-library.com/docs/react-testing-library/intro/)
+- [Releases](https://github.com/testing-library/react-testing-library/releases)
+- [GitHub](https://github.com/testing-library/react-testing-library)
+- [npm](https://www.npmjs.com/package/@testing-library/react)

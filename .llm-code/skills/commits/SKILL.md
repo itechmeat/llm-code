@@ -273,6 +273,43 @@ Use [assets/validate-commit-msg.sh](assets/validate-commit-msg.sh) with git hook
 - Do not use non-standard types without team agreement
 - Do not forget blank line between description and body
 
+## Agent Workflow for Commit Messages
+
+**MANDATORY**: Before proposing branch name, commit message, or PR description, the agent MUST:
+
+1. **Check all changed files** using `git status` or `git diff --name-only`
+2. **Review actual changes** using `git diff` (staged and unstaged)
+3. **Analyze ALL modifications** — not just the files mentioned in conversation
+4. **Base proposals on complete changeset** — include all affected files, not partial list
+
+### Workflow Steps
+
+```bash
+# Step 1: Get list of all changed files
+git status --short
+
+# Step 2: Review actual changes (for unstaged)
+git diff
+
+# Step 3: Review staged changes
+git diff --staged
+
+# Step 4: Use the complete changeset to propose:
+#   - Branch name
+#   - Commit message
+#   - PR description
+```
+
+### Output Format
+
+When user asks for commit message, provide:
+
+1. **Branch name options** (3 variants using conventional prefixes)
+2. **Commit message variants** (short/medium/detailed)
+3. **PR description** (summarized, not duplicating full changelog)
+
+All proposals MUST be based on the actual `git diff` output, not assumptions.
+
 ## Links
 
 - Official specification: https://www.conventionalcommits.org/en/v1.0.0/

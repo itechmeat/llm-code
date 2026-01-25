@@ -1,6 +1,8 @@
 ---
 name: mantine-dev
-description: "Mantine UI library for React applications with Vite and TypeScript. Covers core components, hooks, forms, theming, styling, testing with Vitest, and ESLint configuration. Keywords: Mantine, @mantine/core, @mantine/hooks, @mantine/form, MantineProvider, useForm, Vite, TypeScript, React components, theming, CSS modules, PostCSS, Vitest, eslint-config-mantine."
+description: "Mantine UI library for React: 100+ components, hooks, forms, theming, dark mode, CSS modules, and Vite/TypeScript setup."
+version: "8.3.13"
+release_date: "2026-01-21"
 ---
 
 # Mantine UI Library
@@ -19,6 +21,7 @@ Mantine is a fully-featured React components library with TypeScript support. It
 ## Focus
 
 This skill focuses on:
+
 - **Vite** + **TypeScript** setup (not Next.js or CRA)
 - CSS modules with PostCSS preset
 - Vitest for testing
@@ -67,14 +70,14 @@ Create `postcss.config.cjs`:
 ```js
 module.exports = {
   plugins: {
-    'postcss-preset-mantine': {},
-    'postcss-simple-vars': {
+    "postcss-preset-mantine": {},
+    "postcss-simple-vars": {
       variables: {
-        'mantine-breakpoint-xs': '36em',
-        'mantine-breakpoint-sm': '48em',
-        'mantine-breakpoint-md': '62em',
-        'mantine-breakpoint-lg': '75em',
-        'mantine-breakpoint-xl': '88em',
+        "mantine-breakpoint-xs": "36em",
+        "mantine-breakpoint-sm": "48em",
+        "mantine-breakpoint-md": "62em",
+        "mantine-breakpoint-lg": "75em",
+        "mantine-breakpoint-xl": "88em",
       },
     },
   },
@@ -85,23 +88,19 @@ module.exports = {
 
 ```tsx
 // src/App.tsx
-import '@mantine/core/styles.css';
+import "@mantine/core/styles.css";
 // Other style imports as needed:
 // import '@mantine/dates/styles.css';
 // import '@mantine/notifications/styles.css';
 
-import { MantineProvider, createTheme } from '@mantine/core';
+import { MantineProvider, createTheme } from "@mantine/core";
 
 const theme = createTheme({
   // Theme customization here
 });
 
 function App() {
-  return (
-    <MantineProvider theme={theme}>
-      {/* Your app */}
-    </MantineProvider>
-  );
+  return <MantineProvider theme={theme}>{/* Your app */}</MantineProvider>;
 }
 ```
 
@@ -117,18 +116,23 @@ function App() {
 ## Core Concepts
 
 ### 1. MantineProvider
+
 Wraps your app, provides theme context and color scheme management.
 
 ### 2. Theme Object
+
 Customize colors, typography, spacing, component default props.
 
 ### 3. Style Props
+
 All components accept style props like `mt`, `p`, `c`, `bg`, etc.
 
 ### 4. CSS Variables
+
 All theme values exposed as CSS variables (e.g., `--mantine-color-blue-6`).
 
 ### 5. Polymorphic Components
+
 Many components support `component` prop to render as different elements.
 
 ## Definition of Done
@@ -144,15 +148,18 @@ Many components support `component` prop to render as different elements.
 ## References (Detailed Guides)
 
 ### Setup & Configuration
+
 - [getting-started.md](references/getting-started.md) — Installation, Vite setup, project structure
 - [styling.md](references/styling.md) — MantineProvider, theme, CSS modules, style props, dark mode
 
 ### Core Features
+
 - [components.md](references/components.md) — Core UI components patterns
 - [hooks.md](references/hooks.md) — @mantine/hooks utility hooks
 - [forms.md](references/forms.md) — @mantine/form, useForm, validation
 
 ### Development
+
 - [testing.md](references/testing.md) — Vitest setup, custom render, mocking
 - [eslint.md](references/eslint.md) — eslint-config-mantine setup
 

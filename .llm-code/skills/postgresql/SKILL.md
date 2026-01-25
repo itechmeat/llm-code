@@ -1,6 +1,8 @@
 ---
 name: postgresql
-description: "PostgreSQL best practices: multi-tenancy with RLS, schema design, Alembic migrations, async SQLAlchemy patterns, authentication, runtime configuration, and query optimization. Keywords: PostgreSQL, RLS, Row-Level Security, multi-tenant, Alembic, SQLAlchemy, asyncpg, pg_hba.conf, SCRAM, OAuth."
+description: "PostgreSQL best practices: multi-tenancy with RLS, schema design, Alembic migrations, async SQLAlchemy, and query optimization."
+version: "18.1"
+release_date: "2025-11-13"
 ---
 
 # PostgreSQL

@@ -1,90 +1,193 @@
 ---
 name: beads
-description: "Beads task tracking CLI. Covers issues, stage-gate delivery, bulk operations. Keywords: bd, bv, EARS."
-version: "0.46.0"
-release_date: "2025-01-07"
+description: "Beads (bd) distributed git-backed issue tracker for AI agents: hash-based IDs, dependency graphs, worktrees, molecules, sync. Keywords: bd, beads, issue tracker, git-backed, dependencies, molecules, worktree, sync, AI agents."
+version: "0.49.0"
+release_date: "2026-01-22"
 ---
 
-# Beads Skill
+# Beads (bd)
 
-Task tracking with Beads (bd) and beads_viewer (bv).
+Distributed, git-backed graph issue tracker for AI coding agents. Persistent memory with dependency-aware task tracking.
 
-## When to use
-
-- Creating, updating, or closing issues/tasks
-- Planning work with Stage/Gate delivery pattern
-- Writing spec-grade requirements (EARS methodology)
-- Bulk-creating issues from Markdown files
-- Querying triage/insights via `bv --robot-*` flags
-
-## Core commands
+## Quick Start
 
 ```bash
-# Triage (start here)
-bv --robot-triage           # Full recommendations + quick wins + blockers
-bv --robot-next             # Single top pick
+# Install
+brew install steveyegge/beads/bd
+# or
+curl -fsSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash
 
-# Daily operations
-bd ready                    # Unblocked work ready to start
-bd list --status=open       # All open issues
-bd show <id>                # Full issue details
-bd update <id> --status=in_progress
-bd close <id>               # Close single issue
-bd close <id1> <id2>        # Close multiple issues
+# Initialize in repo (humans run once)
+bd init
 
-# Session end
-bd sync --flush-only        # Export to JSONL (no git)
+# Tell your agent
+echo "Use 'bd' for task tracking" >> AGENTS.md
 ```
 
-## Issue requirements
+## When to Use
 
-Every issue MUST have:
+- AI agent needs persistent task memory across sessions
+- Tracking dependencies between tasks (`blocks:`, `depends_on:`)
+- Multi-agent/multi-branch workflows (hash-based IDs prevent conflicts)
+- Incremental delivery with molecules/gates
+- Sync issues with Linear, Jira, GitHub
 
-1. **Clear acceptance criteria** — measurable outcomes
-2. **Dependencies declared** — `blocks:` and `depends_on:` fields
-3. **Type and priority** — P0-P4 (numbers), task/bug/feature/epic
+## Essential Commands
+
+| Command                       | Action                                |
+| ----------------------------- | ------------------------------------- |
+| `bd ready`                    | List tasks with no open blockers      |
+| `bd ready --gated`            | Tasks waiting at gate checkpoints     |
+| `bd create "Title" -p 0`      | Create P0 task                        |
+| `bd show <id>`                | View task details and audit trail     |
+| `bd update <id> --status=X`   | Update status (open/in_progress/done) |
+| `bd close <id>`               | Close task                            |
+| `bd dep add <child> <parent>` | Link tasks (blocks, related, parent)  |
+| `bd list`                     | List issues (default: 50, non-closed) |
+| `bd sync`                     | Sync with git/remote                  |
+
+## Hash-Based IDs
+
+Issues use hash-based IDs like `bd-a1b2` to prevent merge conflicts:
+
+```bash
+bd create "Fix login bug" -p 1
+# Created: bd-x7k3
+
+bd show bd-x7k3
+```
+
+### Hierarchical IDs
+
+```
+bd-a3f8      (Epic)
+bd-a3f8.1    (Task)
+bd-a3f8.1.1  (Sub-task)
+```
+
+Use `bd children <id>` to view hierarchy.
 
 ## References
 
-| File                                            | Purpose                                                             |
-| ----------------------------------------------- | ------------------------------------------------------------------- |
-| [authoring.md](references/authoring.md)         | Spec-grade issue writing: EARS patterns, NFRs, acceptance scenarios |
-| [workflow.md](references/workflow.md)           | Daily operations: bd/bv commands, status updates, session flow      |
-| [stage-gate.md](references/stage-gate.md)       | Stage/Gate pattern: naming, dependency chain, tranches              |
-| [bulk-creation.md](references/bulk-creation.md) | Batch operations: markdown format, JSON plan script                 |
+| File                                    | Purpose                                   |
+| --------------------------------------- | ----------------------------------------- |
+| [workflow.md](references/workflow.md)   | Daily operations, status flow, sync       |
+| [authoring.md](references/authoring.md) | Writing quality issues, EARS patterns     |
+| [molecules.md](references/molecules.md) | Molecules, gates, formulas, compounds     |
+| [sync.md](references/sync.md)           | Git sync, sync-branch, Linear/Jira import |
 
-## Scripts
+## Key Concepts
 
-| Script                                                               | Purpose                                           |
-| -------------------------------------------------------------------- | ------------------------------------------------- |
-| [bd_generate_markdown_plan.py](scripts/bd_generate_markdown_plan.py) | Generate Beads-compatible Markdown from JSON plan |
+### Git as Database
 
-## Quick quality checklist
+Issues stored as JSONL in `.beads/`. Versioned, branched, merged like code.
 
-Before closing any issue:
+### Dependency Graph
 
-- [ ] Acceptance criteria met and verified
-- [ ] Tests pass (if code change)
-- [ ] No regressions introduced
-- [ ] Dependencies updated (if applicable)
-- [ ] Documentation updated (if user-facing)
-
-## Stage/Gate quick reference
-
-```
-Stage-1 → Gate-1 (review) → Stage-2 → Gate-2 (review) → ...
+```bash
+bd dep add bd-child bd-parent --blocks   # child blocks parent
+bd dep add bd-a bd-b --related           # related items
+bd ready                                 # only shows unblocked work
 ```
 
-- **Stage** = implementation tranche (coding).
-- **Gate** = QA checkpoint (review, testing).
-- Pattern: `{story}-Stage-{n}`, `{story}-Gate-{n}`.
+### Molecules (Advanced)
+
+Molecules group related issues with gates for incremental delivery:
+
+```bash
+bd mol create "Feature X" --steps=3      # Create 3-step molecule
+bd mol progress bd-xyz                   # Check progress
+bd mol burn bd-xyz                       # Complete molecule
+```
+
+### Stealth Mode
+
+Use Beads locally without committing to repo:
+
+```bash
+bd init --stealth
+```
+
+### Contributor vs Maintainer
+
+```bash
+# Contributor (forked repos) — separate planning repo
+bd init --contributor
+
+# Maintainer auto-detected via SSH/HTTPS credentials
+```
+
+## Configuration
+
+Config stored in `.beads/config.yaml`:
+
+```yaml
+sync:
+  branch: beads-sync # Sync to separate branch
+  remote: origin
+daemon:
+  auto_start: true
+  auto_sync: true
+types:
+  custom:
+    - name: spike
+      statuses: [open, in_progress, done]
+```
+
+## Agent Integration
+
+### Tell Agent About Beads
+
+Add to `AGENTS.md`:
+
+```markdown
+## Task Tracking
+
+Use `bd` for task tracking. Run `bd ready` to find work.
+```
+
+### Agent-Optimized Output
+
+```bash
+BD_AGENT_MODE=1 bd list --json  # Ultra-compact JSON output
+bd list --json                   # Standard JSON output
+```
+
+### MCP Plugin
+
+Beads includes Claude Code MCP plugin for direct integration.
+
+## Critical Commands
+
+```bash
+# What to work on
+bd ready                    # Unblocked tasks
+bd ready --pretty           # Formatted output
+
+# Create with dependencies
+bd create "Task B" --blocks bd-a1b2
+
+# Doctor (fix issues)
+bd doctor                   # Check health
+bd doctor --fix             # Auto-fix problems
+
+# Sync
+bd sync                     # Full sync
+bd sync --import-only       # Import only
+```
 
 ## Anti-patterns
 
-| ❌ Wrong                       | ✅ Correct                  |
-| ------------------------------ | --------------------------- |
-| `priority: high`               | `priority: 1` (P0-P4 scale) |
-| Vague acceptance               | EARS-style requirements     |
-| Missing `blocks:`              | Explicit dependency graph   |
-| `bd create` without template   | Use `bd create -f plan.md`  |
-| Interactive `bv` in automation | `bv --robot-*` flags only   |
+| ❌ Wrong              | ✅ Correct                  |
+| --------------------- | --------------------------- |
+| `priority: high`      | `-p 1` (P0-P4 numeric)      |
+| Manual JSON editing   | Use `bd` commands           |
+| Ignoring `bd ready`   | Always check blockers first |
+| Skipping `bd sync`    | Sync regularly              |
+| Creating without deps | Declare `--blocks` upfront  |
+
+## Links
+
+- [Releases](https://github.com/steveyegge/beads/releases)
+- [Documentation](https://github.com/steveyegge/beads#readme)
+- [Community Tools](https://github.com/steveyegge/beads/blob/main/docs/COMMUNITY_TOOLS.md)
