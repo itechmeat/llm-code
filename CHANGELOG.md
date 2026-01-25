@@ -9,6 +9,13 @@ This project uses date-based versioning rather than semantic versioning.
 
 ### Changed
 
+- **Project structure** — Migrated to `npx add-skill` distribution model:
+  - Moved skills from `.llm-code/skills/` to `skills/` in repo root (agentskills.io standard)
+  - Moved agents from `.github/agents/` to `agents/` in repo root
+  - Removed `.llm-code/` folder (symlink scripts: `link-assets.sh`, `link-config.sh`)
+  - Updated all internal paths to relative format for portability
+  - Installation now via single command: `npx add-skill itechmeat/llm-code`
+  - Support for 25+ AI coding agents via add-skill CLI
 - **beads** — Rebuilt for v0.49.0: new architecture (steveyegge/beads), hash-based IDs, molecules/gates, sync-branch mode, Linear/Jira import, daemon, federation; removed deprecated bv/stage-gate references
 - **mantine-dev** — Updated to v8.3.13: shortened description, added version/release_date, README Links
 - **openapi** — Updated to v3.2.0: shortened description, added version/release_date, README Links
