@@ -23,10 +23,6 @@ AI-powered code review for pull requests and local changes using CodeRabbit.
 Run the capture script with Python 3 to save the prompt-only report:
 
 ```bash
-# From repository root:
-python3 .llm-code/skills/coderabbit/scripts/run_coderabbit.py --output coderabbit-report.txt
-
-# From .llm-code/skills/coderabbit:
 python3 scripts/run_coderabbit.py --output coderabbit-report.txt
 ```
 

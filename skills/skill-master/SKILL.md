@@ -139,7 +139,7 @@ description: "A powerful solution for all your database needs."
 ```bash
 python scripts/init_skill.py <skill-name>
 # Or specify custom directory:
-python scripts/init_skill.py <skill-name> --skills-dir .llm-code/skills
+python scripts/init_skill.py <skill-name> --skills-dir skills
 ```
 
 Or manually create:

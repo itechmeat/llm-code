@@ -51,11 +51,7 @@ coderabbit --plain
 If you need to persist raw prompt-only output to a file, use the bundled script:
 
 ```bash
-# Relative path from skill directory:
 python3 scripts/run_coderabbit.py --output coderabbit-report.txt
-
-# Absolute path from repo root:
-python3 .github/skills/coderabbit/scripts/run_coderabbit.py --output coderabbit-report.txt
 ```
 
 Options:
