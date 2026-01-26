@@ -226,6 +226,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Entry Guidelines
 
+- Review current git changes (diff or changed files list) before drafting; ensure all material changes are covered.
 - Start with verb or noun describing the change
 - Be specific (mention affected component/endpoint)
 - Reference issue/PR numbers when relevant: `(#123)`

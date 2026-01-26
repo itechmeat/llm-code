@@ -47,6 +47,7 @@ bd list --tree --parent=bd-abc  # Subtree
 bd show bd-xyz              # Full details + audit trail
 bd show bd-xyz --short      # Compact output
 bd view bd-xyz              # Alias for show
+bd show --id bd-xyz         # Use when ID could be parsed as a flag
 ```
 
 ## Status Updates
@@ -61,6 +62,13 @@ bd update bd-xyz --priority=0 --assignee="agent-1"
 
 # Batch update
 bd update bd-abc bd-def --status=in_progress
+
+# Append notes
+bd update bd-xyz --append-notes "New info"
+
+# Ephemeral / persistent markers
+bd update bd-xyz --ephemeral
+bd update bd-xyz --persistent
 ```
 
 ### Status Values
@@ -120,6 +128,7 @@ bd list --label=urgent
 bd activity                 # Recent activity
 bd activity --watch         # Real-time feed
 bd activity --town          # Cross-rig aggregated feed
+bd activity --details       # Full issue details
 ```
 
 ## Agent Mode
@@ -147,10 +156,18 @@ bd sync
 bd sync --import-only
 ```
 
+## Export
+
+```bash
+bd export --id bd-xyz        # Export specific issue
+bd export --parent bd-abc    # Export subtree by parent
+```
+
 ## Troubleshooting
 
 ```bash
 bd doctor                   # Health check
 bd doctor --fix             # Auto-fix issues
 bd doctor --deep            # Full integrity check
+bd doctor --server          # Dolt server mode health checks
 ```

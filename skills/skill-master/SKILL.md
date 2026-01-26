@@ -1,6 +1,10 @@
 ---
 name: skill-master
-description: "Create, edit, and validate Agent Skills following the open agentskills.io specification. Covers SKILL.md format, frontmatter schema, progressive disclosure, docs ingestion workflow, and packaging. Keywords: agent skills, skill authoring, SKILL.md, frontmatter, description, progressive disclosure, docs ingestion, ai_fetch_url."
+description: "Agent Skills authoring. Covers SKILL.md format, frontmatter, folders, docs ingestion. Keywords: agentskills.io, SKILL.md."
+version: "1.2.3"
+release_date: "2026-01-23"
+metadata:
+  author: itechmeat
 ---
 
 # Skill Master
@@ -12,7 +16,8 @@ This skill is the entry point for creating and maintaining Agent Skills.
 ## Quick Navigation
 
 - New to skills? Read: `references/specification.md`
-- Need templates? Read: `references/templates.md`
+- SKILL.md templates? See: `assets/skill-templates.md`
+- Advanced features (context, agents, hooks)? Read: `references/advanced-features.md`
 - Creating from docs? Read: `references/docs-ingestion.md`
 - Validation & packaging? See `scripts/`
 
@@ -29,10 +34,47 @@ This skill is the entry point for creating and maintaining Agent Skills.
 my-skill/
 ├── SKILL.md          # Required: instructions + metadata
 ├── README.md         # Optional: human-readable description
-├── references/       # Optional: detailed documentation
+├── metadata.json     # Optional: extended metadata for publishing
+├── references/       # Optional: documentation, guides, API references
+├── examples/         # Optional: sample outputs, usage examples
 ├── scripts/          # Optional: executable code
-└── assets/           # Optional: templates, resources
+└── assets/           # Optional: templates, images, data files
 ```
+
+### Folder Purposes (CRITICAL)
+
+| Folder        | Purpose                                    | Examples                                                |
+| ------------- | ------------------------------------------ | ------------------------------------------------------- |
+| `references/` | **Documentation** for agents to read       | Guides, API docs, concept explanations, troubleshooting |
+| `examples/`   | **Sample outputs** showing expected format | Output examples, usage demonstrations                   |
+| `assets/`     | **Static resources** to copy/use           | Document templates, config templates, images, schemas   |
+| `scripts/`    | **Executable code** to run                 | Python scripts, shell scripts, validators               |
+
+### When to Use Each
+
+**Use `references/` for:**
+
+- Detailed documentation about concepts
+- API references and usage guides
+- Troubleshooting and FAQ
+- Anything the agent needs to **read and understand**
+
+**Use `examples/` for:**
+
+- Sample outputs showing expected format
+- Usage demonstrations
+- Before/after comparisons
+- Anything showing **what the result should look like**
+
+**Use `assets/` for:**
+
+- Document templates (markdown files to copy as starting point)
+- Configuration file templates
+- Schema files, lookup tables
+- Images and diagrams
+- Anything the agent needs to **copy or reference verbatim**
+
+**IMPORTANT**: Templates belong in `assets/`, examples in `examples/`, documentation in `references/`.
 
 ## Frontmatter Schema
 
@@ -42,30 +84,119 @@ Every `SKILL.md` MUST start with YAML frontmatter:
 ---
 name: skill-name
 description: "What it does. Keywords: term1, term2."
-version: "1.2.3"
-release_date: "2025-01-21"
+metadata:
+  author: your-name
+  version: "1.0.0"
 ---
 ```
 
-**Field order:** `name` → `description` → `version` → `release_date` → other fields
+**Field order:** `name` → `description` → `license` → `compatibility` → `metadata` → other fields
 
 ### Required Fields
 
-| Field       | Constraints                                                                               |
-| ----------- | ----------------------------------------------------------------------------------------- |
-| name        | 1-64 chars, lowercase `a-z0-9-`, no `--`, no leading/trailing `-`, must match folder name |
-| description | 1-1024 chars, describes what skill does + when to use it, include discovery keywords      |
+| Field       | Constraints                                                                                 |
+| ----------- | ------------------------------------------------------------------------------------------- |
+| name        | 1-64 chars, lowercase `a-z0-9-`, no `--`, no leading/trailing `-`, must match folder name   |
+| description | 1-1024 chars (target: 80-150), describes what skill does + when to use it, include keywords |
 
-### Optional Fields
+### Optional Fields (Top Level)
 
 | Field         | Purpose                                           |
 | ------------- | ------------------------------------------------- |
-| version       | Product version the skill is based on             |
-| release_date  | Product release date (YYYY-MM-DD)                 |
 | license       | License name or reference to bundled LICENSE file |
 | compatibility | Environment requirements (max 500 chars)          |
-| metadata      | Arbitrary key-value pairs (author, version, etc.) |
-| allowed-tools | Space-delimited pre-approved tools (experimental) |
+| metadata      | Object for arbitrary key-value pairs (see below)  |
+
+### metadata Object (Common Fields)
+
+| Field         | Purpose                                          |
+| ------------- | ------------------------------------------------ |
+| author        | Author name or organization                      |
+| version       | **Skill version** (semver format, e.g., "1.0.0") |
+| argument-hint | Hint for autocomplete, e.g., `[issue-number]`    |
+
+**IMPORTANT**: `version` in `metadata` is the **skill version**. If you reference external product docs, track that version separately (e.g., in README.md or metadata.json).
+
+### Optional Fields (Claude Code / Advanced)
+
+| Field                    | Purpose                                                                    |
+| ------------------------ | -------------------------------------------------------------------------- |
+| disable-model-invocation | `true` = only user can invoke (via `/name`). Default: `false`              |
+| user-invocable           | `false` = hidden from `/` menu, only agent can load. Default: `true`       |
+| allowed-tools            | Space-delimited tools agent can use without asking, e.g., `Read Grep Glob` |
+| model                    | Specific model to use when skill is active                                 |
+| context                  | Set to `fork` to run in a forked subagent context                          |
+| agent                    | Subagent type when `context: fork`, e.g., `Explore`, `Plan`                |
+| hooks                    | Hooks scoped to skill's lifecycle (see agent documentation)                |
+
+### Invocation Control Matrix
+
+| Frontmatter                      | User can invoke | Agent can invoke | Notes                                   |
+| -------------------------------- | --------------- | ---------------- | --------------------------------------- |
+| (default)                        | ✅ Yes          | ✅ Yes           | Description in context, loads when used |
+| `disable-model-invocation: true` | ✅ Yes          | ❌ No            | For manual workflows with side effects  |
+| `user-invocable: false`          | ❌ No           | ✅ Yes           | Background knowledge, not a command     |
+
+### Variable Substitutions
+
+Available placeholders in skill content:
+
+| Variable               | Description                                              |
+| ---------------------- | -------------------------------------------------------- |
+| `$ARGUMENTS`           | All arguments passed when invoking the skill             |
+| `${CLAUDE_SESSION_ID}` | Current session ID for logging or session-specific files |
+
+If `$ARGUMENTS` is not in content, arguments are appended as `ARGUMENTS: <value>`.
+
+Example:
+
+```yaml
+---
+name: fix-issue
+description: Fix a GitHub issue
+disable-model-invocation: true
+---
+Fix GitHub issue $ARGUMENTS following our coding standards.
+```
+
+### Dynamic Context Injection
+
+Use `!`command`` syntax to run shell commands before skill content is sent to the agent:
+
+```markdown
+## Pull request context
+
+- PR diff: !`gh pr diff`
+- Changed files: !`gh pr diff --name-only`
+
+## Your task
+
+Review this pull request...
+```
+
+The command output replaces the placeholder, so the agent receives actual data.
+
+## metadata.json (Optional)
+
+For publishing or extended metadata, create `metadata.json`:
+
+```json
+{
+  "version": "1.0.0",
+  "organization": "Your Org",
+  "date": "January 2026",
+  "abstract": "Brief description of what this skill provides...",
+  "references": ["https://docs.example.com", "https://github.com/org/repo"]
+}
+```
+
+**Fields:**
+
+- `version` — Skill version (semver)
+- `organization` — Author or organization
+- `date` — Publication date
+- `abstract` — Extended description (can be longer than frontmatter)
+- `references` — List of source documentation URLs
 
 ### Name Validation Examples
 
@@ -147,7 +278,8 @@ Or manually create:
 ```
 <skills-folder>/<skill-name>/
 ├── SKILL.md
-└── references/
+├── references/   # For documentation, guides
+└── assets/       # For templates, static files
 ```
 
 ### Step 2: Write Frontmatter
@@ -164,12 +296,12 @@ description: "[Purpose] + [Triggers/Keywords]"
 Recommended sections:
 
 - When to use (triggers, situations)
-- Quick navigation (router to references)
+- Quick navigation (router to references and assets)
 - Steps / Recipes / Checklists
 - Critical prohibitions
 - Links
 
-### Step 4: Add References
+### Step 4: Add References (documentation)
 
 For each major topic, create `references/<topic>.md` with:
 
@@ -177,7 +309,15 @@ For each major topic, create `references/<topic>.md` with:
 - Gotchas / prohibitions
 - Practical examples
 
-### Step 5: Validate
+### Step 5: Add Assets (if needed)
+
+For templates or static resources, create `assets/<resource>`:
+
+- Document templates
+- Configuration templates
+- Schema files
+
+### Step 6: Validate
 
 ```bash
 python scripts/quick_validate_skill.py <skill-path>
@@ -290,7 +430,7 @@ This helps track when the skill was last updated and against which product versi
 - [ ] `name` is 1-64 chars, lowercase, no `--`
 - [ ] `description` is 1-1024 chars, includes keywords
 - [ ] `SKILL.md` under 500 lines
-- [ ] Long content moved to `references/`
+- [ ] Documentation in `references/`, templates in `assets/`
 - [ ] All text in English
 
 ## Scripts
@@ -305,6 +445,8 @@ This helps track when the skill was last updated and against which product versi
 ## Links
 
 - Specification: `references/specification.md`
-- Templates: `references/templates.md`
+- Advanced Features: `references/advanced-features.md`
+- SKILL.md Templates: `assets/skill-templates.md`
 - Docs Ingestion: `references/docs-ingestion.md`
 - Official spec: https://agentskills.io/specification
+- Claude Code skills: https://code.claude.com/docs/en/skills

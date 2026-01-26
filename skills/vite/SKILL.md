@@ -2,7 +2,7 @@
 name: vite
 description: "Vite next-gen frontend tooling: dev server, HMR, build, config, plugins, Environment API, Rolldown. Keywords: vite.config, bundler."
 version: "7.3.1"
-release_date: "2026-01-25"
+release_date: "2026-01-07"
 ---
 
 # Vite

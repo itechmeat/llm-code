@@ -5,7 +5,22 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
-## [2025-01-25]
+## [2026-01-26]
+
+### Added
+
+- **project-creator** — New skill for project documentation scaffolding with templates and guides
+
+### Changed
+
+- **agent-browser** — Updated to v0.8.0 with Kernel provider support, cookie options, and `--ignore-https-errors`
+- **beads** — Updated to v0.49.1 with new workflow flags, export options, and Dolt server checks
+- **coderabbit** — Added reporting/metrics guidance and refreshed release metadata
+- **openspec** — Updated to v1.0.1
+- **skill-master** — Expanded skill structure guidance and added advanced features/templates
+- **vibekanban** — Updated to v0.0.162 with workspace defaults, PR-based creation, slash commands, and merge guardrails
+
+## [2026-01-25]
 
 ### Changed
 
@@ -32,7 +47,7 @@ This project uses date-based versioning rather than semantic versioning.
 - **vite** — Updated to v7.3.1: added `future` deprecation warnings config, `hotUpdate` hook, `this.environment` in hooks, `build.emitLicense`, ModuleRunner API, `ssr.resolve.mainFields`
 - **vitest** — Updated to v4.0.18: added OpenTelemetry support (experimental), CI/CD trace context propagation, browser mode OTEL, README Links
 
-## [2025-01-24]
+## [2026-01-24]
 
 ### Added
 
@@ -64,7 +79,7 @@ This project uses date-based versioning rather than semantic versioning.
 - **changelog** — Enforced English-only entries, required `CHANGELOG.md`, and clarified empty-section handling
 - **coderabbit** — Added a local capture script and guidance for prompt-only reports
 
-## [2025-01-12]
+## [2026-01-12]
 
 ### Added
 

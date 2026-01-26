@@ -2,7 +2,7 @@
 name: turso
 description: "Turso SQLite database. Covers encryption, sync, agent patterns. Keywords: libSQL, embedded."
 version: "0.4.0"
-release_date: "2025-01-05"
+release_date: "2026-01-05"
 ---
 
 # Turso Database

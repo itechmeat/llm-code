@@ -1,7 +1,8 @@
 ---
 name: coderabbit
 description: "CodeRabbit AI code review. Covers CLI, configuration, triage workflow. Keywords: @coderabbitai, code review."
-release_date: "2025-12-12"
+version: "—"
+release_date: "2026-01-14"
 ---
 
 # CodeRabbit
@@ -10,18 +11,19 @@ AI-powered code review for pull requests and local changes.
 
 ## Quick Navigation
 
-| Task                          | Reference                                                   |
-| ----------------------------- | ----------------------------------------------------------- |
-| Install & run CLI             | [cli-usage.md](references/cli-usage.md)                     |
-| Configure .coderabbit.yaml    | [configuration.md](references/configuration.md)             |
-| Supported tools (40+ linters) | [tools.md](references/tools.md)                             |
-| Git platform setup            | [platforms.md](references/platforms.md)                     |
-| PR commands (@coderabbitai)   | [pr-commands.md](references/pr-commands.md)                 |
-| Claude/Cursor/Codex workflow  | [agent-integration.md](references/agent-integration.md)     |
-| Triage findings               | [triage.md](references/triage.md)                           |
-| Fix single issue              | [fix.md](references/fix.md)                                 |
-| End-to-end workflow           | [end-to-end-workflow.md](references/end-to-end-workflow.md) |
-| Windows/WSL setup             | [windows-wsl.md](references/windows-wsl.md)                 |
+| Task                          | Reference                                                                                         |
+| ----------------------------- | ------------------------------------------------------------------------------------------------- |
+| Install & run CLI             | [cli-usage.md](references/cli-usage.md)                                                           |
+| Configure .coderabbit.yaml    | [configuration.md](references/configuration.md)                                                   |
+| Supported tools (40+ linters) | [tools.md](references/tools.md)                                                                   |
+| Git platform setup            | [platforms.md](references/platforms.md)                                                           |
+| PR commands (@coderabbitai)   | [pr-commands.md](references/pr-commands.md)                                                       |
+| Claude/Cursor/Codex workflow  | [agent-integration.md](references/agent-integration.md)                                           |
+| Triage findings               | [triage.md](references/triage.md)                                                                 |
+| Fix single issue              | [fix.md](references/fix.md)                                                                       |
+| Reporting & metrics           | [end-to-end-workflow.md#reporting--metrics](references/end-to-end-workflow.md#reporting--metrics) |
+| End-to-end workflow           | [end-to-end-workflow.md](references/end-to-end-workflow.md)                                       |
+| Windows/WSL setup             | [windows-wsl.md](references/windows-wsl.md)                                                       |
 
 ## Quick Start
 

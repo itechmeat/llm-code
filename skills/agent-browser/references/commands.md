@@ -99,7 +99,7 @@ agent-browser set media [dark|light]  # Emulate color scheme
 
 ```bash
 agent-browser cookies                 # Get all cookies
-agent-browser cookies set <name> <val> # Set cookie
+agent-browser cookies set <name> <val> # Set cookie (supports domain/path/httpOnly/secure/sameSite/expires)
 agent-browser cookies clear           # Clear cookies
 
 agent-browser storage local           # Get all localStorage

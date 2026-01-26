@@ -26,7 +26,7 @@ npx add-skill itechmeat/llm-code -a claude-code -a github-copilot
 npx add-skill itechmeat/llm-code -y
 ```
 
-## Available Skills (35)
+## Available Skills (36)
 
 Each skill follows the [agentskills.io](https://agentskills.io) specification.
 
@@ -56,6 +56,7 @@ Each skill follows the [agentskills.io](https://agentskills.io) specification.
 | [openspec](skills/openspec/)                                     | OpenSpec workflow specification                |
 | [perplexity](skills/perplexity/)                                 | Perplexity AI search API                       |
 | [postgresql](skills/postgresql/)                                 | PostgreSQL database                            |
+| [project-creator](skills/project-creator/)                       | Project documentation scaffolding              |
 | [pydantic-ai](skills/pydantic-ai/)                               | Pydantic AI agent framework                    |
 | [qdrant](skills/qdrant/)                                         | Qdrant vector database                         |
 | [react-testing-library](skills/react-testing-library/)           | React component testing                        |

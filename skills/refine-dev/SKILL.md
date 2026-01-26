@@ -2,7 +2,7 @@
 name: refine-dev
 description: "Refine.dev headless React framework for CRUD apps: data providers, resources, routing, authentication, hooks, and forms."
 version: "5.0.8"
-release_date: "2026-01-03"
+release_date: "2026-01-06"
 ---
 
 # Refine.dev Framework

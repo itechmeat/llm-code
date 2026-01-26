@@ -27,6 +27,16 @@ Workspaces provide a modern interface for working with AI coding agents:
 
 Workspace auto-creates working branch from target branch.
 
+**Defaults**: Create flow now defaults to the last used project/repo/branch and sets a base target branch automatically. Adjust per repo if needed.
+
+## Create Workspace from PR
+
+Use the **Create Workspace from PR** action to prefill repo and branch context from an existing pull request.
+
+## Remote Routes
+
+Workspaces support remote routes for deep-linking into a specific workspace context.
+
 ## Sessions
 
 Conversation threads within a workspace. All sessions share repos and git state.
@@ -57,6 +67,10 @@ Sessions maintain independent conversation history.
 ## Command Bar
 
 Central hub for navigation and actions. Press `Cmd/Ctrl + K`.
+
+## Slash Commands
+
+Type `/` in the chat input to open the slash command menu for quick actions.
 
 ### Quick Actions
 
@@ -134,6 +148,11 @@ Document information in the **Notes** section of right sidebar:
 | Preview       | Bottom   | Dev server preview     |
 | Logs          | Bottom   | Process/terminal logs  |
 
+### Workspace List
+
+- Shows active workspace count
+- Uses infinite scroll pagination for large lists
+
 ### Branch Search
 
 Search workspaces by branch name in sidebar.
@@ -173,6 +192,10 @@ Work across multiple repositories:
 Use `Cmd/Ctrl + K` → Workspace Actions → **Duplicate Workspace**
 
 Duplicates repos and branch config with fresh conversation.
+
+## Spin Off Workspace
+
+Use **Spin Off Workspace** to create a child workspace from the current one.
 
 ## Archiving
 

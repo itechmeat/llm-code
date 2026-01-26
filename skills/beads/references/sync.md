@@ -173,6 +173,10 @@ bd federation sync
 
 Requires Dolt backend for SQL-based sync.
 
+### Dolt Server Mode
+
+Dolt backend now supports server mode for multi-client access. Use `bd doctor --server` to validate server-mode health checks.
+
 ## Troubleshooting
 
 ### Sync Divergence

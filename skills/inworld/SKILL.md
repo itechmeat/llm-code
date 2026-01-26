@@ -2,7 +2,7 @@
 name: inworld
 description: "Inworld TTS API. Covers voice cloning, audio markups, timestamps. Keywords: text-to-speech, visemes."
 version: "1.5"
-release_date: "2025-01-21"
+release_date: "2026-01-21"
 ---
 
 # Inworld AI

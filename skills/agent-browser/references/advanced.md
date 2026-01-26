@@ -2,17 +2,20 @@
 
 ## Cloud Browser Providers (v0.7+)
 
-Connect to Browserbase or Browser Use for remote browser infrastructure:
+Connect to Browserbase, Browser Use, or Kernel for remote browser infrastructure:
 
 ```bash
 # Via -p flag (recommended)
 agent-browser -p browserbase open https://example.com
 agent-browser -p browseruse open https://example.com
+agent-browser -p kernel open https://example.com
 
 # Via environment variable
 export AGENT_BROWSER_PROVIDER=browserbase
 agent-browser open https://example.com
 ```
+
+**Kernel provider** supports stealth mode and persistent profiles.
 
 ## Persistent Browser Profiles (v0.7+)
 
@@ -117,18 +120,19 @@ Modifiers: 1=Alt, 2=Ctrl, 4=Meta, 8=Shift
 
 ## Global Options
 
-| Option            | Description                        |
-| ----------------- | ---------------------------------- |
-| --session <name>  | Use isolated session               |
-| --profile <path>  | Persistent browser profile (v0.7+) |
-| -p <provider>     | Cloud provider (v0.7+)             |
-| --headers <json>  | HTTP headers scoped to origin      |
-| --executable-path | Custom browser executable          |
-| --json            | JSON output for agents             |
-| --full, -f        | Full page screenshot               |
-| --headed          | Show browser window                |
-| --cdp <port/url>  | CDP connection (port or WebSocket) |
-| --args <list>     | Browser launch args (v0.7+)        |
-| --user-agent <ua> | Custom User-Agent (v0.7+)          |
-| --proxy-bypass    | Proxy bypass list (v0.7+)          |
-| --debug           | Debug output                       |
+| Option                | Description                        |
+| --------------------- | ---------------------------------- |
+| --session <name>      | Use isolated session               |
+| --profile <path>      | Persistent browser profile (v0.7+) |
+| -p <provider>         | Cloud provider (v0.7+)             |
+| --headers <json>      | HTTP headers scoped to origin      |
+| --executable-path     | Custom browser executable          |
+| --json                | JSON output for agents             |
+| --full, -f            | Full page screenshot               |
+| --headed              | Show browser window                |
+| --cdp <port/url>      | CDP connection (port or WebSocket) |
+| --args <list>         | Browser launch args (v0.7+)        |
+| --user-agent <ua>     | Custom User-Agent (v0.7+)          |
+| --proxy-bypass        | Proxy bypass list (v0.7+)          |
+| --ignore-https-errors | Ignore HTTPS errors (v0.8+)        |
+| --debug               | Debug output                       |

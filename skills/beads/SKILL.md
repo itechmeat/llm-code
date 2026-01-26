@@ -1,8 +1,8 @@
 ---
 name: beads
 description: "Beads (bd) distributed git-backed issue tracker for AI agents: hash-based IDs, dependency graphs, worktrees, molecules, sync. Keywords: bd, beads, issue tracker, git-backed, dependencies, molecules, worktree, sync, AI agents."
-version: "0.49.0"
-release_date: "2026-01-22"
+version: "0.49.1"
+release_date: "2026-01-26"
 ---
 
 # Beads (bd)

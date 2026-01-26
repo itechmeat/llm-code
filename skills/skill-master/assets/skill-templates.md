@@ -167,6 +167,130 @@ allowed-tools: Bash(git:*) Read Write
 ---
 ```
 
+### With Context Fork (Subagent)
+
+```yaml
+---
+name: deep-research
+description: Research a topic thoroughly in isolated context.
+context: fork
+agent: Explore
+allowed-tools: Read Grep Glob
+---
+```
+
+### Manual-Only Skill
+
+```yaml
+---
+name: deploy
+description: Deploy application to production
+disable-model-invocation: true
+---
+```
+
+### Background Knowledge (Not User-Invocable)
+
+```yaml
+---
+name: api-conventions
+description: API design patterns for this codebase
+user-invocable: false
+---
+```
+
+### With Argument Hint
+
+```yaml
+---
+name: fix-issue
+description: Fix a GitHub issue
+disable-model-invocation: true
+argument-hint: <issue-number>
+metadata:
+  author: team
+  version: "1.0.0"
+---
+```
+
+### Full Example (All Fields)
+
+```yaml
+---
+name: pr-review
+description: Review pull request for issues. Use when asked to review PR or code changes.
+license: MIT
+compatibility: Requires gh CLI
+context: fork
+agent: Explore
+disable-model-invocation: true
+argument-hint: [pr-number]
+allowed-tools: Read Grep Bash(gh:*)
+metadata:
+  author: example-org
+  version: "1.0.0"
+---
+```
+
+## Skill with Dynamic Context Template
+
+```markdown
+---
+name: pr-summary
+description: Summarize changes in a pull request
+context: fork
+agent: Explore
+allowed-tools: Bash(gh:*)
+---
+
+## Pull request context
+- PR diff: !`gh pr diff`
+- PR comments: !`gh pr view --comments`
+- Changed files: !`gh pr diff --name-only`
+
+## Your task
+
+Summarize this pull request focusing on:
+1. Main changes
+2. Potential issues
+3. Testing recommendations
+```
+
+## Skill with Arguments Template
+
+```markdown
+---
+name: fix-issue
+description: Fix a GitHub issue
+disable-model-invocation: true
+argument-hint: <issue-number>
+---
+
+Fix GitHub issue $ARGUMENTS following our coding standards:
+
+1. Read the issue description
+2. Understand the requirements
+3. Implement the fix
+4. Write tests
+5. Create a commit with message referencing the issue
+```
+
+## metadata.json Template
+
+```json
+{
+  "version": "1.0.0",
+  "organization": "Your Organization",
+  "date": "January 2026",
+  "abstract": "Comprehensive description of what this skill provides, its scope, and how it helps automated code generation and review.",
+  "references": [
+    "https://docs.example.com",
+    "https://github.com/org/repo",
+    "https://example.com/api-reference"
+  ]
+}
+```
+
 ## Description Examples
 
 ### Good Descriptions

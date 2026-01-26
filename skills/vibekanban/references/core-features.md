@@ -44,7 +44,7 @@ Press `C` or click `+` icon.
 
 - Title (required)
 - Description (optional, supports markdown)
-- Base branch (defaults to current)
+- Base branch (defaults to configured target branch)
 
 ### Task Tags
 
@@ -172,6 +172,8 @@ Shows:
 | Create PR | Open PR on GitHub/Azure             |
 | Rebase    | Update branch with target changes   |
 | Push      | Push new changes to existing PR     |
+
+**Guardrails**: Merge actions are disabled when an open PR exists or when the target is remote-only.
 
 ### Pull Request Flow
 

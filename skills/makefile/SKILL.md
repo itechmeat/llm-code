@@ -2,6 +2,7 @@
 name: makefile
 description: GNU Make automation and build system guidance
 version: 2.0.0
+release_date: "2023-02-26"
 ---
 
 # Makefile Skill
@@ -10,15 +11,15 @@ Guidance for creating and maintaining GNU Make build automation.
 
 ## Quick Navigation
 
-| Topic | Reference |
-|-------|-----------|
-| Rules, prerequisites, targets | [syntax.md](references/syntax.md) |
+| Topic                         | Reference                               |
+| ----------------------------- | --------------------------------------- |
+| Rules, prerequisites, targets | [syntax.md](references/syntax.md)       |
 | Variable types and assignment | [variables.md](references/variables.md) |
-| Built-in functions | [functions.md](references/functions.md) |
-| Special and phony targets | [targets.md](references/targets.md) |
-| Recipe execution, parallel | [recipes.md](references/recipes.md) |
-| Implicit and pattern rules | [implicit.md](references/implicit.md) |
-| Common practical patterns | [patterns.md](references/patterns.md) |
+| Built-in functions            | [functions.md](references/functions.md) |
+| Special and phony targets     | [targets.md](references/targets.md)     |
+| Recipe execution, parallel    | [recipes.md](references/recipes.md)     |
+| Implicit and pattern rules    | [implicit.md](references/implicit.md)   |
+| Common practical patterns     | [patterns.md](references/patterns.md)   |
 
 ---
 
@@ -49,12 +50,12 @@ clean:
 
 ### Variable Assignment
 
-| Operator | Name | When Expanded |
-|----------|------|---------------|
-| `:=` | Simple | Once, at definition |
-| `?=` | Conditional | If not already set |
-| `=` | Recursive | Each use (late binding) |
-| `+=` | Append | Adds to existing value |
+| Operator | Name        | When Expanded           |
+| -------- | ----------- | ----------------------- |
+| `:=`     | Simple      | Once, at definition     |
+| `?=`     | Conditional | If not already set      |
+| `=`      | Recursive   | Each use (late binding) |
+| `+=`     | Append      | Adds to existing value  |
 
 ```makefile
 CC := gcc              # Immediate
@@ -65,13 +66,13 @@ CFLAGS += -Wall        # Append
 
 ### Automatic Variables
 
-| Variable | Meaning |
-|----------|---------|
-| `$@` | Target |
-| `$<` | First prerequisite |
-| `$^` | All prerequisites (unique) |
-| `$?` | Prerequisites newer than target |
-| `$*` | Stem in pattern rules |
+| Variable | Meaning                         |
+| -------- | ------------------------------- |
+| `$@`     | Target                          |
+| `$<`     | First prerequisite              |
+| `$^`     | All prerequisites (unique)      |
+| `$?`     | Prerequisites newer than target |
+| `$*`     | Stem in pattern rules           |
 
 ---
 
@@ -269,14 +270,14 @@ include config.mk
 
 ## Common Pitfalls
 
-| Pitfall | Problem | Solution |
-|---------|---------|----------|
-| Spaces in recipes | Recipes need TAB | Use actual TAB character |
-| Missing .PHONY | `make test` fails if `test` file exists | Declare `.PHONY: test` |
-| cd in recipes | Each line is new shell | Use `cd dir && command` |
-| `=` vs `:=` confusion | Unexpected late expansion | Use `:=` by default |
-| Unexported vars | Subprocesses don't see vars | `export VAR` |
-| Complex shell in make | Hard to maintain | Move to external script |
+| Pitfall               | Problem                                 | Solution                 |
+| --------------------- | --------------------------------------- | ------------------------ |
+| Spaces in recipes     | Recipes need TAB                        | Use actual TAB character |
+| Missing .PHONY        | `make test` fails if `test` file exists | Declare `.PHONY: test`   |
+| cd in recipes         | Each line is new shell                  | Use `cd dir && command`  |
+| `=` vs `:=` confusion | Unexpected late expansion               | Use `:=` by default      |
+| Unexported vars       | Subprocesses don't see vars             | `export VAR`             |
+| Complex shell in make | Hard to maintain                        | Move to external script  |
 
 ---
 

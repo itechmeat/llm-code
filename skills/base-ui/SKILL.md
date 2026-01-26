@@ -2,7 +2,7 @@
 name: base-ui
 description: "Base UI unstyled React components. Covers forms, menus, overlays, composition. Keywords: @base-ui/react, render props."
 version: "1.1.0"
-release_date: "2025-01-13"
+release_date: "2026-01-15"
 ---
 
 # Base UI (React)

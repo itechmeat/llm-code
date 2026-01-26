@@ -26,6 +26,16 @@ Complete workflow from running a review to implementing fixes.
 - Do not "fix" style nits if tooling already covers them.
 - Do not broaden the scope beyond the reviewed findings.
 
+## Reporting & Metrics
+
+### Data Export (Dashboard)
+
+Use **Data Export** to download per‑PR review metrics as CSV for a selected date range (last 7/30/90 days or a custom range within the last year). The export includes fields like complexity scores, review times, and comment breakdowns by severity/category.
+
+### Review Metrics API
+
+REST API for programmatic access to review metrics. Query by date range, filter by repository or user, and retrieve results in JSON or CSV.
+
 ## Related references
 
 - CLI usage: `cli-usage.md`
