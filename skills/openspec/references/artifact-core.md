@@ -13,6 +13,11 @@
 - **Artifact**: A node in the graph, usually a document to produce.
 - **Template**: Instructions for creating a specific artifact.
 
+## Naming Conventions
+
+- Specs are named after capabilities, not change IDs.
+- Use the canonical path: `specs/<capability>/spec.md`.
+
 ## Schema Resolution (XDG)
 
 Resolution order:
@@ -44,7 +49,7 @@ Rules:
 - Ready artifacts: all dependencies are complete.
 - Blocked artifacts: dependencies are missing.
 - Build order: topological sort of the DAG.
-- Glob artifacts: patterns like `specs/*.md` count as complete when at least one file matches.
+- Glob artifacts: patterns like `specs/**/spec.md` count as complete when at least one file matches.
 
 ## CLI Contract (Deterministic)
 

@@ -37,6 +37,18 @@ Common issues and solutions.
 - Use fixed port: `PORT=8080 npx vibe-kanban`
 - Kill stale processes manually
 
+## Disable Worktree Cleanup (Debug)
+
+**Use case**: Preserve all worktrees for debugging or audit.
+
+Set the environment variable to disable **all** automatic worktree cleanup:
+
+```bash
+DISABLE_WORKTREE_CLEANUP=1 npx vibe-kanban
+```
+
+Re-enable by unsetting the variable once investigation is complete.
+
 ## Debug Logs
 
 ```bash

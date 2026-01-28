@@ -20,3 +20,10 @@ Integrate Open-Meteo free weather APIs into your application.
 ## When to use
 
 Use this skill when building weather-related features: forecasts, air quality reports, location search, or any Open-Meteo integration.
+
+## Links
+
+- Releases: https://github.com/open-meteo/open-meteo/releases
+- Docs: https://open-meteo.com/en/docs
+- Air Quality API: https://open-meteo.com/en/docs/air-quality-api
+- Geocoding API: https://open-meteo.com/en/docs/geocoding-api

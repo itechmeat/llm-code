@@ -50,3 +50,8 @@ Start a new change when:
 - Explicitly name the change when invoking commands.
 - Show progress and what is unlocked after each step.
 - If schema selection is ambiguous, clarify before continuing.
+
+## Task Tracking Format
+
+- Use checklist items in tasks artifacts.
+- Required format for apply tracking: `- [ ]` for pending and `- [x]` for done.

@@ -375,12 +375,19 @@ model = OpenAIResponsesModel('gpt-4o')
 - File search
 - Computer use
 
+**Web search domain allowlist:** when using the WebSearchTool with OpenAI, you can restrict sources via `allowed_domains` in the tool configuration.
+
 ```python
 from openai.types.responses import ComputerToolParam
 from pydantic_ai.models.openai import OpenAIResponsesModel, OpenAIResponsesModelSettings
 
 model_settings = OpenAIResponsesModelSettings(
     openai_builtin_tools=[ComputerToolParam(type='computer_use')]
+)
+
+# Usage stats streaming
+model_settings = OpenAIResponsesModelSettings(
+    continuous_usage_stats=True
 )
 ```
 

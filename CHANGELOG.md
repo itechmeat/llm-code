@@ -5,6 +5,15 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-01-28]
+
+### Changed
+
+- **open-meteo** — Added Links section to README for official docs and APIs
+- **openspec** — Documented spec naming convention and required task checkbox format
+- **vibekanban** — Added VS Code Insiders support and worktree cleanup toggle guidance
+- **pydantic-ai** — Documented `allowed_domains` for WebSearchTool and `continuous_usage_stats` model setting
+
 ## [2026-01-26]
 
 ### Added

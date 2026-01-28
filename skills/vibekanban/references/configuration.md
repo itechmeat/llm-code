@@ -49,6 +49,7 @@ Override per-attempt in create dialog.
 Supported editors:
 
 - VS Code
+- VS Code Insiders
 - Cursor
 - Windsurf
 - Neovim, Emacs, Sublime Text
