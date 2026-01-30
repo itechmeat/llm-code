@@ -5,6 +5,22 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-01-30]
+
+### Added
+
+- **bun** — Complete reference documentation for Bun 1.3.8 (26 reference files): HTTP server, WebSockets, SQLite, S3, Redis, FFI, shell scripting, workers, and more
+
+### Changed
+
+- **pydantic-ai** — Added Bedrock embedding provider for AWS Titan/Cohere models
+- **tavily** — Updated to v0.7.21
+- **openspec** — Updated to v1.1.0
+- **vibekanban** — Updated to v0.0.166
+- **agent-browser** — Updated to v0.8.5
+- **refine-dev** — Updated to v8.0.0
+- **open-meteo** — Corrected version to v1.4.0 (was incorrectly listed as 1.4.17)
+
 ## [2026-01-28]
 
 ### Changed

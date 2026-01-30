@@ -1,8 +1,8 @@
 ---
 name: open-meteo
 description: "Integrate Open-Meteo Weather Forecast, Air Quality, and Geocoding APIs: query design, variable selection, timezone/timeformat/units, multi-location batching, and robust error handling. Keywords: Open-Meteo, /v1/forecast, /v1/air-quality, geocoding-api, hourly, daily, current, timezone=auto, timeformat=unixtime, models, WMO weather_code, CAMS, GeoNames, httpx, FastAPI, pytest."
-version: "1.4.17"
-release_date: "2025-11-07"
+version: "1.4.0"
+release_date: "2024-12-31"
 ---
 
 # Open Meteo

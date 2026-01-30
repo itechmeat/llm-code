@@ -26,7 +26,7 @@ npx add-skill itechmeat/llm-code -a claude-code -a github-copilot
 npx add-skill itechmeat/llm-code -y
 ```
 
-## Available Skills (36)
+## Available Skills (37)
 
 Each skill follows the [agentskills.io](https://agentskills.io) specification.
 
@@ -35,6 +35,7 @@ Each skill follows the [agentskills.io](https://agentskills.io) specification.
 | [agent-browser](skills/agent-browser/)                           | Headless browser automation for AI agents      |
 | [base-ui](skills/base-ui/)                                       | Base UI unstyled React components              |
 | [beads](skills/beads/)                                           | Beads distributed git-backed issue tracker     |
+| [bun](skills/bun/)                                               | Bun JavaScript/TypeScript runtime and toolkit  |
 | [changelog](skills/changelog/)                                   | Keep a Changelog format                        |
 | [cloudflare-d1](skills/cloudflare-d1/)                           | Cloudflare D1 SQLite database                  |
 | [cloudflare-durable-objects](skills/cloudflare-durable-objects/) | Cloudflare Durable Objects stateful serverless |

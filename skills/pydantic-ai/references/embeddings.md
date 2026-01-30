@@ -28,6 +28,7 @@ async def main():
 | Google                | `google`                | `google-gla:gemini-embedding-001`        |
 | Cohere                | `cohere`                | `cohere:embed-v4.0`                      |
 | VoyageAI              | `voyageai`              | `voyageai:voyage-3.5`                    |
+| Bedrock               | `bedrock`               | `bedrock:amazon.titan-embed-text-v1`     |
 | Sentence Transformers | `sentence-transformers` | `sentence-transformers:all-MiniLM-L6-v2` |
 
 ### OpenAI
@@ -88,6 +89,25 @@ export VOYAGE_API_KEY='your-key'
 from pydantic_ai import Embedder
 
 embedder = Embedder('voyageai:voyage-3.5')
+```
+
+### Bedrock (AWS)
+
+AWS Bedrock embeddings for Nova, Cohere, and Titan models.
+
+```bash
+pip install "pydantic-ai-slim[bedrock]"
+# Uses AWS credentials from environment or ~/.aws/credentials
+```
+
+```python
+from pydantic_ai import Embedder
+
+# Amazon Titan
+embedder = Embedder('bedrock:amazon.titan-embed-text-v1')
+
+# Cohere via Bedrock
+embedder = Embedder('bedrock:cohere.embed-english-v3')
 ```
 
 ### Sentence Transformers (Local)

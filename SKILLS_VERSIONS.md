@@ -13,29 +13,30 @@ Quick reference for tracking tool versions across skills. Use this file to check
 
 | Skill                          | Skill Version | Release Date | Releases                                                                      | Documentation                                                         |
 | ------------------------------ | ------------- | ------------ | ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| **tavily**                     | 0.7.20        | 2026-01-28   | [PyPI](https://pypi.org/project/tavily-python/#history)                       | [Docs](https://docs.tavily.com/)                                      |
-| **pydantic-ai**                | 1.48.0        | 2026-01-27   | [Releases](https://github.com/pydantic/pydantic-ai/releases)                  | [Docs](https://ai.pydantic.dev/)                                      |
+| **openspec**                   | 1.1.0         | 2026-01-30   | [Releases](https://github.com/Fission-AI/OpenSpec/releases)                   | [Docs](https://github.com/Fission-AI/OpenSpec/tree/main/docs)         |
+| **tavily**                     | 0.7.21        | 2026-01-30   | [PyPI](https://pypi.org/project/tavily-python/#history)                       | [Docs](https://docs.tavily.com/)                                      |
+| **pydantic-ai**                | 1.50.0        | 2026-01-29   | [Releases](https://github.com/pydantic/pydantic-ai/releases)                  | [Docs](https://ai.pydantic.dev/)                                      |
+| **vibekanban**                 | 0.0.166       | 2026-01-29   | [Releases](https://github.com/BloopAI/vibe-kanban/releases)                   | [Docs](https://www.vibekanban.com/docs)                               |
+| **agent-browser**              | 0.8.5         | 2026-01-29   | [Releases](https://github.com/vercel-labs/agent-browser/releases)             | [Docs](https://agent-browser.dev/)                                    |
+| **bun**                        | 1.3.8         | 2026-01-29   | [Releases](https://github.com/oven-sh/bun/releases)                           | [Docs](https://bun.sh/docs)                                           |
 | **perplexity**                 | 0.27.0        | 2026-01-27   | [Releases](https://github.com/perplexityai/perplexity-py/releases)            | [Docs](https://docs.perplexity.ai/)                                   |
-| **vibekanban**                 | 0.0.163       | 2026-01-28   | [Releases](https://github.com/BloopAI/vibe-kanban/releases)                   | [Docs](https://www.vibekanban.com/docs)                               |
-| **coderabbit**                 | —             | 2026-01-21   | [Changelog](https://docs.coderabbit.ai/changelog)                             | [Docs](https://docs.coderabbit.ai/)                                   |
-| **agent-browser**              | 0.8.4         | 2026-01-27   | [Releases](https://github.com/vercel-labs/agent-browser/releases)             | [Docs](https://agent-browser.dev/)                                    |
-| **openspec**                   | 1.0.2         | 2026-01-27   | [Releases](https://github.com/Fission-AI/OpenSpec/releases)                   | [Docs](https://github.com/Fission-AI/OpenSpec/tree/main/docs)         |
-| **open-meteo**                 | 1.4.17        | 2025-11-07   | [Changelog](https://github.com/open-meteo/open-meteo/releases)                | [Docs](https://open-meteo.com/en/docs)                                |
-| **refine-dev**                 | 5.0.8         | 2026-01-06   | [Releases](https://github.com/refinedev/refine/releases)                      | [Docs](https://refine.dev/docs/)                                      |
-| **turso**                      | 0.4.0         | 2026-01-05   | [Releases](https://github.com/tursodatabase/turso/blob/main/CHANGELOG.md)     | [Docs](https://docs.turso.tech/)                                      |
-| **base-ui**                    | 1.1.0         | 2026-01-15   | [Releases](https://github.com/mui/base-ui/releases)                           | [Docs](https://base-ui.com/)                                          |
-| **skill-master**               | 1.2.3         | 2026-01-23   | [Commits](https://github.com/agentskills/agentskills/commits/main/)           | [Docs](https://github.com/agentskills/agentskills/tree/main/docs)     |
-| **inworld**                    | 1.5           | 2026-01-21   | [Changelog](https://docs.inworld.ai/docs/release-notes/tts)                   | [Docs](https://docs.inworld.ai/)                                      |
-| **vite**                       | 7.3.1         | 2026-01-07   | [Releases](https://github.com/vitejs/vite/releases)                           | [Docs](https://vite.dev/guide/)                                       |
 | **beads**                      | 0.49.1        | 2026-01-26   | [Releases](https://github.com/steveyegge/beads/releases)                      | [Docs](https://github.com/steveyegge/beads/tree/main/docs)            |
-| **mantine-dev**                | 8.3.13        | 2026-01-21   | [Releases](https://github.com/mantinedev/mantine/releases)                    | [Docs](https://mantine.dev/getting-started/)                          |
-| **vitest**                     | 4.0.18        | 2026-01-21   | [Releases](https://github.com/vitest-dev/vitest/releases)                     | [Docs](https://vitest.dev/guide/)                                     |
+| **skill-master**               | 1.2.3         | 2026-01-23   | [Commits](https://github.com/agentskills/agentskills/commits/main/)           | [Docs](https://github.com/agentskills/agentskills/tree/main/docs)     |
+| **vitest**                     | 4.0.18        | 2026-01-22   | [Releases](https://github.com/vitest-dev/vitest/releases)                     | [Docs](https://vitest.dev/guide/)                                     |
+| **coderabbit**                 | —             | 2026-01-21   | [Changelog](https://docs.coderabbit.ai/changelog)                             | [Docs](https://docs.coderabbit.ai/)                                   |
+| **inworld**                    | 1.5           | 2026-01-21   | [Changelog](https://docs.inworld.ai/docs/release-notes/tts)                   | [Docs](https://docs.inworld.ai/)                                      |
+| **mantine-dev**                | 8.3.13        | 2026-01-20   | [Releases](https://github.com/mantinedev/mantine/releases)                    | [Docs](https://mantine.dev/getting-started/)                          |
 | **react-testing-library**      | 16.3.2        | 2026-01-19   | [Releases](https://github.com/testing-library/react-testing-library/releases) | [Docs](https://testing-library.com/docs/react-testing-library/intro/) |
+| **refine-dev**                 | 8.0.0         | 2026-01-19   | [Releases](https://github.com/refinedev/refine/releases)                      | [Docs](https://refine.dev/docs/)                                      |
+| **base-ui**                    | 1.1.0         | 2026-01-15   | [Releases](https://github.com/mui/base-ui/releases)                           | [Docs](https://base-ui.com/)                                          |
+| **vite**                       | 7.3.1         | 2026-01-07   | [Releases](https://github.com/vitejs/vite/releases)                           | [Docs](https://vite.dev/guide/)                                       |
+| **turso**                      | 0.4.0         | 2026-01-05   | [Releases](https://github.com/tursodatabase/turso/blob/main/CHANGELOG.md)     | [Docs](https://docs.turso.tech/)                                      |
 | **telegram**                   | 3.24.0        | 2026-01-02   | [Releases](https://github.com/aiogram/aiogram/releases)                       | [Docs](https://core.telegram.org/bots/api)                            |
 | **fastapi**                    | 0.128.0       | 2025-12-27   | [Releases](https://github.com/fastapi/fastapi/releases)                       | [Docs](https://fastapi.tiangolo.com/)                                 |
 | **qdrant**                     | 1.16.3        | 2025-12-19   | [Releases](https://github.com/qdrant/qdrant/releases)                         | [Docs](https://qdrant.tech/documentation/)                            |
 | **postgresql**                 | 18.1          | 2025-11-13   | [Releases](https://www.postgresql.org/about/newsarchive/pgsql/)               | [Docs](https://www.postgresql.org/docs/current/)                      |
 | **openapi**                    | 3.2.0         | 2025-09-19   | [Releases](https://github.com/OAI/OpenAPI-Specification/releases)             | [Docs](https://spec.openapis.org/oas/latest.html)                     |
+| **open-meteo**                 | 1.4.0         | 2024-12-31   | [Changelog](https://github.com/open-meteo/open-meteo/releases)                | [Docs](https://open-meteo.com/en/docs)                                |
 | **changelog**                  | 1.1.0         | 2023-03-06   | [Spec](https://keepachangelog.com/)                                           | [Docs](https://keepachangelog.com/)                                   |
 | **makefile**                   | 2.0.0         | 2023-02-26   | [Manual](https://www.gnu.org/software/make/manual/)                           | [Docs](https://www.gnu.org/software/make/manual/)                     |
 | **commits**                    | 1.0.0         | 2019-02-21   | [Spec](https://www.conventionalcommits.org/)                                  | [Docs](https://www.conventionalcommits.org/)                          |
@@ -71,4 +72,4 @@ When updating a skill:
 
 ---
 
-Last reviewed: 2025-01-25
+Last reviewed: 2026-01-30
