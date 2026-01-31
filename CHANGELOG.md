@@ -5,6 +5,12 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-01-31]
+
+### Changed
+
+- **beads** — Updated to v0.49.2 with GitLab bidirectional sync, key-value store (`bd kv`), and backend management commands (`bd backend`, `bd sync mode`)
+
 ## [2026-01-30]
 
 ### Added

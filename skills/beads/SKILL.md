@@ -1,8 +1,8 @@
 ---
 name: beads
-description: "Beads (bd) distributed git-backed issue tracker for AI agents: hash-based IDs, dependency graphs, worktrees, molecules, sync. Keywords: bd, beads, issue tracker, git-backed, dependencies, molecules, worktree, sync, AI agents."
-version: "0.49.1"
-release_date: "2026-01-26"
+description: "Beads (bd) distributed git-backed issue tracker for AI agents: hash-based IDs, dependency graphs, worktrees, molecules, sync, GitLab/Linear/Jira. Keywords: bd, beads, issue tracker, git-backed, dependencies, molecules, worktree, sync, AI agents."
+version: "0.49.2"
+release_date: "2026-01-31"
 ---
 
 # Beads (bd)
@@ -30,7 +30,7 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 - Tracking dependencies between tasks (`blocks:`, `depends_on:`)
 - Multi-agent/multi-branch workflows (hash-based IDs prevent conflicts)
 - Incremental delivery with molecules/gates
-- Sync issues with Linear, Jira, GitHub
+- Sync issues with GitLab, Linear, Jira, GitHub
 
 ## Essential Commands
 
@@ -45,6 +45,10 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 | `bd dep add <child> <parent>` | Link tasks (blocks, related, parent)  |
 | `bd list`                     | List issues (default: 50, non-closed) |
 | `bd sync`                     | Sync with git/remote                  |
+| `bd kv set <key> <value>`     | Store key-value pair                  |
+| `bd kv get <key>`             | Retrieve stored value                 |
+| `bd backend`                  | Show/configure storage backend        |
+| `bd gitlab sync`              | Sync with GitLab                      |
 
 ## Hash-Based IDs
 

@@ -95,6 +95,37 @@ sync:
 
 ## External Integrations
 
+### GitLab Sync
+
+Bidirectional issue synchronization with GitLab:
+
+```bash
+# Setup
+bd config set integrations.gitlab.url https://gitlab.com
+bd config set integrations.gitlab.token <token>
+
+# Sync commands
+bd gitlab sync              # Full bidirectional sync
+bd gitlab sync --push       # Push changes to GitLab
+bd gitlab sync --pull       # Pull changes from GitLab
+bd gitlab status            # Show sync status
+bd gitlab projects          # List available projects
+```
+
+Configuration:
+
+```yaml
+integrations:
+  gitlab:
+    url: https://gitlab.com
+    token: ${GITLAB_TOKEN}
+    project_id: 12345
+    pull_prefix: "gl-" # Prefix for imported issues
+    push_prefix: "" # Prefix for pushed issues
+```
+
+Conflict detection runs before push to prevent overwrites.
+
 ### Linear Sync
 
 ```bash

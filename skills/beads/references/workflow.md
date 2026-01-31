@@ -140,6 +140,30 @@ BD_AGENT_MODE=1 bd ready --json
 BD_AGENT_MODE=1 bd list --json
 ```
 
+## Key-Value Store
+
+Store arbitrary key-value data alongside issues:
+
+```bash
+bd kv set config.api_url "https://api.example.com"
+bd kv get config.api_url
+bd kv list                  # List all keys
+bd kv delete config.api_url
+```
+
+Useful for storing agent configuration, session state, or project metadata.
+
+## Backend Management
+
+Configure storage backend:
+
+```bash
+bd backend                  # Show current backend
+bd backend status           # Backend health
+bd sync mode                # Show/set sync mode
+bd sync mode set sync-branch  # Switch to sync-branch mode
+```
+
 ## Claiming Work
 
 ```bash

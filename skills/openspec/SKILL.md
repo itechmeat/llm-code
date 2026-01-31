@@ -2,7 +2,7 @@
 
 name: openspec
 description: "OpenSpec artifact-driven workflow. Covers OPSX commands, schemas, project config. Keywords: OPSX, artifact graph, /opsx:."
-version: "1.1.0"
+version: "1.1.1"
 release_date: "2026-01-30"
 
 # OpenSpec (OPSX) Skill
