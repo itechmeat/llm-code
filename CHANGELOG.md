@@ -5,6 +5,12 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-02-01]
+
+### Added
+
+- **deps-dev** — New skill for deps.dev API v3 to fetch a package's default/latest version with a single request
+
 ## [2026-01-31]
 
 ### Changed

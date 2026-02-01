@@ -26,7 +26,7 @@ npx add-skill itechmeat/llm-code -a claude-code -a github-copilot
 npx add-skill itechmeat/llm-code -y
 ```
 
-## Available Skills (37)
+## Available Skills (38)
 
 Each skill follows the [agentskills.io](https://agentskills.io) specification.
 
@@ -48,6 +48,7 @@ Each skill follows the [agentskills.io](https://agentskills.io) specification.
 | [cloudflare-workflows](skills/cloudflare-workflows/)             | Cloudflare Workflows durable execution         |
 | [coderabbit](skills/coderabbit/)                                 | CodeRabbit AI code review                      |
 | [commits](skills/commits/)                                       | Conventional Commits format                    |
+| [deps-dev](skills/deps-dev/)                                     | deps.dev API v3 package version lookup         |
 | [fastapi](skills/fastapi/)                                       | FastAPI web framework                          |
 | [inworld](skills/inworld/)                                       | Inworld TTS API                                |
 | [makefile](skills/makefile/)                                     | GNU Make build automation                      |
