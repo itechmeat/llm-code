@@ -12,6 +12,7 @@
 
 # Temporary ignores
 AGENTS.md
+!skills/**/AGENTS.md
 
 # macOS
 .DS_Store

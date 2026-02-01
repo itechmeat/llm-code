@@ -2,8 +2,8 @@
 
 name: vibekanban
 description: "Vibe Kanban orchestration platform for AI coding agents: workspaces, sessions, task management, code review, git worktrees, multi-agent support. Keywords: Vibe Kanban, AI agents, Claude Code, Codex, Gemini, kanban board, git worktree, code review, MCP server, workspaces, sessions."
-version: "0.0.166"
-release_date: "2026-01-29"
+version: "0.0.167"
+release_date: "2026-02-01"
 
 # Vibe Kanban
 
@@ -61,6 +61,7 @@ Modern interface with:
 - **Workspace Notes**: Document requirements and decisions
 - **Multi-repo support**: Work across multiple repositories
 - **Integrated Terminal**: PTY-backed terminal with shell support
+- **Session Dropdown**: Agent icons displayed next to session titles
 
 Switch between modes via Command Bar → "Open in Old UI"
 
@@ -146,6 +147,8 @@ Reusable snippets via `@mention`:
 - Type `@` in description
 - Select tag from dropdown
 - Content inserted at cursor
+
+Task description editor supports markdown paste and preserves inline code formatting.
 
 ## Code Review
 

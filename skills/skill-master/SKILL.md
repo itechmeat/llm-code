@@ -1,8 +1,8 @@
 ---
 name: skill-master
 description: "Agent Skills authoring. Covers SKILL.md format, frontmatter, folders, docs ingestion. Keywords: agentskills.io, SKILL.md."
-version: "1.2.3"
-release_date: "2026-01-23"
+version: "1.2.4"
+release_date: "2026-01-27"
 metadata:
   author: itechmeat
 ---

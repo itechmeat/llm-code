@@ -43,7 +43,7 @@ Press `C` or click `+` icon.
 ### Task Fields
 
 - Title (required)
-- Description (optional, supports markdown)
+- Description (optional, supports markdown; paste preserves inline code and supports raw paste)
 - Base branch (defaults to configured target branch)
 
 ### Task Tags
@@ -174,6 +174,8 @@ Shows:
 | Push      | Push new changes to existing PR     |
 
 **Guardrails**: Merge actions are disabled when an open PR exists or when the target is remote-only.
+
+Rebase dialog reflects the current target branch; verify it before rebasing.
 
 ### Pull Request Flow
 

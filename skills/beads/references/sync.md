@@ -206,7 +206,7 @@ Requires Dolt backend for SQL-based sync.
 
 ### Dolt Server Mode
 
-Dolt backend now supports server mode for multi-client access. Use `bd doctor --server` to validate server-mode health checks.
+As of v0.49.3, Beads defaults to the embedded Dolt backend; server mode is opt-in for multi-client access. Use `bd doctor --server` to validate server-mode health checks.
 
 ## Troubleshooting
 

@@ -2,8 +2,8 @@
 
 name: agent-browser
 description: "Headless browser automation CLI for AI agents. Covers commands, refs, sessions, snapshots, cloud providers, profiles. Keywords: agent-browser, browser automation, refs, snapshot."
-version: "0.8.5"
-release_date: "2026-01-29"
+version: "0.8.6"
+release_date: "2026-02-01"
 
 # Agent Browser
 
@@ -45,6 +45,8 @@ Client-daemon architecture:
 2. **Node.js Daemon** - manages Playwright browser instance
 
 Daemon starts automatically and persists between commands.
+
+v0.8.6 improves daemon reliability by cleaning stale socket/PID files and retrying transient connection errors.
 
 ## Quick Example
 

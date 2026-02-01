@@ -64,6 +64,8 @@ Conversation threads within a workspace. All sessions share repos and git state.
 
 Sessions maintain independent conversation history.
 
+Session dropdown shows agent icons next to session titles for quick identification.
+
 ## Command Bar
 
 Central hub for navigation and actions. Press `Cmd/Ctrl + K`.

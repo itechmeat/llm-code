@@ -1,8 +1,8 @@
 ---
 name: mantine-dev
 description: "Mantine UI library for React: 100+ components, hooks, forms, theming, dark mode, CSS modules, and Vite/TypeScript setup."
-version: "8.3.13"
-release_date: "2026-01-21"
+version: "8.3.14"
+release_date: "2026-02-01"
 ---
 
 # Mantine UI Library

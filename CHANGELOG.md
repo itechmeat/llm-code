@@ -5,6 +5,14 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-02-02]
+
+### Changed
+
+- **beads** — Updated to v0.49.3 with embedded Dolt default and opt-in server mode notes
+- **vibekanban** — Updated to v0.0.167 with session dropdown agent icons, markdown paste behavior, and rebase dialog target branch note
+- **agent-browser** — Updated to v0.8.6 with daemon reliability notes (stale socket/PID cleanup and transient retries)
+
 ## [2026-02-01]
 
 ### Added

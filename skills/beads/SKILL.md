@@ -1,8 +1,8 @@
 ---
 name: beads
 description: "Beads (bd) distributed git-backed issue tracker for AI agents: hash-based IDs, dependency graphs, worktrees, molecules, sync, GitLab/Linear/Jira. Keywords: bd, beads, issue tracker, git-backed, dependencies, molecules, worktree, sync, AI agents."
-version: "0.49.2"
-release_date: "2026-01-31"
+version: "0.49.3"
+release_date: "2026-02-01"
 ---
 
 # Beads (bd)
@@ -137,6 +137,10 @@ types:
     - name: spike
       statuses: [open, in_progress, done]
 ```
+
+## Storage Backend (Dolt Default)
+
+Beads now defaults to the embedded Dolt backend. Server mode is opt-in for multi-client access. Use `bd backend` to inspect or configure backend settings, and see the sync reference for server-mode notes.
 
 ## Agent Integration
 

@@ -1,5 +1,11 @@
 # Advanced Features
 
+## Daemon Reliability (v0.8.6)
+
+- CLI cleans up stale socket and PID files before starting a new daemon.
+- Automatic retries for transient connection errors (e.g., connection reset, broken pipe, temporary resource unavailability).
+- Improved detection of unresponsive daemon during shutdown.
+
 ## Cloud Browser Providers (v0.7+)
 
 Connect to Browserbase, Browser Use, or Kernel for remote browser infrastructure:
