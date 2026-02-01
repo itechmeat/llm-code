@@ -14,6 +14,7 @@ Open the right note under `references/` based on what you need.
 ## Start here (fast)
 
 - Need the latest/default version of a known package? Read: `references/latest-version.md`.
+- Handling huge version lists or truncated responses? Read: `references/large-responses.md`.
 - Not sure how to format/normalize package names per ecosystem? Read: `references/naming-and-encoding.md`.
 - Need endpoint shapes and fields to parse? Read: `references/api.md`.
 
@@ -29,6 +30,8 @@ If `isDefault` is missing for all versions, **stop** and ask for an explicit sel
 ## Critical prohibitions
 
 - Do not guess the “latest” version by string sorting.
+- Do not output placeholder or “approximate” versions; always wait for API data.
+- Do not parse large JSON via `grep` or manual truncation; use a JSON parser (jq/Python/Node).
 - Do not silently fall back when `isDefault` is missing; ask for the desired rule.
 - Do not paste large verbatim chunks from docs; summarize.
 - Do not assume auth or rate limits; treat them as unspecified unless you have evidence.

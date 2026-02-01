@@ -14,7 +14,7 @@
 1. Percent-encode the package name for use in a **path segment** (e.g. use `encodeURIComponent` in JS).
 2. Call:
    - `GET https://api.deps.dev/v3/systems/{SYSTEM}/packages/{ENCODED_PACKAGE_NAME}`
-3. Parse JSON and locate `versions[]`.
+3. Parse JSON with a real JSON parser (not `grep`) and locate `versions[]`.
 4. Select the item where `isDefault` is `true`.
 5. Return `versions[i].versionKey.version`.
 
@@ -25,6 +25,19 @@
 - No version has `isDefault=true`: stop and ask for a selection rule.
   - deps.dev describes `isDefault` as system-specific, commonly “greatest version number ignoring pre-releases”.
   - If you need a different rule (e.g. include pre-releases, or pick by `publishedAt`), state it explicitly.
+
+## Large responses (common)
+
+The `versions[]` list can be very large. Do **not** truncate, stream to text, or parse via `grep`.
+
+Use a JSON parser and extract only the default version:
+
+- Python (stdin):
+  - read JSON, then `next(v for v in versions if v.get("isDefault"))`
+- Node.js (stdin):
+  - parse JSON, then `versions.find(v => v.isDefault)`
+
+If your toolchain truncates output, re-run the request and parse the JSON directly in-process.
 
 ## Examples
 

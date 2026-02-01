@@ -14,6 +14,7 @@ Agent Skill for using the deps.dev (Open Source Insights) API v3 to look up pack
 | ---------------------------------------------------------------------- | ----------------------------------------------- |
 | [SKILL.md](SKILL.md)                                                   | Router + primary recipe                         |
 | [references/latest-version.md](references/latest-version.md)           | Minimal steps to get the default/latest version |
+| [references/large-responses.md](references/large-responses.md)         | Safe parsing of large version lists             |
 | [references/api.md](references/api.md)                                 | Endpoint summary and response fields            |
 | [references/naming-and-encoding.md](references/naming-and-encoding.md) | Package naming rules + URL encoding gotchas     |
 
