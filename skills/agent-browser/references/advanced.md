@@ -6,6 +6,36 @@
 - Automatic retries for transient connection errors (e.g., connection reset, broken pipe, temporary resource unavailability).
 - Improved detection of unresponsive daemon during shutdown.
 
+## iOS Provider (v0.9.0)
+
+Test Mobile Safari via Appium with the iOS provider:
+
+```bash
+agent-browser -p ios device list
+agent-browser -p ios open https://example.com --device "iPhone 15"
+agent-browser tap 200 400
+agent-browser swipe 200 600 200 200 500
+```
+
+Use `-p ios` or `AGENT_BROWSER_PROVIDER=ios` to enable the provider.
+
+## Local File Access (v0.9.1)
+
+Allow opening local `file://` URLs (PDF/HTML) by enabling file access:
+
+```bash
+agent-browser open file:///path/to/doc.pdf --allow-file-access
+```
+
+## Cursor-Aware Snapshots (v0.9.1)
+
+Include cursor-interactive elements (e.g., `onclick`, `cursor:pointer`) in snapshots:
+
+```bash
+agent-browser snapshot -C
+agent-browser snapshot --cursor
+```
+
 ## Cloud Browser Providers (v0.7+)
 
 Connect to Browserbase, Browser Use, or Kernel for remote browser infrastructure:

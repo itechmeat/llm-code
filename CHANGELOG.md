@@ -5,6 +5,17 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-02-09]
+
+### Changed
+
+- **agent-browser** — Added iOS provider guidance plus new `--allow-file-access` and `--cursor` snapshot flags for local files and cursor-interactive elements
+- **coderabbit** — Added Trivy, TFLint, and Blinter to supported tools
+- **fastapi** — Documented fixed `APIRouter` startup/shutdown hooks behavior
+- **pydantic-ai** — Documented Anthropic settings, concurrency limiting helpers, Claude Opus 4.6, Vercel AI SDK v5 compatibility, and observability notes for `format_as_xml`/run context
+- **perplexity** — Documented custom JSON encoder support for extended types
+- **vibekanban** — Added workspace sidebar filters/sorting, Kanban filter updates (per-project views and visibility toggles), and subtask unlink guidance
+
 ## [2026-02-02]
 
 ### Changed

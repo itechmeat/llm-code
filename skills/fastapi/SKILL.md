@@ -1,8 +1,8 @@
 ---
 name: fastapi
 description: "FastAPI Python framework. Covers REST APIs, validation, dependencies, security. Keywords: Pydantic, async, OAuth2, JWT."
-version: "0.128.0"
-release_date: "2025-12-27"
+version: "0.128.6"
+release_date: "2026-02-09"
 ---
 
 # FastAPI

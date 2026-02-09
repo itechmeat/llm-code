@@ -65,6 +65,12 @@ Manage tags: Settings → General → Task Tags
 | In Review   | Attempt completed             |
 | Done        | Merged or PR merged on GitHub |
 
+## Kanban Filters (v0.1.7)
+
+- Per-project Kanban views for tailored boards
+- Filter dialog refreshed for faster selection
+- Sub-issues and Workspaces visibility toggles moved into the filter bar
+
 ## Starting Tasks
 
 1. Open task without attempts

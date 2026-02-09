@@ -2,8 +2,8 @@
 
 name: pydantic-ai
 description: "Build production AI agents with Pydantic AI: type-safe tools, structured output, embeddings, MCP, 30+ model providers, evals, graphs, and observability."
-version: "1.51.0"
-release_date: "2026-01-30"
+version: "1.56.0"
+release_date: "2026-02-05"
 
 # Pydantic AI
 
@@ -151,18 +151,18 @@ result = agent.run_sync('What is my name?', deps=Deps(user_id=123))
 
 ## Supported Models
 
-| Provider  | Models                   |
-| --------- | ------------------------ |
-| OpenAI    | GPT-4o, GPT-4, o1, o3    |
-| Anthropic | Claude 4, Claude 3.5     |
-| Google    | Gemini 2.0, Gemini 1.5   |
-| xAI       | Grok-4 (native SDK)      |
-| Groq      | Llama, Mixtral           |
-| Mistral   | Mistral Large, Codestral |
-| Azure     | Azure OpenAI             |
-| Bedrock   | AWS Bedrock + Nova 2.0   |
-| SambaNova | SambaNova models         |
-| Ollama    | Local models             |
+| Provider  | Models                                |
+| --------- | ------------------------------------- |
+| OpenAI    | GPT-4o, GPT-4, o1, o3                 |
+| Anthropic | Claude Opus 4.6, Claude 4, Claude 3.5 |
+| Google    | Gemini 2.0, Gemini 1.5                |
+| xAI       | Grok-4 (native SDK)                   |
+| Groq      | Llama, Mixtral                        |
+| Mistral   | Mistral Large, Codestral              |
+| Azure     | Azure OpenAI                          |
+| Bedrock   | AWS Bedrock + Nova 2.0                |
+| SambaNova | SambaNova models                      |
+| Ollama    | Local models                          |
 
 ## Best Practices
 

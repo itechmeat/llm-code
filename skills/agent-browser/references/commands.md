@@ -18,6 +18,15 @@ agent-browser screenshot [path]       # Screenshot (--full for full page)
 agent-browser snapshot                # Accessibility tree with refs
 agent-browser eval <js>               # Run JavaScript
 agent-browser close                   # Close browser
+agent-browser tap <x> <y>             # Tap screen (mobile)
+agent-browser swipe <x1> <y1> <x2> <y2> [ms] # Swipe gesture (mobile)
+```
+
+## Flags (v0.9.1)
+
+```bash
+agent-browser open <url> --allow-file-access  # Enable file:// access (local PDFs/HTML)
+agent-browser snapshot -C|--cursor            # Include cursor-interactive elements
 ```
 
 ## Get Info
@@ -93,7 +102,16 @@ agent-browser set offline [on|off]    # Toggle offline mode
 agent-browser set headers <json>      # Extra HTTP headers
 agent-browser set credentials <u> <p> # HTTP basic auth
 agent-browser set media [dark|light]  # Emulate color scheme
+agent-browser --device <name>         # Select iOS simulator/device (v0.9+)
 ```
+
+## Devices (iOS)
+
+```bash
+agent-browser device list             # List available iOS simulators/devices
+```
+
+````
 
 ## Cookies & Storage
 
@@ -108,7 +126,7 @@ agent-browser storage local set <k> <v>  # Set value
 agent-browser storage local clear     # Clear all
 
 agent-browser storage session         # Same for sessionStorage
-```
+````
 
 ## Network Interception
 

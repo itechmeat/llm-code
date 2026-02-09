@@ -94,13 +94,15 @@ reviews:
 
 ### Infrastructure
 
-| Tool       | Version    | Description             |
-| ---------- | ---------- | ----------------------- |
-| Checkov    | v3.2.334   | IaC security scanner    |
-| Hadolint   | v2.14.0    | Dockerfile linter       |
-| actionlint | v1.7.8     | GitHub Actions checker  |
-| CircleCI   | v0.1.33494 | CircleCI config checker |
-| YAMLlint   | v1.37.1    | YAML linter             |
+| Tool       | Version    | Description                        |
+| ---------- | ---------- | ---------------------------------- |
+| Checkov    | v3.2.334   | IaC security scanner               |
+| Hadolint   | v2.14.0    | Dockerfile linter                  |
+| Trivy      | latest     | IaC security scanner (config mode) |
+| TFLint     | latest     | Terraform linter                   |
+| actionlint | v1.7.8     | GitHub Actions checker             |
+| CircleCI   | v0.1.33494 | CircleCI config checker            |
+| YAMLlint   | v1.37.1    | YAML linter                        |
 
 ### Security
 
@@ -131,6 +133,7 @@ reviews:
 | Luacheck            | v1.2.0  | Lua linter            |
 | Shopify Theme Check | v3.58.2 | Liquid best practices |
 | Fortitude           | v0.7.5  | Fortran linter        |
+| Blinter             | latest  | Windows batch linter  |
 
 ## Tools with Config File Support
 

@@ -312,6 +312,8 @@ code = my_graph.mermaid_code(
 
 ## GenAI Integration Example
 
+`format_as_xml` now handles non-primitive `BaseModel` values (v1.52.0).
+
 ```python
 from pydantic_ai import Agent, format_as_xml
 from pydantic_graph import BaseNode, End, Graph, GraphRunContext

@@ -2,8 +2,8 @@
 
 name: vibekanban
 description: "Vibe Kanban orchestration platform for AI coding agents: workspaces, sessions, task management, code review, git worktrees, multi-agent support. Keywords: Vibe Kanban, AI agents, Claude Code, Codex, Gemini, kanban board, git worktree, code review, MCP server, workspaces, sessions."
-version: "0.0.167"
-release_date: "2026-02-01"
+version: "0.1.7"
+release_date: "2026-02-09"
 
 # Vibe Kanban
 
@@ -52,6 +52,11 @@ Opens browser automatically. Use `PORT=8080 npx vibe-kanban` for fixed port.
 
 Traditional board with columns: To do → In Progress → In Review → Done
 
+Updates in v0.1.7:
+
+- Per-project Kanban views and a refreshed filter dialog
+- Sub-issues and Workspaces visibility toggles moved to the filter bar
+
 ### Workspaces (Beta) — NEW
 
 Modern interface with:
@@ -62,6 +67,8 @@ Modern interface with:
 - **Multi-repo support**: Work across multiple repositories
 - **Integrated Terminal**: PTY-backed terminal with shell support
 - **Session Dropdown**: Agent icons displayed next to session titles
+- **Sidebar filters**: Filter by project and PR status (including “No project”)
+- **Needs Attention**: Includes workspaces with unseen activity
 
 Switch between modes via Command Bar → "Open in Old UI"
 

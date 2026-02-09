@@ -326,6 +326,8 @@ result = agent.run_sync(
 print(result.metadata)  # {'tenant': 'acme', 'extra': 'data'}
 ```
 
+Run context now exposes output validation retry count for observability (v1.52.0).
+
 ## Reflection and Self-Correction
 
 ```python

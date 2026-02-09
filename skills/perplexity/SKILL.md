@@ -2,8 +2,8 @@
 
 name: perplexity
 description: "Integrate Perplexity API for web-grounded AI responses and search. Covers Sonar models, Search API, SDK usage (Python/TypeScript), streaming, structured outputs, filters, media attachments, Pro Search, and prompting. Keywords: Perplexity, Sonar, sonar-pro, sonar-reasoning-pro, sonar-deep-research, web search API, grounded LLM, chat completions, perplexityai SDK, image attachments, PDF analysis."
-version: "0.27.0"
-release_date: "2026-01-27"
+version: "0.28.0"
+release_date: "2026-01-29"
 
 # Perplexity API
 
@@ -64,6 +64,8 @@ completion = client.chat.completions.create(
 
 print(completion.choices[0].message.content)
 ```
+
+**Note (v0.28.0):** The Python client includes a custom JSON encoder to support additional types in request payloads.
 
 ## Quick Start — Search API
 

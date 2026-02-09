@@ -64,6 +64,25 @@ async def read_item(item_id: str):
     return {"item_id": item_id}
 ```
 
+## Router Lifecycle Hooks (v0.128.6)
+
+`APIRouter` supports startup and shutdown hooks (fixed in 0.128.6):
+
+```python
+from fastapi import APIRouter
+
+async def connect_db():
+    ...
+
+async def close_db():
+    ...
+
+router = APIRouter(
+    on_startup=[connect_db],
+    on_shutdown=[close_db],
+)
+```
+
 ## Shared Dependencies
 
 ```python

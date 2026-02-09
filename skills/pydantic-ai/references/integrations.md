@@ -2,6 +2,10 @@
 
 Pydantic AI integrates with MCP, Logfire, A2A, and durable execution platforms.
 
+## Vercel AI SDK Compatibility (v1.52.0)
+
+Compatibility with Vercel AI SDK v5 is restored by passing the SDK version parameter in requests.
+
 ---
 
 ## MCP (Model Context Protocol)

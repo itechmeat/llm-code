@@ -35,6 +35,7 @@ Subtask inherits base branch from parent attempt.
 
 - Parent Task section
 - Link to parent
+- Unlink action available when context allows (v0.1.7)
 
 ## New Task Attempts
 

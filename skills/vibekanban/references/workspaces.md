@@ -155,6 +155,13 @@ Document information in the **Notes** section of right sidebar:
 - Shows active workspace count
 - Uses infinite scroll pagination for large lists
 
+### Sidebar Filters & Sorting (v0.1.7)
+
+- Filter by **Project** and **PR status** from the workspace sidebar
+- Use **No project** to show unassigned workspaces
+- Sorting in the accordion sidebar prioritizes older completed workspaces
+- **Needs Attention** includes workspaces with unseen activity
+
 ### Branch Search
 
 Search workspaces by branch name in sidebar.

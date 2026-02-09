@@ -60,6 +60,36 @@ Use `OpenAIChatModel` with custom provider:
 - LiteLLM, Ollama, Perplexity
 - Together AI, Vercel AI Gateway
 
+### OpenAI Data Retention (v1.52.0)
+
+OpenAI models support an `openai_store` setting to control data retention.
+
+### OpenAI Reasoning Content (v1.52.0)
+
+`OpenAIChatModel` preserves reasoning content in the provider field it was received in; keep it if you need reasoning traces.
+
+### Anthropic Settings (v1.56.0)
+
+New Anthropic settings extend `AnthropicModelSettings`:
+
+- `anthropic_effort`: `'low' | 'medium' | 'high' | 'max'`
+- `anthropic_thinking`: supports `type='adaptive'` (model-dependent)
+- `anthropic_betas`: list of beta feature flags to enable
+
+```python
+from pydantic_ai import ModelSettings
+from pydantic_ai.models.anthropic import AnthropicModel
+
+model = AnthropicModel(
+    'claude-sonnet-4-5',
+    settings=ModelSettings(
+        anthropic_effort='high',
+        anthropic_thinking={'type': 'adaptive'},
+        anthropic_betas=['interleaved-thinking-2025-05-14'],
+    ),
+)
+```
+
 ## Model Identifiers
 
 Format: `<provider>:<model>`
@@ -133,7 +163,31 @@ anthropic = AnthropicModel('claude-sonnet-4-5')
 
 fallback = FallbackModel(openai, anthropic)
 agent = Agent(fallback)
+
 ```
+
+## Concurrency Limiting (v1.54.0)
+
+Limit concurrent requests per model or across a shared limiter.
+
+```python
+from pydantic_ai import Agent, ConcurrencyLimiter
+from pydantic_ai.models.concurrency import ConcurrencyLimitedModel, limit_model_concurrency
+
+# Simple limit (max 5 concurrent requests)
+model = ConcurrencyLimitedModel('openai:gpt-4o', limiter=5)
+agent = Agent(model)
+
+# Shared limiter across multiple models
+shared = ConcurrencyLimiter(max_running=10, name='openai-pool')
+model_a = ConcurrencyLimitedModel('openai:gpt-4o', limiter=shared)
+model_b = ConcurrencyLimitedModel('openai:gpt-4o-mini', limiter=shared)
+
+# Convenience wrapper
+model_c = limit_model_concurrency('openai:gpt-4o', limiter=3)
+```
+
+````
 
 ### Per-Model Settings
 
@@ -150,7 +204,7 @@ anthropic = AnthropicModel(
 )
 
 fallback = FallbackModel(openai, anthropic)
-```
+````
 
 ### Exception Handling
 

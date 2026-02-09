@@ -2,8 +2,8 @@
 
 name: agent-browser
 description: "Headless browser automation CLI for AI agents. Covers commands, refs, sessions, snapshots, cloud providers, profiles. Keywords: agent-browser, browser automation, refs, snapshot."
-version: "0.8.6"
-release_date: "2026-02-01"
+version: "0.9.1"
+release_date: "2026-02-05"
 
 # Agent Browser
 
@@ -84,6 +84,28 @@ agent-browser snapshot -i --json
 
 ```bash
 agent-browser open example.com --headed
+```
+
+## Local File Access (v0.9.1)
+
+```bash
+agent-browser open file:///path/to/doc.pdf --allow-file-access
+```
+
+## Cursor-Aware Snapshots (v0.9.1)
+
+```bash
+agent-browser snapshot -C
+agent-browser snapshot --cursor
+```
+
+## Mobile Safari (iOS)
+
+```bash
+agent-browser -p ios device list
+agent-browser -p ios open https://example.com --device "iPhone 15"
+agent-browser tap 200 400
+agent-browser swipe 200 600 200 200 500
 ```
 
 ## JSON Output

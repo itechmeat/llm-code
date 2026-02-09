@@ -17,6 +17,12 @@ completion = client.chat.completions.create(
 print(completion.choices[0].message.content)
 ```
 
+## Extended Type Encoding (v0.28.0)
+
+The Python client ships with a custom JSON encoder for broader type support.
+If you pass non-primitive objects in request payloads, let the client encode
+them instead of manually serializing to JSON.
+
 ## Message Roles
 
 | Role        | Purpose                       |

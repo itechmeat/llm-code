@@ -1,8 +1,8 @@
 ---
 name: bun
 description: "Bun JavaScript/TypeScript runtime and all-in-one toolkit. Covers runtime, package manager, bundler, test runner, HTTP server, WebSockets, SQLite, S3, Redis, file I/O, shell scripting, FFI, Markdown parser. Keywords: bun, bunx, bun install, bun run, bun test, bun build, Bun.serve, Bun.file, bun:sqlite, Bun.markdown."
-version: "1.3.8"
-release_date: "2026-01-29"
+version: "1.3.9"
+release_date: "2026-02-08"
 ---
 
 # Bun
@@ -229,9 +229,9 @@ DATABASE_URL=postgres://localhost/mydb
 
 ```ts
 // Access
-Bun.env.DATABASE_URL
-process.env.DATABASE_URL
-import.meta.env.DATABASE_URL
+Bun.env.DATABASE_URL;
+process.env.DATABASE_URL;
+import.meta.env.DATABASE_URL;
 ```
 
 ## Links
