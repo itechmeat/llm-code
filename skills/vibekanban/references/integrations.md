@@ -129,6 +129,10 @@ Add to Server Configuration JSON:
 
 **Note**: Changes persist in agent's global config even without Vibe Kanban.
 
+### Remote MCP Support (v0.1.13)
+
+Remote issues/workspaces now support MCP integration. Ensure your remote service is updated to the latest release before relying on MCP tools.
+
 ## Vibe Kanban MCP Server
 
 Expose Vibe Kanban to external MCP clients (Claude Desktop, Raycast, etc.)
@@ -192,3 +196,7 @@ Start working on the registration task using Claude Code on main branch.
 ```
 
 **Note**: MCP server is local-only — cannot be accessed via public URLs.
+
+## Self-Hosting Notes (v0.1.13)
+
+Docker Compose URLs and port bindings are configurable for self-hosting. Review your deployment settings after upgrading.

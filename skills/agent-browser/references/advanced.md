@@ -36,6 +36,38 @@ agent-browser snapshot -C
 agent-browser snapshot --cursor
 ```
 
+## Session Persistence (v0.10.0)
+
+Automatically save and restore cookies/localStorage across restarts using a named session:
+
+```bash
+agent-browser --session-name myapp open myapp.com
+# State is restored on next run
+agent-browser --session-name myapp open myapp.com
+```
+
+Saved state can be optionally encrypted.
+
+## State Management (v0.10.0)
+
+Manage saved session files:
+
+```bash
+agent-browser state list
+agent-browser state show myapp
+agent-browser state rename myapp myapp-prod
+agent-browser state clear myapp-prod
+agent-browser state cleanup
+```
+
+## New Tab Clicks (v0.10.0)
+
+Open a link in a new tab during a click action:
+
+```bash
+agent-browser click @e12 --new-tab
+```
+
 ## Cloud Browser Providers (v0.7+)
 
 Connect to Browserbase, Browser Use, or Kernel for remote browser infrastructure:
@@ -159,6 +191,7 @@ Modifiers: 1=Alt, 2=Ctrl, 4=Meta, 8=Shift
 | Option                | Description                        |
 | --------------------- | ---------------------------------- |
 | --session <name>      | Use isolated session               |
+| --session-name <name> | Persistent session state (v0.10.0) |
 | --profile <path>      | Persistent browser profile (v0.7+) |
 | -p <provider>         | Cloud provider (v0.7+)             |
 | --headers <json>      | HTTP headers scoped to origin      |

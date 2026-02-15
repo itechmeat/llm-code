@@ -107,6 +107,17 @@ agent = Agent('xai:grok-4-1-fast-non-reasoning')
 agent = Agent('gateway/openai:gpt-5')
 ```
 
+### Model.model_id (v1.59.0)
+
+Model instances expose `model_id` for the normalized provider+model string:
+
+```python
+from pydantic_ai.models.xai import XaiModel
+
+model = XaiModel('grok-4-1-fast-non-reasoning')
+print(model.model_id)  # xai:grok-4-1-fast-non-reasoning
+```
+
 ## Explicit Model Configuration
 
 ```python

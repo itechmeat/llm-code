@@ -13,12 +13,14 @@ See also: [bots-overview.md](bots-overview.md)
 
 ## Keyboards
 
-| Type | Purpose |
-|------|---------|
-| **Reply Keyboard** | Custom keyboard below input field |
-| **Inline Keyboard** | Buttons attached to messages |
+| Type                | Purpose                           |
+| ------------------- | --------------------------------- |
+| **Reply Keyboard**  | Custom keyboard below input field |
+| **Inline Keyboard** | Buttons attached to messages      |
 
 Button types: callback, URL, switch-inline, login_url, web_app, pay.
+
+Bots can now set button colors and emoji to emphasize primary actions.
 
 See also: [keyboard-design.md](keyboard-design.md)
 
@@ -32,16 +34,17 @@ See also: [inline-mode.md](inline-mode.md)
 
 ## Payments
 
-| Mode | Currency | Use Case |
-|------|----------|----------|
-| Physical goods | Fiat (USD, EUR, etc.) | Shipping required |
-| Digital goods | Telegram Stars (XTR) | Subscriptions, in-app |
+| Mode           | Currency              | Use Case              |
+| -------------- | --------------------- | --------------------- |
+| Physical goods | Fiat (USD, EUR, etc.) | Shipping required     |
+| Digital goods  | Telegram Stars (XTR)  | Subscriptions, in-app |
 
 See also: [payments.md](payments.md)
 
 ## Mini Apps
 
 JavaScript web apps inside Telegram with native features:
+
 - Theme integration
 - Haptic feedback
 - Cloud storage
@@ -58,9 +61,9 @@ See also: [mini-apps.md](mini-apps.md)
 
 ## Rate Limits
 
-| Tier | Rate | Cost |
-|------|------|------|
-| Standard | 30 msg/sec | Free |
+| Tier      | Rate         | Cost         |
+| --------- | ------------ | ------------ |
+| Standard  | 30 msg/sec   | Free         |
 | Increased | 1000 msg/sec | 0.1 Star/msg |
 
 ## Monetization Options
@@ -71,6 +74,15 @@ See also: [mini-apps.md](mini-apps.md)
 - Star reactions (channels)
 - Affiliate programs
 - Telegram Ads revenue share (50%)
+
+## Platform Updates (2025-2026)
+
+These are client/platform features (not direct Bot API controls), but they affect user expectations:
+
+- AI summaries for channel posts and Instant View pages.
+- Collectible gifts: crafting system and gift marketplace.
+- Gift purchase offers using Stars or TON.
+- Passkeys for secure Telegram logins.
 
 ## Links
 

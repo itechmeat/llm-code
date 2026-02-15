@@ -1,8 +1,8 @@
 ---
 name: fastapi
 description: "FastAPI Python framework. Covers REST APIs, validation, dependencies, security. Keywords: Pydantic, async, OAuth2, JWT."
-version: "0.128.6"
-release_date: "2026-02-09"
+version: "0.129.0"
+release_date: "2026-02-12"
 ---
 
 # FastAPI
@@ -52,6 +52,8 @@ This skill provides comprehensive guidance for building APIs with FastAPI.
 - Testing API endpoints
 
 ## Installation
+
+Requires Python 3.10+. Support for Python 3.9 was dropped in FastAPI 0.129.0.
 
 ```bash
 pip install "fastapi[standard]"  # Full with uvicorn

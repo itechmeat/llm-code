@@ -1,9 +1,9 @@
 ---
-
 name: agent-browser
 description: "Headless browser automation CLI for AI agents. Covers commands, refs, sessions, snapshots, cloud providers, profiles. Keywords: agent-browser, browser automation, refs, snapshot."
-version: "0.9.1"
-release_date: "2026-02-05"
+version: "0.10.0"
+release_date: "2026-02-14"
+---
 
 # Agent Browser
 
@@ -99,6 +99,31 @@ agent-browser snapshot -C
 agent-browser snapshot --cursor
 ```
 
+## Session Persistence (v0.10.0)
+
+Automatically save and restore cookies/localStorage across restarts with a named session:
+
+```bash
+agent-browser --session-name myapp open myapp.com
+agent-browser --session-name myapp open myapp.com
+```
+
+State management commands:
+
+```bash
+agent-browser state list
+agent-browser state show myapp
+agent-browser state rename myapp myapp-prod
+agent-browser state clear myapp-prod
+agent-browser state cleanup
+```
+
+## New Tab Clicks (v0.10.0)
+
+```bash
+agent-browser click @e12 --new-tab
+```
+
 ## Mobile Safari (iOS)
 
 ```bash
@@ -135,6 +160,7 @@ agent-browser close
 
 # Interaction
 agent-browser click <sel>
+agent-browser click <sel> --new-tab
 agent-browser fill <sel> <text>
 agent-browser press <key>
 agent-browser hover <sel>

@@ -2,8 +2,8 @@
 
 name: pydantic-ai
 description: "Build production AI agents with Pydantic AI: type-safe tools, structured output, embeddings, MCP, 30+ model providers, evals, graphs, and observability."
-version: "1.56.0"
-release_date: "2026-02-05"
+version: "1.59.0"
+release_date: "2026-02-13"
 
 # Pydantic AI
 

@@ -1,8 +1,8 @@
 ---
 name: telegram
 description: "Telegram Bot development playbook: bot fundamentals, aiogram 3 patterns (handlers/middlewares/FSM), webhooks, keyboard UX, inline mode, Mini Apps, payments (Stars/subscriptions), authentication. Keywords: Telegram, aiogram, Bot API, webhook, handlers, middlewares, FSM, inline keyboard, reply keyboard, callback_query, inline mode, Mini Apps, Web Apps, payments, Telegram Stars, Login Widget."
-version: "3.24.0"
-release_date: "2026-01-02"
+version: "3.25.0"
+release_date: "2026-02-11"
 ---
 
 # Telegram (Skill Router)

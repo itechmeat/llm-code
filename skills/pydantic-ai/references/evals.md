@@ -76,6 +76,8 @@ report.print(include_input=True, include_output=True)
 | `Regex`      | Regex pattern match  |
 | `LLMJudge`   | LLM-based evaluation |
 
+`Contains` supports `pydantic.BaseModel` outputs (v1.59.0).
+
 ```python
 from pydantic_evals.evaluators import IsInstance, ExactMatch
 

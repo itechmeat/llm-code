@@ -5,6 +5,23 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [Unreleased]
+
+### Added
+
+- **agent-browser** — Added session persistence, state management commands, and `--new-tab` clicks
+- **perplexity** — Added Embeddings API reference and usage guidance
+- **vibekanban** — Added issue attachments, remote MCP support, and self-hosting notes
+
+### Changed
+
+- **base-ui** — Documented v1.2.0 highlights including Drawer/Sheet, `useFilteredItems`, and lazy `render` support
+- **beads** — Added sync hooks guidance for PullHooks/PushHooks
+- **coderabbit** — Added Stylelint/TruffleHog/OpenGrep tools and `reviews.auto_pause_after_reviewed_commits`
+- **fastapi** — Noted Python 3.10+ requirement
+- **pydantic-ai** — Documented `Model.model_id` and `Contains` evaluator BaseModel support
+- **telegram** — Added Bot API 9.4 note, `Contact.full_name`, colored buttons, and platform updates
+
 ## [2026-02-09]
 
 ### Changed

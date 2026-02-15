@@ -22,11 +22,12 @@ agent-browser tap <x> <y>             # Tap screen (mobile)
 agent-browser swipe <x1> <y1> <x2> <y2> [ms] # Swipe gesture (mobile)
 ```
 
-## Flags (v0.9.1)
+## Flags (v0.9.1+)
 
 ```bash
 agent-browser open <url> --allow-file-access  # Enable file:// access (local PDFs/HTML)
 agent-browser snapshot -C|--cursor            # Include cursor-interactive elements
+agent-browser click <sel> --new-tab           # Open link in a new tab (v0.10.0)
 ```
 
 ## Get Info
@@ -159,6 +160,16 @@ agent-browser errors                  # View page errors
 agent-browser highlight <sel>         # Highlight element
 agent-browser state save <path>       # Save auth state
 agent-browser state load <path>       # Load auth state
+```
+
+## State Management (v0.10.0)
+
+```bash
+agent-browser state list              # List saved sessions
+agent-browser state show <name>       # Show stored session metadata
+agent-browser state rename <old> <new> # Rename session state
+agent-browser state clear <name>      # Remove a saved session state
+agent-browser state cleanup           # Remove old/unused session files
 ```
 
 ## Navigation

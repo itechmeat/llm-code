@@ -1,9 +1,9 @@
 ---
-
 name: perplexity
 description: "Integrate Perplexity API for web-grounded AI responses and search. Covers Sonar models, Search API, SDK usage (Python/TypeScript), streaming, structured outputs, filters, media attachments, Pro Search, and prompting. Keywords: Perplexity, Sonar, sonar-pro, sonar-reasoning-pro, sonar-deep-research, web search API, grounded LLM, chat completions, perplexityai SDK, image attachments, PDF analysis."
-version: "0.28.0"
-release_date: "2026-01-29"
+version: "0.29.1"
+release_date: "2026-02-12"
+---
 
 # Perplexity API
 
@@ -14,6 +14,7 @@ Build AI applications with real-time web search and grounded responses.
 - Models & pricing: `references/models.md`
 - Search API patterns: `references/search-api.md`
 - Chat completions guide: `references/chat-completions.md`
+- Embeddings API: `references/embeddings.md`
 - Structured outputs: `references/structured-outputs.md`
 - Filters (domain/language/date/location): `references/filters.md`
 - Media (images/videos/attachments): `references/media.md`

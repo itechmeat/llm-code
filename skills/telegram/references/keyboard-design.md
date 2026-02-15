@@ -6,6 +6,7 @@
 - Mobile-first: max 2 buttons per row; avoid long labels.
 - Navigation consistency: always provide "Back"/"Main menu" for multi-step flows.
 - Responsiveness: always `answer_callback_query` quickly to clear the loading spinner.
+- Emphasis: use button colors/emoji to highlight primary actions when available.
 
 ## Callback data design
 

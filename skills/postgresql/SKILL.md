@@ -1,8 +1,8 @@
 ---
 name: postgresql
 description: "PostgreSQL best practices: multi-tenancy with RLS, schema design, Alembic migrations, async SQLAlchemy, and query optimization."
-version: "18.1"
-release_date: "2025-11-13"
+version: "18.2"
+release_date: "2026-02-12"
 ---
 
 # PostgreSQL

@@ -8,6 +8,8 @@ The Bot API is an HTTP-based interface for building Telegram bots. It provides:
 - JSON responses
 - Webhook or long polling for updates
 
+**Bot API 9.4** is supported in aiogram v3.25.0.
+
 ## Authentication
 
 All requests require bot token:
@@ -48,71 +50,71 @@ await client.post(
 
 ### Messages
 
-| Method | Description |
-|--------|-------------|
-| `sendMessage` | Send text message |
-| `sendPhoto` | Send photo |
-| `sendDocument` | Send file |
-| `sendLocation` | Send location |
-| `sendVenue` | Send venue |
-| `sendContact` | Send contact |
-| `sendPoll` | Send poll |
-| `sendDice` | Send dice/emoji animation |
-| `editMessageText` | Edit message text |
-| `editMessageReplyMarkup` | Edit inline keyboard |
-| `deleteMessage` | Delete message |
-| `forwardMessage` | Forward message |
-| `copyMessage` | Copy message |
+| Method                   | Description               |
+| ------------------------ | ------------------------- |
+| `sendMessage`            | Send text message         |
+| `sendPhoto`              | Send photo                |
+| `sendDocument`           | Send file                 |
+| `sendLocation`           | Send location             |
+| `sendVenue`              | Send venue                |
+| `sendContact`            | Send contact              |
+| `sendPoll`               | Send poll                 |
+| `sendDice`               | Send dice/emoji animation |
+| `editMessageText`        | Edit message text         |
+| `editMessageReplyMarkup` | Edit inline keyboard      |
+| `deleteMessage`          | Delete message            |
+| `forwardMessage`         | Forward message           |
+| `copyMessage`            | Copy message              |
 
 ### Chats
 
-| Method | Description |
-|--------|-------------|
-| `getChat` | Get chat info |
-| `getChatMember` | Get member info |
-| `getChatMemberCount` | Get member count |
-| `getChatAdministrators` | List admins |
-| `banChatMember` | Ban user |
-| `unbanChatMember` | Unban user |
-| `restrictChatMember` | Restrict permissions |
-| `promoteChatMember` | Promote to admin |
-| `setChatTitle` | Set chat title |
-| `setChatDescription` | Set description |
-| `pinChatMessage` | Pin message |
-| `leaveChat` | Leave chat |
+| Method                  | Description          |
+| ----------------------- | -------------------- |
+| `getChat`               | Get chat info        |
+| `getChatMember`         | Get member info      |
+| `getChatMemberCount`    | Get member count     |
+| `getChatAdministrators` | List admins          |
+| `banChatMember`         | Ban user             |
+| `unbanChatMember`       | Unban user           |
+| `restrictChatMember`    | Restrict permissions |
+| `promoteChatMember`     | Promote to admin     |
+| `setChatTitle`          | Set chat title       |
+| `setChatDescription`    | Set description      |
+| `pinChatMessage`        | Pin message          |
+| `leaveChat`             | Leave chat           |
 
 ### Bot Info
 
-| Method | Description |
-|--------|-------------|
-| `getMe` | Get bot info |
-| `setMyCommands` | Set bot commands |
-| `getMyCommands` | Get bot commands |
-| `setMyDescription` | Set bot description |
+| Method                  | Description           |
+| ----------------------- | --------------------- |
+| `getMe`                 | Get bot info          |
+| `setMyCommands`         | Set bot commands      |
+| `getMyCommands`         | Get bot commands      |
+| `setMyDescription`      | Set bot description   |
 | `setMyShortDescription` | Set short description |
 
 ### Inline Mode
 
-| Method | Description |
-|--------|-------------|
-| `answerInlineQuery` | Answer inline query |
+| Method              | Description          |
+| ------------------- | -------------------- |
+| `answerInlineQuery` | Answer inline query  |
 | `answerWebAppQuery` | Answer web app query |
 
 ### Callbacks
 
-| Method | Description |
-|--------|-------------|
+| Method                | Description            |
+| --------------------- | ---------------------- |
 | `answerCallbackQuery` | Answer button callback |
 
 ### Payments
 
-| Method | Description |
-|--------|-------------|
-| `sendInvoice` | Send payment invoice |
-| `answerPreCheckoutQuery` | Confirm checkout |
-| `answerShippingQuery` | Answer shipping |
-| `createInvoiceLink` | Create invoice link |
-| `refundStarPayment` | Refund Stars |
+| Method                   | Description          |
+| ------------------------ | -------------------- |
+| `sendInvoice`            | Send payment invoice |
+| `answerPreCheckoutQuery` | Confirm checkout     |
+| `answerShippingQuery`    | Answer shipping      |
+| `createInvoiceLink`      | Create invoice link  |
+| `refundStarPayment`      | Refund Stars         |
 
 ## Update Types
 
@@ -173,6 +175,18 @@ class User:
     language_code: str | None
 ```
 
+### Contact
+
+```python
+class Contact:
+    phone_number: str
+    first_name: str
+    last_name: str | None
+    user_id: int | None
+    vcard: str | None
+    full_name: str | None  # Bot API 9.4
+```
+
 ### CallbackQuery
 
 ```python
@@ -191,13 +205,14 @@ Bot API returns:
 
 ```json
 {
-    "ok": false,
-    "error_code": 400,
-    "description": "Bad Request: message text is empty"
+  "ok": false,
+  "error_code": 400,
+  "description": "Bad Request: message text is empty"
 }
 ```
 
 Common error codes:
+
 - `400` — Bad request (invalid parameters)
 - `401` — Unauthorized (invalid token)
 - `403` — Forbidden (bot blocked by user)
@@ -217,7 +232,7 @@ On 429 error, check `retry_after` in response.
 
 ### MarkdownV2
 
-```
+````
 *bold*
 _italic_
 __underline__
@@ -226,7 +241,7 @@ __underline__
 `inline code`
 ```pre```
 [link](https://example.com)
-```
+````
 
 Escape special characters: `_*[]()~`>#+-=|{}.!\`
 

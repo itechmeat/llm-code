@@ -1,9 +1,9 @@
 ---
-
 name: coderabbit
 description: "CodeRabbit AI code review. Covers CLI, configuration, triage workflow. Keywords: @coderabbitai, code review."
 version: "—"
-release_date: "2026-02-04"
+release_date: "2026-02-12"
+---
 
 # CodeRabbit
 

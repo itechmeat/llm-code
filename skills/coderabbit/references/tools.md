@@ -25,6 +25,12 @@ reviews:
 | Biome  | v2.1.2  | Fast formatter/linter for web projects |
 | Oxlint | v1.28.0 | Rust-based JS/TS linter                |
 
+### Stylesheets
+
+| Tool      | Version | Description                          |
+| --------- | ------- | ------------------------------------ |
+| Stylelint | v17.2.0 | Linter for CSS, SCSS, Sass, and Less |
+
 ### Python
 
 | Tool   | Version | Description                      |
@@ -106,11 +112,13 @@ reviews:
 
 ### Security
 
-| Tool        | Version  | Description                    |
-| ----------- | -------- | ------------------------------ |
-| Gitleaks    | v8.29.0  | Secret scanner                 |
-| Semgrep     | v1.143.0 | Security vulnerability scanner |
-| OSV Scanner | v2.2.4   | Package vulnerability scanner  |
+| Tool        | Version  | Description                      |
+| ----------- | -------- | -------------------------------- |
+| Gitleaks    | v8.29.0  | Secret scanner                   |
+| TruffleHog  | v3.92.0  | Secret scanner with verification |
+| OpenGrep    | v1.16.0  | Semgrep-compatible code scanning |
+| Semgrep     | v1.143.0 | Security vulnerability scanner   |
+| OSV Scanner | v2.2.4   | Package vulnerability scanner    |
 
 ### Documentation
 

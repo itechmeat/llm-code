@@ -56,6 +56,11 @@ Reusable text snippets via `@mention`:
 
 Manage tags: Settings → General → Task Tags
 
+### Issue Attachments (v0.1.13)
+
+- Image attachments are supported on issues.
+- Use inline attachments in descriptions/comments; attachment handling is proxied by the server (ensure proxy routes are enabled for self-hosting).
+
 ### Task Columns
 
 | Column      | Trigger                       |

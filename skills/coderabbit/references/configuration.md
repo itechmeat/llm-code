@@ -35,13 +35,14 @@ reviews:
 
 ### Reviews
 
-| Setting                      | Type    | Default | Description                           |
-| ---------------------------- | ------- | ------- | ------------------------------------- |
-| `reviews.profile`            | enum    | `chill` | `chill` or `assertive`                |
-| `reviews.high_level_summary` | boolean | `true`  | Summary in PR description             |
-| `reviews.sequence_diagrams`  | boolean | `true`  | Generate diagrams                     |
-| `reviews.poem`               | boolean | `true`  | Generate poem in walkthrough          |
-| `reviews.path_filters`       | array   | `[]`    | Include/exclude patterns (`!dist/**`) |
+| Setting                                     | Type    | Default | Description                                                      |
+| ------------------------------------------- | ------- | ------- | ---------------------------------------------------------------- |
+| `reviews.profile`                           | enum    | `chill` | `chill` or `assertive`                                           |
+| `reviews.high_level_summary`                | boolean | `true`  | Summary in PR description                                        |
+| `reviews.sequence_diagrams`                 | boolean | `true`  | Generate diagrams                                                |
+| `reviews.poem`                              | boolean | `true`  | Generate poem in walkthrough                                     |
+| `reviews.path_filters`                      | array   | `[]`    | Include/exclude patterns (`!dist/**`)                            |
+| `reviews.auto_pause_after_reviewed_commits` | integer | `5`     | Auto-pause reviews after N reviewed commits (set `0` to disable) |
 
 ### Auto Review
 

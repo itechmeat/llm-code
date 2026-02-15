@@ -12,6 +12,10 @@ bd sync --import-only   # Import changes from git only
 bd sync --full          # Force full sync
 ```
 
+## Sync Hooks (v0.50.3)
+
+SyncEngine now supports PullHooks and PushHooks to keep CLI sync behavior consistent across commands. Use hooks for validation or automation during pull/push stages, and re-run `bd sync` after upgrading to ensure the new hook flow is applied.
+
 ## Sync Modes
 
 ### Default Mode
