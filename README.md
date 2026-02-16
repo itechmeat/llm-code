@@ -26,7 +26,7 @@ npx add-skill itechmeat/llm-code -a claude-code -a github-copilot
 npx add-skill itechmeat/llm-code -y
 ```
 
-## Available Skills (38)
+## Available Skills (39)
 
 Each skill follows the [agentskills.io](https://agentskills.io) specification.
 
@@ -51,6 +51,7 @@ Each skill follows the [agentskills.io](https://agentskills.io) specification.
 | [deps-dev](skills/deps-dev/)                                     | deps.dev API v3 package version lookup         |
 | [fastapi](skills/fastapi/)                                       | FastAPI web framework                          |
 | [inworld](skills/inworld/)                                       | Inworld TTS API                                |
+| [k8s-cluster-api](skills/k8s-cluster-api/)                       | Kubernetes Cluster API v1.12                   |
 | [makefile](skills/makefile/)                                     | GNU Make build automation                      |
 | [mantine-dev](skills/mantine-dev/)                               | Mantine UI components                          |
 | [open-meteo](skills/open-meteo/)                                 | Open-Meteo weather API                         |

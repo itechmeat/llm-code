@@ -1,0 +1,206 @@
+# ClusterClass Example with Variables
+# Defines reusable cluster templates with customizable variables
+# Deploy this before creating Clusters that reference it
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: ClusterClass
+metadata:
+  name: quick-start
+  namespace: ${NAMESPACE:=default}
+spec:
+  # Infrastructure template for the Cluster
+  infrastructure:
+    ref:
+      apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+      kind: DockerClusterTemplate
+      name: quick-start-cluster
+
+  # Control plane template
+  controlPlane:
+    ref:
+      apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+      kind: KubeadmControlPlaneTemplate
+      name: quick-start-control-plane
+    machineInfrastructure:
+      ref:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: DockerMachineTemplate
+        name: quick-start-control-plane
+
+  # Worker templates
+  workers:
+    machineDeployments:
+      - class: default-worker
+        template:
+          bootstrap:
+            ref:
+              apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+              kind: KubeadmConfigTemplate
+              name: quick-start-worker
+          infrastructure:
+            ref:
+              apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+              kind: DockerMachineTemplate
+              name: quick-start-worker
+
+  # Variable definitions - allow cluster customization
+  variables:
+    # Pod Security Standards variable
+    - name: podSecurityStandard
+      required: false
+      schema:
+        openAPIV3Schema:
+          type: object
+          default:
+            enabled: true
+            enforce: baseline
+            audit: restricted
+            warn: restricted
+          properties:
+            enabled:
+              type: boolean
+              default: true
+            enforce:
+              type: string
+              enum: [privileged, baseline, restricted]
+              default: baseline
+            audit:
+              type: string
+              enum: [privileged, baseline, restricted]
+              default: restricted
+            warn:
+              type: string
+              enum: [privileged, baseline, restricted]
+              default: restricted
+
+    # Image repository override
+    - name: imageRepository
+      required: false
+      schema:
+        openAPIV3Schema:
+          type: string
+          default: registry.k8s.io
+          description: Container image repository for Kubernetes components
+
+    # SSH key for node access
+    - name: sshKey
+      required: false
+      schema:
+        openAPIV3Schema:
+          type: string
+          default: ""
+          description: SSH public key for node access
+
+  # Patches - apply variable values to templates
+  patches:
+    # Apply Pod Security Standards to KubeadmControlPlane
+    - name: podSecurityStandard
+      enabledIf: "{{ if .podSecurityStandard.enabled }}true{{ end }}"
+      definitions:
+        - selector:
+            apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+            kind: KubeadmControlPlaneTemplate
+            matchResources:
+              controlPlane: true
+          jsonPatches:
+            - op: add
+              path: /spec/template/spec/kubeadmConfigSpec/clusterConfiguration/apiServer/extraArgs/admission-control-config-file
+              value: /etc/kubernetes/admission/admission-control-config.yaml
+            - op: add
+              path: /spec/template/spec/kubeadmConfigSpec/files/-
+              valueFrom:
+                template: |
+                  content: |
+                    apiVersion: apiserver.config.k8s.io/v1
+                    kind: AdmissionConfiguration
+                    plugins:
+                    - name: PodSecurity
+                      configuration:
+                        apiVersion: pod-security.admission.config.k8s.io/v1
+                        kind: PodSecurityConfiguration
+                        defaults:
+                          enforce: "{{ .podSecurityStandard.enforce }}"
+                          enforce-version: "latest"
+                          audit: "{{ .podSecurityStandard.audit }}"
+                          audit-version: "latest"
+                          warn: "{{ .podSecurityStandard.warn }}"
+                          warn-version: "latest"
+                        exemptions:
+                          usernames: []
+                          runtimeClasses: []
+                          namespaces: [kube-system]
+                  owner: root:root
+                  path: /etc/kubernetes/admission/admission-control-config.yaml
+                  permissions: "0644"
+---
+# Supporting templates
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: DockerClusterTemplate
+metadata:
+  name: quick-start-cluster
+  namespace: ${NAMESPACE}
+spec:
+  template:
+    spec: {}
+---
+apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+kind: KubeadmControlPlaneTemplate
+metadata:
+  name: quick-start-control-plane
+  namespace: ${NAMESPACE}
+spec:
+  template:
+    spec:
+      kubeadmConfigSpec:
+        clusterConfiguration:
+          apiServer:
+            certSANs:
+              - localhost
+              - 127.0.0.1
+          controllerManager:
+            extraArgs:
+              enable-hostpath-provisioner: "true"
+        initConfiguration:
+          nodeRegistration:
+            criSocket: unix:///var/run/containerd/containerd.sock
+            kubeletExtraArgs:
+              eviction-hard: nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%
+        joinConfiguration:
+          nodeRegistration:
+            criSocket: unix:///var/run/containerd/containerd.sock
+            kubeletExtraArgs:
+              eviction-hard: nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: DockerMachineTemplate
+metadata:
+  name: quick-start-control-plane
+  namespace: ${NAMESPACE}
+spec:
+  template:
+    spec:
+      extraMounts:
+        - containerPath: /var/run/docker.sock
+          hostPath: /var/run/docker.sock
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: DockerMachineTemplate
+metadata:
+  name: quick-start-worker
+  namespace: ${NAMESPACE}
+spec:
+  template:
+    spec: {}
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+kind: KubeadmConfigTemplate
+metadata:
+  name: quick-start-worker
+  namespace: ${NAMESPACE}
+spec:
+  template:
+    spec:
+      joinConfiguration:
+        nodeRegistration:
+          kubeletExtraArgs:
+            eviction-hard: nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%

@@ -1,0 +1,346 @@
+# Prometheus Alerting Rules for Cluster API
+#
+# Alerts for monitoring CAPI management and workload cluster health.
+# Deploy to Prometheus instance monitoring the management cluster.
+#
+# Prerequisites:
+# - Prometheus Operator or raw Prometheus
+# - kube-state-metrics with CAPI CRD support
+# - Node exporter on management cluster
+#
+# Usage:
+# kubectl apply -f prometheus-alerts.yaml
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cluster-api-alerts
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: cluster-api
+    prometheus: main
+    role: alert-rules
+spec:
+  groups:
+    # =========================================================================
+    # Cluster Provisioning Alerts
+    # =========================================================================
+    - name: capi.cluster.provisioning
+      rules:
+        - alert: ClusterProvisioningStuck
+          expr: |
+            (
+              kube_customresource_cluster_status_phase{phase!="Provisioned"}
+              * on (cluster_name, namespace) group_left()
+              (time() - kube_customresource_cluster_created > 1800)
+            ) > 0
+          for: 5m
+          labels:
+            severity: warning
+            category: provisioning
+          annotations:
+            summary: "Cluster {{ $labels.cluster_name }} provisioning stuck"
+            description: "Cluster {{ $labels.cluster_name }} in namespace {{ $labels.namespace }} has been in {{ $labels.phase }} state for over 30 minutes."
+            runbook_url: "https://cluster-api.sigs.k8s.io/troubleshooting"
+
+        - alert: ClusterProvisioningFailed
+          expr: |
+            kube_customresource_cluster_status_phase{phase="Failed"} == 1
+          for: 2m
+          labels:
+            severity: critical
+            category: provisioning
+          annotations:
+            summary: "Cluster {{ $labels.cluster_name }} provisioning failed"
+            description: "Cluster {{ $labels.cluster_name }} in namespace {{ $labels.namespace }} has entered Failed state."
+
+        - alert: ClusterDeleting
+          expr: |
+            (
+              kube_customresource_cluster_status_phase{phase="Deleting"}
+              * on (cluster_name, namespace) group_left()
+              (time() - kube_customresource_cluster_deletion_timestamp > 900)
+            ) > 0
+          for: 5m
+          labels:
+            severity: warning
+            category: lifecycle
+          annotations:
+            summary: "Cluster {{ $labels.cluster_name }} deletion taking too long"
+            description: "Cluster deletion has been in progress for over 15 minutes. Check for stuck finalizers."
+
+    # =========================================================================
+    # Machine Health Alerts
+    # =========================================================================
+    - name: capi.machine.health
+      rules:
+        - alert: MachineNotRunning
+          expr: |
+            kube_customresource_machine_status_phase{phase!~"Running|Deleting"} == 1
+          for: 10m
+          labels:
+            severity: warning
+            category: machine
+          annotations:
+            summary: "Machine {{ $labels.machine }} not running"
+            description: "Machine {{ $labels.machine }} in cluster {{ $labels.cluster_name }} is in {{ $labels.phase }} state."
+
+        - alert: MachineProvisioningFailed
+          expr: |
+            kube_customresource_machine_status_phase{phase="Failed"} == 1
+          for: 2m
+          labels:
+            severity: critical
+            category: machine
+          annotations:
+            summary: "Machine {{ $labels.machine }} failed"
+            description: "Machine {{ $labels.machine }} in cluster {{ $labels.cluster_name }} has failed to provision."
+
+        - alert: MachineHealthCheckTriggered
+          expr: |
+            increase(capi_machinehealthcheck_remediation_total[5m]) > 0
+          for: 1m
+          labels:
+            severity: warning
+            category: remediation
+          annotations:
+            summary: "MachineHealthCheck remediation triggered"
+            description: "MachineHealthCheck {{ $labels.machinehealthcheck }} has triggered remediation in cluster {{ $labels.cluster_name }}."
+
+        - alert: MachineUnhealthyCondition
+          expr: |
+            kube_customresource_machine_status_condition{condition="Ready", status="False"} == 1
+          for: 15m
+          labels:
+            severity: warning
+            category: machine
+          annotations:
+            summary: "Machine {{ $labels.machine }} unhealthy"
+            description: "Machine {{ $labels.machine }} Ready condition is False for over 15 minutes."
+
+    # =========================================================================
+    # Control Plane Alerts
+    # =========================================================================
+    - name: capi.controlplane
+      rules:
+        - alert: ControlPlaneNotReady
+          expr: |
+            kube_customresource_kubeadmcontrolplane_status_condition{condition="Ready", status="False"} == 1
+          for: 10m
+          labels:
+            severity: critical
+            category: controlplane
+          annotations:
+            summary: "Control plane {{ $labels.kubeadmcontrolplane }} not ready"
+            description: "KubeadmControlPlane {{ $labels.kubeadmcontrolplane }} is not ready for over 10 minutes."
+
+        - alert: ControlPlaneReplicasMismatch
+          expr: |
+            kube_customresource_kubeadmcontrolplane_spec_replicas
+            !=
+            kube_customresource_kubeadmcontrolplane_status_replicas
+          for: 30m
+          labels:
+            severity: warning
+            category: controlplane
+          annotations:
+            summary: "Control plane replica count mismatch"
+            description: "KubeadmControlPlane {{ $labels.kubeadmcontrolplane }} has {{ $value }} ready replicas, expected {{ $labels.spec_replicas }}."
+
+        - alert: ControlPlaneUpgradeStuck
+          expr: |
+            (
+              kube_customresource_kubeadmcontrolplane_status_condition{condition="RollingUpdate", status="True"} == 1
+            ) * on (kubeadmcontrolplane, namespace) group_left()
+            (time() - kube_customresource_kubeadmcontrolplane_status_updated > 3600) > 0
+          for: 10m
+          labels:
+            severity: warning
+            category: upgrade
+          annotations:
+            summary: "Control plane upgrade stuck"
+            description: "KubeadmControlPlane {{ $labels.kubeadmcontrolplane }} rolling update in progress for over 1 hour."
+
+    # =========================================================================
+    # Certificate Alerts
+    # =========================================================================
+    - name: capi.certificates
+      rules:
+        - alert: ClusterCertificateExpiringSoon
+          expr: |
+            (
+              capi_cluster_certificate_expiry_seconds > 0
+              and
+              capi_cluster_certificate_expiry_seconds < 2592000
+            )
+          for: 1h
+          labels:
+            severity: warning
+            category: certificate
+          annotations:
+            summary: "Cluster certificate expiring within 30 days"
+            description: "Certificate {{ $labels.certificate }} for cluster {{ $labels.cluster_name }} expires in {{ $value | humanizeDuration }}."
+
+        - alert: ClusterCertificateCritical
+          expr: |
+            (
+              capi_cluster_certificate_expiry_seconds > 0
+              and
+              capi_cluster_certificate_expiry_seconds < 604800
+            )
+          for: 10m
+          labels:
+            severity: critical
+            category: certificate
+          annotations:
+            summary: "Cluster certificate expiring within 7 days"
+            description: "Certificate {{ $labels.certificate }} for cluster {{ $labels.cluster_name }} expires in {{ $value | humanizeDuration }}. Rotate immediately!"
+
+    # =========================================================================
+    # CAPI Controller Alerts
+    # =========================================================================
+    - name: capi.controllers
+      rules:
+        - alert: CAPIControllerDown
+          expr: |
+            up{job=~".*capi.*"} == 0
+          for: 5m
+          labels:
+            severity: critical
+            category: controller
+          annotations:
+            summary: "CAPI controller {{ $labels.job }} is down"
+            description: "The CAPI controller {{ $labels.job }} has been down for over 5 minutes."
+
+        - alert: CAPIControllerHighRestarts
+          expr: |
+            increase(kube_pod_container_status_restarts_total{namespace=~"capi.*", container=~"manager"}[1h]) > 3
+          for: 10m
+          labels:
+            severity: warning
+            category: controller
+          annotations:
+            summary: "CAPI controller restarting frequently"
+            description: "Controller {{ $labels.pod }} has restarted {{ $value }} times in the last hour."
+
+        - alert: CAPIReconcileErrors
+          expr: |
+            increase(controller_runtime_reconcile_errors_total{controller=~".*cluster.*|.*machine.*"}[5m]) > 10
+          for: 10m
+          labels:
+            severity: warning
+            category: controller
+          annotations:
+            summary: "High reconcile errors in {{ $labels.controller }}"
+            description: "Controller {{ $labels.controller }} has {{ $value }} reconcile errors in the last 5 minutes."
+
+        - alert: CAPIReconcileDurationHigh
+          expr: |
+            histogram_quantile(0.99, sum(rate(controller_runtime_reconcile_time_seconds_bucket{controller=~".*cluster.*"}[5m])) by (le, controller)) > 60
+          for: 15m
+          labels:
+            severity: warning
+            category: performance
+          annotations:
+            summary: "CAPI reconciliation slow"
+            description: "99th percentile reconcile time for {{ $labels.controller }} is {{ $value }}s."
+
+    # =========================================================================
+    # Infrastructure Provider Alerts
+    # =========================================================================
+    - name: capi.infrastructure
+      rules:
+        - alert: InfrastructureProviderDown
+          expr: |
+            up{job=~"cap[a-z]-.*"} == 0
+          for: 5m
+          labels:
+            severity: critical
+            category: provider
+          annotations:
+            summary: "Infrastructure provider {{ $labels.job }} is down"
+            description: "Infrastructure provider {{ $labels.job }} has been unavailable for 5 minutes."
+
+        - alert: InfrastructureResourceStuck
+          expr: |
+            (
+              kube_customresource_status_condition{group=~"infrastructure.cluster.x-k8s.io", condition="Ready", status="False"} == 1
+            )
+          for: 30m
+          labels:
+            severity: warning
+            category: provider
+          annotations:
+            summary: "Infrastructure resource not ready"
+            description: "{{ $labels.kind }} {{ $labels.name }} is not ready for over 30 minutes."
+
+    # =========================================================================
+    # Workload Cluster Connectivity
+    # =========================================================================
+    - name: capi.connectivity
+      rules:
+        - alert: WorkloadClusterUnreachable
+          expr: |
+            probe_success{job="workload-clusters"} == 0
+          for: 5m
+          labels:
+            severity: critical
+            category: connectivity
+          annotations:
+            summary: "Workload cluster {{ $labels.cluster }} unreachable"
+            description: "Cannot reach API server of workload cluster {{ $labels.cluster }}."
+
+        - alert: WorkloadClusterAPILatencyHigh
+          expr: |
+            probe_http_duration_seconds{job="workload-clusters", phase="transfer"} > 2
+          for: 10m
+          labels:
+            severity: warning
+            category: performance
+          annotations:
+            summary: "Workload cluster API latency high"
+            description: "API server latency for cluster {{ $labels.cluster }} is {{ $value }}s."
+
+---
+# Recording rules for CAPI metrics
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cluster-api-recording
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: cluster-api
+    prometheus: main
+    role: recording-rules
+spec:
+  groups:
+    - name: capi.recording
+      rules:
+        - record: capi:cluster:count
+          expr: count(kube_customresource_cluster_info) or vector(0)
+
+        - record: capi:cluster:by_phase
+          expr: count by (phase) (kube_customresource_cluster_status_phase)
+
+        - record: capi:machine:count
+          expr: count(kube_customresource_machine_info) or vector(0)
+
+        - record: capi:machine:by_phase
+          expr: count by (phase) (kube_customresource_machine_status_phase)
+
+        - record: capi:machine:unhealthy_ratio
+          expr: |
+            (
+              count(kube_customresource_machine_status_condition{condition="Ready", status="False"})
+              /
+              count(kube_customresource_machine_info)
+            ) or vector(0)
+
+        - record: capi:controlplane:ready_ratio
+          expr: |
+            (
+              sum(kube_customresource_kubeadmcontrolplane_status_ready_replicas)
+              /
+              sum(kube_customresource_kubeadmcontrolplane_spec_replicas)
+            ) or vector(0)

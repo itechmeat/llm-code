@@ -1,0 +1,200 @@
+# Flux Kustomization for Cluster API Managed Clusters
+#
+# This configuration tells Flux to apply cluster manifests from a Git repository
+# to the management cluster where CAPI controllers are running.
+#
+# Prerequisites:
+# - Flux v2 installed on management cluster
+# - GitRepository resource configured
+# - Optional: SOPS/age for secret encryption
+#
+# Usage:
+# 1. Configure GitRepository pointing to your clusters repo
+# 2. Customize this Kustomization for your setup
+# 3. Apply: kubectl apply -f flux-kustomization.yaml
+
+---
+# GitRepository source definition
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: clusters
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://github.com/your-org/clusters.git
+  ref:
+    branch: main
+  # For private repos:
+  # secretRef:
+  #   name: clusters-repo-auth
+
+---
+# Main Kustomization for all clusters
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: clusters
+  namespace: flux-system
+spec:
+  interval: 10m
+  timeout: 5m
+  retryInterval: 2m
+
+  sourceRef:
+    kind: GitRepository
+    name: clusters
+
+  path: ./clusters
+  prune: false # CAUTION: Enable pruning only if you want cluster deletion
+  wait: true
+
+  # Health checks for CAPI resources
+  healthChecks:
+    - apiVersion: cluster.x-k8s.io/v1beta1
+      kind: Cluster
+      namespace: clusters
+      name: "*"
+
+  # Decrypt secrets with SOPS
+  # decryption:
+  #   provider: sops
+  #   secretRef:
+  #     name: sops-age
+
+  # Substitute variables from ConfigMaps/Secrets
+  # postBuild:
+  #   substitute:
+  #     CLUSTER_NAME: prod-cluster
+  #   substituteFrom:
+  #     - kind: ConfigMap
+  #       name: cluster-vars
+  #     - kind: Secret
+  #       name: cluster-secrets
+
+---
+# Kustomization for production clusters
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: clusters-production
+  namespace: flux-system
+spec:
+  interval: 10m
+  dependsOn:
+    - name: clusters # Wait for base to be ready
+
+  sourceRef:
+    kind: GitRepository
+    name: clusters
+
+  path: ./clusters/production
+  prune: false
+  wait: true
+  timeout: 15m # Production clusters may take longer
+
+  # Require approval for production changes
+  # suspend: true  # Uncomment to require manual resume
+
+  healthChecks:
+    - apiVersion: cluster.x-k8s.io/v1beta1
+      kind: Cluster
+      namespace: clusters
+      name: prod-cluster
+
+---
+# Kustomization for staging clusters
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: clusters-staging
+  namespace: flux-system
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: clusters
+
+  path: ./clusters/staging
+  prune: true # OK to prune staging clusters
+  wait: true
+  timeout: 10m
+
+---
+# Alert for cluster provisioning failures
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: cluster-alerts
+  namespace: flux-system
+spec:
+  providerRef:
+    name: slack # or: teams, discord, webhook
+  eventSeverity: error
+  eventSources:
+    - kind: Kustomization
+      name: clusters
+    - kind: Kustomization
+      name: clusters-production
+    - kind: Kustomization
+      name: clusters-staging
+  exclusionList:
+    - ".*upgrade.*pending.*"
+
+---
+# Provider for Slack notifications
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: slack
+  namespace: flux-system
+spec:
+  type: slack
+  channel: cluster-alerts
+  secretRef:
+    name: slack-webhook-url
+
+---
+# ImagePolicy for automatic Kubernetes version updates (optional)
+# Watches for new Kubernetes versions and updates cluster manifests
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: kubernetes
+  namespace: flux-system
+spec:
+  image: registry.k8s.io/kube-apiserver
+  interval: 1h
+
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: kubernetes-stable
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: kubernetes
+  filterTags:
+    pattern: "^v1\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)$"
+    extract: "$minor.$patch"
+  policy:
+    semver:
+      range: ">=1.28.0 <1.32.0"
+
+---
+# ReceiverConfiguration for webhook-based updates
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Receiver
+metadata:
+  name: clusters-webhook
+  namespace: flux-system
+spec:
+  type: github
+  events:
+    - push
+  secretRef:
+    name: webhook-token
+  resources:
+    - kind: GitRepository
+      name: clusters

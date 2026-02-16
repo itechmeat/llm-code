@@ -1,0 +1,99 @@
+# Cluster using ClusterClass Topology
+# Requires ClusterClass to be deployed first (see clusterclass-example.yaml)
+# This is the modern recommended approach for cluster management
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: ${CLUSTER_NAME:=topology-cluster}
+  namespace: ${NAMESPACE:=default}
+  labels:
+    environment: ${ENVIRONMENT:=development}
+spec:
+  # Use topology instead of direct references
+  topology:
+    # Reference the ClusterClass
+    class: ${CLUSTER_CLASS:=quick-start}
+    version: ${KUBERNETES_VERSION:=v1.29.0}
+
+    # Control plane configuration
+    controlPlane:
+      replicas: ${CONTROL_PLANE_REPLICAS:=1}
+      # Override specific control plane settings
+      # metadata:
+      #   labels:
+      #     custom-label: value
+
+    # Worker configuration
+    workers:
+      machineDeployments:
+        - class: default-worker
+          name: md-0
+          replicas: ${WORKER_REPLICAS:=2}
+          # Optional: failure domain (availability zone)
+          # failureDomain: us-east-1a
+
+          # Optional: override worker metadata
+          # metadata:
+          #   labels:
+          #     workload-type: general
+
+          # Optional: override machine deployment strategy
+          # strategy:
+          #   type: RollingUpdate
+          #   rollingUpdate:
+          #     maxSurge: 1
+          #     maxUnavailable: 0
+
+        # Additional worker pool example (uncomment to use)
+        # - class: default-worker
+        #   name: md-gpu
+        #   replicas: 1
+        #   metadata:
+        #     labels:
+        #       workload-type: gpu
+
+    # Variables - customize ClusterClass behavior
+    variables:
+      # Pod Security Standards
+      - name: podSecurityStandard
+        value:
+          enabled: true
+          enforce: baseline
+          audit: restricted
+          warn: restricted
+
+      # CNI configuration (if ClusterClass supports)
+      # - name: cni
+      #   value: calico
+
+      # Custom variables defined in ClusterClass
+      # - name: sshKey
+      #   value: my-ssh-key
+
+      # - name: controlPlaneMachineType
+      #   value: m5.xlarge
+
+---
+# Example: Using variables for environment-specific settings
+# Uncomment and modify based on your ClusterClass variables
+#
+# For staging environment:
+# variables:
+#   - name: environment
+#     value: staging
+#   - name: controlPlaneMachineType
+#     value: m5.large
+#   - name: workerMachineType
+#     value: m5.large
+#
+# For production environment:
+# variables:
+#   - name: environment
+#     value: production
+#   - name: controlPlaneMachineType
+#     value: m5.xlarge
+#   - name: workerMachineType
+#     value: m5.2xlarge
+#   - name: enableMonitoring
+#     value: true

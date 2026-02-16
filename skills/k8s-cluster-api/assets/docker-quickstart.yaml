@@ -1,0 +1,64 @@
+# Docker Provider Quick Start Configuration
+# Use with: clusterctl init --infrastructure docker
+# Location: ~/.cluster-api/clusterctl.yaml
+---
+# clusterctl configuration for Docker provider (CAPD)
+# This is for development/testing only, not production
+
+# Provider repositories
+providers:
+  - name: docker
+    type: InfrastructureProvider
+    url: https://github.com/kubernetes-sigs/cluster-api/releases/latest/infrastructure-components-development.yaml
+
+# Override default image repository if needed
+# images:
+#   all:
+#     repository: my-registry.example.com/capi
+
+# Feature gates
+CLUSTER_TOPOLOGY: "true"
+EXP_MACHINE_POOL: "true"
+
+
+# Docker provider specific variables (for templates)
+# These are set when generating clusters with clusterctl generate cluster
+
+# Example usage:
+# export CLUSTER_NAME=my-cluster
+# export KUBERNETES_VERSION=v1.29.0
+# export CONTROL_PLANE_MACHINE_COUNT=1
+# export WORKER_MACHINE_COUNT=3
+#
+# clusterctl generate cluster ${CLUSTER_NAME} \
+#   --flavor development \
+#   --kubernetes-version ${KUBERNETES_VERSION} \
+#   --control-plane-machine-count ${CONTROL_PLANE_MACHINE_COUNT} \
+#   --worker-machine-count ${WORKER_MACHINE_COUNT} \
+#   > cluster.yaml
+#
+# kubectl apply -f cluster.yaml
+
+---
+# Minimal environment setup for Docker provider:
+#
+# 1. Install Docker Desktop or Docker Engine
+# 2. Install kind: brew install kind (or see kind.sigs.k8s.io)
+# 3. Install clusterctl: brew install clusterctl
+# 4. Create management cluster:
+#
+#    kind create cluster --name capi-management
+#    clusterctl init --infrastructure docker
+#
+# 5. Generate and apply workload cluster:
+#
+#    clusterctl generate cluster dev-cluster \
+#      --infrastructure docker \
+#      --kubernetes-version v1.29.0 \
+#      --control-plane-machine-count 1 \
+#      --worker-machine-count 1 | kubectl apply -f -
+#
+# 6. Get kubeconfig:
+#
+#    clusterctl get kubeconfig dev-cluster > dev-cluster.kubeconfig
+#    kubectl --kubeconfig=dev-cluster.kubeconfig get nodes

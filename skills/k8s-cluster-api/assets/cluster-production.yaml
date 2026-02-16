@@ -1,0 +1,213 @@
+# Production Cluster Template
+# HA configuration with 3 control plane nodes and configurable workers
+# Suitable for production workloads
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: ${CLUSTER_NAME:=prod-cluster}
+  namespace: ${NAMESPACE:=default}
+  labels:
+    environment: production
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+        - 10.244.0.0/16
+    services:
+      cidrBlocks:
+        - 10.96.0.0/12
+    serviceDomain: cluster.local
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+    kind: KubeadmControlPlane
+    name: ${CLUSTER_NAME}-control-plane
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    kind: AWSCluster # Replace with your provider
+    name: ${CLUSTER_NAME}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: AWSCluster
+metadata:
+  name: ${CLUSTER_NAME}
+  namespace: ${NAMESPACE}
+spec:
+  region: ${AWS_REGION:=us-east-1}
+  sshKeyName: ${SSH_KEY_NAME}
+  network:
+    vpc:
+      cidrBlock: 10.0.0.0/16
+    subnets:
+      - availabilityZone: ${AWS_REGION}a
+        cidrBlock: 10.0.0.0/24
+        isPublic: false
+      - availabilityZone: ${AWS_REGION}b
+        cidrBlock: 10.0.1.0/24
+        isPublic: false
+      - availabilityZone: ${AWS_REGION}c
+        cidrBlock: 10.0.2.0/24
+        isPublic: false
+      - availabilityZone: ${AWS_REGION}a
+        cidrBlock: 10.0.10.0/24
+        isPublic: true
+---
+apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+kind: KubeadmControlPlane
+metadata:
+  name: ${CLUSTER_NAME}-control-plane
+  namespace: ${NAMESPACE}
+spec:
+  replicas: 3 # HA: odd number for etcd quorum
+  version: ${KUBERNETES_VERSION:=v1.29.0}
+  machineTemplate:
+    infrastructureRef:
+      apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+      kind: AWSMachineTemplate
+      name: ${CLUSTER_NAME}-control-plane
+  kubeadmConfigSpec:
+    clusterConfiguration:
+      apiServer:
+        extraArgs:
+          audit-log-maxage: "30"
+          audit-log-maxbackup: "10"
+          audit-log-maxsize: "100"
+          audit-log-path: /var/log/kubernetes/audit.log
+          enable-admission-plugins: NodeRestriction,PodSecurity
+        extraVolumes:
+          - name: audit-log
+            hostPath: /var/log/kubernetes
+            mountPath: /var/log/kubernetes
+            readOnly: false
+            pathType: DirectoryOrCreate
+      controllerManager:
+        extraArgs:
+          bind-address: "0.0.0.0"
+          terminated-pod-gc-threshold: "100"
+      scheduler:
+        extraArgs:
+          bind-address: "0.0.0.0"
+      etcd:
+        local:
+          extraArgs:
+            listen-metrics-urls: http://0.0.0.0:2381
+    initConfiguration:
+      nodeRegistration:
+        kubeletExtraArgs:
+          cloud-provider: external
+    joinConfiguration:
+      nodeRegistration:
+        kubeletExtraArgs:
+          cloud-provider: external
+    files:
+      - content: |
+          apiVersion: audit.k8s.io/v1
+          kind: Policy
+          rules:
+            - level: Metadata
+              resources:
+                - group: ""
+                  resources: ["secrets", "configmaps"]
+            - level: Request
+              verbs: ["create", "update", "patch", "delete"]
+            - level: None
+              users: ["system:kube-proxy"]
+              verbs: ["watch"]
+              resources:
+                - group: ""
+                  resources: ["endpoints", "services", "services/status"]
+        owner: root:root
+        path: /etc/kubernetes/audit-policy.yaml
+        permissions: "0644"
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: AWSMachineTemplate
+metadata:
+  name: ${CLUSTER_NAME}-control-plane
+  namespace: ${NAMESPACE}
+spec:
+  template:
+    spec:
+      instanceType: ${CONTROL_PLANE_INSTANCE_TYPE:=m5.large}
+      iamInstanceProfile: control-plane.cluster-api-provider-aws.sigs.k8s.io
+      rootVolume:
+        size: 100
+        type: gp3
+        throughput: 125
+        iops: 3000
+      sshKeyName: ${SSH_KEY_NAME}
+---
+# Worker MachineDeployment
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+metadata:
+  name: ${CLUSTER_NAME}-md-0
+  namespace: ${NAMESPACE}
+spec:
+  clusterName: ${CLUSTER_NAME}
+  replicas: ${WORKER_COUNT:=3}
+  selector:
+    matchLabels: null
+  template:
+    spec:
+      clusterName: ${CLUSTER_NAME}
+      version: ${KUBERNETES_VERSION}
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: KubeadmConfigTemplate
+          name: ${CLUSTER_NAME}-md-0
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: AWSMachineTemplate
+        name: ${CLUSTER_NAME}-md-0
+      failureDomain: ${AWS_REGION}a
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: AWSMachineTemplate
+metadata:
+  name: ${CLUSTER_NAME}-md-0
+  namespace: ${NAMESPACE}
+spec:
+  template:
+    spec:
+      instanceType: ${WORKER_INSTANCE_TYPE:=m5.xlarge}
+      iamInstanceProfile: nodes.cluster-api-provider-aws.sigs.k8s.io
+      rootVolume:
+        size: 200
+        type: gp3
+      sshKeyName: ${SSH_KEY_NAME}
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+kind: KubeadmConfigTemplate
+metadata:
+  name: ${CLUSTER_NAME}-md-0
+  namespace: ${NAMESPACE}
+spec:
+  template:
+    spec:
+      joinConfiguration:
+        nodeRegistration:
+          kubeletExtraArgs:
+            cloud-provider: external
+---
+# MachineHealthCheck for automatic remediation
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineHealthCheck
+metadata:
+  name: ${CLUSTER_NAME}-mhc
+  namespace: ${NAMESPACE}
+spec:
+  clusterName: ${CLUSTER_NAME}
+  maxUnhealthy: 40%
+  nodeStartupTimeout: 10m
+  selector:
+    matchLabels:
+      cluster.x-k8s.io/cluster-name: ${CLUSTER_NAME}
+  unhealthyConditions:
+    - type: Ready
+      status: "False"
+      timeout: 5m
+    - type: Ready
+      status: Unknown
+      timeout: 5m

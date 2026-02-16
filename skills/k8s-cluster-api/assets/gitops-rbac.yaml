@@ -1,0 +1,299 @@
+# GitOps RBAC for Cluster API
+#
+# Service accounts and roles for ArgoCD/Flux to manage CAPI resources.
+# Apply to management cluster before configuring GitOps.
+#
+# Includes:
+# - ServiceAccount for GitOps controller
+# - ClusterRole with CAPI permissions
+# - Namespace-scoped Role for cluster secrets
+#
+# Usage:
+# kubectl apply -f gitops-rbac.yaml
+
+---
+# Namespace for cluster resources
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: clusters
+  labels:
+    app.kubernetes.io/managed-by: gitops
+    cluster-api.sigs.k8s.io/namespace: "true"
+
+---
+# ServiceAccount for GitOps controller
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitops-cluster-manager
+  namespace: clusters
+  labels:
+    app.kubernetes.io/name: gitops-cluster-manager
+    app.kubernetes.io/component: rbac
+
+---
+# ClusterRole for managing CAPI resources
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gitops-capi-manager
+  labels:
+    app.kubernetes.io/name: gitops-capi-manager
+rules:
+  # Core Cluster API resources
+  - apiGroups:
+      - cluster.x-k8s.io
+    resources:
+      - clusters
+      - machines
+      - machinesets
+      - machinedeployments
+      - machinepools
+      - machinehealthchecks
+      - clusterclasses
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+
+  # Cluster API status (read-only for status)
+  - apiGroups:
+      - cluster.x-k8s.io
+    resources:
+      - clusters/status
+      - machines/status
+      - machinesets/status
+      - machinedeployments/status
+      - machinepools/status
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Control Plane providers
+  - apiGroups:
+      - controlplane.cluster.x-k8s.io
+    resources:
+      - kubeadmcontrolplanes
+      - kubeadmcontrolplanetemplates
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+
+  # Bootstrap providers
+  - apiGroups:
+      - bootstrap.cluster.x-k8s.io
+    resources:
+      - kubeadmconfigs
+      - kubeadmconfigtemplates
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+
+  # Infrastructure providers (generic wildcard)
+  - apiGroups:
+      - infrastructure.cluster.x-k8s.io
+    resources:
+      - "*"
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+
+  # Addons (ClusterResourceSet)
+  - apiGroups:
+      - addons.cluster.x-k8s.io
+    resources:
+      - clusterresourcesets
+      - clusterresourcesetbindings
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+
+  # Runtime extensions
+  - apiGroups:
+      - runtime.cluster.x-k8s.io
+    resources:
+      - extensionconfigs
+    verbs:
+      - get
+      - list
+      - watch
+
+  # IPAM
+  - apiGroups:
+      - ipam.cluster.x-k8s.io
+    resources:
+      - ipaddresses
+      - ipaddressclaims
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+
+  # Namespaces for cluster isolation
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+
+  # Events for debugging
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - get
+      - list
+      - watch
+
+---
+# ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gitops-capi-manager
+  labels:
+    app.kubernetes.io/name: gitops-capi-manager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gitops-capi-manager
+subjects:
+  - kind: ServiceAccount
+    name: gitops-cluster-manager
+    namespace: clusters
+  # ArgoCD application controller
+  - kind: ServiceAccount
+    name: argocd-application-controller
+    namespace: argocd
+  # Flux kustomize controller
+  - kind: ServiceAccount
+    name: kustomize-controller
+    namespace: flux-system
+
+---
+# Role for managing secrets in clusters namespace
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: gitops-cluster-secrets
+  namespace: clusters
+  labels:
+    app.kubernetes.io/name: gitops-cluster-secrets
+rules:
+  # Kubeconfig secrets
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+
+  # ConfigMaps for cluster addons
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+
+---
+# RoleBinding for secrets
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gitops-cluster-secrets
+  namespace: clusters
+  labels:
+    app.kubernetes.io/name: gitops-cluster-secrets
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: gitops-cluster-secrets
+subjects:
+  - kind: ServiceAccount
+    name: gitops-cluster-manager
+    namespace: clusters
+  - kind: ServiceAccount
+    name: argocd-application-controller
+    namespace: argocd
+  - kind: ServiceAccount
+    name: kustomize-controller
+    namespace: flux-system
+
+---
+# Read-only ClusterRole for monitoring/dashboards
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gitops-capi-viewer
+  labels:
+    app.kubernetes.io/name: gitops-capi-viewer
+rules:
+  - apiGroups:
+      - cluster.x-k8s.io
+      - controlplane.cluster.x-k8s.io
+      - bootstrap.cluster.x-k8s.io
+      - infrastructure.cluster.x-k8s.io
+      - addons.cluster.x-k8s.io
+    resources:
+      - "*"
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - events
+      - namespaces
+    verbs:
+      - get
+      - list
+      - watch

@@ -1,0 +1,345 @@
+# etcd Backup CronJob for CAPI Management Cluster
+#
+# Automated scheduled backups of management cluster etcd to S3/GCS/Azure.
+# Deploy to management cluster for disaster recovery protection.
+#
+# Prerequisites:
+# - etcd accessible from within cluster
+# - S3/GCS/Azure credentials configured
+# - PVC or emptyDir for temporary storage
+#
+# Customization:
+# 1. Update BACKUP_BUCKET with your storage location
+# 2. Configure credentials secret
+# 3. Adjust schedule (default: daily at 2 AM)
+
+---
+# Namespace for backup operations
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: capi-backup
+  labels:
+    app.kubernetes.io/name: capi-backup
+
+---
+# Secret with backup destination credentials
+# Create with: kubectl create secret generic backup-credentials \
+#   --from-literal=AWS_ACCESS_KEY_ID=xxx \
+#   --from-literal=AWS_SECRET_ACCESS_KEY=xxx \
+#   -n capi-backup
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backup-credentials
+  namespace: capi-backup
+type: Opaque
+stringData:
+  # AWS S3
+  AWS_ACCESS_KEY_ID: "<your-access-key>"
+  AWS_SECRET_ACCESS_KEY: "<your-secret-key>"
+  # Or GCS
+  # GOOGLE_APPLICATION_CREDENTIALS: |
+  #   <service-account-json>
+  # Or Azure
+  # AZURE_STORAGE_ACCOUNT: "<account>"
+  # AZURE_STORAGE_KEY: "<key>"
+
+---
+# ConfigMap with backup configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backup-config
+  namespace: capi-backup
+data:
+  BACKUP_BUCKET: "s3://your-bucket/capi-backups"
+  # Or: gs://your-bucket/capi-backups
+  # Or: https://account.blob.core.windows.net/capi-backups
+  RETENTION_DAYS: "30"
+  ETCD_ENDPOINTS: "https://127.0.0.1:2379"
+
+---
+# ServiceAccount for backup jobs
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: etcd-backup
+  namespace: capi-backup
+
+---
+# CronJob: etcd snapshot backup
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: etcd-backup
+  namespace: capi-backup
+  labels:
+    app.kubernetes.io/name: etcd-backup
+spec:
+  # Run daily at 2:00 AM UTC
+  schedule: "0 2 * * *"
+  # Keep last 3 job runs
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Forbid
+
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 1800 # 30 min timeout
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: etcd-backup
+        spec:
+          serviceAccountName: etcd-backup
+          restartPolicy: OnFailure
+
+          # Must run on control plane node with etcd access
+          nodeSelector:
+            node-role.kubernetes.io/control-plane: ""
+          tolerations:
+            - key: node-role.kubernetes.io/control-plane
+              effect: NoSchedule
+            - key: node-role.kubernetes.io/master
+              effect: NoSchedule
+
+          containers:
+            - name: backup
+              image: bitnami/etcd:3.5
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  set -euo pipefail
+
+                  TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+                  BACKUP_FILE="/backup/etcd-snapshot-${TIMESTAMP}.db"
+
+                  echo "Starting etcd backup at ${TIMESTAMP}"
+
+                  # Create snapshot
+                  etcdctl snapshot save "${BACKUP_FILE}" \
+                    --endpoints="${ETCD_ENDPOINTS}" \
+                    --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+                    --cert=/etc/kubernetes/pki/etcd/server.crt \
+                    --key=/etc/kubernetes/pki/etcd/server.key
+
+                  # Verify snapshot
+                  etcdctl snapshot status "${BACKUP_FILE}" --write-out=table
+
+                  # Get snapshot size
+                  SNAPSHOT_SIZE=$(du -h "${BACKUP_FILE}" | cut -f1)
+                  echo "Snapshot size: ${SNAPSHOT_SIZE}"
+
+                  # Upload to cloud storage
+                  echo "Uploading to ${BACKUP_BUCKET}..."
+
+                  # AWS S3
+                  if [[ "${BACKUP_BUCKET}" == s3://* ]]; then
+                    aws s3 cp "${BACKUP_FILE}" "${BACKUP_BUCKET}/"
+                    aws s3 cp "${BACKUP_FILE}" "${BACKUP_BUCKET}/latest.db"
+                  fi
+
+                  # GCS
+                  if [[ "${BACKUP_BUCKET}" == gs://* ]]; then
+                    gsutil cp "${BACKUP_FILE}" "${BACKUP_BUCKET}/"
+                    gsutil cp "${BACKUP_FILE}" "${BACKUP_BUCKET}/latest.db"
+                  fi
+
+                  # Cleanup old local backup
+                  rm -f "${BACKUP_FILE}"
+
+                  echo "Backup completed successfully"
+
+              env:
+                - name: ETCDCTL_API
+                  value: "3"
+                - name: ETCD_ENDPOINTS
+                  valueFrom:
+                    configMapKeyRef:
+                      name: backup-config
+                      key: ETCD_ENDPOINTS
+                - name: BACKUP_BUCKET
+                  valueFrom:
+                    configMapKeyRef:
+                      name: backup-config
+                      key: BACKUP_BUCKET
+              envFrom:
+                - secretRef:
+                    name: backup-credentials
+
+              volumeMounts:
+                - name: etcd-certs
+                  mountPath: /etc/kubernetes/pki/etcd
+                  readOnly: true
+                - name: backup-volume
+                  mountPath: /backup
+
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+                limits:
+                  cpu: 500m
+                  memory: 512Mi
+
+          volumes:
+            - name: etcd-certs
+              hostPath:
+                path: /etc/kubernetes/pki/etcd
+                type: Directory
+            - name: backup-volume
+              emptyDir:
+                sizeLimit: 10Gi
+
+---
+# CronJob: CAPI resource backup
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: capi-resources-backup
+  namespace: capi-backup
+  labels:
+    app.kubernetes.io/name: capi-resources-backup
+spec:
+  # Run daily at 2:30 AM UTC (after etcd backup)
+  schedule: "30 2 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Forbid
+
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 900 # 15 min timeout
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: capi-resources-backup
+        spec:
+          serviceAccountName: etcd-backup
+          restartPolicy: OnFailure
+
+          containers:
+            - name: backup
+              image: bitnami/kubectl:1.28
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  set -euo pipefail
+
+                  TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+                  BACKUP_DIR="/backup/capi-${TIMESTAMP}"
+                  mkdir -p "${BACKUP_DIR}"
+
+                  echo "Starting CAPI resources backup at ${TIMESTAMP}"
+
+                  # Export all CAPI resources
+                  CAPI_KINDS=(
+                    "clusters.cluster.x-k8s.io"
+                    "machines.cluster.x-k8s.io"
+                    "machinesets.cluster.x-k8s.io"
+                    "machinedeployments.cluster.x-k8s.io"
+                    "machinepools.cluster.x-k8s.io"
+                    "machinehealthchecks.cluster.x-k8s.io"
+                    "clusterclasses.cluster.x-k8s.io"
+                    "kubeadmcontrolplanes.controlplane.cluster.x-k8s.io"
+                    "kubeadmconfigs.bootstrap.cluster.x-k8s.io"
+                  )
+
+                  for KIND in "${CAPI_KINDS[@]}"; do
+                    echo "Exporting ${KIND}..."
+                    kubectl get "${KIND}" -A -o yaml > "${BACKUP_DIR}/${KIND//\//_}.yaml" 2>/dev/null || true
+                  done
+
+                  # Export cluster secrets (kubeconfigs)
+                  echo "Exporting cluster secrets..."
+                  kubectl get secrets -A -l cluster.x-k8s.io/cluster-name -o yaml > "${BACKUP_DIR}/cluster-secrets.yaml"
+
+                  # Create tarball
+                  TARBALL="/backup/capi-backup-${TIMESTAMP}.tar.gz"
+                  tar -czf "${TARBALL}" -C /backup "capi-${TIMESTAMP}"
+
+                  # Upload
+                  echo "Uploading to ${BACKUP_BUCKET}..."
+                  if [[ "${BACKUP_BUCKET}" == s3://* ]]; then
+                    aws s3 cp "${TARBALL}" "${BACKUP_BUCKET}/"
+                  fi
+                  if [[ "${BACKUP_BUCKET}" == gs://* ]]; then
+                    gsutil cp "${TARBALL}" "${BACKUP_BUCKET}/"
+                  fi
+
+                  # Cleanup
+                  rm -rf "${BACKUP_DIR}" "${TARBALL}"
+
+                  echo "CAPI backup completed successfully"
+
+              env:
+                - name: BACKUP_BUCKET
+                  valueFrom:
+                    configMapKeyRef:
+                      name: backup-config
+                      key: BACKUP_BUCKET
+              envFrom:
+                - secretRef:
+                    name: backup-credentials
+
+              volumeMounts:
+                - name: backup-volume
+                  mountPath: /backup
+
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+                limits:
+                  cpu: 500m
+                  memory: 512Mi
+
+          volumes:
+            - name: backup-volume
+              emptyDir:
+                sizeLimit: 5Gi
+
+---
+# RBAC for CAPI resource backup
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: capi-backup-reader
+rules:
+  - apiGroups:
+      - cluster.x-k8s.io
+      - controlplane.cluster.x-k8s.io
+      - bootstrap.cluster.x-k8s.io
+      - infrastructure.cluster.x-k8s.io
+      - addons.cluster.x-k8s.io
+    resources:
+      - "*"
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: capi-backup-reader
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: capi-backup-reader
+subjects:
+  - kind: ServiceAccount
+    name: etcd-backup
+    namespace: capi-backup

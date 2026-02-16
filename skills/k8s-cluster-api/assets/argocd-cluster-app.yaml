@@ -1,0 +1,191 @@
+# ArgoCD Application for Cluster API Managed Cluster
+#
+# This Application manages a workload cluster through GitOps.
+# The cluster manifests are stored in a Git repository and
+# ArgoCD applies them to the management cluster.
+#
+# Prerequisites:
+# - ArgoCD installed on management cluster
+# - Git repository with cluster manifests
+# - ServiceAccount with CAPI permissions
+#
+# Usage:
+# 1. Store your Cluster/ClusterClass manifests in Git
+# 2. Customize this Application with your repo URL
+# 3. Apply to management cluster: kubectl apply -f argocd-cluster-app.yaml
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: workload-cluster-prod
+  namespace: argocd
+  # Finalizer ensures resources are deleted when App is deleted
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    app.kubernetes.io/component: cluster
+    cluster-api.cattle.io/managed: "true"
+spec:
+  project: default
+
+  source:
+    # Repository containing cluster manifests
+    repoURL: https://github.com/your-org/clusters.git
+    targetRevision: main
+    path: clusters/prod
+
+    # Optional: use Kustomize
+    # kustomize:
+    #   namePrefix: prod-
+
+    # Optional: use Helm
+    # helm:
+    #   releaseName: prod-cluster
+    #   valueFiles:
+    #     - values-prod.yaml
+
+  destination:
+    # Management cluster where CAPI runs
+    server: https://kubernetes.default.svc
+    namespace: clusters
+
+  syncPolicy:
+    automated:
+      # Auto-create namespace if missing
+      prune: false # CAUTION: Set to true only if you want cluster deletion on manifest removal
+      selfHeal: true
+      allowEmpty: false
+
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=true
+      # Respect CAPI ordering
+      - RespectIgnoreDifferences=true
+
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  # Ignore status fields managed by CAPI controllers
+  ignoreDifferences:
+    - group: cluster.x-k8s.io
+      kind: Cluster
+      jsonPointers:
+        - /status
+    - group: cluster.x-k8s.io
+      kind: Machine
+      jsonPointers:
+        - /status
+    - group: cluster.x-k8s.io
+      kind: MachineDeployment
+      jsonPointers:
+        - /status
+    - group: cluster.x-k8s.io
+      kind: MachineSet
+      jsonPointers:
+        - /status
+    - group: controlplane.cluster.x-k8s.io
+      kind: KubeadmControlPlane
+      jsonPointers:
+        - /status
+    - group: infrastructure.cluster.x-k8s.io
+      kind: "*"
+      jsonPointers:
+        - /status
+
+  # Health checks for CAPI resources
+  # ArgoCD will show cluster as healthy when conditions are met
+  # Note: Requires ArgoCD 2.4+ with custom health checks configured
+  # See: https://argo-cd.readthedocs.io/en/stable/operator-manual/health/
+
+---
+# ApplicationSet for multi-cluster management
+# Generates one Application per cluster definition in Git repository
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: workload-clusters
+  namespace: argocd
+spec:
+  generators:
+    # Generate from directories in clusters/ path
+    - git:
+        repoURL: https://github.com/your-org/clusters.git
+        revision: main
+        directories:
+          - path: clusters/*
+          - path: clusters/archive/*
+            exclude: true
+
+  template:
+    metadata:
+      name: "cluster-{{path.basename}}"
+      namespace: argocd
+      labels:
+        cluster-name: "{{path.basename}}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/your-org/clusters.git
+        targetRevision: main
+        path: "{{path}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: clusters
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+---
+# AppProject for cluster management with restricted permissions
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: clusters
+  namespace: argocd
+spec:
+  description: Cluster API managed clusters
+  sourceRepos:
+    - "https://github.com/your-org/clusters.git"
+  destinations:
+    - namespace: clusters
+      server: https://kubernetes.default.svc
+    - namespace: "cluster-*"
+      server: https://kubernetes.default.svc
+
+  # Only allow CAPI resources
+  clusterResourceWhitelist:
+    - group: cluster.x-k8s.io
+      kind: "*"
+    - group: controlplane.cluster.x-k8s.io
+      kind: "*"
+    - group: infrastructure.cluster.x-k8s.io
+      kind: "*"
+    - group: bootstrap.cluster.x-k8s.io
+      kind: "*"
+    - group: addons.cluster.x-k8s.io
+      kind: "*"
+    - group: ""
+      kind: Namespace
+    - group: ""
+      kind: Secret
+
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+
+  # Deny changes to management cluster components
+  clusterResourceBlacklist:
+    - group: ""
+      kind: Node
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding

@@ -9,6 +9,7 @@ This project uses date-based versioning rather than semantic versioning.
 
 ### Added
 
+- **k8s-cluster-api** — New comprehensive skill for Kubernetes Cluster API v1.12 with full documentation coverage (15 reference files), operational scripts (13 Python utilities), and reusable templates (17 assets). Includes clusterctl CLI reference, ClusterClass, providers, GitOps integration (ArgoCD/Flux), disaster recovery playbooks, Prometheus alerts, and best practices.
 - **agent-browser** — Added session persistence, state management commands, and `--new-tab` clicks
 - **perplexity** — Added Embeddings API reference and usage guidance
 - **vibekanban** — Added issue attachments, remote MCP support, and self-hosting notes
