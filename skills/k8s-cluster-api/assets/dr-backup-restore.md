@@ -26,10 +26,10 @@ Management cluster failures can orphan workload clusters. This playbook covers:
 
 ```bash
 # Export all CAPI resources from management cluster
-./scripts/export_cluster_state.py --all -o ./backup/
+cd scripts && go run ./export-cluster-state --all -o ../backup/
 
 # Or export specific cluster
-./scripts/export_cluster_state.py my-cluster -n clusters -o ./backup/my-cluster/
+go run ./export-cluster-state -n my-cluster -ns clusters -o ../backup/my-cluster/
 ```
 
 ### 1.2 Backup Secrets
@@ -178,7 +178,7 @@ After restore, verify:
 
 ```bash
 # Quick health check script
-./scripts/check_cluster_health.py --all
+cd scripts && go run ./check-cluster-health --all
 ```
 
 ---
@@ -249,5 +249,5 @@ EOF
 
 ## Related Scripts
 
-- `scripts/export_cluster_state.py` - Export CAPI resources
-- `scripts/check_cluster_health.py` - Verify cluster health post-restore
+- `scripts/export-cluster-state` - Export CAPI resources (`go run ./export-cluster-state`)
+- `scripts/check-cluster-health` - Verify cluster health post-restore (`go run ./check-cluster-health`)

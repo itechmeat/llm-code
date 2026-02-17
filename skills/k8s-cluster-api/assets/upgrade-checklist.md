@@ -29,7 +29,7 @@ Pre-flight and execution checklist for upgrading CAPI-managed clusters.
   clusterctl move --to-kubeconfig backup-cluster.kubeconfig
 
   # Option 2: Export manifests
-  python scripts/export_cluster_state.py <cluster-name> -o ./backup/
+  cd scripts && go run ./export-cluster-state -n <cluster-name> -o ../backup/
   ```
 
 - [ ] Save kubeconfigs for all clusters
@@ -83,9 +83,9 @@ For each workload cluster:
 
 #### Pre-Upgrade
 
-- [ ] Cluster name: ********\_********
-- [ ] Current K8s version: ********\_********
-- [ ] Target K8s version: ********\_********
+- [ ] Cluster name: **\*\*\*\***\_**\*\*\*\***
+- [ ] Current K8s version: **\*\*\*\***\_**\*\*\*\***
+- [ ] Target K8s version: **\*\*\*\***\_**\*\*\*\***
 - [ ] Backup completed: [ ]
 
 #### Upgrade Control Plane
@@ -185,6 +185,6 @@ _Record any issues, deviations, or observations:_
 
 Upgrade completed: [ ] Yes [ ] No (with issues)
 
-Date: ******\_\_\_******
+Date: **\*\***\_\_\_**\*\***
 
-Duration: ******\_\_\_******
+Duration: **\*\***\_\_\_**\*\***

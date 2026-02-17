@@ -17,7 +17,7 @@ The v1beta2 API introduces:
 
 ```bash
 # Run migration checker script
-python scripts/migration_checker.py -n <namespace>
+cd scripts && go run ./migration-checker -ns <namespace>
 
 # Or manually check API versions in use
 kubectl get clusters -A -o yaml | grep apiVersion
@@ -27,7 +27,7 @@ kubectl get clusters -A -o yaml | grep apiVersion
 
 ```bash
 # Export cluster state
-python scripts/export_cluster_state.py <cluster-name> -o ./backup/
+cd scripts && go run ./export-cluster-state -n <cluster-name> -o ../backup/
 
 # Or use clusterctl move
 clusterctl move --to-kubeconfig backup.kubeconfig -n <namespace>
@@ -213,20 +213,24 @@ kubectl get cluster -o jsonpath='{.status.v1beta2.conditions[?(@.type=="Availabl
 
 Update scripts that parse status:
 
-```python
-# Before
-ready = status.get('phase') == 'Provisioned'
+```go
+// Before
+ready := status.Phase == "Provisioned"
 
-# After
-conditions = status.get('v1beta2', {}).get('conditions', [])
-ready = any(c['type'] == 'Available' and c['status'] == 'True' for c in conditions)
+// After
+for _, c := range status.V1Beta2.Conditions {
+    if c.Type == "Available" && c.Status == "True" {
+        ready = true
+        break
+    }
+}
 ```
 
 ## Validation
 
 ```bash
 # Check for deprecated patterns
-python scripts/migration_checker.py --namespace default
+cd scripts && go run ./migration-checker -ns default
 
 # Verify conditions format
 kubectl get cluster -o yaml | grep -A10 v1beta2
@@ -259,15 +263,21 @@ kubectl get deploy -n capi-system capi-controller-manager -o yaml | grep -A5 arg
 
 During transition, check both locations:
 
-```python
-# Compatibility check
-def get_conditions(status):
-    # Try v1beta2 first
-    v1beta2 = status.get('v1beta2', {})
-    if v1beta2.get('conditions'):
-        return v1beta2['conditions']
-    # Fall back to v1beta1
-    return status.get('conditions', [])
+```go
+// Compatibility check
+func getConditions(status map[string]interface{}) []interface{} {
+    // Try v1beta2 first
+    if v1beta2, ok := status["v1beta2"].(map[string]interface{}); ok {
+        if conditions, ok := v1beta2["conditions"].([]interface{}); ok {
+            return conditions
+        }
+    }
+    // Fall back to v1beta1
+    if conditions, ok := status["conditions"].([]interface{}); ok {
+        return conditions
+    }
+    return nil
+}
 ```
 
 ### Mixed Version Clusters

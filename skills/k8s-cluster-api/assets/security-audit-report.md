@@ -49,7 +49,7 @@ Cluster API Security Assessment Report
 
 ### 1.2 Findings
 
-Run: `python scripts/audit_security.py --cluster <name>`
+Run: `cd scripts && go run ./audit-security -n <name>`
 
 ```
 # Paste output here
@@ -148,9 +148,7 @@ Run: `python scripts/audit_security.py --cluster <name>`
 ### 4.3 Findings
 
 -
--
-
----
+- ***
 
 ## 5. Secrets Management
 
@@ -165,14 +163,12 @@ Run: `python scripts/audit_security.py --cluster <name>`
 
 ### 5.2 Secret Exposure Check
 
-Run: `python scripts/audit_security.py --cluster <name> --output report.json`
+Run: `cd scripts && go run ./audit-security -n <name> -o report.json`
 
 ### 5.3 Findings
 
 -
--
-
----
+- ***
 
 ## 6. Availability & Resilience
 
@@ -196,9 +192,7 @@ Run: `python scripts/audit_security.py --cluster <name> --output report.json`
 ### 6.3 Findings
 
 -
--
-
----
+- ***
 
 ## 7. Audit Logging
 
@@ -288,7 +282,7 @@ Run: `python scripts/audit_security.py --cluster <name> --output report.json`
 ```bash
 # List commands run during audit
 clusterctl describe cluster <name>
-python scripts/audit_security.py --cluster <name>
+cd scripts && go run ./audit-security -n <name>
 kubectl get psp  # if applicable
 # ...
 ```

@@ -207,31 +207,31 @@
 
 ---
 
-## Scripts (Phase 2) — COMPLETE
+## Scripts (Phase 2) — COMPLETE (rewritten to Go)
 
 ### Development Utilities
 
-- [x] `scripts/validate_manifests.py` — Validate YAML manifests against CRD schemas
-- [x] `scripts/check_provider_contract.py` — Verify provider CRD compliance with CAPI contract
-- [x] `scripts/scaffold_provider.py` — Generate new provider structure
+- [x] `scripts/validate-manifests/main.go` — Validate YAML manifests against CRD schemas
+- [x] `scripts/check-provider-contract/main.go` — Verify provider CRD compliance with CAPI contract
+- [x] `scripts/scaffold-provider/main.go` — Generate new provider structure
 
 ### CLI Wrappers
 
-- [x] `scripts/run_clusterctl_diagnose.py` — Run clusterctl describe and save report
-- [x] `scripts/check_cluster_health.py` — Analyze conditions across cluster objects
-- [x] `scripts/generate_cluster_template.py` — Generate templates from ClusterClass
+- [x] `scripts/run-clusterctl-diagnose/main.go` — Run clusterctl describe and save report
+- [x] `scripts/check-cluster-health/main.go` — Analyze conditions across cluster objects
+- [x] `scripts/generate-cluster-template/main.go` — Generate templates from ClusterClass
 
 ### Operations
 
-- [x] `scripts/migration_checker.py` — Check v1beta1→v1beta2 migration readiness
-- [x] `scripts/export_cluster_state.py` — Export cluster state for backup/move
-- [x] `scripts/audit_security.py` — Check PSS compliance and security posture
+- [x] `scripts/migration-checker/main.go` — Check v1beta1→v1beta2 migration readiness
+- [x] `scripts/export-cluster-state/main.go` — Export cluster state for backup/move
+- [x] `scripts/audit-security/main.go` — Check PSS compliance and security posture
 
 ### Diagnostics
 
-- [x] `scripts/analyze_conditions.py` — Parse and report False/Unknown conditions
-- [x] `scripts/timeline_events.py` — Build provisioning event timeline
-- [x] `scripts/compare_versions.py` — Compare CAPI version specs
+- [x] `scripts/analyze-conditions/main.go` — Parse and report False/Unknown conditions
+- [x] `scripts/timeline-events/main.go` — Build provisioning event timeline
+- [x] `scripts/compare-versions/main.go` — Compare CAPI version specs
 
 ### Documentation
 
@@ -250,7 +250,7 @@
 
 ### Provider Configs
 
-- [x] `assets/docker-quickstart.md` — Docker provider setup guide
+- [x] `assets/docker-quickstart.yaml` — Docker provider setup guide
 - [x] `assets/aws-credentials.yaml` — AWS CAPA credentials template
 - [x] `assets/azure-credentials.yaml` — Azure CAPZ credentials template
 - [x] `assets/provider-matrix.md` — Version compatibility matrix
@@ -272,7 +272,7 @@
 
 ### Lint & Validation
 
-- [x] `scripts/lint_cluster_templates.py` — Lint and validate CAPI manifests
+- [x] `scripts/lint-cluster-templates/main.go` — Lint and validate CAPI manifests
 
 ### GitOps Templates
 

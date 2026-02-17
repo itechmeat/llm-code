@@ -75,53 +75,56 @@ clusterctl get kubeconfig my-cluster > my-cluster.kubeconfig
 
 ## Scripts
 
-Utility scripts in `scripts/` directory:
+Go-based utility tools in `scripts/` directory. Run via `go run ./tool-name` from the `scripts/` folder.
 
-| Script                         | Purpose                                            |
-| ------------------------------ | -------------------------------------------------- |
-| `validate_manifests.py`        | Validate YAML manifests against CRD schemas        |
-| `run_clusterctl_diagnose.py`   | Run clusterctl describe and save diagnostic report |
-| `migration_checker.py`         | Check v1beta1→v1beta2 migration readiness          |
-| `check_cluster_health.py`      | Analyze conditions across all cluster objects      |
-| `analyze_conditions.py`        | Parse and report False/Unknown conditions          |
-| `scaffold_provider.py`         | Generate new provider directory structure          |
-| `generate_cluster_template.py` | Generate templates from ClusterClass               |
-| `export_cluster_state.py`      | Export cluster state for backup/move               |
-| `audit_security.py`            | Check PSS compliance and security posture          |
-| `timeline_events.py`           | Build provisioning event timeline                  |
-| `compare_versions.py`          | Compare CAPI version specs and API changes         |
-| `check_provider_contract.py`   | Verify provider CRD compliance with contracts      |
-| `lint_cluster_templates.py`    | Lint and validate CAPI manifests                   |
+| Tool                        | Purpose                                            |
+| --------------------------- | -------------------------------------------------- |
+| `validate-manifests`        | Validate YAML manifests against CRD schemas        |
+| `run-clusterctl-diagnose`   | Run clusterctl describe and save diagnostic report |
+| `migration-checker`         | Check v1beta1→v1beta2 migration readiness          |
+| `check-cluster-health`      | Analyze conditions across all cluster objects      |
+| `analyze-conditions`        | Parse and report False/Unknown conditions          |
+| `scaffold-provider`         | Generate new provider directory structure          |
+| `generate-cluster-template` | Generate templates from ClusterClass               |
+| `export-cluster-state`      | Export cluster state for backup/move               |
+| `audit-security`            | Check PSS compliance and security posture          |
+| `timeline-events`           | Build provisioning event timeline                  |
+| `compare-versions`          | Compare CAPI version specs and API changes         |
+| `check-provider-contract`   | Verify provider CRD compliance with contracts      |
+| `lint-cluster-templates`    | Lint and validate CAPI manifests                   |
 
 ### Usage Examples
 
 ```bash
+# From the scripts/ directory:
+cd scripts/
+
 # Validate manifests
-python scripts/validate_manifests.py cluster.yaml
+go run ./validate-manifests cluster.yaml
 
 # Check cluster health
-python scripts/check_cluster_health.py my-cluster -n default
+go run ./check-cluster-health -n my-cluster -ns default
 
 # Run security audit
-python scripts/audit_security.py --cluster my-cluster
+go run ./audit-security -n my-cluster
 
 # Check migration readiness
-python scripts/migration_checker.py -n default
+go run ./migration-checker -ns default
 
 # Compare CAPI versions
-python scripts/compare_versions.py v1.6.0 v1.12.0 --checklist
+go run ./compare-versions v1.6.0 v1.12.0 --checklist
 
 # Generate cluster from ClusterClass
-python scripts/generate_cluster_template.py my-class --name prod --workers 3
+go run ./generate-cluster-template --class my-class -n prod --worker-replicas 3
 
 # Export cluster state
-python scripts/export_cluster_state.py my-cluster -o ./backup/
+go run ./export-cluster-state -n my-cluster -o ../backup/
 
 # Scaffold new provider
-python scripts/scaffold_provider.py mycloud --type infra
+go run ./scaffold-provider -n mycloud -t infrastructure
 
 # Build event timeline
-python scripts/timeline_events.py my-cluster --since 1h
+go run ./timeline-events -n my-cluster --since 1h
 ```
 
 ## Assets
@@ -141,7 +144,7 @@ Reusable templates in `assets/` directory:
 
 | File                     | Purpose                         |
 | ------------------------ | ------------------------------- |
-| `docker-quickstart.md`   | Docker provider setup guide     |
+| `docker-quickstart.yaml` | Docker provider setup guide     |
 | `aws-credentials.yaml`   | AWS CAPA credentials template   |
 | `azure-credentials.yaml` | Azure CAPZ credentials template |
 | `provider-matrix.md`     | Version compatibility matrix    |
