@@ -29,6 +29,12 @@ Workspace auto-creates working branch from target branch.
 
 **Defaults**: Create flow now defaults to the last used project/repo/branch and sets a base target branch automatically. Adjust per repo if needed.
 
+## Workspace Create Flow Updates (v0.1.15)
+
+- Navigation in create flow is standardized via callback handlers.
+- Preferred repo/branch selections are preserved more consistently.
+- Workspace creation respects `executor_config` with safer fallback defaults.
+
 ## Create Workspace from PR
 
 Use the **Create Workspace from PR** action to prefill repo and branch context from an existing pull request.
@@ -205,6 +211,8 @@ Duplicates repos and branch config with fresh conversation.
 ## Spin Off Workspace
 
 Use **Spin Off Workspace** to create a child workspace from the current one.
+
+In v0.1.15, spin-off preserves linked issue context and preferred repository/branch metadata more reliably.
 
 ## Archiving
 

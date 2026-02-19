@@ -96,3 +96,16 @@
 - Keep gateway loopback-bound by default and require strong token/password for non-loopback access.
 - Disable insecure control UI auth downgrades in production environments.
 - Enforce strict file permissions for config/state and enable sensitive-data redaction in logs.
+
+## New audit finding: `gateway.http.no_auth` (v2026.2.19)
+
+- Trigger condition: `gateway.auth.mode="none"` with reachable Gateway HTTP APIs.
+- Risk model: loopback exposure is warning-level; remote/public exposure is critical.
+- Operational rule: never run no-auth mode on non-loopback endpoints.
+- Remediation: re-enable auth (token/password), revert to loopback bind, and re-run audit checks.
+
+## iOS wake/reconnect behavior (v2026.2.19)
+
+- Gateway can trigger APNs wake before `nodes.invoke` for disconnected iOS nodes.
+- Silent-push wake helps restore gateway sessions while app is backgrounded.
+- If invoke reliability drops, validate APNs registration/signing first, then run push-test pipeline.

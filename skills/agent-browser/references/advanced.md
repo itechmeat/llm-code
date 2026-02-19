@@ -68,6 +68,32 @@ Open a link in a new tab during a click action:
 agent-browser click @e12 --new-tab
 ```
 
+## Annotated Snapshots (v0.12.0)
+
+Overlay numbered labels on interactive elements and print a legend mapping label -> element ref.
+
+```bash
+agent-browser snapshot --annotate
+export AGENT_BROWSER_ANNOTATE=1
+agent-browser snapshot
+```
+
+This is useful for multimodal models that reason about visual layout while still acting via refs.
+
+## Config File Loading and Command Chaining (v0.11.x)
+
+- User/project config files are auto-loaded for repeatable defaults.
+- Daemon persistence makes shell chaining efficient for multi-step automation.
+
+```bash
+agent-browser open https://example.com && agent-browser snapshot --json && agent-browser click @e2
+```
+
+## Profiling and DevTools-Oriented Flows (v0.11.x)
+
+- Profiling commands and computed-style retrieval were added for deeper debugging.
+- CDP connectivity supports richer remote/debug workflows (including WebSocket endpoints).
+
 ## Cloud Browser Providers (v0.7+)
 
 Connect to Browserbase, Browser Use, or Kernel for remote browser infrastructure:

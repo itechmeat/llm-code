@@ -28,7 +28,10 @@ agent-browser swipe <x1> <y1> <x2> <y2> [ms] # Swipe gesture (mobile)
 agent-browser open <url> --allow-file-access  # Enable file:// access (local PDFs/HTML)
 agent-browser snapshot -C|--cursor            # Include cursor-interactive elements
 agent-browser click <sel> --new-tab           # Open link in a new tab (v0.10.0)
+agent-browser snapshot --annotate             # Numbered visual labels + legend (v0.12.0)
 ```
+
+`--annotate` can also be enabled via `AGENT_BROWSER_ANNOTATE=1` for multimodal element mapping.
 
 ## Get Info
 
@@ -64,6 +67,8 @@ agent-browser find testid <id> <action> [value]
 agent-browser find first <sel> <action> [value]
 agent-browser find nth <n> <sel> <action> [value]
 ```
+
+`find` actions/filters were expanded in v0.11.x; prefer semantic locators before falling back to raw selectors.
 
 Examples:
 

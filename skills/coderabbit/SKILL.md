@@ -2,7 +2,7 @@
 name: coderabbit
 description: "CodeRabbit AI code review. Covers CLI, configuration, triage workflow. Keywords: @coderabbitai, code review."
 version: "—"
-release_date: "2026-02-12"
+release_date: "2026-02-18"
 ---
 
 # CodeRabbit
@@ -11,19 +11,19 @@ AI-powered code review for pull requests and local changes.
 
 ## Quick Navigation
 
-| Task                          | Reference                                                                                         |
-| ----------------------------- | ------------------------------------------------------------------------------------------------- |
-| Install & run CLI             | [cli-usage.md](references/cli-usage.md)                                                           |
-| Configure .coderabbit.yaml    | [configuration.md](references/configuration.md)                                                   |
-| Supported tools (40+ linters) | [tools.md](references/tools.md)                                                                   |
-| Git platform setup            | [platforms.md](references/platforms.md)                                                           |
-| PR commands (@coderabbitai)   | [pr-commands.md](references/pr-commands.md)                                                       |
-| Claude/Cursor/Codex workflow  | [agent-integration.md](references/agent-integration.md)                                           |
-| Triage findings               | [triage.md](references/triage.md)                                                                 |
-| Fix single issue              | [fix.md](references/fix.md)                                                                       |
-| Reporting & metrics           | [end-to-end-workflow.md#reporting--metrics](references/end-to-end-workflow.md#reporting--metrics) |
-| End-to-end workflow           | [end-to-end-workflow.md](references/end-to-end-workflow.md)                                       |
-| Windows/WSL setup             | [windows-wsl.md](references/windows-wsl.md)                                                       |
+| Task                          | Reference                                                   |
+| ----------------------------- | ----------------------------------------------------------- |
+| Install & run CLI             | [cli-usage.md](references/cli-usage.md)                     |
+| Configure .coderabbit.yaml    | [configuration.md](references/configuration.md)             |
+| Supported tools (40+ linters) | [tools.md](references/tools.md)                             |
+| Git platform setup            | [platforms.md](references/platforms.md)                     |
+| PR commands (@coderabbitai)   | [pr-commands.md](references/pr-commands.md)                 |
+| Claude/Cursor/Codex workflow  | [agent-integration.md](references/agent-integration.md)     |
+| Triage findings               | [triage.md](references/triage.md)                           |
+| Fix single issue              | [fix.md](references/fix.md)                                 |
+| Reporting & metrics           | [end-to-end-workflow.md](references/end-to-end-workflow.md) |
+| End-to-end workflow           | [end-to-end-workflow.md](references/end-to-end-workflow.md) |
+| Windows/WSL setup             | [windows-wsl.md](references/windows-wsl.md)                 |
 
 ## Quick Start
 
@@ -99,6 +99,14 @@ Key points:
 - Once terminal shows completion, read `.code-review/coderabbit-report.txt`
 - If process times out (30 min default) or errors, report failure to user
 - Limit to 2-3 review iterations maximum
+
+## Linked Repositories (2026-02-18)
+
+CodeRabbit can analyze linked repositories during PR review to catch cross-repo breakages (API/type/dependency drift).
+
+- Configure linked repositories in Knowledge Base settings.
+- Use this when changes in one repo affect contracts in another.
+- Treat cross-repo findings as HIGH/CRITICAL when they indicate runtime incompatibility.
 
 ## Minimal Configuration
 

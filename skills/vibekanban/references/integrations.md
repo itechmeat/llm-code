@@ -200,3 +200,8 @@ Start working on the registration task using Claude Code on main branch.
 ## Self-Hosting Notes (v0.1.13)
 
 Docker Compose URLs and port bindings are configurable for self-hosting. Review your deployment settings after upgrading.
+
+## Agent Transport Compatibility (v0.1.15)
+
+- Claude Code integration was updated to handle newer message types.
+- If your executor bridge is pinned to older transport assumptions, validate task attempt streaming after upgrade.

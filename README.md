@@ -26,7 +26,7 @@ npx add-skill itechmeat/llm-code -a claude-code -a github-copilot
 npx add-skill itechmeat/llm-code -y
 ```
 
-## Available Skills (39)
+## Available Skills (40)
 
 Each skill follows the [agentskills.io](https://agentskills.io) specification.
 
@@ -55,6 +55,7 @@ Each skill follows the [agentskills.io](https://agentskills.io) specification.
 | [makefile](skills/makefile/)                                     | GNU Make build automation                      |
 | [mantine-dev](skills/mantine-dev/)                               | Mantine UI components                          |
 | [open-meteo](skills/open-meteo/)                                 | Open-Meteo weather API                         |
+| [openclaw](skills/openclaw/)                                     | OpenClaw local AI assistant stack              |
 | [openapi](skills/openapi/)                                       | OpenAPI specification                          |
 | [openspec](skills/openspec/)                                     | OpenSpec workflow specification                |
 | [perplexity](skills/perplexity/)                                 | Perplexity AI search API                       |

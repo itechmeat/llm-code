@@ -191,6 +191,11 @@ Rebase dialog reflects the current target branch; verify it before rebasing.
 ### Pull Request Flow
 
 1. Click "Create PR"
-2. Title/description pre-filled from task
+2. Title/description pre-filled from task (and now can be prefilled from initial prompt context)
 3. After creation, button becomes "Push" (disabled until new changes)
 4. When PR merged on GitHub, task auto-moves to Done
+
+## Core Object Reliability (v0.1.15)
+
+- Kanban core objects use Electric fallback and timeout-based failover.
+- This reduces workspace/task flow disruptions during transient backend instability.

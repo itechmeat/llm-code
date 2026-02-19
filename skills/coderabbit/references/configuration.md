@@ -25,6 +25,20 @@ reviews:
 
 ## Key Settings
 
+## Knowledge Base: Linked Repositories (2026-02-18)
+
+CodeRabbit can traverse linked repositories during PR review to detect cross-repo issues:
+
+- Breaking API contract changes
+- Type mismatches across repos
+- Dependency drift between connected services/libraries
+
+Operational guidance:
+
+- Configure linked repositories in CodeRabbit Knowledge Base settings.
+- Use linked repos for multi-repo systems where PRs frequently impact shared contracts.
+- Keep links minimal and relevant to reduce noisy findings.
+
 ### General
 
 | Setting             | Type    | Default | Description                  |

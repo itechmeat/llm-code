@@ -146,6 +146,14 @@ async def custom_events() -> ToolReturn:
 
 Native support for Vercel AI SDK frontend applications.
 
+### Update note (v1.62.0)
+
+Tool approval integration is supported in Vercel adapter workflows.
+
+### Update note (v1.60.0)
+
+AG-UI parent message linking was fixed for back-to-back built-in tool calls.
+
 ### Basic Usage (FastAPI)
 
 ```python

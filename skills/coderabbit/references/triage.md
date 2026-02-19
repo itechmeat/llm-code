@@ -20,6 +20,12 @@ Turn CodeRabbit output into a severity-ranked plan: fix/defer/skip with clear ra
    - **HIGH**: reliability/performance regressions, transaction/session misuse, architectural violations.
    - **MEDIUM**: type safety, refactors, maintainability improvements.
    - **LOW**: formatting, naming preferences, pure style nits.
+
+Cross-repo note:
+
+- If linked-repository analysis flags contract drift across repos, default to **HIGH**.
+- Escalate to **CRITICAL** if breakage can cause production runtime failures.
+
 3. Decide per issue:
    - **FIX** if it materially improves safety/correctness or is a clear quick win.
    - **DEFER** if valuable but not appropriate now (add an explicit TODO with reason).

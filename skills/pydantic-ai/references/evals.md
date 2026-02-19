@@ -68,15 +68,19 @@ report.print(include_input=True, include_output=True)
 
 ## Built-in Evaluators
 
-| Evaluator    | Purpose              |
-| ------------ | -------------------- |
-| `IsInstance` | Check output type    |
-| `ExactMatch` | Exact string match   |
-| `Contains`   | Substring check      |
-| `Regex`      | Regex pattern match  |
-| `LLMJudge`   | LLM-based evaluation |
+| Evaluator                    | Purpose                              |
+| ---------------------------- | ------------------------------------ |
+| `IsInstance`                 | Check output type                    |
+| `ExactMatch`                 | Exact string match                   |
+| `Contains`                   | Substring check                      |
+| `Regex`                      | Regex pattern match                  |
+| `LLMJudge`                   | LLM-based evaluation                 |
+| `ROCAUCEvaluator`            | Binary classifier quality (ROC-AUC)  |
+| `KolmogorovSmirnovEvaluator` | Distribution shift/separation checks |
 
 `Contains` supports `pydantic.BaseModel` outputs (v1.59.0).
+
+`LinePlot` analysis type and additional evaluators were expanded in v1.62.0 for richer experiment reporting.
 
 ```python
 from pydantic_evals.evaluators import IsInstance, ExactMatch

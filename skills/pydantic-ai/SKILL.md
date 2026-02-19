@@ -1,9 +1,9 @@
 ---
 
 name: pydantic-ai
-description: "Build production AI agents with Pydantic AI: type-safe tools, structured output, embeddings, MCP, 30+ model providers, evals, graphs, and observability."
-version: "1.59.0"
-release_date: "2026-02-13"
+description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
+version: "1.62.0"
+release_date: "2026-02-19"
 
 # Pydantic AI
 
@@ -33,7 +33,7 @@ Python agent framework for building production-grade GenAI applications with the
 
 ## Installation
 
-**Requires Python 3.10+**
+**Requires Python 3.10+ (Python 3.14 supported in v1.61+)**
 
 ```bash
 # Full install (all model dependencies)
@@ -82,6 +82,14 @@ pip install "pydantic-ai-slim[openai,anthropic,logfire]"
 | `cli`                   | CLI tools                  |
 | `dbos`                  | DBOS durable execution     |
 | `prefect`               | Prefect durable execution  |
+
+## Release Highlights (1.60.0 → 1.62.0)
+
+- Python 3.14 support.
+- New eval tooling: `LinePlot`, `ROCAUCEvaluator`, `KolmogorovSmirnovEvaluator`.
+- OpenRouter `video_url` support for multimodal workflows.
+- Reliability fixes for provider refusals/tool failures (Google prompt feedback, OpenAI refusals, Groq tool-use error retries).
+- UI/integration improvements: Vercel AI adapter tool approvals and AG-UI parent message linking fix.
 
 ## Quick Start
 

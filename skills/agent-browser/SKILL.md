@@ -1,8 +1,8 @@
 ---
 name: agent-browser
 description: "Headless browser automation CLI for AI agents. Covers commands, refs, sessions, snapshots, cloud providers, profiles. Keywords: agent-browser, browser automation, refs, snapshot."
-version: "0.10.0"
-release_date: "2026-02-14"
+version: "0.12.0"
+release_date: "2026-02-19"
 ---
 
 # Agent Browser
@@ -117,6 +117,14 @@ agent-browser state rename myapp myapp-prod
 agent-browser state clear myapp-prod
 agent-browser state cleanup
 ```
+
+## Release Updates (v0.11.x–v0.12.0)
+
+- `--annotate` overlays numbered labels on interactive elements and prints a legend for multimodal reasoning.
+- Configuration file loading supports user/project scopes.
+- Command chaining with `&&` is documented and recommended for daemon-backed multi-step runs.
+- Added profiling workflows and computed styles retrieval in advanced usage.
+- CDP connectivity and browser/device workflows were expanded.
 
 ## New Tab Clicks (v0.10.0)
 

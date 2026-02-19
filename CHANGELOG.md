@@ -5,7 +5,21 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
-## [Unreleased]
+## [2026-02-19]
+
+### Added
+
+- **README registry** — Added `openclaw` to the root skills table and updated the skills count to 40.
+
+### Changed
+
+- **SKILLS_VERSIONS** — Refreshed tracked rows and ordering for recently updated skills.
+- **pydantic-ai** — Updated skill content to v1.62.0 with release highlights, eval updates, OpenRouter multimodal note, and UI/integration notes.
+- **agent-browser** — Updated to v0.12.0 with `--annotate`, expanded command guidance, and advanced profiling/CDP notes.
+- **vibekanban** — Updated to v0.1.15 with workspace-flow, reliability, PR prefill, and transport compatibility guidance.
+- **coderabbit** — Added linked-repository cross-repo review guidance and triage severity handling.
+
+## [2026-02-15]
 
 ### Added
 

@@ -3,7 +3,7 @@ name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Keywords: OpenClaw, gateway, tools, channels, agents."
 metadata:
   author: itechmeat
-  docs_ingested_at: "2026-02-18"
+  docs_ingested_at: "2026-02-19"
 ---
 
 # OpenClaw (Operator Playbook)
@@ -33,6 +33,14 @@ If OpenClaw is not installed, use `references/installation.md`.
 - Use supervised process mode (launchd/systemd) for reliability.
 - For config changes, treat `config.apply` as controlled rollout and `config.patch` as targeted merge.
 - Remember patch semantics: objects merge, arrays replace, `null` deletes.
+
+## Release Updates (v2026.2.19)
+
+- iOS reliability: gateway can wake disconnected iOS nodes via APNs before `nodes.invoke`.
+- Device hygiene: paired-device cleanup flows were expanded (`device.pair.remove`, `openclaw devices remove`, `openclaw devices clear --yes [--pending]`).
+- APNs operations: registration/signing and push-test validation paths were added for delivery troubleshooting.
+- Security audit: `gateway.http.no_auth` findings now explicitly flag risky `gateway.auth.mode="none"` exposure patterns.
+- Apple Watch companion MVP introduced watch inbox/relay surfaces that depend on healthy gateway/channel delivery.
 
 ## Architecture and Runtime Concepts
 

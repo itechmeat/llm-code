@@ -6,6 +6,10 @@ Pydantic AI integrates with MCP, Logfire, A2A, and durable execution platforms.
 
 Compatibility with Vercel AI SDK v5 is restored by passing the SDK version parameter in requests.
 
+### Vercel tool approvals (v1.62.0)
+
+Vercel AI adapter integrates tool approval flows, enabling safer gated execution patterns in UI-driven chats.
+
 ---
 
 ## MCP (Model Context Protocol)
@@ -173,6 +177,10 @@ agent = Agent('openai:gpt-4o', toolsets=[toolset])
 ## Logfire Integration
 
 Built-in observability for agent runs.
+
+### OTel alignment (v1.60.0)
+
+Instrumentation version 4 aligns with OTel GenAI semantic conventions, including multimodal request traces.
 
 ### Setup
 

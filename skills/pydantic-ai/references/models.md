@@ -60,6 +60,15 @@ Use `OpenAIChatModel` with custom provider:
 - LiteLLM, Ollama, Perplexity
 - Together AI, Vercel AI Gateway
 
+### OpenRouter multimodal input (v1.60.0)
+
+`OpenRouterModel` supports `video_url` inputs for multimodal requests.
+
+### Provider reliability updates (v1.62.0)
+
+- Groq: retries now handle `tool_use_failed` responses even when tool name/args are missing.
+- Google/OpenAI: refusal/content-filter handling is hardened for prompt-feedback/refusal flows.
+
 ### OpenAI Data Retention (v1.52.0)
 
 OpenAI models support an `openai_store` setting to control data retention.

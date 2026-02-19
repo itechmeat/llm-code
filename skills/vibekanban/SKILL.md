@@ -1,8 +1,8 @@
 ---
 name: vibekanban
 description: "Vibe Kanban orchestration platform for AI coding agents: workspaces, sessions, task management, code review, git worktrees, multi-agent support. Keywords: Vibe Kanban, AI agents, Claude Code, Codex, Gemini, kanban board, git worktree, code review, MCP server, workspaces, sessions."
-version: "0.1.13"
-release_date: "2026-02-13"
+version: "0.1.15"
+release_date: "2026-02-19"
 ---
 
 # Vibe Kanban
@@ -29,6 +29,14 @@ Orchestration platform for AI coding agents. Plan, review, and manage AI-generat
 ```bash
 npx vibe-kanban
 ```
+
+## Release Highlights (0.1.14 → 0.1.15)
+
+- Workspace creation flow improved with better defaults, callback-based navigation, and `executor_config` handling.
+- Spin-off workspaces now preserve linked issue context and preferred repo/branch choices.
+- PR creation dialog can prefill fields from initial prompt context.
+- Core reliability improved with Electric fallback and timeout-based failover.
+- Claude Code integration updated for newer message types.
 
 Opens browser automatically. Use `PORT=8080 npx vibe-kanban` for fixed port.
 

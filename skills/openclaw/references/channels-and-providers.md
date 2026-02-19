@@ -50,3 +50,9 @@
 - Treat DM policy and group policy as independent controls and test both paths.
 - If non-mention group behavior is required, align Telegram privacy mode/admin state accordingly.
 - Use pairing approvals and channel status probes during onboarding validation.
+
+## Apple Watch and APNs delivery notes (v2026.2.19)
+
+- Apple Watch companion flows depend on reliable gateway-to-iOS notification relay.
+- APNs registration/signing configuration is now an explicit operational dependency for iOS/watch delivery reliability.
+- If watch/iOS commands appear delayed or missing, validate APNs push path before changing model/tool policy.

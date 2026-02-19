@@ -25,6 +25,11 @@ Global settings, agent profiles, task tags, and keyboard shortcuts.
 
 **Gemini**: DEFAULT (standard), FLASH (fast mode)
 
+## Workspace Executor Config (v0.1.15)
+
+- Workspace create flow now uses `executor_config` more consistently.
+- Default fallback handling was fixed to reduce incorrect executor defaults in new workspaces.
+
 **Best Practice**: Use biggest/most capable model — fewer mistakes, less intervention.
 
 ## Global Settings

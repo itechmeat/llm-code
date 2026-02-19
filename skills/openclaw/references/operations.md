@@ -49,6 +49,14 @@
 4. `openclaw doctor`
 5. `openclaw channels status --probe`
 
+## Paired-device hygiene commands (v2026.2.19)
+
+- Remove a specific paired entry: `openclaw devices remove <device-id>`.
+- Remove via gateway/device-pair flow: `device.pair.remove`.
+- Bulk cleanup with confirmation: `openclaw devices clear --yes`.
+- Include pending requests during cleanup when needed: `openclaw devices clear --yes --pending`.
+- Run cleanup before re-pairing when stale pair records cause routing/auth anomalies.
+
 ## Incident triage patterns
 
 - No replies: inspect pairing, mention gating, and allowlist policy first.
