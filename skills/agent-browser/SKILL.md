@@ -188,6 +188,7 @@ agent-browser screenshot [path]
 
 ## Links
 
-- Official docs: https://agent-browser.dev/
-- Changelog: https://agent-browser.dev/changelog
-- GitHub: https://github.com/vercel-labs/agent-browser
+- [Documentation](https://agent-browser.dev/)
+- [Changelog](https://agent-browser.dev/changelog)
+- [GitHub](https://github.com/vercel-labs/agent-browser)
+- [npm](https://www.npmjs.com/package/agent-browser)

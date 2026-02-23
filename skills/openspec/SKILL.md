@@ -1,9 +1,9 @@
 ---
-
 name: openspec
 description: "OpenSpec artifact-driven workflow. Covers OPSX commands, schemas, project config. Keywords: OPSX, artifact graph, /opsx:."
 version: "1.1.1"
 release_date: "2026-01-30"
+---
 
 # OpenSpec (OPSX) Skill
 
@@ -129,3 +129,10 @@ Expected behavior: show ready artifacts, not required steps.
 - Give clear artifact readiness and dependency explanations.
 - Use explicit change identifiers in examples.
 - Provide concise, actionable steps and indicate whether they are informational or required.
+
+## Links
+
+- [Documentation](https://github.com/Fission-AI/OpenSpec/tree/main/docs)
+- [Releases](https://github.com/Fission-AI/OpenSpec/releases)
+- [GitHub](https://github.com/Fission-AI/OpenSpec)
+- [npm](https://www.npmjs.com/package/openspec)

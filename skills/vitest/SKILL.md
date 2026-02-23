@@ -29,11 +29,7 @@ Next generation testing framework powered by Vite.
 
 ## Installation
 
-```bash
-npm install -D vitest
-```
-
-**Requirements:** Vite >=v6.0.0, Node >=v20.0.0
+Install: `npm install -D vitest`. Requires Vite >=v6.0.0, Node >=v20.0.0.
 
 ## Quick Start
 

@@ -64,5 +64,6 @@ It acts as a **router**: based on your situation, open the right note under `ref
 
 ## Links
 
-- Concepts: https://qdrant.tech/documentation/concepts/
-- Installation: https://qdrant.tech/documentation/guides/installation/
+- [Documentation](https://qdrant.tech/documentation/)
+- [Releases](https://github.com/qdrant/qdrant/releases)
+- [GitHub](https://github.com/qdrant/qdrant)

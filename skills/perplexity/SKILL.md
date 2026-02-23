@@ -31,13 +31,7 @@ Build AI applications with real-time web search and grounded responses.
 
 ## Installation
 
-```bash
-# Python
-pip install perplexityai
-
-# TypeScript/JavaScript
-npm install @perplexityai/perplexity
-```
+Install: `pip install perplexityai` (Python) or `npm install @perplexityai/perplexity` (TypeScript/JavaScript).
 
 ## Authentication
 

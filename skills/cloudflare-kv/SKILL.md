@@ -1,6 +1,8 @@
 ---
 name: cloudflare-kv
 description: "Cloudflare Workers KV key-value storage playbook: namespaces, bindings, Workers API (get/put/delete/list), metadata, expiration TTL, bulk operations, REST API, consistency model, caching. Keywords: Cloudflare KV, Workers KV, key-value, KVNamespace, binding, metadata, expiration, TTL, cacheTtl, bulk operations, eventually consistent."
+version: "—"
+release_date: "—"
 ---
 
 # Cloudflare Workers KV
@@ -500,6 +502,11 @@ Or set `"remote": true` in binding config.
 - [api.md](references/api.md) — Workers API reference
 - [bulk.md](references/bulk.md) — Bulk operations
 - [pricing.md](references/pricing.md) — Billing and optimization
+
+## Links
+
+- [Documentation](https://developers.cloudflare.com/kv/)
+- [Changelog](https://developers.cloudflare.com/kv/changelog/)
 
 ## Related Skills
 

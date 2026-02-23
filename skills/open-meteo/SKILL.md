@@ -92,14 +92,6 @@ Provide a reliable, production-friendly way to call Open-Meteo APIs (Forecast, A
 
 ## Links
 
-- Official docs (in-scope):
-  - https://open-meteo.com/en/docs
-  - https://open-meteo.com/en/docs/air-quality-api
-  - https://open-meteo.com/en/docs/geocoding-api
-- Skill references:
-  - `references/forecast-api.md`
-  - `references/models.md`
-  - `references/weather-codes.md`
-  - `references/air-quality-api.md`
-  - `references/geocoding-api.md`
-  - `references/examples.md`
+- [Documentation](https://open-meteo.com/en/docs)
+- [Releases](https://github.com/open-meteo/open-meteo/releases)
+- [GitHub](https://github.com/open-meteo/open-meteo)

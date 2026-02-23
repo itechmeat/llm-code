@@ -71,9 +71,7 @@ release_date: "2026-01-07"
 
 ## Links
 
-- https://vite.dev/guide/
-- https://vite.dev/config/
-- https://vite.dev/guide/api-plugin
-- https://vite.dev/guide/api-hmr
-- https://vite.dev/guide/api-javascript
-- https://vite.dev/guide/api-environment
+- [Documentation](https://vite.dev/)
+- [Releases](https://github.com/vitejs/vite/releases)
+- [GitHub](https://github.com/vitejs/vite)
+- [npm](https://www.npmjs.com/package/vite)

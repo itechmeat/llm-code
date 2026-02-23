@@ -29,16 +29,7 @@ Refine is built around these key abstractions:
 
 ## Quick Start (Vite)
 
-```bash
-npm create refine-app@latest
-# Select: Vite, Mantine, REST API (or your backend)
-```
-
-Or manual setup:
-
-```bash
-npm install @refinedev/core @refinedev/mantine @refinedev/react-router @mantine/core @mantine/hooks @mantine/form @mantine/notifications
-```
+Scaffold: `npm create refine-app@latest` (select Vite, Mantine, REST API). For manual setup, install `@refinedev/core @refinedev/mantine @refinedev/react-router` and Mantine packages.
 
 ## Minimal App Structure
 
@@ -129,6 +120,7 @@ function App() {
 
 ## Links
 
-- Official docs: https://refine.dev/docs/
-- GitHub: https://github.com/refinedev/refine
-- Mantine integration: https://refine.dev/docs/ui-integrations/mantine/
+- [Documentation](https://refine.dev/docs/)
+- [Releases](https://github.com/refinedev/refine/releases)
+- [GitHub](https://github.com/refinedev/refine)
+- [npm](https://www.npmjs.com/package/@refinedev/core)

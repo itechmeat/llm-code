@@ -29,11 +29,7 @@ AI-powered code review for pull requests and local changes.
 
 ### Install
 
-```bash
-curl -fsSL https://cli.coderabbit.ai/install.sh | sh
-source ~/.zshrc
-coderabbit auth login
-```
+See `references/cli-usage.md` for installation and authentication.
 
 ### Run Review
 
@@ -133,8 +129,10 @@ reviews:
 
 ## Links
 
-- Official docs: https://docs.coderabbit.ai/
-- Schema: https://coderabbit.ai/integrations/schema.v2.json
+- [Documentation](https://docs.coderabbit.ai/)
+- [Changelog](https://docs.coderabbit.ai/changelog)
+- [GitHub](https://github.com/coderabbitai/coderabbit)
+- [Schema](https://coderabbit.ai/integrations/schema.v2.json)
 
 ## Templates
 

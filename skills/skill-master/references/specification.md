@@ -6,6 +6,15 @@ Source: https://agentskills.io/specification
 
 Agent Skills are a lightweight, open format for extending AI agent capabilities. A skill is a folder containing a `SKILL.md` file with metadata and instructions.
 
+### Skills vs MCP (Model Context Protocol)
+
+If you already have a working MCP server, skills are the knowledge layer on top.
+
+- **MCP (Connectivity)** provides the professional kitchen: access to tools, ingredients, and real-time data. It defines _what_ Claude can do.
+- **Skills (Knowledge)** provide the recipes: step-by-step instructions, workflows, and best practices. It defines _how_ Claude should do it.
+
+Together, they enable users to accomplish complex tasks without needing to figure out every step themselves.
+
 ## SKILL.md File Format
 
 The file MUST contain:

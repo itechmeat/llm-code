@@ -1,6 +1,8 @@
 ---
 name: cloudflare-queues
 description: "Cloudflare Queues message queue playbook: producers, consumers, Workers integration, message batching, retries, dead letter queues, delivery delay, concurrency, pull consumers, HTTP API. Keywords: Cloudflare Queues, message queue, producer, consumer, Workers binding, batch, retry, DLQ, dead letter queue, pull consumer, at-least-once delivery."
+version: "—"
+release_date: "—"
 ---
 
 # Cloudflare Queues
@@ -502,6 +504,11 @@ See `cloudflare-r2` skill for event notification setup.
 - [consumer.md](references/consumer.md) — Consumer configuration
 - [pull-consumer.md](references/pull-consumer.md) — HTTP pull API
 - [pricing.md](references/pricing.md) — Billing details
+
+## Links
+
+- [Documentation](https://developers.cloudflare.com/queues/)
+- [Changelog](https://developers.cloudflare.com/queues/changelog/)
 
 ## Related Skills
 

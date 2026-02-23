@@ -27,41 +27,9 @@ This skill focuses on:
 - Vitest for testing
 - ESLint with eslint-config-mantine
 
-## Quick Start (Vite Template)
+## Installation
 
-```bash
-# Use official template (recommended)
-git clone https://github.com/mantinedev/vite-template my-app
-cd my-app
-yarn install
-yarn dev
-```
-
-Or manual setup:
-
-```bash
-npm create vite@latest my-app -- --template react-ts
-cd my-app
-npm install @mantine/core @mantine/hooks
-npm install -D postcss postcss-preset-mantine postcss-simple-vars
-```
-
-## Required Packages
-
-```bash
-# Core packages
-npm install @mantine/core @mantine/hooks
-
-# Optional packages (as needed)
-npm install @mantine/form          # Form management
-npm install @mantine/dates dayjs   # Date components
-npm install @mantine/charts recharts # Charts
-npm install @mantine/notifications  # Toast notifications
-npm install @mantine/modals        # Modal manager
-npm install @mantine/dropzone      # File upload
-npm install @mantine/spotlight     # Command palette
-npm install @mantine/tiptap @tiptap/react @tiptap/pm @tiptap/starter-kit  # Rich text editor
-```
+See `references/getting-started.md` for Vite template setup, manual installation, and optional packages.
 
 ## PostCSS Configuration
 
@@ -165,8 +133,9 @@ Many components support `component` prop to render as different elements.
 
 ## Links
 
-- Official docs: https://mantine.dev
-- GitHub: https://github.com/mantinedev/mantine
-- Vite template: https://github.com/mantinedev/vite-template
-- ESLint config: https://github.com/mantinedev/eslint-config-mantine
-- LLM docs: https://mantine.dev/llms.txt
+- [Documentation](https://mantine.dev)
+- [Releases](https://github.com/mantinedev/mantine/releases)
+- [GitHub](https://github.com/mantinedev/mantine)
+- [npm](https://www.npmjs.com/package/@mantine/core)
+- [Vite template](https://github.com/mantinedev/vite-template)
+- [LLM docs](https://mantine.dev/llms.txt)

@@ -131,3 +131,10 @@ When responding to the user, provide:
 - The specific Base UI components to use (and their key parts).
 - A brief assembly plan (Root + parts + portal/positioner where relevant).
 - A short checklist for accessibility and state-driven styling.
+
+## Links
+
+- [Documentation](https://base-ui.com/)
+- [Releases](https://github.com/mui/base-ui/releases)
+- [GitHub](https://github.com/mui/base-ui)
+- [npm](https://www.npmjs.com/package/@base-ui-components/react)

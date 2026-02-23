@@ -1,9 +1,9 @@
 ---
-
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
 version: "1.62.0"
 release_date: "2026-02-19"
+---
 
 # Pydantic AI
 
@@ -21,6 +21,7 @@ Python agent framework for building production-grade GenAI applications with the
 | Integrations | [integrations.md](references/integrations.md) |
 | Graphs       | [graphs.md](references/graphs.md)             |
 | UI Streams   | [ui.md](references/ui.md)                     |
+| Installation | [installation.md](references/installation.md) |
 
 ## When to Use
 
@@ -33,55 +34,7 @@ Python agent framework for building production-grade GenAI applications with the
 
 ## Installation
 
-**Requires Python 3.10+ (Python 3.14 supported in v1.61+)**
-
-```bash
-# Full install (all model dependencies)
-pip install pydantic-ai
-
-# With examples
-pip install "pydantic-ai[examples]"
-```
-
-### Slim Install
-
-Use `pydantic-ai-slim` for minimal dependencies:
-
-```bash
-# Single model
-pip install "pydantic-ai-slim[openai]"
-
-# Multiple models
-pip install "pydantic-ai-slim[openai,anthropic,logfire]"
-```
-
-**Optional Groups:**
-
-| Group                   | Dependency                 |
-| ----------------------- | -------------------------- |
-| `openai`                | OpenAI models & embeddings |
-| `anthropic`             | Anthropic Claude           |
-| `google`                | Google Gemini & embeddings |
-| `xai`                   | xAI Grok (native SDK)      |
-| `groq`                  | Groq models                |
-| `mistral`               | Mistral models             |
-| `bedrock`               | AWS Bedrock                |
-| `vertexai`              | Google Vertex AI           |
-| `cohere`                | Cohere models & embeddings |
-| `huggingface`           | Hugging Face Inference     |
-| `voyageai`              | VoyageAI embeddings        |
-| `sentence-transformers` | Local embeddings           |
-| `logfire`               | Pydantic Logfire           |
-| `evals`                 | Pydantic Evals             |
-| `mcp`                   | MCP protocol               |
-| `fastmcp`               | FastMCP                    |
-| `a2a`                   | Agent-to-Agent             |
-| `tavily`                | Tavily search              |
-| `duckduckgo`            | DuckDuckGo search          |
-| `exa`                   | Exa neural search          |
-| `cli`                   | CLI tools                  |
-| `dbos`                  | DBOS durable execution     |
-| `prefect`               | Prefect durable execution  |
+See `references/installation.md` for full/slim install options and optional dependency groups. Requires Python 3.10+.
 
 ## Release Highlights (1.60.0 → 1.62.0)
 

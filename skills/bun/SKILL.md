@@ -237,5 +237,6 @@ import.meta.env.DATABASE_URL;
 ## Links
 
 - [Documentation](https://bun.sh/docs)
+- [Releases](https://github.com/oven-sh/bun/releases)
 - [GitHub](https://github.com/oven-sh/bun)
 - [Discord](https://bun.sh/discord)

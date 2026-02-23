@@ -11,12 +11,9 @@ Distributed, git-backed graph issue tracker for AI coding agents. Persistent mem
 
 ## Quick Start
 
-```bash
-# Install
-brew install steveyegge/beads/bd
-# or
-curl -fsSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash
+Install: `brew install steveyegge/beads/bd` or use the install script from the [GitHub repo](https://github.com/steveyegge/beads).
 
+```bash
 # Initialize in repo (humans run once)
 bd init
 

@@ -239,6 +239,7 @@ Vibe Kanban runs agents with `--dangerously-skip-permissions`/`--yolo` by defaul
 
 ## Links
 
-- Official docs: https://www.vibekanban.com/docs
-- Vibe Guide: https://www.vibekanban.com/vibe-guide
-- GitHub: https://github.com/BloopAI/vibe-kanban
+- [Documentation](https://www.vibekanban.com/docs)
+- [Releases](https://github.com/BloopAI/vibe-kanban/releases)
+- [GitHub](https://github.com/BloopAI/vibe-kanban)
+- [Vibe Guide](https://www.vibekanban.com/vibe-guide)

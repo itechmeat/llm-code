@@ -313,7 +313,10 @@ clean: ## Clean artifacts
 
 ---
 
+## Links
+
+- [Documentation](https://www.gnu.org/software/make/manual/make.html)
+
 ## See Also
 
-- [GNU Make Manual](https://www.gnu.org/software/make/manual/make.html)
 - [patterns.md](references/patterns.md) - Extended patterns and recipes

@@ -1,6 +1,8 @@
 ---
 name: cloudflare-images
 description: "Store, transform, and deliver optimized images with Cloudflare Images. Covers image upload (API, Worker, Direct Creator Upload), variants, transformations (URL and Workers), bindings, Polish, signed URLs, formats (AVIF, WebP), R2 integration, watermarks. Keywords: Cloudflare Images, image transformations, variants, /cdn-cgi/image/, imagedelivery.net, Polish, AVIF, WebP, signed URLs, Direct Creator Upload, Images binding, R2, watermark."
+version: "—"
+release_date: "—"
 ---
 
 # Cloudflare Images
@@ -250,6 +252,11 @@ await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/
 | 9403 | Request loop detected                  |
 | 9422 | Free tier limit exceeded (5,000/month) |
 | 9520 | Unsupported format                     |
+
+## Links
+
+- [Documentation](https://developers.cloudflare.com/images/)
+- [Changelog](https://developers.cloudflare.com/images/changelog/)
 
 ## Related Skills
 

@@ -38,5 +38,5 @@ If `isDefault` is missing for all versions, **stop** and ask for an explicit sel
 
 ## Links
 
-- Docs: https://docs.deps.dev/api/v3/
-- API base: https://api.deps.dev/v3/
+- [Documentation](https://docs.deps.dev/api/v3/)
+- [GitHub](https://github.com/google/deps.dev)

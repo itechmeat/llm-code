@@ -1,24 +1,36 @@
 ---
 name: skill-master
 description: "Agent Skills authoring. Covers SKILL.md format, frontmatter, folders, docs ingestion. Keywords: agentskills.io, SKILL.md."
-version: "1.2.4"
-release_date: "2026-02-17"
+version: "1.3.0"
+release_date: "2026-02-23"
 metadata:
   author: itechmeat
 ---
 
 # Skill Master
 
-This skill is the entry point for creating and maintaining Agent Skills.
+Create, edit, and validate Agent Skills following the open [agentskills.io](https://agentskills.io) specification. This skill is the entry point for creating and maintaining Agent Skills.
 
 **Language requirement:** all skills MUST be authored in English.
+
+## Links
+
+- [Agent Skills Specification](https://agentskills.io/specification)
+- [What are Skills?](https://agentskills.io/what-are-skills)
+- [Integrate Skills](https://agentskills.io/integrate-skills)
+- [The Complete Guide to Building Skills for Claude](https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf) (Anthropic)
 
 ## Quick Navigation
 
 - New to skills? Read: `references/specification.md`
 - SKILL.md templates? See: `assets/skill-templates.md`
+- Writing effective descriptions & instructions? Read: `references/writing-skills.md`
+- Structuring multi-step processes? Read: `references/workflows.md`
+- Adding scripts to a skill? Read: `references/scripts.md`
+- Adding assets/templates to a skill? Read: `references/assets.md`
 - Advanced features (context, agents, hooks)? Read: `references/advanced-features.md`
 - Creating from docs? Read: `references/docs-ingestion.md`
+- Testing & troubleshooting? Read: `references/testing-troubleshooting.md`
 - Validation & packaging? See `scripts/`
 
 ## When to Use
@@ -32,14 +44,15 @@ This skill is the entry point for creating and maintaining Agent Skills.
 
 ```
 my-skill/
-├── SKILL.md          # Required: instructions + metadata
-├── README.md         # Optional: human-readable description
+├── SKILL.md          # Required: instructions + metadata (must be human-readable too)
 ├── metadata.json     # Optional: extended metadata for publishing
 ├── references/       # Optional: documentation, guides, API references
 ├── examples/         # Optional: sample outputs, usage examples
 ├── scripts/          # Optional: executable code
 └── assets/           # Optional: templates, images, data files
 ```
+
+_Note on README.md: Anthropic's official guide strictly prohibits including a `README.md` inside the skill folder to avoid confusing the agent. `SKILL.md` is the single source of truth and must be written to be equally readable by humans and agents. If you are migrating an existing skill that has a `README.md`, merge its useful information (like links and brief description) into `SKILL.md` and delete the `README.md`._
 
 ### Folder Purposes (CRITICAL)
 
@@ -84,13 +97,14 @@ Every `SKILL.md` MUST start with YAML frontmatter:
 ---
 name: skill-name
 description: "What it does. Keywords: term1, term2."
+version: "1.2.3"
+release_date: "2026-01-01"
 metadata:
   author: your-name
-  version: "1.0.0"
 ---
 ```
 
-**Field order:** `name` → `description` → `license` → `compatibility` → `metadata` → other fields
+**Field order:** `name` → `description` → `version` → `release_date` → `license` → `compatibility` → `metadata`
 
 ### Required Fields
 
@@ -101,21 +115,20 @@ metadata:
 
 ### Optional Fields (Top Level)
 
-| Field         | Purpose                                           |
-| ------------- | ------------------------------------------------- |
-| license       | License name or reference to bundled LICENSE file |
-| compatibility | Environment requirements (max 500 chars)          |
-| metadata      | Object for arbitrary key-value pairs (see below)  |
+| Field         | Purpose                                                      |
+| ------------- | ------------------------------------------------------------ |
+| version       | Upstream product version; `"—"` if product has no versioning |
+| release_date  | Date skill was last meaningfully updated (`YYYY-MM-DD`)      |
+| license       | License name or reference to bundled LICENSE file            |
+| compatibility | Environment requirements (max 500 chars)                     |
+| metadata      | Object for arbitrary key-value pairs (see below)             |
 
 ### metadata Object (Common Fields)
 
-| Field         | Purpose                                          |
-| ------------- | ------------------------------------------------ |
-| author        | Author name or organization                      |
-| version       | **Skill version** (semver format, e.g., "1.0.0") |
-| argument-hint | Hint for autocomplete, e.g., `[issue-number]`    |
-
-**IMPORTANT**: `version` in `metadata` is the **skill version**. If you reference external product docs, track that version separately (e.g., in README.md or metadata.json).
+| Field         | Purpose                                       |
+| ------------- | --------------------------------------------- |
+| author        | Author name or organization                   |
+| argument-hint | Hint for autocomplete, e.g., `[issue-number]` |
 
 ### Optional Fields (Claude Code / Advanced)
 
@@ -216,19 +229,30 @@ name: pdf--processing # consecutive hyphens not allowed
 
 **Purpose:** Tell the LLM what the skill does and when to activate it. Minimize tokens — just enough for activation decision.
 
-**Formula:**
+**Formulas:**
+
+For library/reference skills (Claude Code, keyword-based discovery):
 
 ```
 [Product] [core function]. Covers [2-3 key topics]. Keywords: [terms].
 ```
 
+For workflow/automation skills (Claude.ai, trigger-based activation):
+
+```
+[What it does]. Use when user [specific trigger phrases].
+```
+
+**Critical for auto-triggering:** include explicit "Use when user says / asks / mentions..." phrases. Without them, Claude may not load the skill automatically. See `references/writing-skills.md` for good/bad examples and debugging tips.
+
 **Constraints:**
 
 - Target: 80-150 chars
-- Max: 300 chars
+- Max: 1024 chars (300 if keeping it minimal)
 - No marketing ("powerful", "comprehensive", "modern")
 - No filler ("this skill", "use this for", "helps with")
-- No redundant context (skip "for apps", "for developers")
+- No XML angle brackets `< >`
+- Names with "claude" or "anthropic" are reserved
 
 **Good examples:**
 
@@ -264,6 +288,8 @@ description: "A powerful solution for all your database needs."
 **Key rule:** Keep `SKILL.md` under 500 lines. Move details to `references/`.
 
 ## Creating a New Skill
+
+_Pro Tip: You can use the `skill-creator` skill (available in Claude.ai or Claude Code) to interactively generate your first draft, then refine it using the steps below._
 
 ### Step 1: Scaffold
 
@@ -309,15 +335,38 @@ For each major topic, create `references/<topic>.md` with:
 - Gotchas / prohibitions
 - Practical examples
 
-### Step 5: Add Assets (if needed)
+### Step 5: Add Scripts (if applicable)
 
-For templates or static resources, create `assets/<resource>`:
+Consult `references/scripts.md` for when scripts are worth writing and how to structure them.
 
-- Document templates
-- Configuration templates
-- Schema files
+Language selection:
 
-### Step 6: Validate
+- **Python** — default for CLI wrappers, validators, scaffolding
+- **Go** — when the skill's ecosystem is Kubernetes/cloud-native (see k8s-cluster-api)
+- **JS/TS** — when the skill's ecosystem is Node/npm
+
+Minimal checklist for a script:
+
+- `argparse` (Python) or `flag` (Go) for all parameters — no hardcoded values
+- Check tool availability before use (`shutil.which()` in Python)
+- Docstring at top with Usage + Examples
+- All exceptions caught; exit non-zero with a message to stderr
+
+### Step 6: Add Assets (if needed)
+
+Consult `references/assets.md` for when assets are worth creating and how to format them.
+
+For templates or static resources, create `assets/<resource>`. Common types:
+
+- **Config templates** — `.minimal.yaml` / `.full.yaml` pair; add `# yaml-language-server: $schema=` header
+- **YAML manifests** — use `${VAR_NAME:=default}` for variables; include purpose + usage comment at top
+- **Text templates** — use `#`-prefixed comments to explain fields and valid values
+- **Markdown checklists / runbooks** — `- [ ]` checkboxes, inline commands, sign-off section
+- **Prompt / prose templates** — grouped by use case, each block self-contained
+
+Naming: `<tool>.minimal.yaml`, `<purpose>-checklist.md`, `<name>.template`, `<topic>-prompts.md`.
+
+### Step 7: Validate
 
 ```bash
 python scripts/quick_validate_skill.py <skill-path>
@@ -370,35 +419,32 @@ For each page:
 
 ## Version Tracking
 
-When creating or updating a skill from external documentation:
+### What `version` Means
 
-1. Add `version` field in frontmatter for product version:
+`version` holds the **upstream product version** the skill was built against (e.g., `"1.12.3"` for CAPI v1.12.3). For standalone skills not tied to an external product, it holds the **skill's own version** (e.g., `"1.2.4"` for skill-master).
 
-   ```yaml
-   ---
-   name: my-skill
-   description: "..."
-   version: "1.2.3"
-   ---
-   ```
+Use `"—"` when the product uses continuous deployment with no semantic versioning (e.g., hosted services like Cloudflare Workers).
 
-2. Optionally add `release_date` if known:
+### When to Update
 
-   ```yaml
-   ---
-   name: my-skill
-   description: "..."
-   version: "1.2.3"
-   release_date: "2025-01-21"
-   ---
-   ```
+| Trigger                              | Update `version` | Update `release_date` |
+| ------------------------------------ | ---------------- | --------------------- |
+| Product released a new version       | ✅ Yes           | ✅ Yes                |
+| Content changed, no upstream version | ❌ No            | ✅ Yes                |
+| Typo or minor fix                    | ❌ No            | ❌ No                 |
 
-3. Create `README.md` with:
-   - Skill overview (1-2 sentences)
-   - Usage section (when to use)
-   - Links section (standardized format)
+When bumping `version` or making significant content changes, also update:
 
-**README.md Links section format:**
+- `SKILLS_VERSIONS.md` — set new version + date, move row to top of table
+- `CHANGELOG.md` — prepend a new dated block at the top
+
+### Creating a Skill from Docs
+
+1. Set `version` to the exact upstream version you documented (check the release page)
+2. Set `release_date` to today's date
+3. Ensure `SKILL.md` has an overview (1-2 sentences) + `## Links` section
+
+**Links format:**
 
 ```markdown
 ## Links
@@ -409,29 +455,23 @@ When creating or updating a skill from external documentation:
 - [npm](https://www.npmjs.com/package/name)
 ```
 
-Include only applicable links. Order: Documentation → Changelog/Releases → GitHub → Package registry.
-
-Example frontmatter:
-
-```yaml
----
-name: turso
-description: "Turso embedded SQLite database..."
-version: "0.4.0"
-release_date: "2025-01-05"
----
-```
-
-This helps track when the skill was last updated and against which product version.
+Order: Documentation → Changelog/Releases → GitHub → Package registry. Include only applicable links.
 
 ## Validation Checklist
 
-- [ ] `name` matches folder name
-- [ ] `name` is 1-64 chars, lowercase, no `--`
-- [ ] `description` is 1-1024 chars, includes keywords
+_Pro Tip: You can use the `skill-creator` skill (available in Claude.ai or Claude Code) to review your skill and suggest improvements before finalizing._
+
+- [ ] `name` matches folder name, kebab-case, 1-64 chars, no `--`
+- [ ] `description` includes WHAT it does AND WHEN to use it (trigger phrases)
+- [ ] `description` has no XML angle brackets `< >`
 - [ ] `SKILL.md` under 500 lines
 - [ ] Documentation in `references/`, templates in `assets/`
+- [ ] Complex multi-step processes extracted to `references/workflows.md`
 - [ ] All text in English
+- [ ] Skill triggers on obvious test queries
+- [ ] Skill does NOT trigger on unrelated queries
+
+Full pre-publish checklist: `references/testing-troubleshooting.md`
 
 ## Scripts
 
@@ -445,6 +485,11 @@ This helps track when the skill was last updated and against which product versi
 ## Links
 
 - Specification: `references/specification.md`
+- Writing Skills (descriptions, instructions, patterns): `references/writing-skills.md`
+- Workflow Patterns: `references/workflows.md`
+- Scripts in Skills: `references/scripts.md`
+- Assets in Skills: `references/assets.md`
+- Testing & Troubleshooting: `references/testing-troubleshooting.md`
 - Advanced Features: `references/advanced-features.md`
 - SKILL.md Templates: `assets/skill-templates.md`
 - Docs Ingestion: `references/docs-ingestion.md`

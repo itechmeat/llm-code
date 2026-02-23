@@ -54,6 +54,11 @@ Cluster API addresses these gaps with declarative, Kubernetes-style APIs that au
 | Developer Guide              | [developer.md](references/developer.md)                   |
 | Troubleshooting              | [troubleshooting.md](references/troubleshooting.md)       |
 | API Reference & Providers    | [api-reference.md](references/api-reference.md)           |
+| Security & PSS               | [security.md](references/security.md)                     |
+| Controllers                  | [controllers.md](references/controllers.md)               |
+| Version Migrations           | [migrations.md](references/migrations.md)                 |
+| FAQ                          | [faq.md](references/faq.md)                               |
+| Best Practices               | [best-practices.md](references/best-practices.md)         |
 
 ## When to Use
 
@@ -183,8 +188,38 @@ spec:
 - Do NOT skip cluster upgrade steps (control plane before workers)
 - Do NOT ignore MachineHealthCheck alerts
 
+## Scripts
+
+Go-based tools in `scripts/`. Run via `go run ./tool-name` from the scripts directory.
+
+| Tool                        | Purpose                                            |
+| --------------------------- | -------------------------------------------------- |
+| `validate-manifests`        | Validate YAML manifests against CRD schemas        |
+| `run-clusterctl-diagnose`   | Run clusterctl describe and save diagnostic report |
+| `migration-checker`         | Check v1beta1→v1beta2 migration readiness          |
+| `check-cluster-health`      | Analyze conditions across all cluster objects      |
+| `analyze-conditions`        | Parse and report False/Unknown conditions          |
+| `scaffold-provider`         | Generate new provider directory structure          |
+| `generate-cluster-template` | Generate templates from ClusterClass               |
+| `export-cluster-state`      | Export cluster state for backup/move               |
+| `audit-security`            | Check PSS compliance and security posture          |
+| `timeline-events`           | Build provisioning event timeline                  |
+| `compare-versions`          | Compare CAPI version specs and API changes         |
+| `check-provider-contract`   | Verify provider CRD compliance with contracts      |
+| `lint-cluster-templates`    | Lint and validate CAPI manifests                   |
+
+## Assets
+
+Reusable templates in `assets/`:
+
+- **Cluster templates**: `cluster-minimal.yaml`, `cluster-production.yaml`, `cluster-clusterclass.yaml`, `clusterclass-example.yaml`
+- **Provider configs**: `docker-quickstart.yaml`, `aws-credentials.yaml`, `azure-credentials.yaml`, `provider-matrix.md`
+- **Operations**: `upgrade-checklist.md`, `migration-v1beta2.md`, `troubleshooting-flow.md`, `security-audit-report.md`, `dr-backup-restore.md`, `etcd-backup.yaml`
+- **GitOps**: `argocd-cluster-app.yaml`, `flux-kustomization.yaml`, `gitops-rbac.yaml`
+- **Monitoring**: `prometheus-alerts.yaml`
+
 ## Links
 
-- Documentation: https://cluster-api.sigs.k8s.io/
-- GitHub: https://github.com/kubernetes-sigs/cluster-api
-- Releases: https://github.com/kubernetes-sigs/cluster-api/releases
+- [Documentation](https://cluster-api.sigs.k8s.io/)
+- [GitHub](https://github.com/kubernetes-sigs/cluster-api)
+- [Releases](https://github.com/kubernetes-sigs/cluster-api/releases)

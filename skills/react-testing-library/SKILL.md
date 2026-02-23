@@ -22,21 +22,7 @@ release_date: "2026-01-19"
 
 ## Installation
 
-```bash
-# Core (v16+: @testing-library/dom is peer dependency)
-npm install --save-dev @testing-library/react @testing-library/dom
-
-# TypeScript support
-npm install --save-dev @types/react @types/react-dom
-
-# Recommended: user-event for interactions
-npm install --save-dev @testing-library/user-event
-
-# Recommended: jest-dom for matchers
-npm install --save-dev @testing-library/jest-dom
-```
-
-**React 19 support**: Requires `@testing-library/react` v16.1.0+
+Install: `npm install --save-dev @testing-library/react @testing-library/dom`. Recommended extras: `@testing-library/user-event` and `@testing-library/jest-dom`. React 19 requires v16.1.0+.
 
 ## Core Philosophy
 
@@ -414,3 +400,10 @@ getByText((content, element) => {
 | `waitFor`           | Retry until assertion passes      |
 | `configure`         | Set global options                |
 | `userEvent.setup()` | Create user event instance        |
+
+## Links
+
+- [Documentation](https://testing-library.com/docs/react-testing-library/intro/)
+- [Releases](https://github.com/testing-library/react-testing-library/releases)
+- [GitHub](https://github.com/testing-library/react-testing-library)
+- [npm](https://www.npmjs.com/package/@testing-library/react)

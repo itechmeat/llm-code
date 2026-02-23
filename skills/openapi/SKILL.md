@@ -360,6 +360,7 @@ components:
 
 ## Links
 
-- Official spec: https://spec.openapis.org/oas/latest.html
-- Learning resources: https://learn.openapis.org/
-- JSON Schema (for schemas): https://json-schema.org/
+- [Documentation](https://spec.openapis.org/oas/latest.html)
+- [Releases](https://github.com/OAI/OpenAPI-Specification/releases)
+- [GitHub](https://github.com/OAI/OpenAPI-Specification)
+- [Learning Portal](https://learn.openapis.org/)

@@ -13,8 +13,8 @@ Quick reference for tracking tool versions across skills. Use this file to check
 
 | Skill                          | Skill Version | Release Date | Releases                                                                      | Documentation                                                         |
 | ------------------------------ | ------------- | ------------ | ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **skill-master**               | 1.3.0         | 2026-02-23   | [Commits](https://github.com/agentskills/agentskills/commits/main/)           | [Docs](https://github.com/agentskills/agentskills/tree/main/docs)     |
 | **openclaw**                   | v2026.2.19    | 2026-02-19   | [Releases](https://github.com/openclaw/openclaw/releases)                     | [Docs](https://docs.openclaw.ai/)                                     |
-| **skill-master**               | 1.2.4         | 2026-02-17   | [Commits](https://github.com/agentskills/agentskills/commits/main/)           | [Docs](https://github.com/agentskills/agentskills/tree/main/docs)     |
 | **k8s-cluster-api**            | 1.12.3        | 2026-02-17   | [Releases](https://github.com/kubernetes-sigs/cluster-api/releases)           | [Docs](https://cluster-api.sigs.k8s.io/)                              |
 | **mantine-dev**                | 8.3.15        | 2026-02-16   | [Releases](https://github.com/mantinedev/mantine/releases)                    | [Docs](https://mantine.dev/getting-started/)                          |
 | **coderabbit**                 | —             | 2026-02-18   | [Changelog](https://docs.coderabbit.ai/changelog)                             | [Docs](https://docs.coderabbit.ai/)                                   |

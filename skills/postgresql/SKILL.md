@@ -121,6 +121,12 @@ Pre-flight before destructive actions:
 - [internals.md](references/internals.md) — Query processing pipeline, parser/rewriter/planner/executor, system catalogs, wire protocol, access methods
 - [protocol.md](references/protocol.md) — Wire protocol v3.2: message format, startup, auth, query, COPY, replication
 
-## See also
+## Links
+
+- [Documentation](https://www.postgresql.org/docs/current/)
+- [Releases](https://www.postgresql.org/about/newsarchive/pgsql/)
+- [GitHub](https://github.com/postgres/postgres)
+
+## See Also
 
 - [sql-expert](../sql-expert/SKILL.md) — Query patterns, EXPLAIN workflow, optimization

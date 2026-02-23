@@ -1,6 +1,8 @@
 ---
 name: cloudflare-workflows
 description: "Cloudflare Workflows durable execution playbook: multi-step orchestration, state persistence, retries, sleep/scheduling, waitForEvent, external events, bindings, lifecycle management, limits, pricing. Keywords: Cloudflare Workflows, durable execution, WorkflowEntrypoint, step.do, step.sleep, waitForEvent, sendEvent, retries, NonRetryableError, Workflow binding."
+version: "—"
+release_date: "—"
 ---
 
 # Cloudflare Workflows
@@ -469,6 +471,11 @@ See [pricing.md](references/pricing.md) for details.
 - [events.md](references/events.md) — Event handling and REST API
 - [patterns.md](references/patterns.md) — Saga, approval, reminders
 - [pricing.md](references/pricing.md) — Billing details
+
+## Links
+
+- [Documentation](https://developers.cloudflare.com/workflows/)
+- [Changelog](https://developers.cloudflare.com/workflows/changelog/)
 
 ## Cross-References (Skills)
 

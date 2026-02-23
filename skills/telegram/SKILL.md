@@ -41,6 +41,12 @@ Router skill: pick the reference that matches your task.
 - [ ] Callback data validated, not trusted blindly
 - [ ] Handlers are idempotent or have de-duplication
 
+## Links
+
+- [Telegram Bot API](https://core.telegram.org/bots/api)
+- [aiogram Releases](https://github.com/aiogram/aiogram/releases)
+- [aiogram Documentation](https://docs.aiogram.dev/)
+
 ## Related Skills
 
 - [PostgreSQL](../postgresql/SKILL.md) — for database layer

@@ -1,3 +1,10 @@
+---
+name: cloudflare-d1
+description: "Cloudflare D1 serverless SQL database. Covers Workers bindings, Time Travel, migrations, replication. Keywords: D1, SQLite, Cloudflare Workers."
+version: "—"
+release_date: "—"
+---
+
 # Cloudflare D1
 
 Cloudflare D1 — managed serverless SQL database built on SQLite. Core: 10 GB per database, SQLite semantics, Time Travel (30 days), Workers/Pages integration.
@@ -420,6 +427,11 @@ const prisma = new PrismaClient({ adapter });
 - [references/time-travel.md](references/time-travel.md) — Point-in-Time Recovery
 - [references/replication.md](references/replication.md) — Read Replication and Sessions API
 - [references/pricing.md](references/pricing.md) — billing and limits
+
+## Links
+
+- [Documentation](https://developers.cloudflare.com/d1/)
+- [Changelog](https://developers.cloudflare.com/d1/changelog/)
 
 ## Related Skills
 

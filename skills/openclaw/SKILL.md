@@ -1,6 +1,8 @@
 ---
 name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Keywords: OpenClaw, gateway, tools, channels, agents."
+version: "v2026.2.19"
+release_date: "2026-02-19"
 metadata:
   author: itechmeat
   docs_ingested_at: "2026-02-19"
@@ -9,6 +11,18 @@ metadata:
 # OpenClaw (Operator Playbook)
 
 This skill is self-contained and includes operational documentation directly in this file.
+
+## Quick Navigation
+
+- Installation / migration: `references/installation.md`
+- Architecture & multi-agent routing: `references/architecture.md`
+- Extended concepts: `references/concepts.md`
+- Tool governance & safety: `references/tools.md`
+- Gateway runbook & security: `references/gateway.md`
+- Onboarding & first-run: `references/getting-started.md`
+- Channels & providers: `references/channels-and-providers.md`
+- Nodes & remote execution: `references/nodes.md`
+- CLI operations & troubleshooting: `references/operations.md`
 
 ## Core Model
 
@@ -142,8 +156,7 @@ Common triage map:
 
 ## Links
 
-- Docs root: https://docs.openclaw.ai/
-- Priority pages:
-  - https://docs.openclaw.ai/concepts/architecture
-  - https://docs.openclaw.ai/tools
-  - https://docs.openclaw.ai/gateway
+- [Documentation](https://docs.openclaw.ai/)
+- [Releases](https://github.com/openclaw/openclaw/releases)
+
+Key docs pages: [Architecture](https://docs.openclaw.ai/concepts/architecture), [Tools](https://docs.openclaw.ai/tools), [Gateway](https://docs.openclaw.ai/gateway)

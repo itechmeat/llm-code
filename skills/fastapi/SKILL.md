@@ -53,13 +53,7 @@ This skill provides comprehensive guidance for building APIs with FastAPI.
 
 ## Installation
 
-Requires Python 3.10+. Support for Python 3.9 was dropped in FastAPI 0.129.0.
-
-```bash
-pip install "fastapi[standard]"  # Full with uvicorn
-pip install fastapi              # Minimal
-pip install python-multipart     # For forms/files
-```
+Requires Python 3.10+. Install: `pip install "fastapi[standard]"` (full with uvicorn) or `pip install fastapi` (minimal). Add `python-multipart` for forms/files.
 
 ## Quick Start
 
@@ -166,6 +160,7 @@ def read_me(user: Annotated[User, Depends(get_current_user)]):
 
 ## Links
 
-- Docs: https://fastapi.tiangolo.com/
-- Tutorial: https://fastapi.tiangolo.com/tutorial/
-- Advanced: https://fastapi.tiangolo.com/advanced/
+- [Documentation](https://fastapi.tiangolo.com/)
+- [Releases](https://github.com/fastapi/fastapi/releases)
+- [GitHub](https://github.com/fastapi/fastapi)
+- [PyPI](https://pypi.org/project/fastapi/)

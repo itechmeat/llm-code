@@ -1,6 +1,8 @@
 ---
 name: cloudflare-pages
 description: "Deploy full-stack applications on Cloudflare Pages. Covers Git integration, Direct Upload, Wrangler CLI, build configuration, Pages Functions (file-based routing), bindings, headers/redirects, custom domains, environment variables. Keywords: Cloudflare Pages, Pages Functions, Git deployment, Direct Upload, Wrangler, pages.dev, _headers, _redirects, _routes.json, preview deployments."
+version: "—"
+release_date: "—"
 ---
 
 # Cloudflare Pages
@@ -219,6 +221,11 @@ Upload `404.html` in build output root for SPA routing.
   "exclude": ["/*"]
 }
 ```
+
+## Links
+
+- [Documentation](https://developers.cloudflare.com/pages/)
+- [Changelog](https://developers.cloudflare.com/pages/changelog/)
 
 ## Related Skills
 

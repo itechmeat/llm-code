@@ -23,10 +23,10 @@ Research $ARGUMENTS thoroughly:
 
 ### Agent Types
 
-| Agent | Best For |
-|-------|----------|
-| `Explore` | Research, code analysis, finding patterns |
-| `Plan` | Creating implementation plans, breaking down tasks |
+| Agent     | Best For                                           |
+| --------- | -------------------------------------------------- |
+| `Explore` | Research, code analysis, finding patterns          |
+| `Plan`    | Creating implementation plans, breaking down tasks |
 
 ### When to Use Context Fork
 
@@ -49,12 +49,12 @@ allowed-tools: Read Grep Glob
 
 ### Common Tool Restrictions
 
-| Use Case | Allowed Tools |
-|----------|---------------|
-| Read-only analysis | `Read Grep Glob` |
-| Code review | `Read Grep Glob Write` |
-| Git operations | `Bash(git:*)` |
-| Python scripts | `Bash(python:*)` |
+| Use Case           | Allowed Tools          |
+| ------------------ | ---------------------- |
+| Read-only analysis | `Read Grep Glob`       |
+| Code review        | `Read Grep Glob Write` |
+| Git operations     | `Bash(git:*)`          |
+| Python scripts     | `Bash(python:*)`       |
 
 ### Tool Syntax
 
@@ -91,10 +91,9 @@ name: api-conventions
 description: API design patterns for this codebase
 user-invocable: false
 ---
-
 When writing API endpoints:
-- Use RESTful naming conventions
-- Return consistent error formats
+  - Use RESTful naming conventions
+  - Return consistent error formats
 ```
 
 ## Dynamic Context
@@ -193,6 +192,26 @@ my-skill/
 ```
 
 Reference in SKILL.md:
+
 ```markdown
 See `examples/basic-output.md` for expected format.
 ```
+
+## Distribution and Sharing
+
+### Organization-Level Skills
+
+Admins can deploy skills workspace-wide (shipped December 18, 2025), allowing for automatic updates and centralized management across an organization.
+
+### Using Skills via API
+
+For programmatic use cases (building applications, agents, or automated workflows), skills can be managed and executed via the Anthropic API.
+
+Key capabilities:
+
+- `/v1/skills` endpoint for listing and managing skills
+- Add skills to Messages API requests via the `container.skills` parameter
+- Version control and management through the Claude Console
+- Works with the Claude Agent SDK for building custom agents
+
+_Note: Skills in the API require the Code Execution Tool beta, which provides the secure environment skills need to run._

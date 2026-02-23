@@ -90,5 +90,6 @@ Based on product version: 0.4.3
 
 ## Links
 
-- Official docs: https://docs.turso.tech/
-- GitHub: https://github.com/tursodatabase
+- [Documentation](https://docs.turso.tech/)
+- [Changelog](https://github.com/tursodatabase/turso/blob/main/CHANGELOG.md)
+- [GitHub](https://github.com/tursodatabase/turso)

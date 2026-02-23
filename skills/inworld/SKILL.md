@@ -63,5 +63,6 @@ audio = base64.b64decode(response.json()['audioContent'])
 
 ## Links
 
-- Docs: https://docs.inworld.ai/docs/tts/tts
-- Platform: https://platform.inworld.ai/
+- [Documentation](https://docs.inworld.ai/docs/tts/tts)
+- [Changelog](https://docs.inworld.ai/docs/release-notes/tts)
+- [Platform](https://platform.inworld.ai/)

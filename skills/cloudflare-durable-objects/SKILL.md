@@ -1,6 +1,8 @@
 ---
 name: cloudflare-durable-objects
 description: "Cloudflare Durable Objects stateful serverless playbook: DurableObjectState, Storage API (SQLite/KV), WebSocket hibernation, alarms, RPC, bindings, migrations, limits, pricing. Keywords: Durable Objects, DurableObjectState, DurableObjectStorage, SQLite, ctx.storage, WebSocket hibernation, acceptWebSocket, alarms, setAlarm, RPC, blockConcurrencyWhile."
+version: "—"
+release_date: "—"
 ---
 
 # Cloudflare Durable Objects
@@ -465,6 +467,11 @@ See [pricing.md](references/pricing.md) for details.
 - [websockets.md](references/websockets.md) — WebSocket hibernation
 - [alarms.md](references/alarms.md) — Alarm patterns
 - [pricing.md](references/pricing.md) — Billing details
+
+## Links
+
+- [Documentation](https://developers.cloudflare.com/durable-objects/)
+- [Changelog](https://developers.cloudflare.com/durable-objects/changelog/)
 
 ## Related Skills
 

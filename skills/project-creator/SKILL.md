@@ -1,9 +1,9 @@
 ---
 name: project-creator
 description: "Project documentation scaffolding. Covers about.md, specs.md, architecture.md, project-context.md, and user stories. Keywords: project setup, documentation, specs, architecture, stories."
+version: "1.0.0"
 metadata:
   author: itechmeat
-  version: "1.0.0"
 ---
 
 # Project Creator
@@ -199,3 +199,7 @@ When user lacks technical knowledge:
   - Performance vs. simplicity
   - Feature richness vs. learning curve
   - Cost vs. scalability
+
+## Links
+
+- [Agent Skills Specification](https://agentskills.io/specification)

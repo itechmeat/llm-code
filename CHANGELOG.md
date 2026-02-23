@@ -5,6 +5,17 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-02-23]
+
+### Added
+
+- **CLAUDE.md** — Repository-level guidance for Claude Code covering commands, structure, skill authoring rules, three development workflows (create from docs, update existing, compress/quality-check), and changelog/commit conventions.
+
+### Changed
+
+- **skill-master** — Updated to v1.3.0. Added references for writing skills, scripts, assets, and testing/troubleshooting. Clarified frontmatter schema, description rules, and version tracking. Integrated insights from Anthropic's "The Complete Guide to Building Skills for Claude", including the MCP vs Skills analogy, `skill-creator` usage, and API distribution details.
+- **All 40 skills** — Bulk refactoring to comply with updated skill-master rules: deleted all README.md files (merged useful content into SKILL.md), standardized `## Links` sections to markdown format across all skills, fixed broken or missing frontmatter (cloudflare-d1, pydantic-ai, openspec, tavily), moved installation instructions out of SKILL.md where needed, added missing `version`/`release_date` fields to Cloudflare and other skills.
+
 ## [2026-02-19]
 
 ### Added

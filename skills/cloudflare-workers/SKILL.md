@@ -1,6 +1,8 @@
 ---
 name: cloudflare-workers
 description: "Build serverless applications on Cloudflare Workers. Covers runtime APIs, handlers (fetch, scheduled, queue, email), bindings (KV, R2, D1, Durable Objects, Queues, AI, Vectorize), wrangler.toml configuration, local development with Miniflare, static assets, compatibility flags, testing with Vitest. Keywords: Cloudflare Workers, serverless, edge computing, Wrangler, fetch handler, scheduled handler, bindings, KV, R2, D1, Durable Objects, Workers AI, Miniflare, wrangler.toml, compatibility_date."
+version: "—"
+release_date: "—"
 ---
 
 # Cloudflare Workers
@@ -181,6 +183,11 @@ export default {
 | AI not working locally | Use `remote: true` in ai binding config                       |
 | Node APIs unavailable  | Add `nodejs_compat` to compatibility_flags                    |
 | First deploy fails     | Use `wrangler deploy`, not `versions upload` for first deploy |
+
+## Links
+
+- [Documentation](https://developers.cloudflare.com/workers/)
+- [Changelog](https://developers.cloudflare.com/workers/changelog/)
 
 ## Related Skills
 

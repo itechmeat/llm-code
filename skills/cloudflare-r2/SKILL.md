@@ -1,6 +1,8 @@
 ---
 name: cloudflare-r2
 description: "Cloudflare R2 object storage playbook: buckets, Workers Binding API, S3 compatibility, presigned URLs, multipart uploads, CORS, lifecycle policies, event notifications, public buckets, storage classes, data migration. Keywords: Cloudflare R2, object storage, S3 compatible, Workers binding, R2Bucket, presigned URLs, multipart upload, CORS, lifecycle, event notifications, Super Slurper, Sippy, R2 pricing."
+version: "—"
+release_date: "—"
 ---
 
 # Cloudflare R2
@@ -402,6 +404,11 @@ Lost key = lost data.
 - [multipart.md](references/multipart.md) — Large file uploads
 - [lifecycle.md](references/lifecycle.md) — Object expiration
 - [pricing.md](references/pricing.md) — Cost optimization
+
+## Links
+
+- [Documentation](https://developers.cloudflare.com/r2/)
+- [Changelog](https://developers.cloudflare.com/r2/changelog/)
 
 ## Cross-References
 
