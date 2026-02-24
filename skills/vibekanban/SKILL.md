@@ -1,8 +1,8 @@
 ---
 name: vibekanban
 description: "Vibe Kanban orchestration platform for AI coding agents: workspaces, sessions, task management, code review, git worktrees, multi-agent support. Keywords: Vibe Kanban, AI agents, Claude Code, Codex, Gemini, kanban board, git worktree, code review, MCP server, workspaces, sessions."
-version: "0.1.15"
-release_date: "2026-02-19"
+release_date: "2026-02-21"
+version: "0.1.18"
 ---
 
 # Vibe Kanban
@@ -30,13 +30,12 @@ Orchestration platform for AI coding agents. Plan, review, and manage AI-generat
 npx vibe-kanban
 ```
 
-## Release Highlights (0.1.14 → 0.1.15)
+## Release Highlights (0.1.15 → 0.1.18)
 
-- Workspace creation flow improved with better defaults, callback-based navigation, and `executor_config` handling.
-- Spin-off workspaces now preserve linked issue context and preferred repo/branch choices.
-- PR creation dialog can prefill fields from initial prompt context.
-- Core reliability improved with Electric fallback and timeout-based failover.
-- Claude Code integration updated for newer message types.
+- MCP server expanded: richer issue retrieval (`get_issue` includes tags/relationships/sub-issues) and new workspace/relationship/tag tools (e.g. `update_workspace`, relationship + tag mutations).
+- Frontend routing migrated to TanStack Router (navigation/URLs may differ from older screenshots).
+- Reliability improvements around Electric fallback and cancellation/tab-switch handling.
+- Review/diff UI improvements (annotation width fixes for horizontal scrolling).
 
 Opens browser automatically. Use `PORT=8080 npx vibe-kanban` for fixed port.
 
@@ -223,7 +222,7 @@ Expose Vibe Kanban to external MCP clients:
 }
 ```
 
-MCP tools: `list_projects`, `list_tasks`, `create_task`, `start_task_attempt`
+MCP tools include: `list_workspaces`, `update_workspace`, `list_projects`, `list_issues`, `get_issue`, `update_issue`, plus tag and relationship helpers.
 
 ## Critical Safety Note
 

@@ -29,12 +29,19 @@
 - Validate node status/capabilities before invoking remote actions.
 - Prefer least-privilege profile first, then add explicit allow entries.
 
+## Browser SSRF policy (v2026.2.23)
+
+- Config key rename: `browser.ssrfPolicy.allowPrivateNetwork` -> `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork`.
+- Default behavior changed when unset; treat this as a post-update verification item.
+- After updating, run `openclaw doctor --fix` to migrate legacy config and re-check safety posture.
+
 ## Practical operator recipes
 
 - Disable a risky tool globally via deny list.
 - Use messaging profile for chat workflows; coding profile only where command execution is needed.
 - Restrict selected providers to minimal tools when model behavior is less predictable.
 - For browser automation: verify `status` before `snapshot/act` to reduce flaky sequences.
+- For web search: provider `"kimi"` is supported (Moonshot); expect a two-step tool flow where results are echoed before final synthesis.
 - For long-running shell tasks: use `exec(background=true)` + `process.poll` instead of blocking calls.
 
 ## Troubleshooting checklist

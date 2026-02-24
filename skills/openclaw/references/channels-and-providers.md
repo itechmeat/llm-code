@@ -56,3 +56,102 @@
 - Apple Watch companion flows depend on reliable gateway-to-iOS notification relay.
 - APNs registration/signing configuration is now an explicit operational dependency for iOS/watch delivery reliability.
 - If watch/iOS commands appear delayed or missing, validate APNs push path before changing model/tool policy.
+
+## Mistral provider (v2026.2.22)
+
+OpenClaw supports Mistral for:
+
+- Text/image model routing (`mistral/...`)
+- Audio transcription via Voxtral (media understanding)
+- Memory embeddings (`memorySearch.provider = "mistral"`)
+
+Onboarding examples:
+
+```bash
+openclaw onboard --auth-choice mistral-api-key
+
+# non-interactive
+openclaw onboard --mistral-api-key "$MISTRAL_API_KEY"
+```
+
+Minimal config shape (example):
+
+```json
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "mistral/mistral-large-latest"
+      }
+    }
+  }
+}
+```
+
+Audio transcription model wiring example:
+
+```json
+{
+  "tools": {
+    "media": {
+      "audio": {
+        "enabled": true,
+        "models": [{ "provider": "mistral", "model": "voxtral-mini-latest" }]
+      }
+    }
+  }
+}
+```
+
+Operational notes:
+
+- Auth uses `MISTRAL_API_KEY`.
+- Default base URL: `https://api.mistral.ai/v1`.
+- Embeddings endpoint: `/v1/embeddings` (commonly `mistral-embed`).
+- Audio transcriptions endpoint: `/v1/audio/transcriptions`.
+
+## Synology Chat channel (plugin) (v2026.2.22)
+
+Synology Chat is plugin-based (not included in default core channel install).
+
+Install the plugin from a local checkout:
+
+```bash
+openclaw plugins install ./extensions/synology-chat
+```
+
+High-level setup:
+
+1. Create an incoming webhook in Synology Chat and copy its URL.
+2. Create an outgoing webhook with a secret token.
+3. Point the outgoing webhook to your gateway (default: `/webhook/synology`).
+4. Configure `channels.synology-chat` and restart the gateway.
+
+Minimal config example:
+
+```json
+{
+  "channels": {
+    "synology-chat": {
+      "enabled": true,
+      "token": "synology-outgoing-token",
+      "incomingUrl": "https://nas.example.com/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2&token=...",
+      "webhookPath": "/webhook/synology",
+      "dmPolicy": "allowlist",
+      "allowedUserIds": ["123456"],
+      "rateLimitPerMinute": 30,
+      "allowInsecureSsl": false
+    }
+  }
+}
+```
+
+Safety defaults:
+
+- Prefer `dmPolicy: "allowlist"` in production.
+- Keep `allowInsecureSsl: false` unless you explicitly trust your NAS TLS setup.
+
+## Provider notes (v2026.2.23)
+
+- `kilocode` provider is supported with first-class auth/onboarding and implicit provider detection.
+- Moonshot/Kimi surfaces: `web_search` supports provider `"kimi"`, and media understanding adds a native Moonshot video provider.

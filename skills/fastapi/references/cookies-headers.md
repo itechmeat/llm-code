@@ -123,6 +123,18 @@ async def webhook(
     return {"content_type": content_type}
 ```
 
+#### Strict JSON `Content-Type` checking (FastAPI 0.132.0)
+
+FastAPI 0.132.0 enables **strict JSON `Content-Type` checking** by default. If a request includes a JSON body but does not send a valid JSON `Content-Type` header (for example `application/json`), FastAPI will reject the request.
+
+If you need the previous (more permissive) behavior for legacy clients, disable the check at app creation time:
+
+```python
+from fastapi import FastAPI
+
+app = FastAPI(strict_content_type=False)
+```
+
 ### Custom Headers
 
 ```python

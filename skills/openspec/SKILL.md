@@ -1,8 +1,8 @@
 ---
 name: openspec
 description: "OpenSpec artifact-driven workflow. Covers OPSX commands, schemas, project config. Keywords: OPSX, artifact graph, /opsx:."
-version: "1.1.1"
-release_date: "2026-01-30"
+version: "1.2.0"
+release_date: "2026-02-23"
 ---
 
 # OpenSpec (OPSX) Skill
@@ -21,9 +21,17 @@ Use this skill to guide or reason about the OpenSpec artifact-driven workflow sy
 
 - Artifact graph core concepts: references/artifact-core.md
 - OPSX workflow behavior and usage: references/opsx-workflow.md
+- Setup + profiles (init, update, config profile): references/setup-profiles.md
 - Schema customization workflow and gaps: references/schema-customization.md
 - End-to-end schema workflow gaps and proposed solution: references/schema-workflow-gaps.md
 - Experimental release plan and rollout checklist: references/experimental-release-plan.md
+
+## Release Highlights (1.1.1 → 1.2.0)
+
+- **Profiles:** select a workflow profile via `openspec config profile` (preset: `core` or custom selection) and apply it to a project via `openspec update`.
+- **Propose workflow (all-at-once):** legacy slash command `/openspec:proposal` creates proposal + specs + design + tasks in one request (instead of `/opsx:new` + `/opsx:ff`).
+- **More tool integrations:** adds support for Pi and Kiro tool directories.
+- **Cleaner updates:** `openspec update` can prune deselected workflows to keep projects tidy.
 
 ## OPSX Commands
 
@@ -38,6 +46,8 @@ Use this skill to guide or reason about the OpenSpec artifact-driven workflow sy
 | `/opsx:sync`         | Sync delta specs to main specs                           |
 | `/opsx:archive`      | Archive single completed change                          |
 | `/opsx:bulk-archive` | Archive multiple completed changes at once               |
+
+**Legacy (non-OPSX) command:** `/openspec:proposal` creates all planning artifacts at once. Prefer OPSX, but this can be useful for small/straightforward changes or older setups.
 
 ## Schema Management
 

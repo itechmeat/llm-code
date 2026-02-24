@@ -1,11 +1,11 @@
 ---
 name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Keywords: OpenClaw, gateway, tools, channels, agents."
-version: "v2026.2.19"
-release_date: "2026-02-19"
+version: "v2026.2.23"
+release_date: "2026-02-24"
 metadata:
   author: itechmeat
-  docs_ingested_at: "2026-02-19"
+  docs_ingested_at: "2026-02-23"
 ---
 
 # OpenClaw (Operator Playbook)
@@ -48,13 +48,13 @@ If OpenClaw is not installed, use `references/installation.md`.
 - For config changes, treat `config.apply` as controlled rollout and `config.patch` as targeted merge.
 - Remember patch semantics: objects merge, arrays replace, `null` deletes.
 
-## Release Updates (v2026.2.19)
+## Release Updates (v2026.2.23)
 
-- iOS reliability: gateway can wake disconnected iOS nodes via APNs before `nodes.invoke`.
-- Device hygiene: paired-device cleanup flows were expanded (`device.pair.remove`, `openclaw devices remove`, `openclaw devices clear --yes [--pending]`).
-- APNs operations: registration/signing and push-test validation paths were added for delivery troubleshooting.
-- Security audit: `gateway.http.no_auth` findings now explicitly flag risky `gateway.auth.mode="none"` exposure patterns.
-- Apple Watch companion MVP introduced watch inbox/relay surfaces that depend on healthy gateway/channel delivery.
+- Providers: first-class `kilocode` provider support (auth, onboarding, implicit provider detection, and model defaults).
+- Tools/web_search: add provider `"kimi"` (Moonshot) and correct the two-step `$web_search` tool flow (echo tool results before synthesis).
+- Gateway: optional HSTS via `gateway.http.securityHeaders.strictTransportSecurity` for direct HTTPS deployments.
+- Sessions: hardened maintenance via `openclaw sessions cleanup` with disk-budget controls and safer transcript/archive cleanup.
+- **Breaking:** browser SSRF policy defaults changed and config key renamed (`browser.ssrfPolicy.allowPrivateNetwork` -> `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork`); use `openclaw doctor --fix` to migrate.
 
 ## Architecture and Runtime Concepts
 

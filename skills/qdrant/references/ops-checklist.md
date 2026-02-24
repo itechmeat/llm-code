@@ -8,31 +8,43 @@ Operational guidance for Qdrant: monitoring, performance tuning, and common issu
 
 ### Key Endpoints
 
-| Endpoint | Purpose | Notes |
-|----------|---------|-------|
-| `/metrics` | Prometheus metrics | Scrape per node |
-| `/telemetry` | State info (vectors, shards) | Debugging |
-| `/healthz`, `/livez`, `/readyz` | Kubernetes health | Always accessible |
+| Endpoint                        | Purpose                      | Notes             |
+| ------------------------------- | ---------------------------- | ----------------- |
+| `/metrics`                      | Prometheus metrics           | Scrape per node   |
+| `/telemetry`                    | State info (vectors, shards) | Debugging         |
+| `/healthz`, `/livez`, `/readyz` | Kubernetes health            | Always accessible |
+
+### v1.17.0 monitoring improvements
+
+- **Cluster-wide telemetry:** an API is available for aggregated telemetry across the whole cluster (useful for fleet-wide dashboards).
+- **Optimization monitoring:** an API is available for detailed optimization progress/stages (better visibility into background maintenance work).
+- **Dedicated `/metrics` port:** Qdrant can expose Prometheus metrics on a dedicated HTTP port for internal monitoring.
 
 ### Essential Metrics
 
 **Collections**:
+
 - `collections_total`, `collection_points`, `collection_vectors`
 
 **API Performance**:
+
 - `rest_responses_total/fail_total`
 - `rest_responses_duration_seconds` (histogram)
 
 **Memory**:
+
 - `memory_allocated_bytes`, `memory_resident_bytes`
 
 **Process**:
+
 - `process_open_fds`, `process_threads`
 
 **Cluster** (distributed):
+
 - `cluster_peers_total`, `cluster_pending_operations_total`
 
 **Optimizations**:
+
 - `collection_running_optimizations`
 
 ### Configuration
@@ -65,9 +77,9 @@ Operational guidance for Qdrant: monitoring, performance tuning, and common issu
 
 ### General Tuning
 
-| Goal | Setting |
-|------|---------|
-| Minimize latency | `default_segment_number` = CPU cores |
+| Goal                | Setting                                             |
+| ------------------- | --------------------------------------------------- |
+| Minimize latency    | `default_segment_number` = CPU cores                |
 | Maximize throughput | `default_segment_number: 2`, `max_segment_size: 5M` |
 
 ### Checklist
@@ -88,6 +100,7 @@ Operational guidance for Qdrant: monitoring, performance tuning, and common issu
 **Cause**: Each collection segment requires open files.
 
 **Fix**:
+
 ```bash
 # Docker
 docker run --ulimit nofile=10000:10000 qdrant/qdrant
@@ -101,6 +114,7 @@ ulimit -n 10000
 **Cause**: Qdrant requires POSIX-compatible filesystem; non-POSIX (FUSE, HFS+, WSL mounts) can corrupt data.
 
 **Symptoms**:
+
 - `OutputTooSmall { expected: 4, actual: 0 }`
 - Vectors zeroed after restart
 
@@ -119,6 +133,7 @@ ulimit -n 10000
 **Error**: `sendmsg: Socket operation on non-socket (88)`
 
 **Fix**:
+
 ```python
 import multiprocessing
 multiprocessing.set_start_method("forkserver")  # or "spawn"
@@ -130,10 +145,10 @@ Or use REST API / async client.
 
 ## Quick Fixes Summary
 
-| Issue | Fix |
-|-------|-----|
-| File limit errors | `--ulimit nofile=10000:10000` |
-| Data corruption on WSL | Use Docker named volumes |
-| Slow filtered search | Index payload fields |
-| High memory usage | Enable `on_disk` for vectors/HNSW |
-| Low recall | Increase `hnsw_ef`, `ef_construct` |
+| Issue                  | Fix                                |
+| ---------------------- | ---------------------------------- |
+| File limit errors      | `--ulimit nofile=10000:10000`      |
+| Data corruption on WSL | Use Docker named volumes           |
+| Slow filtered search   | Index payload fields               |
+| High memory usage      | Enable `on_disk` for vectors/HNSW  |
+| Low recall             | Increase `hnsw_ef`, `ef_construct` |

@@ -160,23 +160,29 @@ Add to MCP client config:
 
 ### Available Tools
 
-| Tool                 | Purpose               | Required Params                      |
-| -------------------- | --------------------- | ------------------------------------ |
-| `list_projects`      | Fetch all projects    | —                                    |
-| `list_tasks`         | List tasks in project | `project_id`                         |
-| `create_task`        | Create new task       | `project_id`, `title`                |
-| `get_task`           | Get task details      | `task_id`                            |
-| `update_task`        | Update task           | `task_id`                            |
-| `delete_task`        | Delete task           | `task_id`                            |
-| `start_task_attempt` | Start agent on task   | `task_id`, `executor`, `base_branch` |
+The MCP server is a workspace + issue management surface.
 
-### Supported Executors
+Notes:
 
-`claude-code`, `amp`, `gemini`, `codex`, `opencode`, `cursor_agent`, `qwen-code`, `copilot`, `droid`
+- Issues have a `simple_id` (e.g. `PROJ-42`) for human-readable reference.
+- `get_issue` returns embedded tags, relationships, and sub-issues.
+- Use the `list_*` tools first to discover IDs.
+
+Tools (grouped):
+
+| Area          | Tools                                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------------------------ |
+| Workspaces    | `list_workspaces`, `update_workspace`, `delete_workspace`, `start_workspace_session`, `link_workspace` |
+| Orgs/Projects | `list_organizations`, `list_org_members`, `list_projects`, `list_repos`, `get_repo`                    |
+| Issues        | `list_issue_priorities`, `list_issues`, `create_issue`, `get_issue`, `update_issue`, `delete_issue`    |
+| Assignees     | `list_issue_assignees`, `assign_issue`, `unassign_issue`                                               |
+| Tags          | `list_tags`, `list_issue_tags`, `add_issue_tag`, `remove_issue_tag`                                    |
+| Relationships | `create_issue_relationship`, `delete_issue_relationship`                                               |
+| Scripts       | `update_setup_script`, `update_cleanup_script`, `update_dev_server_script`                             |
 
 ### Example Usage
 
-**Create tasks from plan**:
+**Create issues from plan**:
 
 ```
 I need to build user authentication with:
@@ -187,12 +193,12 @@ I need to build user authentication with:
 Then turn this plan into tasks.
 ```
 
-MCP client creates structured tasks in Vibe Kanban.
+MCP client creates structured issues in Vibe Kanban.
 
-**Start task execution**:
+**Start a workspace session**:
 
 ```
-Start working on the registration task using Claude Code on main branch.
+Start a workspace session for the current workspace and link it to issue PROJ-42.
 ```
 
 **Note**: MCP server is local-only — cannot be accessed via public URLs.

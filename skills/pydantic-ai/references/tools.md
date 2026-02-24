@@ -114,7 +114,7 @@ async def my_tool(ctx: RunContext[MyDeps]) -> str:
 
 ## Tool Retries
 
-```python
+````python
 from pydantic_ai import ModelRetry
 
 @agent.tool(retries=3)
@@ -124,7 +124,30 @@ def fetch_user(ctx: RunContext[Deps], user_id: int) -> dict:
     if not user:
         raise ModelRetry(f"User {user_id} not found. Try different ID.")
     return user
-```
+
+## Args Validator (v1.63.0)
+
+Use `args_validator` to run custom, typed validation *before* a tool executes.
+
+- The validator has the same (typed) signature as the tool.
+- On validation failure, raise `ModelRetry` to ask the model for new arguments.
+- Validation runs before the `FunctionToolCallEvent` is emitted; the event includes `args_valid`.
+
+```python
+from pydantic_ai import Agent, ModelRetry, RunContext
+
+agent = Agent('openai:gpt-4o', deps_type=int)
+
+def validate_user_id(ctx: RunContext[int], user_id: int) -> None:
+    if user_id <= 0:
+        raise ModelRetry('user_id must be a positive integer')
+
+@agent.tool(args_validator=validate_user_id)
+def get_user(ctx: RunContext[int], user_id: int) -> str:
+    return f'User {user_id}'
+````
+
+````
 
 ## Custom Tool Configuration
 
@@ -140,7 +163,7 @@ tool = Tool(
 )
 
 agent = Agent('openai:gpt-4o', tools=[tool])
-```
+````
 
 ## Advanced Tool Returns
 

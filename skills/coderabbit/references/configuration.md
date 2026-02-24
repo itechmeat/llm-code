@@ -123,6 +123,35 @@ reviews:
       enabled: true
 ```
 
+#### Custom Recipes (early access)
+
+Create up to 5 named recipes under `reviews.finishing_touches.custom`. Each recipe has a `name` and freeform `instructions`.
+
+Requirements:
+
+- Set `early_access: true` in `.coderabbit.yaml`.
+- GitHub only (GitLab support is not available yet).
+
+Trigger a recipe via PR comment:
+
+```text
+@coderabbitai run <recipe name>
+```
+
+Minimal example:
+
+```yaml
+early_access: true
+
+reviews:
+  finishing_touches:
+    custom:
+      - name: "Harden error handling"
+        instructions: "Replace silent fallbacks with explicit errors; add typed exceptions."
+      - name: "Add missing tests"
+        instructions: "Add unit tests for edge cases; avoid snapshot-only coverage."
+```
+
 ## Labeling Configuration
 
 ```yaml

@@ -2,7 +2,7 @@
 name: coderabbit
 description: "CodeRabbit AI code review. Covers CLI, configuration, triage workflow. Keywords: @coderabbitai, code review."
 version: "—"
-release_date: "2026-02-18"
+release_date: "2026-02-23"
 ---
 
 # CodeRabbit
@@ -103,6 +103,12 @@ CodeRabbit can analyze linked repositories during PR review to catch cross-repo 
 - Configure linked repositories in Knowledge Base settings.
 - Use this when changes in one repo affect contracts in another.
 - Treat cross-repo findings as HIGH/CRITICAL when they indicate runtime incompatibility.
+
+## Custom Finishing Touch Recipes (Early Access) (2026-02-23)
+
+Define reusable, named "finishing touch" recipes that apply agentic code changes to your PR.
+
+See [configuration.md](references/configuration.md) for a minimal example.
 
 ## Minimal Configuration
 

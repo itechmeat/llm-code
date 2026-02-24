@@ -19,6 +19,7 @@ This note summarizes the **Points** concept page, focusing on how point writes/u
   - UUIDs (multiple string formats are accepted)
 
 Practical guidance:
+
 - Prefer UUIDs if IDs come from outside your system or you need low collision risk.
 - Prefer integers for compactness when you control ID assignment.
 
@@ -33,6 +34,7 @@ Practical guidance:
 - If you need the update to be searchable immediately after the call returns, you must use the “wait for completion” mode.
 
 Practical rule:
+
 - For ingestion pipelines that can tolerate lag, async is fine.
 - For request/response flows where the user expects immediate retrieval, use wait mode.
 
@@ -42,7 +44,21 @@ Practical rule:
 - Points with the same ID are overwritten when re-uploaded.
 
 Practical rule:
+
 - Safe for “at-least-once” delivery pipelines (queues) as long as overwrites are acceptable.
+
+## Upsert `update_mode` (v1.17.0)
+
+Qdrant v1.17.0 adds an `update_mode` parameter for upserts, letting you control write semantics:
+
+- `upsert` (default): insert-or-replace
+- `insert`: insert-only (avoid accidental overwrites)
+- `update`: update-only (avoid creating unexpected new points)
+
+Practical guidance:
+
+- Use `insert` for ingestion pipelines where duplicates indicate a bug.
+- Use `update` when point creation is controlled elsewhere and you want strict separation of create vs update.
 
 ## Vectors model
 
@@ -64,6 +80,7 @@ Practical rule:
   - column-oriented (ids/payloads/vectors arrays)
 
 Practical rule:
+
 - Choose whichever fits your ETL shape; they’re equivalent internally.
 
 ## Python client ingestion helpers
@@ -79,6 +96,7 @@ Practical rule:
 - This can implement optimistic concurrency control (e.g., only update if payload `version` matches).
 
 Practical rule:
+
 - Use conditional updates for background re-embedding jobs to prevent overwriting fresh application writes.
 
 ## Retrieval patterns (useful for apps)

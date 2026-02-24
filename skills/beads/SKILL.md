@@ -1,13 +1,13 @@
----
 name: beads
-description: "Beads (bd) distributed git-backed issue tracker for AI agents: hash-based IDs, dependency graphs, worktrees, molecules, sync, GitLab/Linear/Jira. Keywords: bd, beads, issue tracker, git-backed, dependencies, molecules, worktree, sync, AI agents."
-version: "0.52.0"
-release_date: "2026-02-17"
+description: "Beads (bd) distributed Dolt-backed (Git-like) issue tracker for AI agents: hash-based IDs, dependency graphs, worktrees, molecules, Dolt sync, GitLab/Linear/Jira. Keywords: bd, beads, issue tracker, dolt, git-like, dependencies, molecules, worktree, sync, AI agents."
+version: "0.56.1"
+release_date: "2026-02-23"
+
 ---
 
 # Beads (bd)
 
-Distributed, git-backed graph issue tracker for AI coding agents. Persistent memory with dependency-aware task tracking.
+Distributed, Dolt-backed (Git-like) graph issue tracker for AI coding agents. Persistent memory with dependency-aware task tracking.
 
 ## Quick Start
 
@@ -41,10 +41,12 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 | `bd close <id>`               | Close task                            |
 | `bd dep add <child> <parent>` | Link tasks (blocks, related, parent)  |
 | `bd list`                     | List issues (default: 50, non-closed) |
-| `bd sync`                     | Sync with git/remote                  |
+| `bd dolt pull`                | Pull latest issue DB changes          |
+| `bd dolt commit`              | Commit issue DB changes               |
+| `bd dolt push`                | Push issue DB changes                 |
 | `bd kv set <key> <value>`     | Store key-value pair                  |
 | `bd kv get <key>`             | Retrieve stored value                 |
-| `bd backend`                  | Show/configure storage backend        |
+| `bd dolt show`                | Show Dolt connection/remote settings  |
 | `bd gitlab sync`              | Sync with GitLab                      |
 
 ## Hash-Based IDs
@@ -70,18 +72,19 @@ Use `bd children <id>` to view hierarchy.
 
 ## References
 
-| File                                    | Purpose                                   |
-| --------------------------------------- | ----------------------------------------- |
-| [workflow.md](references/workflow.md)   | Daily operations, status flow, sync       |
-| [authoring.md](references/authoring.md) | Writing quality issues, EARS patterns     |
-| [molecules.md](references/molecules.md) | Molecules, gates, formulas, compounds     |
-| [sync.md](references/sync.md)           | Git sync, sync-branch, Linear/Jira import |
+| File                                    | Purpose                               |
+| --------------------------------------- | ------------------------------------- |
+| [workflow.md](references/workflow.md)   | Daily operations, status flow, sync   |
+| [authoring.md](references/authoring.md) | Writing quality issues, EARS patterns |
+| [molecules.md](references/molecules.md) | Molecules, gates, formulas, compounds |
+| [sync.md](references/sync.md)           | Dolt sync, upgrades, and integrations |
 
 ## Key Concepts
 
-### Git as Database
+### Dolt as Database
 
-Issues stored as JSONL in `.beads/`. Versioned, branched, merged like code.
+Beads stores issues in a Dolt database. Team synchronization happens via Dolt-style
+`pull`/`push`, not by committing JSONL files into your repo history.
 
 ### Dependency Graph
 
@@ -122,22 +125,17 @@ bd init --contributor
 
 Config stored in `.beads/config.yaml`:
 
-```yaml
-sync:
-  branch: beads-sync # Sync to separate branch
-  remote: origin
-daemon:
-  auto_start: true
-  auto_sync: true
-types:
-  custom:
-    - name: spike
-      statuses: [open, in_progress, done]
-```
+The exact schema evolves between releases. Prefer using CLI helpers to inspect
+and validate your current setup:
 
-## Storage Backend (Dolt Default)
+- `bd dolt show` to see current Dolt connection/remote settings
+- `bd dolt test` to validate connectivity
+- `bd doctor --server` when upgrading or diagnosing server-mode issues
 
-Beads now defaults to the embedded Dolt backend. Server mode is opt-in for multi-client access. Use `bd backend` to inspect or configure backend settings, and see the sync reference for server-mode notes.
+## Storage Backend (Dolt SQL Server Required)
+
+As of v0.56, Beads requires Dolt SQL server mode (embedded Dolt mode was removed).
+Use `bd dolt test` and `bd doctor --server` to confirm the server is reachable.
 
 ## Agent Integration
 
@@ -176,20 +174,23 @@ bd create "Task B" --blocks bd-a1b2
 bd doctor                   # Check health
 bd doctor --fix             # Auto-fix problems
 
-# Sync
-bd sync                     # Full sync
-bd sync --import-only       # Import only
+bd dolt pull                # Pull latest changes
+bd dolt commit              # Commit local changes
+bd dolt push                # Push to remote
+
+# Note: `bd sync` is deprecated (no-op) in v0.56+.
 ```
 
 ## Anti-patterns
 
-| ❌ Wrong              | ✅ Correct                  |
-| --------------------- | --------------------------- |
-| `priority: high`      | `-p 1` (P0-P4 numeric)      |
-| Manual JSON editing   | Use `bd` commands           |
-| Ignoring `bd ready`   | Always check blockers first |
-| Skipping `bd sync`    | Sync regularly              |
-| Creating without deps | Declare `--blocks` upfront  |
+| ❌ Wrong                | ✅ Correct                  |
+| ----------------------- | --------------------------- |
+| `priority: high`        | `-p 1` (P0-P4 numeric)      |
+| Manual JSON editing     | Use `bd` commands           |
+| Ignoring `bd ready`     | Always check blockers first |
+| Skipping `bd dolt pull` | Pull before starting work   |
+| Skipping `bd dolt push` | Push when you want to share |
+| Creating without deps   | Declare `--blocks` upfront  |
 
 ## Links
 

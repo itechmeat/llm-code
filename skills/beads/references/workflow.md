@@ -5,6 +5,9 @@ Daily task operations with `bd` CLI.
 ## Daily Loop
 
 ```bash
+# 0. Pull latest issue DB changes
+bd dolt pull
+
 # 1. What can I work on?
 bd ready                    # Unblocked tasks
 bd ready --pretty           # Formatted output
@@ -16,8 +19,9 @@ bd update bd-xyz --status=in_progress
 # 3. Complete work
 bd close bd-xyz --reason "Implemented per spec"
 
-# 4. Sync changes
-bd sync
+# 4. Record + share issue DB changes
+bd dolt commit
+bd dolt push
 ```
 
 ## Finding Work
@@ -155,13 +159,9 @@ Useful for storing agent configuration, session state, or project metadata.
 
 ## Backend Management
 
-Configure storage backend:
-
 ```bash
-bd backend                  # Show current backend
-bd backend status           # Backend health
-bd sync mode                # Show/set sync mode
-bd sync mode set sync-branch  # Switch to sync-branch mode
+bd dolt show                # Show Dolt connection/remote settings
+bd dolt test                # Validate connectivity
 ```
 
 ## Claiming Work
@@ -173,11 +173,11 @@ bd update bd-xyz --claim    # Mark as claimed by current agent
 ## Session End
 
 ```bash
-# Sync before ending session
-bd sync
+# Commit/push before ending session (when you want to share)
+bd dolt commit
+bd dolt push
 
-# Or just import changes without committing
-bd sync --import-only
+# Note: `bd sync` is deprecated (no-op) in v0.56+.
 ```
 
 ## Export

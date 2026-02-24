@@ -14,6 +14,72 @@
 - Gateway lifecycle: install/start/stop/restart/service status.
 - Channel lifecycle: list/add/login/logout/remove and channel log inspection.
 
+## Updating (v2026.2.22)
+
+Prefer controlled, observable updates:
+
+1. Preview the update plan (`--dry-run`).
+2. Run the update (manual or wizard).
+3. Validate with `doctor` + `health`.
+
+Key commands:
+
+```bash
+openclaw update
+openclaw update --dry-run
+openclaw update status
+openclaw update wizard
+openclaw update --channel stable
+openclaw update --channel beta
+openclaw update --channel dev
+openclaw update --no-restart
+openclaw update --json
+```
+
+Channel semantics and install method alignment:
+
+- `stable` / `beta`: installs from npm using the matching dist-tag.
+- `dev`: ensures a git checkout (default `~/openclaw`, override with `OPENCLAW_GIT_DIR`), then updates it.
+
+Operational notes:
+
+- Treat downgrades as risky (older versions can break config); require explicit confirmation.
+- If the gateway is supervised (launchd/systemd), prefer `openclaw gateway restart` after updates.
+
+## Automatic updates (Gateway core auto-updater)
+
+The Gateway has an optional built-in auto-updater. It is **off by default**.
+
+Minimal example:
+
+```json
+{
+  "update": {
+    "channel": "stable",
+    "auto": {
+      "enabled": true,
+      "stableDelayHours": 6,
+      "stableJitterHours": 12,
+      "betaCheckIntervalHours": 1
+    }
+  }
+}
+```
+
+Behavior summary:
+
+- `stable`: waits `stableDelayHours`, then applies a deterministic per-install jitter up to `stableJitterHours`.
+- `beta`: checks on `betaCheckIntervalHours` cadence (typically hourly).
+- `dev`: does not auto-apply; use manual `openclaw update`.
+
+After any update (manual or automated), use:
+
+```bash
+openclaw doctor
+openclaw gateway restart
+openclaw health
+```
+
 ## Safe operations pattern
 
 1. Validate gateway health and RPC reachability.
@@ -28,6 +94,11 @@
 - Use deep checks only when necessary (they may trigger live provider calls).
 - Keep remote gateway calls authenticated and timeout-bounded.
 - Avoid Bun runtime for gateway in channel-critical environments.
+
+## CLI output hygiene (security)
+
+- As of v2026.2.22, `openclaw config get` redacts sensitive values before printing.
+- Treat any config output as potentially sensitive anyway (paths, scopes, and non-redacted values can still reveal operational details).
 
 ## Help entry workflow
 

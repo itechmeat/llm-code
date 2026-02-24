@@ -1,8 +1,8 @@
 ---
 name: qdrant
 description: "Qdrant vector database: collections, points, payload filtering, indexing, quantization, snapshots, and Docker/Kubernetes deployment."
-version: "1.16.3"
-release_date: "2025-12-19"
+version: "1.17.0"
+release_date: "2026-02-20"
 ---
 
 # Qdrant (Skill Router)
@@ -10,6 +10,18 @@ release_date: "2025-12-19"
 This file is intentionally **introductory**.
 
 It acts as a **router**: based on your situation, open the right note under `references/`.
+
+## Release Highlights (1.16.3 → 1.17.0)
+
+- **Monitoring + ops:** new APIs for optimization progress/stages and cluster-wide telemetry, plus a dedicated HTTP port option for `/metrics`.
+- **Security:** audit access logging and secondary API key support (rotation).
+- **Retrieval:** relevance feedback and Weighted RRF for hybrid ranking.
+- **Write semantics:** `update_mode` for upserts (`upsert` / `update` / `insert`).
+
+## Breaking / Upgrade Notes (1.17.0)
+
+- **gRPC clients:** response format for vector fields changed in gRPC. Upgrade official Qdrant client libraries and validate any custom gRPC integrations.
+- **Storage upgrades:** RocksDB is removed in favor of gridstore. If you are on v1.15.x, do not upgrade directly to v1.17.x — upgrade one minor version at a time.
 
 ## Start here (fast)
 

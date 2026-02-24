@@ -613,6 +613,7 @@ export GOOGLE_API_KEY='your-api-key'
 
 # By name (GLA = Generative Language API)
 agent = Agent('google-gla:gemini-2.5-pro')
+agent = Agent('google-gla:gemini-3.1-pro-preview')  # v1.63.0
 
 # Vertex AI
 agent = Agent('google-vertex:gemini-2.5-pro')
@@ -685,6 +686,27 @@ settings = GoogleModelSettings(
         'threshold': HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
     }]
 )
+```
+
+### Vertex AI Logprobs (v1.63.0)
+
+Enable logprobs via `GoogleModelSettings.google_logprobs` and `google_top_logprobs`.
+
+- Supported only for Vertex AI and non-streaming requests.
+- Logprobs are surfaced in `ModelResponse.provider_details['logprobs']`.
+
+```python
+from pydantic_ai import Agent
+from pydantic_ai.models.google import GoogleModel, GoogleModelSettings
+from pydantic_ai.providers.google import GoogleProvider
+
+provider = GoogleProvider(vertexai=True, location='europe-west1')
+settings = GoogleModelSettings(google_logprobs=True, google_top_logprobs=2)
+model = GoogleModel('gemini-2.5-flash', provider=provider, settings=settings)
+
+agent = Agent(model)
+result = agent.run_sync('Write one sentence about the sky.')
+logprobs = result.response.provider_details.get('logprobs')
 ```
 
 ---

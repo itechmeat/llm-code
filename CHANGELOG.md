@@ -5,6 +5,22 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-02-24]
+
+### Changed
+
+- **fastapi** — Updated to v0.133.0 with support for Starlette 1.0.0+.
+- **openclaw** — Updated skill content for v2026.2.23 with SSRF config breaking change notes plus new providers/tools/gateway highlights.
+- **beads** — Updated to v0.56.1 with Dolt-native sync guidance (`bd dolt pull/commit/push`), `bd sync` deprecation notes, and refreshed wisp (ephemeral molecule) commands.
+- **qdrant** — Updated to v1.17.0 with breaking upgrade notes (gRPC vector fields format change, RocksDB removal) plus new ops/security notes (audit logging, telemetry/optimization monitoring, `update_mode`).
+- **openspec** — Updated to v1.2.0 with workflow profiles (`openspec config profile`), setup/update notes, and the legacy `/openspec:proposal` all-at-once planning workflow.
+- **vibekanban** — Updated to v0.1.18 with refreshed release highlights and updated MCP tool surface notes (workspaces/issues/tags/relationships).
+- **agent-browser** — Updated to v0.14.0 with new `keyboard` input commands, persistent `--color-scheme` support, and timeout/IPC reliability notes.
+- **fastapi** — Updated skill content for v0.132.0 with strict JSON `Content-Type` checking defaults and the `FastAPI(strict_content_type=False)` opt-out.
+- **pydantic-ai** — Updated skill content to v1.63.0 with `args_validator` pre-execution tool validation, Gemini 3.1 Pro Preview model support, and Vertex AI logprob settings.
+- **coderabbit** — Updated skill content with early-access custom finishing touch recipes (`reviews.finishing_touches.custom`) and `@coderabbitai run <recipe name>` trigger guidance.
+- **perplexity** — Updated to v0.30.0 with Browser sessions endpoints (`client.browser.sessions.create/delete`).
+
 ## [2026-02-23]
 
 ### Added

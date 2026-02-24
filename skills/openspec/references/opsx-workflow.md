@@ -25,6 +25,24 @@ OPSX provides a fluid, iterative workflow for OpenSpec changes. It replaces rigi
 - `sync`: reconcile delta specs with main specs.
 - `archive`: finalize and move the change to archive.
 
+## Profiles and the “Propose” Workflow (v1.2.0)
+
+### Workflow profiles
+
+OpenSpec v1.2.0 adds **workflow profiles** to control which workflows/commands are installed for your AI tool(s):
+
+- Use `openspec config profile` to review/change delivery + workflows.
+- Fast preset: `openspec config profile core` (minimal essential workflows).
+- To apply your selected workflows to a project’s installed command/skill files, run `openspec update`.
+
+### All-at-once propose (legacy)
+
+If you want to generate the full planning set in one request (proposal + specs + design + tasks), OpenSpec provides the legacy slash command:
+
+- `/openspec:proposal`
+
+This is conceptually similar to doing `/opsx:new` and then `/opsx:ff`, but in a single step. Prefer OPSX for incremental control; use the legacy command when you intentionally want “all planning artifacts now”.
+
 ## Choosing Update vs New Change
 
 Update the existing change when:

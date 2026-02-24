@@ -67,12 +67,27 @@ bd mol burn bd-abc bd-def bd-ghi
 
 ## Wisps (Ephemeral Molecules)
 
-Lightweight molecules for quick experiments:
+Wisps are ephemeral molecules for operational loops that you _don’t_ want to keep
+as persistent, shareable history.
+
+Create a wisp from a proto or a formula name:
 
 ```bash
-bd mol wisp create "Quick test"
-bd mol burn --wisp  # Burns all wisps
+bd mol wisp mol-patrol
+bd mol wisp beads-release --var version=1.0
 ```
+
+Manage existing wisps:
+
+```bash
+bd mol wisp list
+bd mol wisp gc
+```
+
+Wisp lifecycle shortcuts:
+
+- Promote a wisp to persistent work: `bd mol squash <id>`
+- Delete a wisp without preserving it: `bd mol burn <id>`
 
 ## Gate Types
 
@@ -117,7 +132,7 @@ Reusable molecule templates:
 
 ```bash
 # List formulas
-bd mol list-formulas
+bd formula list
 
 # Pour (instantiate) formula
 bd mol pour release-checklist --var="version=1.0"

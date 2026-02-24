@@ -95,6 +95,7 @@
 - Apply identity controls first (pairing/allowlists), then scope controls (mentions/tools/sandbox), then model policy.
 - Keep gateway loopback-bound by default and require strong token/password for non-loopback access.
 - Disable insecure control UI auth downgrades in production environments.
+- For direct HTTPS deployments, you can enable HSTS via `gateway.http.securityHeaders.strictTransportSecurity`.
 - Enforce strict file permissions for config/state and enable sensitive-data redaction in logs.
 
 ## New audit finding: `gateway.http.no_auth` (v2026.2.19)

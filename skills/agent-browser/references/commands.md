@@ -9,6 +9,8 @@ agent-browser dblclick <sel>          # Double-click
 agent-browser fill <sel> <text>       # Clear and fill
 agent-browser type <sel> <text>       # Type into element
 agent-browser press <key>             # Press key (Enter, Tab, Control+a)
+agent-browser keyboard type <text>    # Type at current focus (no selector needed)
+agent-browser keyboard inserttext <text>  # Insert text without key events
 agent-browser hover <sel>             # Hover element
 agent-browser select <sel> <val>      # Select dropdown option
 agent-browser check <sel>             # Check checkbox
@@ -29,9 +31,23 @@ agent-browser open <url> --allow-file-access  # Enable file:// access (local PDF
 agent-browser snapshot -C|--cursor            # Include cursor-interactive elements
 agent-browser click <sel> --new-tab           # Open link in a new tab (v0.10.0)
 agent-browser snapshot --annotate             # Numbered visual labels + legend (v0.12.0)
+agent-browser --color-scheme dark open <url>  # Persistent dark/light mode (v0.14.0)
 ```
 
 `--annotate` can also be enabled via `AGENT_BROWSER_ANNOTATE=1` for multimodal element mapping.
+
+Color scheme can also be set via env var:
+
+```bash
+AGENT_BROWSER_COLOR_SCHEME=dark agent-browser open <url>
+```
+
+Timeout tuning (v0.14.0):
+
+```bash
+# Default Playwright timeout is 25s; override for slower sites
+AGENT_BROWSER_DEFAULT_TIMEOUT=60s agent-browser open <url>
+```
 
 ## Get Info
 

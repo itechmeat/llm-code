@@ -1,8 +1,8 @@
 ---
 name: agent-browser
 description: "Headless browser automation CLI for AI agents. Covers commands, refs, sessions, snapshots, cloud providers, profiles. Keywords: agent-browser, browser automation, refs, snapshot."
-version: "0.12.0"
-release_date: "2026-02-19"
+version: "0.14.0"
+release_date: "2026-02-23"
 ---
 
 # Agent Browser
@@ -118,13 +118,13 @@ agent-browser state clear myapp-prod
 agent-browser state cleanup
 ```
 
-## Release Updates (v0.11.x–v0.12.0)
+## Release Updates (v0.12.0–v0.14.0)
 
-- `--annotate` overlays numbered labels on interactive elements and prints a legend for multimodal reasoning.
-- Configuration file loading supports user/project scopes.
-- Command chaining with `&&` is documented and recommended for daemon-backed multi-step runs.
-- Added profiling workflows and computed styles retrieval in advanced usage.
-- CDP connectivity and browser/device workflows were expanded.
+- Added `keyboard` commands for raw keyboard input at the currently focused element (no selector needed).
+- Added persistent color scheme selection via `--color-scheme` and `AGENT_BROWSER_COLOR_SCHEME`.
+- Improved IPC reliability (EAGAIN/backpressure-aware writes) and lowered default Playwright timeout to 25s (configurable via `AGENT_BROWSER_DEFAULT_TIMEOUT`).
+- Improved CDP reconnection and fixed state load when no browser is running.
+- Reduced `--annotate` warning noise when the flag isn’t explicitly passed.
 
 ## New Tab Clicks (v0.10.0)
 

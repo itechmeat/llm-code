@@ -28,6 +28,18 @@ This note summarizes the **Security guide** with an emphasis on actionable, prod
 - Separate key for read-only access.
 - Config: `service.read_only_api_key` or env: `QDRANT__SERVICE__READ_ONLY_API_KEY`.
 
+### Secondary API key (rotation) (v1.17.0)
+
+Qdrant v1.17.0 adds support for a **secondary API key** to enable **zero-downtime key rotation**.
+
+Operational pattern:
+
+1. Configure the secondary key in Qdrant.
+2. Roll client updates to use the secondary key.
+3. Promote/replace the primary key (and revoke the old key) once all clients have switched.
+
+Use this when you need to rotate credentials without a coordinated “all clients at once” cutover.
+
 ### JWT-based RBAC
 
 - Provides finer-grained authorization (including per-collection access).
@@ -55,3 +67,11 @@ This note summarizes the **Security guide** with an emphasis on actionable, prod
 - If using API keys/JWT, do not run without TLS unless you have a trusted, private network boundary.
 - Prefer least privilege (read-only key or collection-scoped JWT) for read-heavy workloads.
 
+## Audit access logging (v1.17.0)
+
+Qdrant v1.17.0 adds **audit access logging** for API access.
+
+Practical guidance:
+
+- Enable audit logging when you need security visibility (who accessed what, when).
+- Treat audit logs as security data: ship them off-host, control access, and set retention.
