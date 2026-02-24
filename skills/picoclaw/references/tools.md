@@ -1,0 +1,63 @@
+# Tools configuration
+
+Tools are configured under `tools` in `~/.picoclaw/config.json`.
+
+Sections:
+
+- `tools.web`: search/fetch
+- `tools.exec`: shell execution guardrails
+- `tools.cron`: scheduler limits
+- `tools.skills`: skill registries (e.g. ClawHub)
+
+## Web tools
+
+Supported switches (from project docs):
+
+- Brave: `enabled`, `api_key`, `max_results`
+- DuckDuckGo: `enabled`, `max_results`
+- Perplexity: `enabled`, `api_key`, `max_results`
+- `tools.web.proxy`: proxy for web tools
+
+## Exec tool (dangerous command blocking)
+
+Config keys:
+
+- `tools.exec.enable_deny_patterns` (default true)
+- `tools.exec.custom_deny_patterns` (regex list)
+
+Docs describe default blocked patterns including:
+
+- destructive deletes (`rm -rf`, `del /f/q`, ...)
+- `format`, `mkfs`, `dd if=...`, writes to `/dev/sd*`
+- `shutdown`/`reboot`
+- command substitution (`$()`, backticks)
+- pipes to shell (`| sh`, `| bash`)
+- privilege escalation (`sudo`, `chmod`, `chown`)
+- remote ops (`curl | sh`, `ssh`)
+- package managers and container commands
+
+## Cron tool
+
+- `tools.cron.exec_timeout_minutes` controls how long scheduled executions may run.
+
+## Skills tool (registries)
+
+Configure registries under:
+
+- `tools.skills.registries.<name>.*`
+
+Example registry in docs:
+
+- `clawhub`: `enabled`, `base_url`, `search_path`, `skills_path`, `download_path`
+
+## Environment variable overrides
+
+Docs define an override format for tools:
+
+- `PICOCLAW_TOOLS_<SECTION>_<KEY>`
+
+Example:
+
+- `PICOCLAW_TOOLS_WEB_DUCKDUCKGO_ENABLED=true`
+
+Note: array-type environment variables are not supported for tools; set those in the config file.

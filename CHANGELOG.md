@@ -7,6 +7,12 @@ This project uses date-based versioning rather than semantic versioning.
 
 ## [2026-02-24]
 
+### Added
+
+- **picoclaw** — New skill for PicoClaw (Go) covering CLI ops, config, gateway, channels, auth, and skills management.
+
+## [2026-02-24]
+
 ### Changed
 
 - **fastapi** — Updated to v0.133.0 with support for Starlette 1.0.0+.

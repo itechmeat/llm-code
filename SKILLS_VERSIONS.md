@@ -13,6 +13,7 @@ Quick reference for tracking tool versions across skills. Use this file to check
 
 | Skill                          | Skill Version | Release Date | Releases                                                                      | Documentation                                                         |
 | ------------------------------ | ------------- | ------------ | ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **picoclaw**                   | 3488536       | 2026-02-24   | [Releases](https://github.com/sipeed/picoclaw/releases)                       | [Docs](https://github.com/sipeed/picoclaw/tree/main/docs)             |
 | **openclaw**                   | v2026.2.23    | 2026-02-24   | [Releases](https://github.com/openclaw/openclaw/releases)                     | [Docs](https://docs.openclaw.ai/)                                     |
 | **fastapi**                    | 0.133.0       | 2026-02-24   | [Releases](https://github.com/fastapi/fastapi/releases)                       | [Docs](https://fastapi.tiangolo.com/)                                 |
 | **turso**                      | 0.4.4         | 2026-01-30   | [Releases](https://github.com/tursodatabase/turso/blob/main/CHANGELOG.md)     | [Docs](https://docs.turso.tech/)                                      |
