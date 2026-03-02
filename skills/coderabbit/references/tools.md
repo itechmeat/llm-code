@@ -31,6 +31,12 @@ reviews:
 | --------- | ------- | ------------------------------------ |
 | Stylelint | v17.2.0 | Linter for CSS, SCSS, Sass, and Less |
 
+### PowerShell
+
+| Tool             | Version | Description                                        |
+| ---------------- | ------- | -------------------------------------------------- |
+| PSScriptAnalyzer | v1.24.0 | Static code checker for PowerShell scripts/modules |
+
 ### Python
 
 | Tool   | Version | Description                      |
@@ -129,19 +135,20 @@ reviews:
 
 ### Other
 
-| Tool                | Version | Description           |
-| ------------------- | ------- | --------------------- |
-| ast-grep            | v0.40.0 | AST pattern matching  |
-| HTMLHint            | v1.7.1  | HTML analyzer         |
-| Prisma Lint         | v0.11.0 | Prisma schema linter  |
-| checkmake           | v0.2.2  | Makefile linter       |
-| dotenv-linter       | v4.0.0  | .env file checker     |
-| Buf                 | v1.60.0 | Protobuf linter       |
-| Regal               | v0.37.0 | Rego linter           |
-| Luacheck            | v1.2.0  | Lua linter            |
-| Shopify Theme Check | v3.58.2 | Liquid best practices |
-| Fortitude           | v0.7.5  | Fortran linter        |
-| Blinter             | latest  | Windows batch linter  |
+| Tool                | Version | Description                            |
+| ------------------- | ------- | -------------------------------------- |
+| ast-grep            | v0.40.0 | AST pattern matching                   |
+| HTMLHint            | v1.7.1  | HTML analyzer                          |
+| Prisma Lint         | v0.11.0 | Prisma schema linter                   |
+| checkmake           | v0.2.2  | Makefile linter                        |
+| dotenv-linter       | v4.0.0  | .env file checker                      |
+| Buf                 | v1.60.0 | Protobuf linter                        |
+| Regal               | v0.37.0 | Rego linter                            |
+| Luacheck            | v1.2.0  | Lua linter                             |
+| Shopify Theme Check | v3.58.2 | Liquid best practices                  |
+| Fortitude           | v0.7.5  | Fortran linter                         |
+| Blinter             | latest  | Windows batch linter                   |
+| smarty-lint         | v0.3.3  | Linter for Smarty 3 templates (`.tpl`) |
 
 ## Tools with Config File Support
 

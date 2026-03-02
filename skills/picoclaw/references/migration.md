@@ -22,6 +22,6 @@ Benefits:
 
 - Zero-code addition for OpenAI-compatible providers
 - Load balancing (multiple entries with same `model_name`)
-- Protocol-prefixed routing like `openai/`, `anthropic/`, `antigravity/`.
+- Protocol-prefixed routing like `openai/`, `anthropic/`, `antigravity/`, `openrouter/`, `groq/`, `deepseek/`, `cerebras/`.
 
 See also: `config.md`.

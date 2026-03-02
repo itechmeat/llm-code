@@ -100,6 +100,16 @@ reviews:
 
 ### Pre-merge Checks
 
+Override restrictions (2026-02-25):
+
+```yaml
+reviews:
+  pre_merge_checks:
+    override_requested_reviewers_only: true
+```
+
+When enabled, pre-merge check overrides can be restricted to requested reviewers (excluding the PR author). Overrides include an audit trail in the Pre-Merge Checks section.
+
 ```yaml
 reviews:
   pre_merge_checks:

@@ -32,6 +32,10 @@ Complete workflow from running a review to implementing fixes.
 
 Use **Data Export** to download per‑PR review metrics as CSV for a selected date range (last 7/30/90 days or a custom range within the last year). The export includes fields like complexity scores, review times, and comment breakdowns by severity/category.
 
+Dashboard drill-down (2026-02-24):
+
+- You can drill into severity/category metrics to open a Comment Details view (useful for audits and debugging false positives).
+
 ### Review Metrics API
 
 REST API for programmatic access to review metrics. Query by date range, filter by repository or user, and retrieve results in JSON or CSV.

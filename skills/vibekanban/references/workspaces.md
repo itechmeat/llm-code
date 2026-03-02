@@ -43,6 +43,31 @@ Use the **Create Workspace from PR** action to prefill repo and branch context f
 
 Workspaces support remote routes for deep-linking into a specific workspace context.
 
+## Remote Access (v0.1.21)
+
+Remote Access lets you connect to a **host machine running Vibe Kanban** from another device and access that host's workspaces.
+
+### Pair a Host
+
+Host (the machine running Vibe Kanban):
+
+1. Start Vibe Kanban and sign in.
+2. Open Settings → **Remote Access**.
+3. Generate / copy the pairing code.
+
+Client (the device you want to control from):
+
+1. Sign in at https://cloud.vibekanban.com
+2. Open **Remote Access** → link/add a host.
+3. Paste the pairing code.
+
+After pairing, the client can list and open the host's workspaces.
+
+### Security Notes (High Level)
+
+- Pairing is code-based and intended to be explicit (you choose which host to link).
+- The model is designed to be “zero trust” style: requests/actions are signed on the client and verified on the host.
+
 ## Sessions
 
 Conversation threads within a workspace. All sessions share repos and git state.

@@ -49,6 +49,10 @@ Timeout tuning (v0.14.0):
 AGENT_BROWSER_DEFAULT_TIMEOUT=60s agent-browser open <url>
 ```
 
+Special URL schemes (v0.15.1):
+
+- `chrome://...` and `chrome-extension://...` URLs are preserved as-is (no `https://` prefix is added).
+
 ## Get Info
 
 ```bash

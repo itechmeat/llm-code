@@ -1,8 +1,8 @@
 ---
 name: fastapi
 description: "FastAPI Python framework. Covers REST APIs, validation, dependencies, security. Keywords: Pydantic, async, OAuth2, JWT."
-version: "0.133.0"
-release_date: "2026-02-24"
+version: "0.135.1"
+release_date: "2026-03-01"
 ---
 
 # FastAPI
@@ -55,11 +55,11 @@ This skill provides comprehensive guidance for building APIs with FastAPI.
 
 Requires Python 3.10+. Install: `pip install "fastapi[standard]"` (full with uvicorn) or `pip install fastapi` (minimal). Add `python-multipart` for forms/files.
 
-## Release Highlights (0.129.0 → 0.133.0)
+## Release Highlights (0.133.0 → 0.135.1)
 
-- **Breaking change (0.132.0):** strict JSON `Content-Type` checking is enabled by default. JSON requests must include a valid `Content-Type` (e.g. `application/json`) or they will be rejected.
-- If you need backwards-compatible behavior for clients that omit `Content-Type`, set `FastAPI(strict_content_type=False)`.
-- **Compatibility (0.133.0):** adds support for Starlette 1.0.0+.
+- **0.134.0:** streaming JSON Lines and streaming binary data support using `yield`.
+- **0.135.0:** first-class Server-Sent Events (SSE) support (`EventSourceResponse`).
+- **0.135.1:** fix around `TaskGroup` usage in request async exit stack (stability fix).
 
 ## Quick Start
 

@@ -21,6 +21,28 @@
 - `nodes` controls approval lifecycle and remote actions (run, camera, screen, location).
 - `sessions_*` spawns and communicates with sub-agents, subject to visibility restrictions.
 
+## Optional plugin tool: `diffs` (v2026.3.1)
+
+OpenClaw can enable an optional read-only diff renderer that produces a gateway-hosted viewer URL and/or a PNG.
+
+Enable:
+
+```json5
+{
+  plugins: {
+    entries: {
+      diffs: { enabled: true },
+    },
+  },
+}
+```
+
+Operational notes:
+
+- Intended for view-only rendering (before/after or unified patch).
+- Viewer pages are served by the gateway under `/plugins/diffs/...`.
+- PNG rendering requires a Chromium-compatible browser; configure `browser.executablePath` if auto-detect fails.
+
 ## Safety practices
 
 - Enable loop detection to prevent repetitive no-progress tool loops.

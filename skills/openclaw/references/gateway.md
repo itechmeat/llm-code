@@ -13,6 +13,15 @@
 - Probe channel readiness separately after gateway health passes.
 - Monitor logs continuously during initial setup and rollout changes.
 
+## Container probe endpoints (v2026.3.1)
+
+For Docker/Kubernetes liveness/readiness checks, the gateway exposes unauthenticated probe endpoints:
+
+- Liveness: `/healthz` (alias: `/health`)
+- Readiness: `/readyz` (alias: `/ready`)
+
+Use these for process/container probes only; for authenticated deeper checks, use `openclaw health` and channel probe commands.
+
 ## Bind/auth rules you must enforce
 
 - Port precedence: CLI flag, then env var, then config, then default.

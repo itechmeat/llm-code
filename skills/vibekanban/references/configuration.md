@@ -36,6 +36,15 @@ Global settings, agent profiles, task tags, and keyboard shortcuts.
 
 Access: Settings page (⚙️ icon in sidebar)
 
+### Remote Access (v0.1.21)
+
+Remote Access is configured from the Settings page:
+
+1. On the host machine: Settings → **Remote Access** → generate a pairing code.
+2. On the client device: sign in at https://cloud.vibekanban.com → Remote Access → link the host with the pairing code.
+
+Once linked, you can browse and open the host's workspaces remotely.
+
 ### Themes
 
 Light / Dark mode toggle.

@@ -19,6 +19,37 @@
 - Multi-channel operation is expected; keep channel-specific routing explicit.
 - Maintain channel troubleshooting playbooks per connector family.
 
+### Discord thread-bound sessions (v2026.3.1)
+
+Discord can bind a thread to a session/subagent target so follow-up messages keep routing consistently.
+
+Commands:
+
+- `/focus <target>`
+- `/unfocus`
+- `/session idle <duration|off>`
+- `/session max-age <duration|off>`
+
+Config shape (from Discord channel docs):
+
+```json5
+{
+  session: {
+    threadBindings: { enabled: true, idleHours: 24, maxAgeHours: 0 },
+  },
+  channels: {
+    discord: {
+      threadBindings: {
+        enabled: true,
+        idleHours: 24,
+        maxAgeHours: 0,
+        spawnSubagentSessions: false,
+      },
+    },
+  },
+}
+```
+
 ## Practical channel strategy
 
 - Start with Telegram for fastest bootstrap and operator validation.
@@ -50,6 +81,34 @@
 - Treat DM policy and group policy as independent controls and test both paths.
 - If non-mention group behavior is required, align Telegram privacy mode/admin state accordingly.
 - Use pairing approvals and channel status probes during onboarding validation.
+
+### Telegram DM topics (v2026.3.1)
+
+In addition to group forum topics, Telegram supports per-DM "direct" configuration with optional topics.
+
+Config surface (from config schema/types):
+
+- `channels.telegram.direct.<chatId>.topics.<threadId>.*`
+- `channels.telegram.direct.<chatId>.requireTopic` (require a topic when topics are enabled)
+
+Minimal example:
+
+```json5
+{
+  channels: {
+    telegram: {
+      direct: {
+        "123456789": {
+          requireTopic: true,
+          topics: {
+            "1": { enabled: true, skills: ["calendar"], systemPrompt: "Personal admin" },
+          },
+        },
+      },
+    },
+  },
+}
+```
 
 ## Apple Watch and APNs delivery notes (v2026.2.19)
 

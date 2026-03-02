@@ -25,6 +25,18 @@
 - System execution and notification commands.
 - Optional platform-specific capabilities (for example SMS on Android nodes).
 
+## Android node surface expansion (v2026.3.1)
+
+Recent Android nodes expose additional command families commonly used in automation runs:
+
+- `device.permissions`, `device.health`
+- `notifications.actions` (`open` / `dismiss` / `reply`)
+- `system.notify`
+- `photos.latest`
+- `contacts.search`, `contacts.add`
+- `calendar.events`, `calendar.add`
+- `motion.activity`, `motion.pedometer`
+
 ## Safeguards
 
 - Keep explicit allowlists for high-risk system execution.

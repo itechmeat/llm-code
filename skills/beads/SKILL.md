@@ -1,7 +1,7 @@
 name: beads
 description: "Beads (bd) distributed Dolt-backed (Git-like) issue tracker for AI agents: hash-based IDs, dependency graphs, worktrees, molecules, Dolt sync, GitLab/Linear/Jira. Keywords: bd, beads, issue tracker, dolt, git-like, dependencies, molecules, worktree, sync, AI agents."
-version: "0.56.1"
-release_date: "2026-02-23"
+version: "0.57.0"
+release_date: "2026-03-01"
 
 ---
 

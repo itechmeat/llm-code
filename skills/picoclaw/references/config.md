@@ -29,6 +29,9 @@ Each entry describes _one way_ to call a model:
 
 Notes:
 
+- The `model` field format is typically `[protocol/]model-id`.
+  - Example: `cerebras/llama-3.3-70b`.
+  - If no prefix is specified, PicoClaw treats it as `openai/`.
 - Multiple entries can share the same `model_name` for round-robin load balancing.
 - If you keep legacy `providers`, PicoClaw may auto-convert internally for backward compatibility.
 

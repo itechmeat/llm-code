@@ -54,6 +54,10 @@ For organizations with 500+ users:
 - Self-hosted CodeRabbit deployment available
 - Contact CodeRabbit Sales for enterprise options
 
+Enterprise roles and permissions (2026-02-24):
+
+- Enterprise orgs can define custom roles with per-resource access levels (No access / Read only / Read+Write) for org/repo settings, reports, team management, billing, and API access.
+
 ## Issue Tracker Integration
 
 CodeRabbit connects with issue management for ticket creation:

@@ -14,6 +14,23 @@ General pattern:
 - `enabled`: turns the channel on/off.
 - `allow_from`: allowlist of peer IDs. Accepts strings or numbers.
 
+## WhatsApp
+
+Config keys (from upstream `config.example.json`):
+
+- `channels.whatsapp.enabled`
+- `channels.whatsapp.bridge_url` (WebSocket URL for a bridge process)
+- `channels.whatsapp.use_native` (use built-in native implementation)
+- `channels.whatsapp.session_store_path` (where to store the native session state)
+- `channels.whatsapp.allow_from`
+- `channels.whatsapp.reasoning_channel_id`
+
+Operational notes:
+
+- If you set `use_native=true`, PicoClaw must be built with the `whatsapp_native` build tag.
+  - Upstream Makefile provides a helper target: `make build-whatsapp-native`.
+- If you run a standard binary (no native tag), keep `use_native=false` and point `bridge_url` to your WhatsApp bridge.
+
 ## Telegram
 
 Config keys:

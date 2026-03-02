@@ -9,10 +9,29 @@
 ## Core operator command sets
 
 - Runtime checks: `status`, `health`, `gateway status`, `channels status --probe`.
-- Config lifecycle: `configure`, `config get/set/unset`, onboarding/setup commands.
+- Config lifecycle: `configure`, `config file`, `config get/set/unset`, onboarding/setup commands.
 - Log inspection: `logs --follow`, structured JSON logs for automation pipelines.
 - Gateway lifecycle: install/start/stop/restart/service status.
 - Channel lifecycle: list/add/login/logout/remove and channel log inspection.
+
+### Config file path (v2026.3.1)
+
+Print the active config file location:
+
+```bash
+openclaw config file
+```
+
+Resolution rule (per docs): uses `OPENCLAW_CONFIG_PATH` if set; otherwise uses the default config location.
+
+### Cron/heartbeat lightweight context (v2026.3.1)
+
+When you want automation turns to run with a smaller bootstrap payload:
+
+- Cron agent turns: `--light-context`
+- Heartbeat: `agents.*.heartbeat.lightContext`
+
+Use this when bootstrap files are large and you want to reduce token/context overhead for scheduled runs.
 
 ## Updating (v2026.2.22)
 

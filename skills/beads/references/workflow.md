@@ -164,6 +164,30 @@ bd dolt show                # Show Dolt connection/remote settings
 bd dolt test                # Validate connectivity
 ```
 
+## Backup & Restore (v0.57.0)
+
+Beads can produce a JSONL backup and restore from it.
+
+```bash
+bd backup
+bd backup restore
+```
+
+Notes:
+
+- Use `bd backup --help` to see the available options (location, format, automation).
+- Treat restore as a bootstrap/recovery tool; validate Dolt connectivity after restoring.
+
+## Maintenance (v0.57.0)
+
+Standalone lifecycle helpers for keeping the Beads store healthy:
+
+```bash
+bd gc
+bd compact
+bd flatten
+```
+
 ## Claiming Work
 
 ```bash
@@ -194,4 +218,5 @@ bd doctor                   # Health check
 bd doctor --fix             # Auto-fix issues
 bd doctor --deep            # Full integrity check
 bd doctor --server          # Dolt server mode health checks
+bd doctor --agent           # Diagnostics for AI agent setups (v0.57.0)
 ```

@@ -1,8 +1,8 @@
 ---
 name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Keywords: OpenClaw, gateway, tools, channels, agents."
-version: "v2026.2.23"
-release_date: "2026-02-24"
+version: "v2026.3.1"
+release_date: "2026-03-02"
 metadata:
   author: itechmeat
   docs_ingested_at: "2026-02-23"
@@ -47,6 +47,15 @@ If OpenClaw is not installed, use `references/installation.md`.
 - Use supervised process mode (launchd/systemd) for reliability.
 - For config changes, treat `config.apply` as controlled rollout and `config.patch` as targeted merge.
 - Remember patch semantics: objects merge, arrays replace, `null` deletes.
+
+## Release Updates (v2026.3.1)
+
+- Gateway: built-in container probe endpoints (`/healthz`, `/readyz`, plus aliases `/health`, `/ready`) for Docker/Kubernetes.
+- CLI: `openclaw config file` prints the active config path (resolves `OPENCLAW_CONFIG_PATH` or default).
+- Discord: thread-bound session lifecycle now supports inactivity (`idleHours`) and hard max age (`maxAgeHours`), plus `/session idle` and `/session max-age`.
+- Telegram: per-DM `direct` + DM topics config surface (topic-aware policy, skills, system prompt, allowlists).
+- Nodes (Android): expanded node tool surface (camera/device/notifications/photos/contacts/calendar/motion).
+- Tools: optional `diffs` plugin tool for read-only diff views and PNG rendering.
 
 ## Release Updates (v2026.2.23)
 

@@ -1,8 +1,8 @@
 ---
 name: agent-browser
 description: "Headless browser automation CLI for AI agents. Covers commands, refs, sessions, snapshots, cloud providers, profiles. Keywords: agent-browser, browser automation, refs, snapshot."
-version: "0.14.0"
-release_date: "2026-02-23"
+version: "0.15.1"
+release_date: "2026-02-26"
 ---
 
 # Agent Browser

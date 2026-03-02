@@ -1,8 +1,8 @@
 ---
 name: picoclaw
 description: "PicoClaw Go AI assistant. Covers CLI ops, config.json, channels, auth, skills, gateway. Keywords: picoclaw, onboard, gateway, model_list."
-version: "3488536"
-release_date: "2026-02-24"
+version: "v0.2.0"
+release_date: "2026-02-28"
 ---
 
 # PicoClaw

@@ -18,7 +18,7 @@ def read_item():
 
 ## Custom Response Types
 
-```python
+````python
 from fastapi.responses import (
     HTMLResponse,      # text/html
     PlainTextResponse, # text/plain
@@ -56,7 +56,81 @@ def get_file():
 @app.get("/old")
 def redirect():
     return RedirectResponse(url="/new", status_code=301)
+
+## Streaming with `yield` (0.134.0+)
+
+FastAPI can stream incrementally without buffering the whole response. Choose the pattern based on the client protocol.
+
+### Stream JSON Lines (JSONL)
+
+Use `yield` to emit one JSON item per line (content type is `application/jsonl`). If you annotate the return type (e.g. `AsyncIterable[Item]`), FastAPI will validate/serialize via Pydantic and document the schema.
+
+```python
+from collections.abc import AsyncIterable
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class Item(BaseModel):
+    name: str
+    description: str | None = None
+
+@app.get("/items/stream")
+async def stream_items() -> AsyncIterable[Item]:
+    for i in range(3):
+        yield Item(name=f"item-{i}")
+````
+
+Notes:
+
+- JSON Lines is not the same as a JSON array; clients must parse line-by-line.
+- If you omit the return type annotation, FastAPI falls back to `jsonable_encoder` for serialization.
+
+### Stream bytes / binary data
+
+For raw bytes (audio/video/chunks), use `StreamingResponse` and set `media_type`. If the streaming code is blocking (disk/network reads), prefer `def` so FastAPI can run it in a threadpool.
+
+```python
+from collections.abc import Iterable
+from fastapi import FastAPI
+from fastapi.responses import StreamingResponse
+
+app = FastAPI()
+
+@app.get("/audio")
+def stream_audio() -> StreamingResponse:
+    def iter_bytes() -> Iterable[bytes]:
+        yield b"..."  # chunk 1
+        yield b"..."  # chunk 2
+    return StreamingResponse(iter_bytes(), media_type="audio/mpeg")
 ```
+
+### Server-Sent Events (SSE) (0.135.0+)
+
+SSE uses `text/event-stream` and is browser-native via `EventSource`. In FastAPI, set `response_class=EventSourceResponse` and `yield` items.
+
+```python
+from collections.abc import AsyncIterable
+from fastapi import FastAPI
+from fastapi.sse import EventSourceResponse, ServerSentEvent
+
+app = FastAPI()
+
+@app.get("/events", response_class=EventSourceResponse)
+async def events() -> AsyncIterable[ServerSentEvent]:
+    yield ServerSentEvent(comment="stream start")
+    for i in range(3):
+        yield ServerSentEvent(data={"i": i}, event="tick", id=str(i), retry=5000)
+```
+
+Operational notes:
+
+- `ServerSentEvent.data` is JSON-encoded; use `raw_data` for raw text payloads.
+- Clients can resume after disconnect using `Last-Event-ID`.
+- For proxy behavior: consider keep-alive pings, `Cache-Control: no-cache`, and disabling buffering (e.g. `X-Accel-Buffering: no` for Nginx).
+
+````
 
 ## Default Response Class
 
@@ -70,7 +144,7 @@ app = FastAPI(default_response_class=ORJSONResponse)
 @app.get("/items/", response_class=ORJSONResponse)
 def read_items():
     return [{"id": 1}]
-```
+````
 
 ## Additional Status Codes
 

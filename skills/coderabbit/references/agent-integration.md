@@ -10,6 +10,16 @@ CodeRabbit CLI integrates with AI coding agents (Claude Code, Cursor, Codex) for
 4. Fix critical issues
 5. Re-run CodeRabbit to verify
 
+## GitHub chat code editing (Early Access, 2026-02-26)
+
+When you ask `@coderabbitai` (in a PR comment) to make code changes, CodeRabbit can run an agentic edit flow:
+
+- Clones the repository into a sandbox with full PR context.
+- Applies the requested changes.
+- Opens a stacked pull request with the result.
+
+If you explicitly request a commit instead of a PR, it can apply changes as an inline commit to the current branch.
+
 ## Claude Code Integration
 
 ### Prerequisites

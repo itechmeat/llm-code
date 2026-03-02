@@ -27,6 +27,15 @@ Allow opening local `file://` URLs (PDF/HTML) by enabling file access:
 agent-browser open file:///path/to/doc.pdf --allow-file-access
 ```
 
+## Chrome internal URLs (v0.15.1)
+
+Navigation commands now preserve Chrome internal URL schemes:
+
+- `chrome://...`
+- `chrome-extension://...`
+
+This is useful when automating browser settings pages or extension UIs.
+
 ## Cursor-Aware Snapshots (v0.9.1)
 
 Include cursor-interactive elements (e.g., `onclick`, `cursor:pointer`) in snapshots:
