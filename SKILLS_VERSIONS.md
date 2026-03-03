@@ -13,9 +13,12 @@ Quick reference for tracking tool versions across skills. Use this file to check
 
 | Skill                          | Skill Version | Release Date | Releases                                                                      | Documentation                                                         |
 | ------------------------------ | ------------- | ------------ | ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **pipecat**                    | 0.0.104       | 2026-03-03   | [Changelog](https://github.com/pipecat-ai/pipecat/blob/main/CHANGELOG.md)     | [Docs](https://docs.pipecat.ai/getting-started/introduction)          |
+| **livekit-agents**             | 1.4.4         | 2026-03-03   | [Releases](https://github.com/livekit/agents/releases)                        | [Docs](https://docs.livekit.io/agents/)                               |
 | **tavily**                     | 0.7.22        | 2026-02-26   | [PyPI](https://pypi.org/project/tavily-python/#history)                       | [Docs](https://docs.tavily.com/)                                      |
 | **bun**                        | 1.3.10        | 2026-02-26   | [Releases](https://github.com/oven-sh/bun/releases)                           | [Docs](https://bun.sh/docs)                                           |
 | **postgresql**                 | 18.3          | 2026-02-26   | [Releases](https://www.postgresql.org/about/newsarchive/pgsql/)               | [Docs](https://www.postgresql.org/docs/current/)                      |
+| **pgvector**                   | 0.8.2         | 2026-02-25   | [Changelog](https://github.com/pgvector/pgvector/tags)                        | [Docs](https://github.com/pgvector/pgvector)                          |
 | **skill-master**               | 1.3.0         | 2026-03-02   | [Commits](https://github.com/agentskills/agentskills/commits/main/)           | [Docs](https://github.com/agentskills/agentskills/tree/main/docs)     |
 | **beads**                      | 0.57.0        | 2026-03-01   | [Releases](https://github.com/steveyegge/beads/releases)                      | [Docs](https://github.com/steveyegge/beads/tree/main/docs)            |
 | **vibekanban**                 | 0.1.21        | 2026-02-28   | [Releases](https://github.com/BloopAI/vibe-kanban/releases)                   | [Docs](https://www.vibekanban.com/docs)                               |
@@ -31,6 +34,7 @@ Quick reference for tracking tool versions across skills. Use this file to check
 | **pydantic-ai**                | 1.63.0        | 2026-02-23   | [Releases](https://github.com/pydantic/pydantic-ai/releases)                  | [Docs](https://ai.pydantic.dev/)                                      |
 | **k8s-cluster-api**            | 1.12.3        | 2026-02-17   | [Releases](https://github.com/kubernetes-sigs/cluster-api/releases)           | [Docs](https://cluster-api.sigs.k8s.io/)                              |
 | **mantine-dev**                | 8.3.15        | 2026-02-16   | [Releases](https://github.com/mantinedev/mantine/releases)                    | [Docs](https://mantine.dev/getting-started/)                          |
+| **zvec**                       | 0.2.0         | 2026-02-13   | [Releases](https://github.com/alibaba/zvec/releases)                          | [Docs](https://zvec.org/en/docs/)                                     |
 | **telegram**                   | 3.25.0        | 2026-02-11   | [Releases](https://github.com/aiogram/aiogram/releases)                       | [Docs](https://core.telegram.org/bots/api)                            |
 | **base-ui**                    | 1.2.0         | 2026-02-12   | [Releases](https://github.com/mui/base-ui/releases)                           | [Docs](https://base-ui.com/)                                          |
 | **refine-dev**                 | 5.0.9         | 2026-02-05   | [Releases](https://github.com/refinedev/refine/releases)                      | [Docs](https://refine.dev/docs/)                                      |

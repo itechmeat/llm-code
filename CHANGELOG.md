@@ -5,6 +5,15 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-03-03]
+
+### Added
+
+- **livekit-agents** — New skill for LiveKit Agents, including an operator-focused Agents UI components reference.
+- **pgvector** — New skill for the pgvector Postgres extension, covering core SQL, indexing, performance, and client libraries.
+- **pipecat** — New skill for Pipecat realtime voice/multimodal bots with practical deployment and operations references.
+- **zvec** — New skill for zvec (SQLite vectors), covering concepts, configuration, embeddings, reranking, and data operations.
+
 ## [2026-02-24]
 
 ### Added
