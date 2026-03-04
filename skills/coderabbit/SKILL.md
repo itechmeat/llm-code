@@ -2,7 +2,7 @@
 name: coderabbit
 description: "CodeRabbit AI code review. Covers CLI, configuration, triage workflow. Keywords: @coderabbitai, code review."
 version: "—"
-release_date: "2026-02-26"
+release_date: "2026-03-04"
 ---
 
 # CodeRabbit
@@ -25,37 +25,62 @@ AI-powered code review for pull requests and local changes.
 | End-to-end workflow           | [end-to-end-workflow.md](references/end-to-end-workflow.md) |
 | Windows/WSL setup             | [windows-wsl.md](references/windows-wsl.md)                 |
 
+## Prerequisites Check (MUST RUN BEFORE REVIEW)
+
+Before running CodeRabbit CLI, verify ALL of the following:
+
+```bash
+# 1. CLI installed?
+which coderabbit || echo "MISSING: install with: curl -fsSL https://cli.coderabbit.ai/install.sh | sh"
+
+# 2. Authenticated?
+coderabbit auth status 2>&1 | grep -q "Logged in" || echo "MISSING: run coderabbit auth login"
+
+# 3. Git repo has at least one commit? (CRITICAL — CLI crashes with GitError on empty repos)
+git rev-parse HEAD >/dev/null 2>&1 || echo "MISSING: repo has no commits — make at least one commit first"
+
+# 4. Base branch exists? (CLI defaults to 'main')
+git rev-parse main >/dev/null 2>&1 || echo "WARNING: 'main' branch not found — use --base <branch>"
+```
+
+**If any check fails, fix it before running the review. Do NOT proceed with a broken state.**
+
+**Authentication failure rule:** If authentication check fails (step 2), the agent MUST:
+1. Stop immediately — do not attempt to run the review
+2. Notify the user that CodeRabbit CLI is not authenticated
+3. Show the user the exact command to authenticate: `coderabbit auth login`
+4. Wait for the user to complete authentication before retrying
+5. Do NOT attempt to run `coderabbit auth login` on behalf of the user — it requires interactive browser redirect
+
 ## Quick Start
-
-### Install
-
-See `references/cli-usage.md` for installation and authentication.
 
 ### Run Review
 
 ```bash
-# AI agent workflow (most common)
-coderabbit --prompt-only --type uncommitted
+# AI agent workflow (most common) — note: 'review' subcommand is optional
+coderabbit review --prompt-only --type uncommitted --no-color
 
-# Interactive mode
-coderabbit
+# If base branch is not 'main' (e.g., master, develop):
+coderabbit review --prompt-only --type uncommitted --base master --no-color
 
-# Plain text output
-coderabbit --plain
+# Plain text output (human-readable)
+coderabbit review --plain --type uncommitted --no-color
 ```
 
 ### Local Capture Script
 
-If you need to persist raw prompt-only output to a file, use the bundled script:
+Persist output to a file for later analysis:
 
 ```bash
-python3 scripts/run_coderabbit.py --output coderabbit-report.txt
+# IMPORTANT: use absolute path to the skill's script directory
+python3 ~/.claude/skills/coderabbit/scripts/run_coderabbit.py --output coderabbit-report.txt
 ```
 
 Options:
 
-- `--output` to choose a different file name
+- `--output` to choose a different file name (saved to `.code-review/` in repo root)
 - `--timeout` to adjust the timeout in seconds (default: 1800)
+- `--base` to specify base branch (default: auto-detect from git)
 
 ### PR Commands
 
@@ -79,22 +104,51 @@ Options:
 ## AI Agent Workflow Pattern
 
 ```text
-Implement [feature] and then run the capture script to generate .code-review/coderabbit-report.txt,
-run it in a background terminal and wait for the process to complete before reading the report.
-Fix any critical issues. Ignore nits.
+Implement [feature] and then run CodeRabbit CLI in a background terminal.
+Wait for it to complete, then read the report. Fix CRITICAL/HIGH issues. Ignore nits.
 ```
 
-Key points:
+Step-by-step:
 
-- Use `--prompt-only` for AI-optimized output
-- Reviews take 7-30+ minutes depending on changeset size
-- Run command in **background terminal** (`background=true`)
-- **Wait for terminal to become idle** (not busy) using `get_terminal_output`
-- **Poll every 60 seconds**, not more frequently — CodeRabbit takes time
-- Do NOT just check for file existence — file is created early but populated gradually
-- Once terminal shows completion, read `.code-review/coderabbit-report.txt`
-- If process times out (30 min default) or errors, report failure to user
-- Limit to 2-3 review iterations maximum
+1. **Run prerequisites check** (see above) — fix any issues before proceeding
+2. Detect base branch: `git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null` or fall back to `main`/`master`
+3. Run CLI in background: `coderabbit review --prompt-only --type uncommitted --base <branch> --no-color`
+4. Reviews take **7-30+ minutes** — run in background (`run_in_background=true`)
+5. Read output when process completes
+6. Fix CRITICAL/HIGH findings, skip LOW
+7. Limit to **2-3 review iterations** maximum
+
+## Troubleshooting
+
+### `[error] stopping cli` with no details
+
+Run with `DEBUG=*` to see the actual error:
+
+```bash
+DEBUG=* coderabbit review --prompt-only --type uncommitted 2>&1 | grep -E "(ERROR|error|GitError)"
+```
+
+Check the log file:
+
+```bash
+ls -t ~/.coderabbit/logs/ | head -1 | xargs -I{} cat ~/.coderabbit/logs/{}
+```
+
+### Common errors
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `GitError` (no details) | No commits in repo | Make at least one commit |
+| `Failed to get commit SHA for branch main` | Base branch doesn't exist | Use `--base master` or `--base <your-branch>` |
+| `Raw mode is not supported` | Interactive mode in non-TTY | Always use `--prompt-only` or `--plain` |
+| `[error] stopping cli` after auth | Token expired | Re-run `coderabbit auth login` |
+| CLI hangs / no output | Large changeset | Use `--type uncommitted` to limit scope |
+
+### Check auth status
+
+```bash
+coderabbit auth status
+```
 
 ## Linked Repositories (2026-02-18)
 
@@ -132,6 +186,7 @@ reviews:
 - Do not "fix" style nits handled by formatters/linters
 - Do not ignore CRITICAL findings; escalate if unclear
 - Stop and resolve CLI errors (auth/network) before fixing code
+- **Do not run CLI on a repo with no commits — it will silently crash**
 
 ## Links
 

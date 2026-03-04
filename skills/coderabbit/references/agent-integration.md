@@ -5,20 +5,25 @@ CodeRabbit CLI integrates with AI coding agents (Claude Code, Cursor, Codex) for
 ## Core Workflow
 
 1. Implement feature
-2. Run `coderabbit --prompt-only` in background
-3. AI agent evaluates findings
-4. Fix critical issues
-5. Re-run CodeRabbit to verify
+2. **Run prerequisites check** (see below)
+3. Run `coderabbit review --prompt-only` in background
+4. AI agent evaluates findings
+5. Fix critical issues
+6. Re-run CodeRabbit to verify (max 2-3 iterations)
 
-## GitHub chat code editing (Early Access, 2026-02-26)
+## Prerequisites (MUST CHECK BEFORE EVERY REVIEW)
 
-When you ask `@coderabbitai` (in a PR comment) to make code changes, CodeRabbit can run an agentic edit flow:
+```bash
+# All of these must pass:
+which coderabbit                           # CLI installed
+coderabbit auth status 2>&1 | grep -q "Logged in"  # Authenticated
+git rev-parse HEAD >/dev/null 2>&1         # Has at least one commit
+git rev-parse main >/dev/null 2>&1         # Base branch exists (or use --base)
+```
 
-- Clones the repository into a sandbox with full PR context.
-- Applies the requested changes.
-- Opens a stacked pull request with the result.
-
-If you explicitly request a commit instead of a PR, it can apply changes as an inline commit to the current branch.
+**Critical:** CodeRabbit CLI silently crashes with `[error] stopping cli` if:
+- The repo has **no commits** (GitError)
+- The **base branch** doesn't exist (defaults to `main`)
 
 ## Claude Code Integration
 
@@ -28,28 +33,29 @@ If you explicitly request a commit instead of a PR, it can apply changes as an i
 # Install CodeRabbit CLI
 curl -fsSL https://cli.coderabbit.ai/install.sh | sh
 source ~/.zshrc
+
+# Authenticate
+coderabbit auth login
 ```
 
-### Authenticate Inside Claude Code
+### Running Reviews
 
-```text
-Run: coderabbit auth login
-```
+```bash
+# Auto-detect base branch and run review
+python3 ~/.claude/skills/coderabbit/scripts/run_coderabbit.py
 
-Follow browser redirect, paste token back to Claude.
-
-### Usage Prompt
-
-```text
-Please implement phase 7.3 of the planning doc and then run coderabbit --prompt-only,
-let it run as long as it needs (run it in the background) and fix any issues.
+# Or run CLI directly (specify base branch if not 'main'):
+coderabbit review --prompt-only --type uncommitted --base master --no-color
 ```
 
 ### Key Components
 
-- `--prompt-only` — AI-optimized output format
-- Background execution — Reviews take 7-30+ minutes
-- Explicit fix instructions — "fix any critical issues, ignore nits"
+- `review` — subcommand (optional, it's the default)
+- `--prompt-only` — AI-optimized output format (implies `--plain`)
+- `--no-color` — strip ANSI codes for clean parsing
+- `--base <branch>` — specify base branch (default: `main`)
+- `--type uncommitted` — only review working directory changes
+- Background execution — reviews take 7-30+ minutes
 
 ### Configuration
 
@@ -68,8 +74,8 @@ Run the terminal command: coderabbit auth status and tell me the output.
 
 ```text
 Implement phase 7.3 - adding Withings smart scale integration.
-Then run coderabbit. Once it completes, let it take as long as
-it needs to fix any issues it might find.
+Then run coderabbit review --prompt-only --type uncommitted --no-color.
+Once it completes, fix any critical issues.
 ```
 
 ### Cursor Rules File
@@ -80,13 +86,14 @@ Add to `.cursorrules`:
 # Running the CodeRabbit CLI
 
 CodeRabbit is already installed in the terminal. Run it as a way to review your code.
-Run the command: cr -h for details on commands available.
+Run the command: cr review -h for details on commands available.
 In general, I want you to run coderabbit with the `--prompt-only` flag.
-To review uncommitted changes (this is what we'll use most of the time) run:
-`coderabbit --prompt-only -t uncommitted`.
+To review uncommitted changes run:
+`coderabbit review --prompt-only -t uncommitted --no-color`.
 
-IMPORTANT: When running CodeRabbit to review code changes, don't run it more than 3 times
-in a given set of changes.
+IMPORTANT: Before running CodeRabbit, verify the repo has at least one commit
+(git rev-parse HEAD) and that the base branch exists.
+Don't run CodeRabbit more than 3 times in a given set of changes.
 ```
 
 ## Codex Integration
@@ -94,7 +101,8 @@ in a given set of changes.
 Same pattern as Claude Code:
 
 ```text
-Please implement phase 7.3 of the planning doc and then run coderabbit --prompt-only,
+Please implement phase 7.3 of the planning doc and then run
+coderabbit review --prompt-only --type uncommitted --no-color,
 let it run as long as it needs and fix any issues.
 ```
 
@@ -102,13 +110,13 @@ let it run as long as it needs and fix any issues.
 
 ```bash
 # Review uncommitted changes (most common)
-coderabbit --prompt-only -t uncommitted
+coderabbit review --prompt-only -t uncommitted --no-color
 
-# Specify base branch
-coderabbit --prompt-only --base develop
+# Specify base branch (if not 'main')
+coderabbit review --prompt-only --base master --no-color
 
 # Review all changes
-coderabbit --prompt-only --type all
+coderabbit review --prompt-only --type all --no-color
 ```
 
 ## Loop Limit Pattern
@@ -131,6 +139,14 @@ issues and ignore the nits.
 ```
 
 ## Troubleshooting
+
+### `[error] stopping cli` with no details
+
+1. Check `git rev-parse HEAD` — repo must have at least one commit
+2. Check `git rev-parse main` — base branch must exist (use `--base` to override)
+3. Check `coderabbit auth status` — must be authenticated
+4. Run with debug: `DEBUG=* coderabbit review --prompt-only 2>&1 | grep ERROR`
+5. Check logs: `ls -t ~/.coderabbit/logs/ | head -1 | xargs -I{} cat ~/.coderabbit/logs/{}`
 
 ### Review Not Finding Issues
 
