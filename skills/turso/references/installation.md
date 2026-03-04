@@ -34,3 +34,7 @@ SELECT * FROM users;
 - `--experimental-strict` — strict mode
 
 **Warning:** Not production ready.
+
+## Python (v0.5.0)
+
+Turso v0.5.0 adds a SQLAlchemy dialect for Python bindings. If you use Turso from Python services or agent backends, prefer the dialect over ad-hoc adapters.

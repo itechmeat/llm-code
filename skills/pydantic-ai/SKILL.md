@@ -1,8 +1,8 @@
 ---
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
-version: "1.63.0"
-release_date: "2026-02-23"
+version: "1.65.0"
+release_date: "2026-03-03"
 ---
 
 # Pydantic AI
@@ -36,11 +36,12 @@ Python agent framework for building production-grade GenAI applications with the
 
 See `references/installation.md` for full/slim install options and optional dependency groups. Requires Python 3.10+.
 
-## Release Highlights (1.62.0 → 1.63.0)
+## Release Highlights (1.63.0 → 1.65.0)
 
-- Tools: `args_validator` enables typed, pre-execution argument validation for function tools.
-- Google Gemini: added `gemini-3.1-pro-preview` model support.
-- Vertex AI: Gemini logprob support via `GoogleModelSettings.google_logprobs` / `google_top_logprobs` (results in `response.provider_details['logprobs']`).
+- Outputs: `template=False` on `PromptedOutput` / `NativeOutput` disables schema prompt injection (v1.64.0).
+- Files: provider uploads are supported via the new `UploadedFile` object (v1.65.0).
+- Google Gemini: added `gemini-3.1-flash-lite-preview` model support (v1.65.0).
+- Stability: fixes for UI adapter `run_id`, Google streaming error wrapping, MCP race hardening, and parallel tools sibling-task cancellation.
 
 ## Quick Start
 

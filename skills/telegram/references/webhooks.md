@@ -29,14 +29,22 @@ async def verify_telegram_secret(
 
 Store tokens in environment variables. Never hardcode or log them.
 
+### Proxy deployments (v3.26.0 note)
+
+If you run behind a reverse proxy / load balancer:
+
+- Ensure `X-Telegram-Bot-Api-Secret-Token` is forwarded end-to-end (some proxies strip unknown headers by default).
+- Avoid shared webhook paths across bots unless the `{webhook_token}` is unique and validated.
+- Prefer terminating TLS at the edge, but keep an allowlist for internal hops and avoid re-exposing the webhook to the public internet.
+
 ## Polling vs Webhooks
 
-| Aspect | Polling | Webhooks |
-|--------|---------|----------|
-| Production | ❌ Not recommended | ✅ Recommended |
-| Setup | Simpler | Requires HTTPS endpoint |
-| Latency | Higher (polling interval) | Instant |
-| Reliability | Less reliable | More reliable |
+| Aspect      | Polling                   | Webhooks                |
+| ----------- | ------------------------- | ----------------------- |
+| Production  | ❌ Not recommended        | ✅ Recommended          |
+| Setup       | Simpler                   | Requires HTTPS endpoint |
+| Latency     | Higher (polling interval) | Instant                 |
+| Reliability | Less reliable             | More reliable           |
 
 **Critical**: Never run polling and webhooks simultaneously for the same bot.
 
@@ -64,13 +72,13 @@ Keep webhook handling under 1 second. Offload AI/RAG work to task queues.
 
 ### Update Types
 
-| Type | Use Case |
-|------|----------|
-| `message` | Text, commands, media, service messages |
-| `callback_query` | Inline keyboard button presses |
-| `inline_query` | Inline mode queries |
-| `pre_checkout_query` | Payment confirmation |
-| `shipping_query` | Shipping options request |
+| Type                 | Use Case                                |
+| -------------------- | --------------------------------------- |
+| `message`            | Text, commands, media, service messages |
+| `callback_query`     | Inline keyboard button presses          |
+| `inline_query`       | Inline mode queries                     |
+| `pre_checkout_query` | Payment confirmation                    |
+| `shipping_query`     | Shipping options request                |
 
 ### Error Handling
 

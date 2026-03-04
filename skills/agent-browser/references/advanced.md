@@ -1,5 +1,32 @@
 # Advanced Features
 
+## Native Rust Daemon (Experimental, v0.16.0+)
+
+Agent Browser can run an experimental **native Rust daemon** that talks to Chrome directly over CDP (instead of using the Node.js + Playwright daemon).
+
+Enable it with any of:
+
+```bash
+# Per-command flag
+agent-browser --native open https://example.com
+
+# Env var
+AGENT_BROWSER_NATIVE=1 agent-browser open https://example.com
+```
+
+Or set it in the config file (example):
+
+```json
+{
+  "native": true
+}
+```
+
+Notes:
+
+- This mode is experimental; prefer the default daemon if you hit compatibility issues.
+- In v0.16.3, `--native` is only forwarded to child processes when you explicitly provide it on the CLI (not implicitly).
+
 ## Daemon Reliability (v0.8.6)
 
 - CLI cleans up stale socket and PID files before starting a new daemon.

@@ -1,8 +1,8 @@
 ---
 name: vibekanban
-description: "Vibe Kanban orchestration platform for AI coding agents: workspaces, sessions, task management, code review, git worktrees, multi-agent support. Keywords: Vibe Kanban, AI agents, Claude Code, Codex, Gemini, kanban board, git worktree, code review, MCP server, workspaces, sessions."
-release_date: "2026-02-28"
-version: "0.1.21"
+description: "Orchestrate AI coding with Vibe Kanban: tasks, review, sessions, workspaces, and isolated git worktrees. Keywords: Vibe Kanban."
+release_date: "2026-03-03"
+version: "0.1.23"
 ---
 
 # Vibe Kanban
@@ -30,7 +30,7 @@ Orchestration platform for AI coding agents. Plan, review, and manage AI-generat
 npx vibe-kanban
 ```
 
-## Release Highlights (0.1.15 → 0.1.21)
+## Release Highlights (0.1.15 → 0.1.23)
 
 - MCP server expanded: richer issue retrieval (`get_issue` includes tags/relationships/sub-issues) and new workspace/relationship/tag tools (e.g. `update_workspace`, relationship + tag mutations).
 - Frontend routing migrated to TanStack Router (navigation/URLs may differ from older screenshots).
@@ -38,6 +38,10 @@ npx vibe-kanban
 - Review/diff UI improvements (annotation width fixes for horizontal scrolling).
 - Remote Access: pair a host via a code and access its workspaces from another device.
 - Transport reliability improvements: better relay disconnect handling and signing-session refresh.
+- Claude: bumped the default Sonnet model to 4.6.
+- Worktrees: preserve worktree path across cleanup to maintain Claude Code session continuity.
+- Workspaces: improved workspace logs capture (root execution-process provider).
+- Mobile UI fixes and Remote Access docs refresh.
 
 Opens browser automatically. Use `PORT=8080 npx vibe-kanban` for fixed port.
 

@@ -7,6 +7,7 @@
 - Navigation consistency: always provide "Back"/"Main menu" for multi-step flows.
 - Responsiveness: always `answer_callback_query` quickly to clear the loading spinner.
 - Emphasis: use button colors/emoji to highlight primary actions when available.
+- aiogram (v3.26.0+): keyboard builder button helpers add `icon`/`style` params; use them for UX polish, not for critical meaning.
 
 ## Callback data design
 

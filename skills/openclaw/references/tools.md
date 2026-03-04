@@ -13,6 +13,10 @@
 - Apply explicit `tools.allow` / `tools.deny` (deny takes precedence).
 - Use group aliases (for example `group:fs`, `group:web`, `group:nodes`) to keep policy readable.
 
+## Onboarding default tools profile (BREAKING, v2026.3.2)
+
+For new local installs, onboarding now defaults `tools.profile` to `messaging`. If you expect coding/system tools, set `tools.profile` explicitly (and keep it as least-privilege).
+
 ## High-impact tools and constraints
 
 - `exec` runs shell commands; prefer bounded `timeout` and background session control.
@@ -42,6 +46,8 @@ Operational notes:
 - Intended for view-only rendering (before/after or unified patch).
 - Viewer pages are served by the gateway under `/plugins/diffs/...`.
 - PNG rendering requires a Chromium-compatible browser; configure `browser.executablePath` if auto-detect fails.
+
+v2026.3.2 adds PDF output support and quality controls for diff artifacts.
 
 ## Safety practices
 

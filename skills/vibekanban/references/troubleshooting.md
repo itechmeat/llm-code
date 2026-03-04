@@ -49,6 +49,22 @@ DISABLE_WORKTREE_CLEANUP=1 npx vibe-kanban
 
 Re-enable by unsetting the variable once investigation is complete.
 
+## Claude Code Session Breaks After Cleanup
+
+**Symptom**: Claude Code / IDE context breaks after a task/workspace cleanup because the worktree path changed.
+
+**Solutions**:
+
+- Upgrade Vibe Kanban to version 0.1.23+ (worktree path is preserved across cleanup to maintain session continuity).
+- For debugging, temporarily disable cleanup: `DISABLE_WORKTREE_CLEANUP=1 npx vibe-kanban`.
+
+## Workspace Logs Missing / Incomplete
+
+**Solutions**:
+
+- Upgrade Vibe Kanban to version 0.1.23+ (workspace logs capture was updated).
+- Enable debug logs to get more detail: `RUST_LOG=debug npx vibe-kanban`.
+
 ## Debug Logs
 
 ```bash

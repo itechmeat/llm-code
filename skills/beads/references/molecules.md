@@ -55,6 +55,9 @@ bd mol pour my-formula --var="name=auth"
 # Progress check
 bd mol progress bd-abc
 
+# Show last activity timestamp (v0.58.0)
+bd mol last-activity bd-abc
+
 # Show compound structure
 bd mol show bd-abc
 
@@ -83,6 +86,12 @@ Manage existing wisps:
 bd mol wisp list
 bd mol wisp gc
 ```
+
+Notes:
+
+- In newer versions, wisp creation defaults to a root-only workflow unless the
+  formula explicitly opts into pouring child steps. Use `--root-only` when you
+  want to force creating only the root issue.
 
 Wisp lifecycle shortcuts:
 

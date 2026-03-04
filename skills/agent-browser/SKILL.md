@@ -1,8 +1,8 @@
 ---
 name: agent-browser
 description: "Headless browser automation CLI for AI agents. Covers commands, refs, sessions, snapshots, cloud providers, profiles. Keywords: agent-browser, browser automation, refs, snapshot."
-version: "0.15.1"
-release_date: "2026-02-26"
+version: "0.16.3"
+release_date: "2026-03-04"
 ---
 
 # Agent Browser
@@ -42,9 +42,13 @@ The `snapshot` command returns an accessibility tree where each element has a un
 Client-daemon architecture:
 
 1. **Rust CLI** - parses commands, communicates with daemon
-2. **Node.js Daemon** - manages Playwright browser instance
+2. **Daemon** - runs the browser automation engine:
+   - Default: **Node.js daemon** (Playwright)
+   - Experimental (v0.16.0+): **native Rust daemon** (direct Chrome DevTools Protocol)
 
 Daemon starts automatically and persists between commands.
+
+Native daemon can be enabled via `--native`, `AGENT_BROWSER_NATIVE=1`, or a config setting like `"native": true`.
 
 v0.8.6 improves daemon reliability by cleaning stale socket/PID files and retrying transient connection errors.
 

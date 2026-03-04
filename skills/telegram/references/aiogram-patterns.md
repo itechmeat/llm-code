@@ -91,6 +91,13 @@ class DatabaseMiddleware(BaseMiddleware):
 router.message.middleware(DatabaseMiddleware(session_maker))
 ```
 
+### Scene transitions: middleware data is preserved (v3.26.0)
+
+aiogram v3.26.0 preserves middleware-provided `data` across scene transitions. Treat it as in-memory request context:
+
+- OK: db sessions, request-scoped services, user context
+- Not OK: long-lived state (use FSM storage/DB instead)
+
 ## FSM (Finite State Machine)
 
 ```python

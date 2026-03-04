@@ -5,13 +5,16 @@ Daily task operations with `bd` CLI.
 ## Daily Loop
 
 ```bash
-# 0. Pull latest issue DB changes
-bd dolt pull
+# 0. Sync database state
+bd sync
 
 # 1. What can I work on?
 bd ready                    # Unblocked tasks
 bd ready --pretty           # Formatted output
 bd ready --gated            # Tasks at gate checkpoints
+
+# (Optional) see what is currently active
+bd show --current
 
 # 2. Pick and start work
 bd update bd-xyz --status=in_progress
@@ -19,8 +22,14 @@ bd update bd-xyz --status=in_progress
 # 3. Complete work
 bd close bd-xyz --reason "Implemented per spec"
 
-# 4. Record + share issue DB changes
-bd dolt commit
+# 4. Share DB changes (when you want to share)
+bd sync
+```
+
+If you are operating directly against Dolt remotes (advanced), you can also use:
+
+```bash
+bd dolt pull
 bd dolt push
 ```
 
@@ -164,13 +173,16 @@ bd dolt show                # Show Dolt connection/remote settings
 bd dolt test                # Validate connectivity
 ```
 
-## Backup & Restore (v0.57.0)
+## Backup & Restore
 
-Beads can produce a JSONL backup and restore from it.
+Beads can produce JSONL backups for off-machine recovery and portability.
 
 ```bash
 bd backup
-bd backup restore
+bd backup status
+
+bd export -o backup.jsonl
+bd import -i backup.jsonl
 ```
 
 Notes:
@@ -178,7 +190,7 @@ Notes:
 - Use `bd backup --help` to see the available options (location, format, automation).
 - Treat restore as a bootstrap/recovery tool; validate Dolt connectivity after restoring.
 
-## Maintenance (v0.57.0)
+## Maintenance
 
 Standalone lifecycle helpers for keeping the Beads store healthy:
 
@@ -186,6 +198,25 @@ Standalone lifecycle helpers for keeping the Beads store healthy:
 bd gc
 bd compact
 bd flatten
+```
+
+## Purge Closed Ephemeral Beads (v0.58.0)
+
+Delete closed ephemeral beads (wisps) to reclaim storage:
+
+```bash
+bd purge
+```
+
+## Persistent Agent Memory (v0.58.0)
+
+For knowledge that should survive sessions:
+
+```bash
+bd remember "key" "value"
+bd memories
+bd recall "key"
+bd forget "key"
 ```
 
 ## Claiming Work
@@ -197,16 +228,14 @@ bd update bd-xyz --claim    # Mark as claimed by current agent
 ## Session End
 
 ```bash
-# Commit/push before ending session (when you want to share)
-bd dolt commit
-bd dolt push
-
-# Note: `bd sync` is deprecated (no-op) in v0.56+.
+# Sync before ending session (when you want to share)
+bd sync
 ```
 
 ## Export
 
 ```bash
+bd export -o backup.jsonl     # Export full DB backup (JSONL)
 bd export --id bd-xyz        # Export specific issue
 bd export --parent bd-abc    # Export subtree by parent
 ```

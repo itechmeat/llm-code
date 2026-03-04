@@ -1,8 +1,8 @@
+---
 name: beads
-description: "Beads (bd) distributed Dolt-backed (Git-like) issue tracker for AI agents: hash-based IDs, dependency graphs, worktrees, molecules, Dolt sync, GitLab/Linear/Jira. Keywords: bd, beads, issue tracker, dolt, git-like, dependencies, molecules, worktree, sync, AI agents."
-version: "0.57.0"
-release_date: "2026-03-01"
-
+description: "Beads (bd) Dolt-backed issue tracker for agent task memory. Covers CLI ops, molecules, Dolt sync, Linear/Jira/GitLab. Keywords: bd, beads, Dolt."
+version: "0.58.0"
+release_date: "2026-03-03"
 ---
 
 # Beads (bd)
@@ -41,13 +41,18 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 | `bd close <id>`               | Close task                            |
 | `bd dep add <child> <parent>` | Link tasks (blocks, related, parent)  |
 | `bd list`                     | List issues (default: 50, non-closed) |
-| `bd dolt pull`                | Pull latest issue DB changes          |
-| `bd dolt commit`              | Commit issue DB changes               |
-| `bd dolt push`                | Push issue DB changes                 |
+| `bd show --current`           | Show active issue (no ID needed)      |
+| `bd update <id> --claim`      | Atomically claim issue for work       |
+| `bd sync`                     | Sync database state                   |
+| `bd dolt pull`                | Pull latest DB changes (advanced)     |
+| `bd dolt push`                | Push DB changes (advanced)            |
 | `bd kv set <key> <value>`     | Store key-value pair                  |
 | `bd kv get <key>`             | Retrieve stored value                 |
 | `bd dolt show`                | Show Dolt connection/remote settings  |
 | `bd gitlab sync`              | Sync with GitLab                      |
+| `bd remember`                 | Write persistent agent memory         |
+| `bd recall`                   | Read persistent agent memory          |
+| `bd purge`                    | Delete closed ephemeral beads (wisps) |
 
 ## Hash-Based IDs
 
@@ -130,12 +135,17 @@ and validate your current setup:
 
 - `bd dolt show` to see current Dolt connection/remote settings
 - `bd dolt test` to validate connectivity
-- `bd doctor --server` when upgrading or diagnosing server-mode issues
+- `bd doctor` / `bd doctor --deep` for health checks
 
-## Storage Backend (Dolt SQL Server Required)
+## Storage Backend (Dolt)
 
-As of v0.56, Beads requires Dolt SQL server mode (embedded Dolt mode was removed).
-Use `bd dolt test` and `bd doctor --server` to confirm the server is reachable.
+Beads uses Dolt as its primary backend. Depending on your setup, Dolt can run:
+
+- Embedded (single-writer, no daemon)
+- Server mode (multi-writer)
+
+Use `bd doctor` (and `bd doctor --server` when applicable) to validate your
+environment. For legacy stores, use `bd migrate` workflows.
 
 ## Agent Integration
 
@@ -174,23 +184,21 @@ bd create "Task B" --blocks bd-a1b2
 bd doctor                   # Check health
 bd doctor --fix             # Auto-fix problems
 
-bd dolt pull                # Pull latest changes
-bd dolt commit              # Commit local changes
-bd dolt push                # Push to remote
+bd sync                     # Sync DB state
 
-# Note: `bd sync` is deprecated (no-op) in v0.56+.
+bd dolt pull                # Pull latest changes (advanced)
+bd dolt push                # Push to remote (advanced)
 ```
 
 ## Anti-patterns
 
-| ❌ Wrong                | ✅ Correct                  |
-| ----------------------- | --------------------------- |
-| `priority: high`        | `-p 1` (P0-P4 numeric)      |
-| Manual JSON editing     | Use `bd` commands           |
-| Ignoring `bd ready`     | Always check blockers first |
-| Skipping `bd dolt pull` | Pull before starting work   |
-| Skipping `bd dolt push` | Push when you want to share |
-| Creating without deps   | Declare `--blocks` upfront  |
+| ❌ Wrong              | ✅ Correct                  |
+| --------------------- | --------------------------- |
+| `priority: high`      | `-p 1` (P0-P4 numeric)      |
+| Manual JSON editing   | Use `bd` commands           |
+| Ignoring `bd ready`   | Always check blockers first |
+| Skipping `bd sync`    | Sync before/after work      |
+| Creating without deps | Declare `--blocks` upfront  |
 
 ## Links
 

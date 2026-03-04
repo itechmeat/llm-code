@@ -69,6 +69,10 @@ Use `OpenAIChatModel` with custom provider:
 - Groq: retries now handle `tool_use_failed` responses even when tool name/args are missing.
 - Google/OpenAI: refusal/content-filter handling is hardened for prompt-feedback/refusal flows.
 
+### New model IDs (v1.65.0)
+
+- Google: adds support for `gemini-3.1-flash-lite-preview`.
+
 ### OpenAI Data Retention (v1.52.0)
 
 OpenAI models support an `openai_store` setting to control data retention.

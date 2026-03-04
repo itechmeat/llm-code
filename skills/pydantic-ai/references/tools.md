@@ -203,6 +203,10 @@ def click_and_capture(x: int, y: int) -> ToolReturn:
 | `content`      | Additional context (text, images, docs) as user message |
 | `metadata`     | App-side data, not sent to LLM ("artifacts")            |
 
+### UploadedFile (v1.65.0)
+
+Pydantic AI adds an `UploadedFile` object to support files uploaded to model providers. Use it when a provider requires a pre-upload step (instead of inlining raw bytes in every request).
+
 ## Custom Tool Schema
 
 For functions without proper documentation:
@@ -629,6 +633,8 @@ agent = Agent('openai:gpt-4o', output_type=run_sql)
 | `ToolOutput`     | Default. Uses tool calling (most reliable) |
 | `NativeOutput`   | Uses model's native structured output      |
 | `PromptedOutput` | Injects schema into prompt                 |
+
+v1.64.0 adds `template=False` on `PromptedOutput` and `NativeOutput` to disable schema prompt injection when you need tighter control over prompt content.
 
 ### Tool Output (Default)
 

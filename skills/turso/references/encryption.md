@@ -61,6 +61,21 @@ file:db.db?cipher=aegis256&hexkey=2d7a30108d3eb3e45c90a732...
 file:db.db?cipher=aes128gcm&hexkey=5f3e2a8c9b1d4f6e...
 ```
 
+## Encrypted Attached Databases (v0.5.0)
+
+As of v0.5.0, encryption keys for **attached databases** can be provided via URI params on the attached database path.
+
+Example:
+
+```sql
+ATTACH DATABASE 'file:attached.db?cipher=aegis256&hexkey=YOUR_HEX_KEY' AS attached;
+```
+
+Operational notes:
+
+- Treat each attached DB as its own encrypted file (it may use a different key).
+- Keep keys out of SQL history/logs; prefer injecting them via secure config/secrets when possible.
+
 ## What's Encrypted
 
 - ✅ All database pages

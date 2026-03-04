@@ -1,8 +1,8 @@
 ---
 name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Keywords: OpenClaw, gateway, tools, channels, agents."
-version: "v2026.3.1"
-release_date: "2026-03-02"
+version: "v2026.3.2"
+release_date: "2026-03-03"
 metadata:
   author: itechmeat
   docs_ingested_at: "2026-02-23"
@@ -47,6 +47,19 @@ If OpenClaw is not installed, use `references/installation.md`.
 - Use supervised process mode (launchd/systemd) for reliability.
 - For config changes, treat `config.apply` as controlled rollout and `config.patch` as targeted merge.
 - Remember patch semantics: objects merge, arrays replace, `null` deletes.
+
+## Release Updates (v2026.3.2)
+
+- **BREAKING:** New installs default `tools.profile` to `messaging` (not broad coding/system). If you expect coding tools on day-1, set `tools.profile` explicitly.
+- **BREAKING:** ACP dispatch defaults to enabled unless explicitly disabled (`acp.dispatch.enabled=false`).
+- **BREAKING:** Plugin SDK removed `api.registerHttpHandler(...)`; use `api.registerHttpRoute(...)`.
+- **BREAKING:** Zalo personal plugin (`@openclaw/zalouser`) no longer uses external CLI transports; after upgrade re-login with `openclaw channels login --channel zalouser`.
+- Secrets/SecretRef coverage expanded across user-supplied credential surfaces; unresolved refs fail fast on active surfaces.
+- Tools: first-class `pdf` tool (native Anthropic/Google support + fallback extraction, with configurable limits).
+- CLI: `openclaw config validate` (and `--json`) to validate config before gateway startup.
+- Telegram: streaming defaults to `partial` for new setups; DM preview streaming behavior updated.
+- Memory: embeddings via Ollama supported for memory search (`memorySearch.provider/fallback = "ollama"`).
+- Tools/diffs plugin: PDF output support and rendering quality controls for diff artifacts.
 
 ## Release Updates (v2026.3.1)
 

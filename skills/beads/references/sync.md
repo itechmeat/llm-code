@@ -1,76 +1,108 @@
 # Sync & Integration
 
-Beads v0.56+ uses Dolt-native sync for the issue database.
+Beads v0.58.0 uses Dolt as the primary backend and supports multiple sync strategies.
 
 ## TL;DR
 
-- Use `bd dolt pull` / `bd dolt commit` / `bd dolt push` to synchronize.
-- `bd sync` is deprecated (no-op) in v0.56+ and will print a hint.
+- Prefer `bd sync` for the “do the right thing” sync loop.
+- Use `bd dolt push` / `bd dolt pull` when operating directly with Dolt remotes.
+- Use JSONL export/import for portability, migration, and off-machine backups.
 
-## Dolt Sync Workflow
+## Recommended Loop (Most Teams)
 
 ```bash
-# Get latest issue DB changes
-bd dolt pull
-
-# Work normally (create/update/close/etc)
-bd ready
-
-# Record your changes in the Dolt DB
-bd dolt commit
-
-# Share changes with others
-bd dolt push
+bd sync
 ```
 
-Useful helpers:
+At a high level, `bd sync`:
 
-- `bd dolt show` — show current Dolt connection/remote settings
-- `bd dolt test` — validate connectivity
-- `bd doctor --server` — server-mode health checks
-- `bd dolt remote` — manage remotes (v0.57.0)
-- `bd dolt start` / `bd dolt stop` — Dolt server lifecycle helpers (v0.57.0)
+1. Ensures local DB state is consistent
+2. Pulls updates from the configured sync channel
+3. Applies merges/conflict strategy
+4. Pushes if configured (or if you didn’t opt out)
 
-## Dolt Remote Management (v0.57.0)
-
-Beads adds CLI helpers to manage Dolt remotes without editing config files.
+If you need to skip pushing (e.g. read-only environments):
 
 ```bash
-bd dolt remote
+bd sync --no-push
+```
+
+## Sync Modes
+
+Beads supports different sync modes depending on your backend and workflow.
+The exact knobs live in `.beads/config.yaml` / `~/.config/bd/config.yaml`.
+
+- `dolt-native` (recommended): Dolt remotes handle sync; cell-level merge.
+- `git-portable` (legacy portability): JSONL export/import during sync operations.
+- `belt-and-suspenders`: Dolt remotes + JSONL backups for extra redundancy.
+
+## Dolt Remotes
+
+Use `bd dolt remote` commands to manage remotes without editing config files:
+
+```bash
 bd dolt remote list
-bd dolt remote add
-bd dolt remote remove
+bd dolt remote add origin <url>
+bd dolt remote remove origin
+
+bd dolt pull
+bd dolt push
 ```
 
 Notes:
 
-- If `bd dolt push/pull` fails over HTTPS due to environment constraints, v0.57.0 adds SSH push/pull fallback support.
+- For git-protocol remotes, Beads may fall back to the Dolt CLI for transfer.
+- `bd dolt show` and `bd dolt test` help validate configuration and connectivity.
 
-## Server Mode Requirement (v0.56+)
+## Multiple Clones / Worktrees: `.beads/redirect`
 
-Embedded Dolt mode was removed; Beads requires Dolt SQL server mode.
-If Beads can’t connect, start with:
+To make multiple clones share one database, create `.beads/redirect` containing a
+single relative or absolute path to the target `.beads` directory.
 
 ```bash
-bd dolt test
-bd doctor --server
+mkdir -p .beads
+echo "../main-clone/.beads" > .beads/redirect
+
+bd where
+bd where --json
 ```
 
-## Upgrading From Pre-0.56
+Constraints:
 
-If your older workflow relied on git/JSONL sync (`bd sync`), expect it to do
-nothing after upgrading. Switch your runbooks and agent prompts to Dolt commands.
+- Redirects are single-level (A → B works; A → B → C does not)
+- Target must exist and contain a valid database
 
-In newer versions, the first `bd` invocation may migrate a local SQLite store to Dolt automatically. If you have existing local state, take a backup before upgrading.
+## Backup / Portability (JSONL)
 
-If you previously used an older wisp/ephemeral store, follow Beads’ upgrade hints;
-you may be prompted to run `bd migrate wisps`.
+Use JSONL as an off-machine recovery path and migration/portability tool.
+
+```bash
+bd export -o backup.jsonl
+bd import -i backup.jsonl
+```
+
+If auto-backup is enabled, you can trigger it manually:
+
+```bash
+bd backup
+bd backup status
+```
+
+## Upgrades & Migrations
+
+For upgrades, prefer inspecting first:
+
+```bash
+bd migrate --inspect --json
+bd migrate --to-dolt --dry-run
+bd migrate --to-dolt
+```
 
 ## External Integrations
 
-Integrations (GitLab/Linear/Jira/etc.) are separate from Dolt DB sync: Dolt sync
-keeps Beads’ local issue database consistent; integration commands exchange data
-with external trackers.
+Integrations (GitLab/Linear/Jira/etc.) are separate from database sync: sync keeps
+Beads’ local issue database consistent; integrations exchange data with external
+trackers.
 
 ### GitLab Sync
 

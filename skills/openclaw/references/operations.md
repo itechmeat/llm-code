@@ -24,6 +24,17 @@ openclaw config file
 
 Resolution rule (per docs): uses `OPENCLAW_CONFIG_PATH` if set; otherwise uses the default config location.
 
+### Config validation (v2026.3.2)
+
+Validate a config file **before** starting the gateway:
+
+```bash
+openclaw config validate
+openclaw config validate --json
+```
+
+Use this as a first step when the gateway fails fast on invalid config keys or paths.
+
 ### Cron/heartbeat lightweight context (v2026.3.1)
 
 When you want automation turns to run with a smaller bootstrap payload:

@@ -129,6 +129,10 @@ Type `/` in the chat input to open the slash command menu for quick actions.
 | Run Cleanup Script  | Execute cleanup script |
 | Copy Raw Logs       | Copy logs to clipboard |
 
+## Workspace Logs Capture (v0.1.23)
+
+Workspace logs capture was updated in v0.1.23 (root execution-process provider). If logs look missing or truncated, upgrading to 0.1.23+ is the first thing to try.
+
 ### Git Actions
 
 | Command              | Description         |
