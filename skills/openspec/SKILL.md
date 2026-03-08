@@ -1,21 +1,14 @@
 ---
 name: openspec
-description: "OpenSpec artifact-driven workflow. Covers OPSX commands, schemas, project config. Keywords: OPSX, artifact graph, /opsx:."
-version: "1.2.0"
-release_date: "2026-02-23"
+description: "OpenSpec artifact-driven workflow. Covers OPSX commands, schemas, project config. Use when applying the artifact-driven workflow (OPSX), planning or reviewing changes based on artifact dependencies, or working with OPSX commands and schema/template resolution. Keywords: OPSX, artifact graph, /opsx:."
+metadata:
+  version: "1.2.0"
+  release_date: "2026-02-23"
 ---
 
 # OpenSpec (OPSX) Skill
 
 Use this skill to guide or reason about the OpenSpec artifact-driven workflow system (OPSX), including artifact graphs, schema/template resolution, change lifecycle, and experimental commands/skills.
-
-## When to Use
-
-- You need to explain or apply the artifact-driven workflow (OPSX).
-- You are planning or reviewing changes based on artifact dependencies.
-- You need to interpret schema/template resolution rules (XDG + built-ins).
-- You are asked to design or validate changes to the OpenSpec workflow or schema tooling.
-- You are asked to create or operate OpenSpec experimental skills/commands.
 
 ## Quick Navigation
 

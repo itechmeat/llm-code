@@ -110,6 +110,29 @@ Minimal example:
 }
 ```
 
+### Telegram per-topic agent routing (v2026.3.7)
+
+Forum group topics and DM topics support per-topic `agentId` overrides so each topic routes to a dedicated agent with an isolated session.
+
+### ACP persistent channel bindings (v2026.3.7)
+
+- Durable Discord channel and Telegram topic binding storage that survives restarts.
+- ACP `spawn --thread here|auto` for Telegram topic binding.
+- Actionable Telegram approval buttons with prefixed approval-id resolution.
+- Successful bind confirmations are pinned in-topic.
+
+### Slack DM typing feedback (v2026.3.7)
+
+`channels.slack.typingReaction` enables reaction-based processing status in Socket Mode DMs when native assistant typing is unavailable.
+
+### Discord allowBots mention gating (v2026.3.7)
+
+`allowBots: "mentions"` accepts bot-authored messages only when they mention the bot.
+
+### Mattermost model picker (v2026.3.7)
+
+Interactive `/oc_model` and `/oc_models` commands for Telegram-style provider/model browsing with callback-based selection.
+
 ## Apple Watch and APNs delivery notes (v2026.2.19)
 
 - Apple Watch companion flows depend on reliable gateway-to-iOS notification relay.

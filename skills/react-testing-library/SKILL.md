@@ -1,8 +1,9 @@
 ---
 name: react-testing-library
-description: "React Testing Library: user-centric component testing with queries, user-event simulation, async utilities, and accessibility-first API."
-version: "16.3.2"
-release_date: "2026-01-19"
+description: "React Testing Library: user-centric component testing with queries, user-event simulation, async utilities, and accessibility-first API. Use when writing React component tests, selecting elements by role/label/text, simulating user events, or testing async UI behavior. Keywords: React Testing Library, @testing-library/react, user-event, queries, render."
+metadata:
+  version: "16.3.2"
+  release_date: "2026-01-19"
 ---
 
 # React Testing Library Skill

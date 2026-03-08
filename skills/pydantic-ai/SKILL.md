@@ -1,8 +1,9 @@
 ---
 name: pydantic-ai
-description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
-version: "1.65.0"
-release_date: "2026-03-03"
+description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Use when building Python AI agents with Pydantic AI, configuring model providers, implementing typed tools/dependencies, running evals, or integrating MCP servers. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
+metadata:
+  version: "1.67.0"
+  release_date: "2026-03-06"
 ---
 
 # Pydantic AI

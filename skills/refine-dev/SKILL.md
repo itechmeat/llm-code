@@ -1,21 +1,14 @@
 ---
 name: refine-dev
-description: "Refine.dev headless React framework for CRUD apps: data providers, resources, routing, authentication, hooks, and forms."
-version: "5.0.9"
-release_date: "2026-02-05"
+description: "Refine.dev headless React framework for CRUD apps: data providers, resources, routing, authentication, hooks, and forms. Use when building admin panels, dashboards, or internal tools with React and various backends (REST, GraphQL, Supabase, Strapi), or configuring Refine data providers and authentication. Keywords: Refine, CRUD, admin panel, data provider, React."
+metadata:
+  version: "5.0.10"
+  release_date: "2026-03-05"
 ---
 
 # Refine.dev Framework
 
 Refine is a headless React framework for building enterprise CRUD applications. It provides data fetching, routing, authentication, and access control out of the box while remaining UI-agnostic.
-
-## When to use
-
-- Building admin panels, dashboards, or internal tools with React
-- Need CRUD operations with various backends (REST, GraphQL, Supabase, Strapi, etc.)
-- Want a headless approach with Mantine UI integration
-- Setting up Vite-based React projects with data management
-- Implementing authentication flows in React admin apps
 
 ## Core Concepts
 

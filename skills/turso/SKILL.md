@@ -1,8 +1,9 @@
 ---
 name: turso
-description: "Turso SQLite database. Covers encryption, sync, agent patterns. Keywords: libSQL, embedded."
-version: "0.5.0"
-release_date: "2026-03-04"
+description: "Turso SQLite database. Covers encryption, sync, agent patterns. Use when working with Turso/libSQL embedded databases, configuring encryption-at-rest, setting up sync replication, or building agent-friendly database patterns. Keywords: Turso, libSQL, embedded, SQLite, encryption, sync."
+metadata:
+  version: "0.5.0"
+  release_date: "2026-03-04"
 ---
 
 # Turso Database

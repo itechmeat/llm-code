@@ -1,8 +1,9 @@
 ---
 name: changelog
-description: "Keep a Changelog format. Covers structure, change types, versioning. Keywords: CHANGELOG.md, semver."
-version: "1.1.0"
-release_date: "2023-03-06"
+description: "Keep a Changelog format. Covers structure, change types, versioning. Use when creating or updating CHANGELOG.md files following the Keep a Changelog specification, or applying semver-compatible changelog conventions. Keywords: CHANGELOG.md, semver, Keep a Changelog."
+metadata:
+  version: "1.1.0"
+  release_date: "2023-03-06"
 ---
 
 # Changelog

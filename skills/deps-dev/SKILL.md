@@ -1,8 +1,9 @@
 ---
 name: deps-dev
-description: "deps.dev API v3 package metadata lookup. Covers version discovery, default/latest version, URL encoding. Keywords: deps.dev, api.deps.dev, package versions."
-version: "3"
-release_date: "2026-02-01"
+description: "deps.dev API v3 package metadata lookup. Covers version discovery, default/latest version, URL encoding. Use when querying package versions, checking latest releases, or looking up dependency metadata via the deps.dev API. Keywords: deps.dev, api.deps.dev, package versions."
+metadata:
+  version: "3"
+  release_date: "2026-01-27"
 ---
 
 # deps.dev (Skill Router)

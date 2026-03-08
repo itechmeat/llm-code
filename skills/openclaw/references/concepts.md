@@ -25,6 +25,22 @@
 - Session pruning trims old tool results in-memory (non-persistent).
 - Compaction summarizes older context and persists the summary in transcript.
 - Use both as complementary controls for long-running sessions.
+- **(v2026.3.7)** `postCompactionSections` controls which `AGENTS.md` sections re-inject after compaction.
+- **(v2026.3.7)** `recentTurnsPreserve` and quality-guard retry knobs are tunable via config.
+- **(v2026.3.7)** `session:compact:before`/`session:compact:after` events emitted with session/count metadata for plugin/automation hooks.
+
+### Context Engine plugins (v2026.3.7)
+
+- `ContextEngine` plugin slot with lifecycle hooks: `bootstrap`, `ingest`, `assemble`, `compact`, `afterTurn`, `prepareSubagentSpawn`, `onSubagentEnded`.
+- Slot-based registry with config-driven resolution enables alternative context strategies (e.g. `lossless-claw`) without modifying core compaction logic.
+- `LegacyContextEngine` wrapper preserves existing compaction behavior when no plugin is configured.
+- Scoped subagent runtime for plugin runtimes via `AsyncLocalStorage`.
+
+### Plugin prompt injection controls (v2026.3.7)
+
+- `prependSystemContext`/`appendSystemContext` place static plugin guidance in system prompt space for provider caching and lower repeated cost.
+- `plugins.entries.<id>.hooks.allowPromptInjection` controls whether plugins can mutate prompts.
+- Unknown typed hook names are validated at runtime; legacy `before_agent_start` overrides preserved while stripping prompt-mutating fields when injection is disabled.
 
 ### Presence and messages
 

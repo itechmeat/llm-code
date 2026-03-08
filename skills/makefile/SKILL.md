@@ -1,8 +1,9 @@
 ---
 name: makefile
-description: GNU Make automation and build system guidance
-version: 2.0.0
-release_date: "2023-02-26"
+description: "GNU Make automation and build system guidance. Use when creating or maintaining Makefiles, writing Make targets and recipes, or configuring GNU Make build automation. Keywords: Makefile, GNU Make, targets, recipes, build automation."
+metadata:
+  version: "2.0.0"
+  release_date: "2023-02-26"
 ---
 
 # Makefile Skill

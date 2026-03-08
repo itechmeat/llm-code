@@ -28,6 +28,8 @@ Use these for process/container probes only; for authenticated deeper checks, us
 - Bind precedence follows explicit override before config default.
 - Non-loopback binds must be protected by token/password auth.
 - Clients must supply auth even when reaching gateway through SSH tunnel.
+- **(v2026.3.7)** When both `gateway.auth.token` and `gateway.auth.password` are configured (including SecretRefs), set `gateway.auth.mode` to `token` or `password` explicitly. Omitting it causes startup/pairing/TUI failures.
+- SecretRef is supported for `gateway.auth.token` with auth-mode guardrails.
 
 ## Remote access patterns
 

@@ -1,8 +1,9 @@
 ---
 name: bun
-description: "Bun JavaScript/TypeScript runtime and all-in-one toolkit. Covers runtime, package manager, bundler, test runner, HTTP server, WebSockets, SQLite, S3, Redis, file I/O, shell scripting, FFI, Markdown parser. Keywords: bun, bunx, bun install, bun run, bun test, bun build, Bun.serve, Bun.file, bun:sqlite, Bun.markdown."
-version: "1.3.10"
-release_date: "2026-02-26"
+description: "Bun JavaScript/TypeScript runtime and all-in-one toolkit. Covers runtime, package manager, bundler, test runner, HTTP server, WebSockets, SQLite, S3, Redis, file I/O, shell scripting, FFI, Markdown parser. Use when running JS/TS with Bun, managing packages, bundling, testing, or using Bun-specific APIs. Keywords: bun, bunx, bun install, bun run, bun test, bun build, Bun.serve, Bun.file, bun:sqlite, Bun.markdown."
+metadata:
+  version: "1.3.10"
+  release_date: "2026-02-26"
 ---
 
 # Bun

@@ -1,11 +1,9 @@
 ---
 name: openclaw
-description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Keywords: OpenClaw, gateway, tools, channels, agents."
-version: "v2026.3.2"
-release_date: "2026-03-03"
+description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Use when deploying, configuring, or operating an OpenClaw instance, managing gateway routing, setting up channels, or working with the multi-agent tool governance system. Keywords: OpenClaw, gateway, tools, channels, agents."
 metadata:
-  author: itechmeat
-  docs_ingested_at: "2026-02-23"
+  version: "v2026.3.7"
+  release_date: "2026-03-08"
 ---
 
 # OpenClaw (Operator Playbook)
@@ -47,6 +45,30 @@ If OpenClaw is not installed, use `references/installation.md`.
 - Use supervised process mode (launchd/systemd) for reliability.
 - For config changes, treat `config.apply` as controlled rollout and `config.patch` as targeted merge.
 - Remember patch semantics: objects merge, arrays replace, `null` deletes.
+
+## Release Updates (v2026.3.7)
+
+- **BREAKING:** Gateway auth now requires explicit `gateway.auth.mode` (`token` or `password`) when both `gateway.auth.token` and `gateway.auth.password` are configured (including SecretRefs). Set before upgrade to avoid startup/pairing failures.
+- Agents: `ContextEngine` plugin interface with full lifecycle hooks (`bootstrap`, `ingest`, `assemble`, `compact`, `afterTurn`, `prepareSubagentSpawn`, `onSubagentEnded`). Enables alternative context management strategies (e.g. `lossless-claw`) without modifying core compaction.
+- Agents: configurable `postCompactionSections` to choose which `AGENTS.md` sections re-inject after compaction.
+- Agents: head+tail truncation for oversized tool results (preserves tail diagnostics).
+- Telegram: per-topic `agentId` overrides in forum groups and DM topics for dedicated agent routing with isolated sessions.
+- Telegram/ACP: durable topic binding (`--thread here|auto`), approval buttons with prefixed-id resolution, bind pin confirmations.
+- ACP: persistent Discord channel and Telegram topic binding storage surviving restarts.
+- Plugins: `prependSystemContext`/`appendSystemContext` for static guidance in system prompt space (provider caching, lower repeated cost).
+- Plugins: `hooks.allowPromptInjection` policy and runtime validation of unknown hook names.
+- Hooks: `session:compact:before`/`session:compact:after` events with session/count metadata.
+- Config: `recentTurnsPreserve` and quality-guard retry knobs exposed through validated config.
+- Tools/Web search: Perplexity provider switched to Search API with structured results + language/region/time filters.
+- Tools/Diffs: guidance moved from prompt-hook injection to companion skill path (reduces unrelated-turn noise).
+- Gateway: SecretRef support for `gateway.auth.token` with auth-mode guardrails.
+- Docker: multi-stage build producing minimal runtime image; `OPENCLAW_VARIANT=slim` build arg; `OPENCLAW_EXTENSIONS` for pre-baking extension dependencies.
+- TTS: `messages.tts.openai.baseUrl` config support for OpenAI-compatible endpoints.
+- Google: first-class `gemini-3.1-flash-lite-preview` support.
+- Slack: `typingReaction` for DM processing status when assistant typing unavailable.
+- Discord: `allowBots: "mentions"` to gate bot messages by mention.
+- Mattermost: interactive `/oc_model` provider/model browsing.
+- Cron: `jobs.json.bak` preserved as pre-edit snapshot for recovery.
 
 ## Release Updates (v2026.3.2)
 

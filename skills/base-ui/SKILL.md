@@ -1,22 +1,14 @@
 ---
 name: base-ui
-description: "Base UI unstyled React components. Covers forms, menus, overlays, composition. Keywords: @base-ui/react, render props."
-version: "1.2.0"
-release_date: "2026-02-12"
+description: "Base UI unstyled React components. Covers forms, menus, overlays, composition. Use when building accessible, unstyled React UI components with @base-ui/react, composing with render props, or implementing custom-styled form controls, menus, and overlays. Keywords: @base-ui/react, render props, unstyled components."
+metadata:
+  version: "1.2.0"
+  release_date: "2026-02-12"
 ---
 
 # Base UI (React)
 
 Base UI provides unstyled, composable React components. This skill focuses on assembling multi-part components, composing with the `render` prop, and meeting accessibility requirements while you supply styling.
-
-## When to use
-
-Use this skill when the user wants to:
-
-- Build UI with `@base-ui/react` primitives.
-- Compose unstyled components with custom markup and styling.
-- Implement menus, overlays, toasts, and toolbars.
-- Build accessible form controls and grouped inputs.
 
 ## Quick navigation (references)
 

@@ -1,22 +1,14 @@
 ---
 name: zvec
-description: "Zvec in-process vector database. Covers collections, embedding, reranking, persistence. Keywords: Zvec, vector DB, ANN."
-version: "0.2.0"
-release_date: "2026-02-13"
+description: "Zvec in-process vector database. Covers collections, embedding, reranking, persistence. Use when embedding Zvec as an in-process vector database, managing collections, configuring embedding/reranking, or running approximate nearest-neighbor searches. Keywords: Zvec, vector DB, ANN, SQLite for vectors."
+metadata:
+  version: "0.2.0"
+  release_date: "2026-02-13"
 ---
 
 # Zvec
 
 Zvec is a lightweight, in-process vector database meant to be embedded into applications ("SQLite for vectors").
-
-## When to use
-
-Use this skill when you need to:
-
-- Embed a vector database inside an app or agent without running a server
-- Model vector + metadata, manage collections, and run similarity search
-- Generate embeddings and/or apply reranking in a retrieval pipeline
-- Configure persistence and performance knobs for local workloads
 
 ## Quick navigation
 

@@ -1,8 +1,9 @@
 ---
 name: commits
-description: "Conventional Commits specification. Covers commit structure, types, breaking changes. Keywords: feat, fix, BREAKING CHANGE."
-version: "1.0.0"
-release_date: "2019-02-21"
+description: "Conventional Commits specification. Covers commit structure, types, breaking changes. Use when writing structured commit messages, configuring automated changelog generation, or applying semantic versioning conventions. Keywords: feat, fix, BREAKING CHANGE, Conventional Commits."
+metadata:
+  version: "1.0.0"
+  release_date: "2019-02-21"
 ---
 
 # Conventional Commits

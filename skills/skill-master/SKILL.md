@@ -1,10 +1,9 @@
 ---
 name: skill-master
-description: "Agent Skills authoring. Covers SKILL.md format, frontmatter, folders, docs ingestion. Keywords: agentskills.io, SKILL.md."
-version: "1.3.0"
-release_date: "2026-03-02"
+description: "Agent Skills authoring and evaluation. Create, edit, validate, and optimize skills following the agentskills.io specification. Use when designing SKILL.md files, structuring skill folders (references, scripts, assets), ingesting external documentation into skills, running trigger evals, or improving skill descriptions. Keywords: agentskills.io, SKILL.md, skill authoring, eval, trigger optimization."
 metadata:
-  author: itechmeat
+  version: "1.4.0"
+  release_date: "2026-03-08"
 ---
 
 # Skill Master

@@ -1,8 +1,9 @@
 ---
 name: vibekanban
-description: "Orchestrate AI coding with Vibe Kanban: tasks, review, sessions, workspaces, and isolated git worktrees. Keywords: Vibe Kanban."
-release_date: "2026-03-03"
-version: "0.1.23"
+description: "Orchestrate AI coding with Vibe Kanban: tasks, review, sessions, workspaces, and isolated git worktrees. Use when managing AI-generated code in isolated environments, planning coding tasks, reviewing AI output, or configuring Vibe Kanban workspaces and agents. Keywords: Vibe Kanban, AI orchestration, worktrees."
+metadata:
+  version: "0.1.26"
+  release_date: "2026-03-07"
 ---
 
 # Vibe Kanban

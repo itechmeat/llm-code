@@ -1,8 +1,9 @@
 ---
 name: beads
-description: "Beads (bd) Dolt-backed issue tracker for agent task memory. Covers CLI ops, molecules, Dolt sync, Linear/Jira/GitLab. Keywords: bd, beads, Dolt."
-version: "0.58.0"
-release_date: "2026-03-03"
+description: "Beads (bd) Dolt-backed issue tracker for agent task memory. Covers CLI ops, molecules, Dolt sync, Linear/Jira/GitLab. Use when tracking tasks and dependencies with the Beads CLI, syncing issues via Dolt, or integrating with Linear/Jira/GitLab. Keywords: bd, beads, Dolt, issue tracker."
+metadata:
+  version: "0.59.0"
+  release_date: "2026-03-06"
 ---
 
 # Beads (bd)

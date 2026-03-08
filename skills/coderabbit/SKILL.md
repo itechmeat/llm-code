@@ -1,8 +1,8 @@
 ---
 name: coderabbit
-description: "CodeRabbit AI code review. Covers CLI, configuration, triage workflow. Keywords: @coderabbitai, code review."
-version: "—"
-release_date: "2026-03-04"
+description: "CodeRabbit AI code review. Covers CLI usage, .coderabbit.yaml configuration, supported linters/tools, PR commands, and triage workflow. Use when running AI-powered code reviews on pull requests or local changes, configuring review rules, or triaging CodeRabbit findings. Keywords: @coderabbitai, code review, CLI, .coderabbit.yaml."
+metadata:
+  release_date: "2026-03-04"
 ---
 
 # CodeRabbit
@@ -46,6 +46,7 @@ git rev-parse main >/dev/null 2>&1 || echo "WARNING: 'main' branch not found —
 **If any check fails, fix it before running the review. Do NOT proceed with a broken state.**
 
 **Authentication failure rule:** If authentication check fails (step 2), the agent MUST:
+
 1. Stop immediately — do not attempt to run the review
 2. Notify the user that CodeRabbit CLI is not authenticated
 3. Show the user the exact command to authenticate: `coderabbit auth login`
@@ -136,13 +137,13 @@ ls -t ~/.coderabbit/logs/ | head -1 | xargs -I{} cat ~/.coderabbit/logs/{}
 
 ### Common errors
 
-| Error | Cause | Fix |
-|-------|-------|-----|
-| `GitError` (no details) | No commits in repo | Make at least one commit |
-| `Failed to get commit SHA for branch main` | Base branch doesn't exist | Use `--base master` or `--base <your-branch>` |
-| `Raw mode is not supported` | Interactive mode in non-TTY | Always use `--prompt-only` or `--plain` |
-| `[error] stopping cli` after auth | Token expired | Re-run `coderabbit auth login` |
-| CLI hangs / no output | Large changeset | Use `--type uncommitted` to limit scope |
+| Error                                      | Cause                       | Fix                                           |
+| ------------------------------------------ | --------------------------- | --------------------------------------------- |
+| `GitError` (no details)                    | No commits in repo          | Make at least one commit                      |
+| `Failed to get commit SHA for branch main` | Base branch doesn't exist   | Use `--base master` or `--base <your-branch>` |
+| `Raw mode is not supported`                | Interactive mode in non-TTY | Always use `--prompt-only` or `--plain`       |
+| `[error] stopping cli` after auth          | Token expired               | Re-run `coderabbit auth login`                |
+| CLI hangs / no output                      | Large changeset             | Use `--type uncommitted` to limit scope       |
 
 ### Check auth status
 

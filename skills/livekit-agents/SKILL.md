@@ -1,8 +1,9 @@
 ---
 name: livekit-agents
-description: "LiveKit Agents realtime AI agents. Covers voice/vision pipelines, Agent Server jobs, models & tools. Keywords: LiveKit, agents, voice AI."
-version: "1.4.4"
-release_date: "2026-03-03"
+description: "LiveKit Agents realtime AI agents. Covers voice/vision pipelines, Agent Server jobs, models & tools. Use when building or operating LiveKit voice/video AI agents, configuring Agent Server pipelines, or integrating speech/vision models. Keywords: LiveKit, agents, voice AI, Agent Server."
+metadata:
+  version: "1.4.4"
+  release_date: "2026-03-03"
 ---
 
 # LiveKit Agents

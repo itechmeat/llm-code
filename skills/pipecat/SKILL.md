@@ -1,21 +1,15 @@
 ---
 name: pipecat
-description: "Pipecat realtime voice/multimodal bots. Covers pipelines/frames, transports, RTVI, Pipecat Cloud deploy. Keywords: pipecat, pipecat-ai, RTVI, WebRTC."
-version: "0.0.104"
-release_date: "2026-03-03"
+description: "Pipecat realtime voice/multimodal bots. Covers pipelines/frames, transports, RTVI, Pipecat Cloud deploy. Use when building real-time voice bots (STT/LLM/TTS pipelines), multimodal AI agents, WebRTC/WebSocket transports, or deploying to Pipecat Cloud. Keywords: pipecat, pipecat-ai, RTVI, WebRTC, voice bot."
+metadata:
+  version: "0.0.104"
+  release_date: "2026-03-03"
 ---
 
 # Pipecat
 
 Pipecat is an open-source Python framework for building real-time voice and multimodal bots.
 It composes streaming speech/LLM/TTS services into a low-latency pipeline, connected via transports (WebRTC/WebSocket) and client SDKs using the RTVI message standard.
-
-## When to use
-
-- Build an ultra-low latency voice bot (STT → LLM → TTS)
-- Integrate real-time transports (Daily/WebRTC, WebSocket, direct provider realtime)
-- Implement client ↔ server events, requests, and function calling via RTVI
-- Deploy and scale bots via Pipecat Cloud (images, pools, secrets, sessions)
 
 ## Quick navigation
 

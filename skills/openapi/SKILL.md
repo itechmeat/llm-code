@@ -1,8 +1,9 @@
 ---
 name: openapi
-description: "OpenAPI Specification (OAS 3.x): document structure, paths, operations, schemas, parameters, security schemes, and validation."
-version: "3.2.0"
-release_date: "2025-09-19"
+description: "OpenAPI Specification (OAS 3.x): document structure, paths, operations, schemas, parameters, security schemes, and validation. Use when writing, reading, or validating OpenAPI specs, designing REST API schemas, or working with OAS 3.x document structure. Keywords: OpenAPI, OAS, Swagger, REST API, schemas."
+metadata:
+  version: "3.2.0"
+  release_date: "2025-09-19"
 ---
 
 # OpenAPI Specification

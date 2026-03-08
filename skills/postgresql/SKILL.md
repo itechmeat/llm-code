@@ -1,19 +1,12 @@
 ---
 name: postgresql
-description: "PostgreSQL best practices: multi-tenancy with RLS, schema design, Alembic migrations, async SQLAlchemy, and query optimization."
-version: "18.3"
-release_date: "2026-02-26"
+description: "PostgreSQL best practices: multi-tenancy with RLS, schema design, Alembic migrations, async SQLAlchemy, and query optimization. Use when designing multi-tenant tables with Row-Level Security, debugging tenant isolation, creating/changing Alembic migrations, or optimizing PostgreSQL queries. Keywords: PostgreSQL, RLS, Alembic, SQLAlchemy, multi-tenancy."
+metadata:
+  version: "18.3"
+  release_date: "2026-02-26"
 ---
 
 # PostgreSQL
-
-## When to use
-
-- Designing or changing multi-tenant tables with Row-Level Security (RLS)
-- Debugging tenant isolation issues
-- Adding/changing Alembic migrations for schema, RLS policies, or indexes
-- Writing tests that validate RLS isolation
-- Configuring PostgreSQL authentication, replication, or tuning
 
 ## RLS Multi-tenancy Pattern
 

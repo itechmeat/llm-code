@@ -1,19 +1,12 @@
 ---
 name: open-meteo
-description: "Integrate Open-Meteo Weather Forecast, Air Quality, and Geocoding APIs: query design, variable selection, timezone/timeformat/units, multi-location batching, and robust error handling. Keywords: Open-Meteo, /v1/forecast, /v1/air-quality, geocoding-api, hourly, daily, current, timezone=auto, timeformat=unixtime, models, WMO weather_code, CAMS, GeoNames, httpx, FastAPI, pytest."
-version: "1.4.0"
-release_date: "2024-12-31"
+description: "Integrate Open-Meteo Weather Forecast, Air Quality, and Geocoding APIs: query design, variable selection, timezone/timeformat/units, multi-location batching, and robust error handling. Use when fetching weather forecasts, air quality/pollen data, or geocoding place names to coordinates via Open-Meteo. Keywords: Open-Meteo, /v1/forecast, /v1/air-quality, geocoding-api, hourly, daily, current, timezone=auto, timeformat=unixtime, models, WMO weather_code, CAMS, GeoNames, httpx, FastAPI, pytest."
+metadata:
+  version: "1.4.0"
+  release_date: "2024-12-31"
 ---
 
 # Open Meteo
-
-## When to use
-
-- You need weather forecasts (hourly/daily/current) for coordinates.
-- You need air quality / pollen forecasts (hourly/current) for coordinates.
-- You need to resolve a user-provided place name to coordinates and timezone (geocoding).
-- You need to support multi-location batching (comma-separated lat/lon lists).
-- You need a deterministic checklist for Open-Meteo query parameters, response parsing, and error handling.
 
 ## Goal
 
@@ -22,18 +15,15 @@ Provide a reliable, production-friendly way to call Open-Meteo APIs (Forecast, A
 ## Steps
 
 1. Pick the correct API and base URL
-
    - Forecast: `https://api.open-meteo.com/v1/forecast`
    - Air Quality: `https://air-quality-api.open-meteo.com/v1/air-quality`
    - Geocoding: `https://geocoding-api.open-meteo.com/v1/search`
 
 2. Resolve coordinates (if you only have a name)
-
    - Call Geocoding with `name` and optional `language`, `countryCode`, `count`.
    - Use the returned `latitude`, `longitude`, and `timezone` for subsequent calls.
 
 3. Design your time axis (timezone, timeformat, and range)
-
    - Prefer `timezone=auto` when results must align to local midnight.
    - If you request `daily=...`, set `timezone` (docs: daily requires timezone).
    - Choose `timeformat=iso8601` for readability, or `timeformat=unixtime` for compactness.
@@ -43,13 +33,11 @@ Provide a reliable, production-friendly way to call Open-Meteo APIs (Forecast, A
      - explicit `start_date`/`end_date` (YYYY-MM-DD), and for sub-daily `start_hour`/`end_hour`.
 
 4. Choose variables minimally (avoid "download everything")
-
    - Forecast: request only the variables you need via `hourly=...`, `daily=...`, `current=...`.
    - Air Quality: request only the variables you need via `hourly=...`, `current=...`.
    - Keep variable names exact; typos return a JSON error with `error: true`.
 
 5. Choose units and model selection deliberately
-
    - Forecast units:
      - `temperature_unit` (`celsius` / `fahrenheit`)
      - `wind_speed_unit` (`kmh` / `ms` / `mph` / `kn`)
@@ -63,7 +51,6 @@ Provide a reliable, production-friendly way to call Open-Meteo APIs (Forecast, A
      - `domains=auto` (default) or `cams_europe` / `cams_global`.
 
 6. Implement robust request/response handling
-
    - Treat HTTP errors and JSON-level errors separately.
    - JSON error format is:
      - `{"error": true, "reason": "..."}`

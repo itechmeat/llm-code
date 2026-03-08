@@ -1,9 +1,8 @@
 ---
 name: project-creator
-description: "Project documentation scaffolding. Covers about.md, specs.md, architecture.md, project-context.md, and user stories. Keywords: project setup, documentation, specs, architecture, stories."
-version: "1.0.0"
+description: "Project documentation scaffolding. Covers about.md, specs.md, architecture.md, project-context.md, and user stories. Use when creating or maintaining project documentation in a .project/ folder, scaffolding specs, architecture docs, or user stories. Keywords: project setup, documentation, specs, architecture, stories."
 metadata:
-  author: itechmeat
+  version: "1.0.0"
 ---
 
 # Project Creator
@@ -36,24 +35,24 @@ Guide creation and maintenance of project documentation in `.project/` folder.
 
 ## Assets (Templates)
 
-| Template | File | Purpose |
-|----------|------|---------|
-| About | `assets/about-template.md` | Project overview |
-| Specs | `assets/specs-template.md` | Technical specs |
-| Architecture | `assets/architecture-template.md` | System architecture |
-| Context | `assets/project-context-template.md` | Project context |
-| Stories List | `assets/stories-template.md` | Stories master list |
-| Story | `assets/story-template.md` | Individual story |
+| Template     | File                                 | Purpose             |
+| ------------ | ------------------------------------ | ------------------- |
+| About        | `assets/about-template.md`           | Project overview    |
+| Specs        | `assets/specs-template.md`           | Technical specs     |
+| Architecture | `assets/architecture-template.md`    | System architecture |
+| Context      | `assets/project-context-template.md` | Project context     |
+| Stories List | `assets/stories-template.md`         | Stories master list |
+| Story        | `assets/story-template.md`           | Individual story    |
 
 ## Guides (References)
 
-| Guide | File | Purpose |
-|-------|------|---------|
-| About | `references/about-guide.md` | Questions & criteria |
-| Specs | `references/specs-guide.md` | Questions & criteria |
+| Guide        | File                               | Purpose              |
+| ------------ | ---------------------------------- | -------------------- |
+| About        | `references/about-guide.md`        | Questions & criteria |
+| Specs        | `references/specs-guide.md`        | Questions & criteria |
 | Architecture | `references/architecture-guide.md` | Questions & criteria |
-| Context | `references/context-guide.md` | Questions & criteria |
-| Stories | `references/stories-guide.md` | Questions & criteria |
+| Context      | `references/context-guide.md`      | Questions & criteria |
+| Stories      | `references/stories-guide.md`      | Questions & criteria |
 
 ## Document Dependencies
 
@@ -79,6 +78,7 @@ about.md → specs.md → architecture.md → project-context.md → stories/
 ### Existing Documents
 
 When documents already exist:
+
 - Read and assess completion state
 - Ask user: review/update or skip?
 - Build on existing content — don't recreate
@@ -125,10 +125,10 @@ User: Option 2, but for small businesses, not personal.
 
 Agent: Updated formulation:
 
-  "An expense tracker that helps small businesses 
+  "An expense tracker that helps small businesses
   manage spending and categorize business expenses."
 
-  Does that capture it? Should we add reporting 
+  Does that capture it? Should we add reporting
   or team features?
 ```
 
@@ -150,6 +150,7 @@ Agent: Updated formulation:
 Questions are **examples** — adapt to each unique project:
 
 ### About.md
+
 - Can you describe your project in one sentence?
 - What frustration does this solve for users?
 - If you could only build 3 features, what would they be?
@@ -157,6 +158,7 @@ Questions are **examples** — adapt to each unique project:
 - What will this project definitely NOT do?
 
 ### Specs.md
+
 - What devices/browsers must be supported?
 - How many concurrent users do you expect?
 - Is there existing infrastructure to integrate with?
@@ -164,6 +166,7 @@ Questions are **examples** — adapt to each unique project:
 - Are there any compliance requirements?
 
 ### Architecture.md
+
 - What are the main parts of the system?
 - How should components communicate?
 - What data flows exist?
@@ -171,6 +174,7 @@ Questions are **examples** — adapt to each unique project:
 - How is it secured?
 
 ### Stories
+
 - What's absolutely essential for launch?
 - What can wait until later?
 - What's the logical order of features?
@@ -183,22 +187,26 @@ Questions are **examples** — adapt to each unique project:
 When user lacks technical knowledge:
 
 1. **Explain options simply**
-  - "React is great for interactive UIs, Vue is simpler to learn"
-  - "PostgreSQL is reliable for structured data, MongoDB for flexible schemas"
+
+- "React is great for interactive UIs, Vue is simpler to learn"
+- "PostgreSQL is reliable for structured data, MongoDB for flexible schemas"
 
 2. **Use analogies**
-  - "The API is like a waiter taking orders to the kitchen"
-  - "The database is like a filing cabinet"
-  - "The cache is like a notepad for quick lookups"
+
+- "The API is like a waiter taking orders to the kitchen"
+- "The database is like a filing cabinet"
+- "The cache is like a notepad for quick lookups"
 
 3. **Make recommendations with reasoning**
-  - "Given your expected user count, I recommend..."
-  - "Since you need real-time updates, this pattern..."
+
+- "Given your expected user count, I recommend..."
+- "Since you need real-time updates, this pattern..."
 
 4. **Explain trade-offs**
-  - Performance vs. simplicity
-  - Feature richness vs. learning curve
-  - Cost vs. scalability
+
+- Performance vs. simplicity
+- Feature richness vs. learning curve
+- Cost vs. scalability
 
 ## Links
 

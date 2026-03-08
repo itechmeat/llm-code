@@ -1,18 +1,12 @@
 ---
 name: vite
-description: "Vite next-gen frontend tooling: dev server, HMR, build, config, plugins, Environment API, Rolldown. Keywords: vite.config, bundler."
-version: "7.3.1"
-release_date: "2026-01-07"
+description: "Vite next-gen frontend tooling: dev server, HMR, build, config, plugins, Environment API, Rolldown. Use when setting up or running a Vite project, configuring vite.config.*, authoring plugins, working with HMR or JS API, or managing environment variables and modes. Keywords: vite.config, bundler, Vite, HMR, Rolldown."
+metadata:
+  version: "7.3.1"
+  release_date: "2026-01-07"
 ---
 
 # Vite
-
-## When to use
-
-- User asks how to set up or run a Vite project.
-- User needs Vite configuration guidance (`vite.config.*`).
-- User needs plugin authoring, HMR, or JS API usage.
-- User needs environment variables or modes behavior.
 
 ## Quick navigation
 

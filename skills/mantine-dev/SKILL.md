@@ -1,22 +1,14 @@
 ---
 name: mantine-dev
-description: "Mantine UI library for React: 100+ components, hooks, forms, theming, dark mode, CSS modules, and Vite/TypeScript setup."
-version: "8.3.15"
-release_date: "2026-02-16"
+description: "Mantine UI library for React: 100+ components, hooks, forms, theming, dark mode, CSS modules, and Vite/TypeScript setup. Use when building React applications with Mantine components, configuring theming/dark mode, or working with Mantine hooks and forms. Keywords: Mantine, React, UI components, CSS modules, theming."
+metadata:
+  version: "8.3.16"
+  release_date: "2026-03-05"
 ---
 
 # Mantine UI Library
 
 Mantine is a fully-featured React components library with TypeScript support. It provides 100+ hooks and components with native dark mode, CSS-in-JS via CSS modules, and excellent accessibility.
-
-## When to use
-
-- Building React applications with a comprehensive UI library
-- Need TypeScript-first component library with full type safety
-- Want native dark/light theme support with CSS variables
-- Building forms with validation (useForm hook)
-- Need utility hooks for common React patterns
-- Working with Vite as build tool
 
 ## Focus
 
