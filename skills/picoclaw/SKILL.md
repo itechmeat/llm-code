@@ -2,13 +2,19 @@
 name: picoclaw
 description: "PicoClaw Go AI assistant. Covers CLI ops, config.json, channels, auth, skills, gateway. Use when running the PicoClaw CLI, configuring models/tools/gateway in config.json, or operating channels and authentication. Keywords: picoclaw, onboard, gateway, model_list."
 metadata:
-  version: "v0.2.0"
-  release_date: "2026-02-28"
+  version: "v0.2.2"
+  release_date: "2026-03-11"
 ---
 
 # PicoClaw
 
 PicoClaw is an ultra-lightweight AI assistant written in Go. This skill is a practical operator playbook for running the CLI, configuring `~/.picoclaw/config.json`, and operating `gateway` + channels.
+
+## Links
+
+- [Documentation](https://github.com/sipeed/picoclaw/tree/main/docs)
+- [Releases](https://github.com/sipeed/picoclaw/releases)
+- [GitHub](https://github.com/sipeed/picoclaw)
 
 ## Quick navigation
 

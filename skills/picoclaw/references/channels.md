@@ -14,6 +14,8 @@ General pattern:
 - `enabled`: turns the channel on/off.
 - `allow_from`: allowlist of peer IDs. Accepts strings or numbers.
 
+Recent channel updates add voice-audio transcription echo behavior, so supported channels can reply with the recognized transcription of a voice message instead of treating voice as opaque input.
+
 ## WhatsApp
 
 Config keys (from upstream `config.example.json`):
@@ -58,6 +60,8 @@ Setup notes:
 - Enable intents (at least Message Content Intent; some setups also require Server Members Intent).
 - Invite the bot to your server with send/read permissions.
 
+Discord channel behavior was updated to reply more cleanly when voice transcription echo is enabled.
+
 ## Slack
 
 Config keys:
@@ -70,6 +74,8 @@ Setup notes:
 - PicoClaw uses Slack Socket Mode (no public webhook endpoint required).
 - Create a Slack app → enable Socket Mode → generate an app-level token (`xapp-...`).
 - Install the app to your workspace and provide a bot token (`xoxb-...`).
+
+Recent builds also improved Slack reply behavior when audio transcription echo is involved.
 
 ## OneBot
 

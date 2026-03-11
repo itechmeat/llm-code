@@ -25,6 +25,10 @@ Two install paths are supported:
 
 Registry endpoints are configured under `tools.skills.registries.*`.
 
+## Metadata parsing note (v0.2.2)
+
+Skills loader markdown metadata parsing was refactored. If a custom skill suddenly stops loading after upgrade, validate its frontmatter/metadata formatting before blaming registry transport.
+
 ## Remove
 
 - `picoclaw skills remove <skill-name>`

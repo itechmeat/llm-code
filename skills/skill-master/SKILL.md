@@ -428,12 +428,6 @@ When bumping `metadata.version` or making significant content changes, also upda
 - `SKILLS_VERSIONS.md` — set new version + date, move row to top of table
 - `CHANGELOG.md` — prepend a new dated block at the top
 
-### Creating a Skill from Docs
-
-1. Set `metadata.version` to the exact upstream version you documented (check the release page)
-2. Set `metadata.release_date` to today's date
-3. Ensure `SKILL.md` has an overview (1-2 sentences) + `## Links` section
-
 **Links format:**
 
 ```markdown

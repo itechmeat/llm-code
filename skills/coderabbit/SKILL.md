@@ -2,6 +2,7 @@
 name: coderabbit
 description: "CodeRabbit AI code review. Covers CLI usage, .coderabbit.yaml configuration, supported linters/tools, PR commands, and triage workflow. Use when running AI-powered code reviews on pull requests or local changes, configuring review rules, or triaging CodeRabbit findings. Keywords: @coderabbitai, code review, CLI, .coderabbit.yaml."
 metadata:
+  version: "—"
   release_date: "2026-03-04"
 ---
 

@@ -28,7 +28,7 @@ graph TB
     subgraph "External"
         EXT[Third-party APIs]
     end
-    
+
     WEB --> GW
     MOB --> GW
     GW --> AUTH
@@ -59,12 +59,12 @@ graph TB
 
 ### Technology Stack
 
-| Layer | Technology | Purpose |
-|-------|------------|---------|
-| Framework | [React/Vue/etc.] | [Purpose] |
-| State Management | [Redux/Zustand/etc.] | [Purpose] |
-| Styling | [Tailwind/CSS-in-JS/etc.] | [Purpose] |
-| Build | [Vite/Webpack/etc.] | [Purpose] |
+| Layer            | Technology                | Purpose   |
+| ---------------- | ------------------------- | --------- |
+| Framework        | [React/Vue/etc.]          | [Purpose] |
+| State Management | [Redux/Zustand/etc.]      | [Purpose] |
+| Styling          | [Tailwind/CSS-in-JS/etc.] | [Purpose] |
+| Build            | [Vite/Webpack/etc.]       | [Purpose] |
 
 ### Component Structure
 
@@ -95,11 +95,11 @@ src/
 
 ### Technology Stack
 
-| Layer | Technology | Purpose |
-|-------|------------|---------|
-| Runtime | [Node.js/Python/Go/etc.] | [Purpose] |
-| Framework | [Express/FastAPI/etc.] | [Purpose] |
-| ORM | [Prisma/SQLAlchemy/etc.] | [Purpose] |
+| Layer     | Technology               | Purpose   |
+| --------- | ------------------------ | --------- |
+| Runtime   | [Node.js/Python/Go/etc.] | [Purpose] |
+| Framework | [Express/FastAPI/etc.]   | [Purpose] |
+| ORM       | [Prisma/SQLAlchemy/etc.] | [Purpose] |
 
 ### Service Structure
 
@@ -115,11 +115,11 @@ src/
 
 ### API Design
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/v1/[resource] | [Description] |
-| POST | /api/v1/[resource] | [Description] |
-| PUT | /api/v1/[resource]/:id | [Description] |
+| Method | Endpoint               | Description   |
+| ------ | ---------------------- | ------------- |
+| GET    | /api/v1/[resource]     | [Description] |
+| POST   | /api/v1/[resource]     | [Description] |
+| PUT    | /api/v1/[resource]/:id | [Description] |
 | DELETE | /api/v1/[resource]/:id | [Description] |
 
 ---
@@ -128,11 +128,11 @@ src/
 
 ### Database Selection
 
-| Database | Type | Purpose |
-|----------|------|---------|
+| Database           | Type    | Purpose             |
+| ------------------ | ------- | ------------------- |
 | [PostgreSQL/MySQL] | Primary | [Main data storage] |
-| [Redis] | Cache | [Session/cache] |
-| [Elasticsearch] | Search | [Full-text search] |
+| [Redis]            | Cache   | [Session/cache]     |
+| [Elasticsearch]    | Search  | [Full-text search]  |
 
 ### Data Model
 
@@ -141,7 +141,7 @@ erDiagram
     USER ||--o{ ORDER : places
     ORDER ||--|{ ORDER_ITEM : contains
     PRODUCT ||--o{ ORDER_ITEM : "ordered in"
-    
+
     USER {
         uuid id PK
         string email
@@ -158,9 +158,9 @@ erDiagram
 
 ### Key Entities
 
-| Entity | Description | Key Relationships |
-|--------|-------------|-------------------|
-| [Entity] | [Purpose] | [Relationships] |
+| Entity   | Description | Key Relationships |
+| -------- | ----------- | ----------------- |
+| [Entity] | [Purpose]   | [Relationships]   |
 
 ---
 
@@ -168,11 +168,11 @@ erDiagram
 
 ### External Services
 
-| Service | Purpose | Integration Type |
-|---------|---------|------------------|
-| [Service 1] | [Purpose] | REST API |
-| [Service 2] | [Purpose] | Webhook |
-| [Service 3] | [Purpose] | SDK |
+| Service     | Purpose   | Integration Type |
+| ----------- | --------- | ---------------- |
+| [Service 1] | [Purpose] | REST API         |
+| [Service 2] | [Purpose] | Webhook          |
+| [Service 3] | [Purpose] | SDK              |
 
 ### Integration Diagram
 
@@ -181,7 +181,7 @@ sequenceDiagram
     participant App
     participant Service
     participant External
-    
+
     App->>Service: Request
     Service->>External: API Call
     External-->>Service: Response
@@ -213,7 +213,7 @@ graph LR
         CACHE[Redis Container]
         PROXY[Nginx Proxy]
     end
-    
+
     PROXY --> APP
     APP --> DB
     APP --> CACHE
@@ -221,11 +221,11 @@ graph LR
 
 ### Environments
 
-| Environment | Infrastructure | Purpose |
-|-------------|---------------|---------|
-| Development | Local Docker | Development & testing |
-| Staging | [Cloud/VPS] | Pre-production testing |
-| Production | [Cloud/VPS] | Live system |
+| Environment | Infrastructure | Purpose                |
+| ----------- | -------------- | ---------------------- |
+| Development | Local Docker   | Development & testing  |
+| Staging     | [Cloud/VPS]    | Pre-production testing |
+| Production  | [Cloud/VPS]    | Live system            |
 
 ### CI/CD Pipeline
 
@@ -251,7 +251,7 @@ sequenceDiagram
     participant App
     participant Auth
     participant API
-    
+
     User->>App: Login
     App->>Auth: Authenticate
     Auth-->>App: Token
@@ -280,18 +280,18 @@ sequenceDiagram
 
 ### Caching Strategy
 
-| Cache Level | Technology | TTL | Purpose |
-|-------------|------------|-----|---------|
-| Application | [Redis] | [Time] | [Session/data] |
-| CDN | [Cloudflare] | [Time] | [Static assets] |
-| Database | [Query cache] | [Time] | [Query results] |
+| Cache Level | Technology    | TTL    | Purpose         |
+| ----------- | ------------- | ------ | --------------- |
+| Application | [Redis]       | [Time] | [Session/data]  |
+| CDN         | [Provider]    | [Time] | [Static assets] |
+| Database    | [Query cache] | [Time] | [Query results] |
 
 ### Performance Targets
 
-| Metric | Target |
-|--------|--------|
-| API Response | < [X]ms |
-| Page Load | < [X]s |
+| Metric         | Target  |
+| -------------- | ------- |
+| API Response   | < [X]ms |
+| Page Load      | < [X]s  |
 | Database Query | < [X]ms |
 
 ---
@@ -306,23 +306,23 @@ sequenceDiagram
 
 ### Metrics
 
-| Metric | Source | Alert Threshold |
-|--------|--------|-----------------|
-| [CPU Usage] | [Source] | > 80% |
-| [Error Rate] | [Source] | > 1% |
-| [Response Time] | [Source] | > 500ms |
+| Metric          | Source   | Alert Threshold |
+| --------------- | -------- | --------------- |
+| [CPU Usage]     | [Source] | > 80%           |
+| [Error Rate]    | [Source] | > 1%            |
+| [Response Time] | [Source] | > 500ms         |
 
 ### Alerting
 
-| Alert | Severity | Response |
-|-------|----------|----------|
+| Alert   | Severity           | Response |
+| ------- | ------------------ | -------- |
 | [Alert] | [Critical/Warning] | [Action] |
 
 ---
 
 ## Technical Decisions
 
-| Decision | Rationale | Alternatives Considered |
-|----------|-----------|-------------------------|
+| Decision     | Rationale         | Alternatives Considered   |
+| ------------ | ----------------- | ------------------------- |
 | [Decision 1] | [Why this choice] | [Other options evaluated] |
 | [Decision 2] | [Why this choice] | [Other options evaluated] |

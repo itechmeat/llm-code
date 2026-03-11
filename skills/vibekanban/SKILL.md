@@ -2,13 +2,19 @@
 name: vibekanban
 description: "Orchestrate AI coding with Vibe Kanban: tasks, review, sessions, workspaces, and isolated git worktrees. Use when managing AI-generated code in isolated environments, planning coding tasks, reviewing AI output, or configuring Vibe Kanban workspaces and agents. Keywords: Vibe Kanban, AI orchestration, worktrees."
 metadata:
-  version: "0.1.26"
-  release_date: "2026-03-07"
+  version: "0.1.28"
+  release_date: "2026-03-10"
 ---
 
 # Vibe Kanban
 
 Orchestration platform for AI coding agents. Plan, review, and manage AI-generated code in isolated git worktrees.
+
+## Links
+
+- [Documentation](https://www.vibekanban.com/docs)
+- [Releases](https://github.com/BloopAI/vibe-kanban/releases)
+- [GitHub](https://github.com/BloopAI/vibe-kanban)
 
 ## Quick Navigation
 
@@ -31,13 +37,15 @@ Orchestration platform for AI coding agents. Plan, review, and manage AI-generat
 npx vibe-kanban
 ```
 
-## Release Highlights (0.1.15 → 0.1.23)
+## Release Highlights (0.1.15 → 0.1.28)
 
 - MCP server expanded: richer issue retrieval (`get_issue` includes tags/relationships/sub-issues) and new workspace/relationship/tag tools (e.g. `update_workspace`, relationship + tag mutations).
 - Frontend routing migrated to TanStack Router (navigation/URLs may differ from older screenshots).
 - Reliability improvements around Electric fallback and cancellation/tab-switch handling.
 - Review/diff UI improvements (annotation width fixes for horizontal scrolling).
 - Remote Access: pair a host via a code and access its workspaces from another device.
+- Workspace actions became safer around spin-off/duplicate flows by preserving branch and executor configuration more reliably.
+- Active agent runs can now accept image attachments, which is useful when feeding UI state, screenshots, or design feedback back into an in-progress session.
 - Transport reliability improvements: better relay disconnect handling and signing-session refresh.
 - Claude: bumped the default Sonnet model to 4.6.
 - Worktrees: preserve worktree path across cleanup to maintain Claude Code session continuity.

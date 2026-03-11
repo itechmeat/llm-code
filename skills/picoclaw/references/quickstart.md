@@ -63,3 +63,5 @@ Gateway brings up:
 - Enable a chat channel: `channels.md`
 - Add a scheduled job: `cron.md`
 - Configure auth (OAuth/token): `auth.md`
+
+If you use the web frontend, v0.2.2 also improves launcher integration and adds agent-management UI, so upgrade first before troubleshooting mismatches between CLI state and the browser view.

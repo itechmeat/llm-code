@@ -42,8 +42,11 @@ Use cases:
 
 For long sessions, the guide describes built-in summarization that compresses older history while keeping recent turns. Enable it via assistant aggregator params.
 
+Pipecat 0.0.105 also exposes an `on_summary_applied` event on `LLMAssistantAggregator`, so you can observe summarization without reaching into private members.
+
 ## Practical checklist
 
 - Keep assistant aggregation after output to store what was actually spoken.
+- Be explicit about whether `system_instruction` lives on the service, in the context, or both; service-level instruction now wins if both are present.
 - If you mutate context manually, decide whether it should trigger an immediate LLM run.
 - Enable summarization early for long-running agents to control token growth.

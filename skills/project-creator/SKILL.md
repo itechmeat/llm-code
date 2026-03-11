@@ -3,6 +3,7 @@ name: project-creator
 description: "Project documentation scaffolding. Covers about.md, specs.md, architecture.md, project-context.md, and user stories. Use when creating or maintaining project documentation in a .project/ folder, scaffolding specs, architecture docs, or user stories. Keywords: project setup, documentation, specs, architecture, stories."
 metadata:
   version: "1.0.0"
+  release_date: "2026-03-11"
 ---
 
 # Project Creator

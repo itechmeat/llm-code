@@ -53,6 +53,13 @@ The Learn guide describes a shared `TransportParams` structure with flags for:
 
 Transport-specific parameter types may extend this base.
 
+## Daily transport updates (0.0.105)
+
+- `DailyParams` can publish custom video tracks via `video_out_destinations`, mirroring the existing multi-destination audio model.
+- Daily recording supports a `cloud-audio-only` mode when you need cloud recording without storing video.
+
+Use these options when the bot needs to publish more than one visual stream or when compliance/cost requirements make audio-only recording preferable.
+
 ## Telephony over WebSocket
 
 Telephony providers typically stream media over WebSockets using provider-specific framing/serialization.

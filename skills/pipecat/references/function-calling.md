@@ -19,6 +19,7 @@ Docs describe registering a named function handler on the LLM service.
 Behavioral knob:
 
 - `cancel_on_interruption`: cancel the function call if the user interrupts mid-flight (docs say default enabled).
+- `timeout_secs`: override the global function-call timeout per tool when a specific integration needs a tighter or looser budget.
 
 ## FunctionCallParams: what you get
 
@@ -47,5 +48,6 @@ If you skip LLM execution, you must explicitly trigger the next step when approp
 ## Practical checklist
 
 - Keep handlers idempotent and cancel-safe.
+- Set per-function `timeout_secs` for slow or third-party tools instead of relaxing the global timeout for everything.
 - Decide whether user interruptions should cancel long-running tools.
 - Log tool call ids for tracing and debugging.

@@ -2,13 +2,19 @@
 name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Use when deploying, configuring, or operating an OpenClaw instance, managing gateway routing, setting up channels, or working with the multi-agent tool governance system. Keywords: OpenClaw, gateway, tools, channels, agents."
 metadata:
-  version: "v2026.3.7"
-  release_date: "2026-03-08"
+  version: "v2026.3.8"
+  release_date: "2026-03-09"
 ---
 
 # OpenClaw (Operator Playbook)
 
 This skill is self-contained and includes operational documentation directly in this file.
+
+## Links
+
+- [Documentation](https://docs.openclaw.ai/)
+- [Releases](https://github.com/openclaw/openclaw/releases)
+- [GitHub](https://github.com/openclaw/openclaw)
 
 ## Quick Navigation
 

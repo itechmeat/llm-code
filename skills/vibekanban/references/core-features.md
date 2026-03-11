@@ -109,6 +109,11 @@ Manage tags: Settings → General → Task Tags
 | Switch agent profile | `Shift + Tab`               |
 | View task details    | Click task title (top left) |
 
+### Image Attachments During Active Runs (v0.1.28)
+
+- You can attach images while the agent is still running instead of waiting for the run to finish.
+- This is useful for UI review, visual bug reports, screenshots, and annotated design feedback that should immediately influence the current attempt.
+
 ### Edit Previous Messages
 
 Supported by: Claude Code, Amp, Codex, Gemini, Qwen

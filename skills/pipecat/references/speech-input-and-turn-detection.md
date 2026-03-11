@@ -43,6 +43,15 @@ Docs mention:
 - **Smart Turn (default)**: a turn analyzer model that decides when the user is done (better conversational feel).
 - **Speech timeout**: simpler strategy that triggers end after a silence timeout.
 
+## Runtime STT updates (0.0.105)
+
+- Runtime `STTUpdateSettingsFrame` updates now reconnect correctly for a wider set of STT/TTS services instead of only mutating local state.
+- Deepgram Flux settings can be updated mid-stream without a reconnect.
+- `BaseWhisperSTTService` and `OpenAISTTService` can optionally push empty transcripts downstream when VAD fires but no speech was actually transcribed.
+- `AssemblyAIConnectionParams` adds `vad_threshold` for U3 Pro, which helps align provider-side detection with external VAD.
+
+These changes matter when you tune speech sensitivity live or need the agent to resume speaking cleanly after a false-positive VAD event.
+
 ## Interruptions
 
 When interruptions are enabled (docs say default enabled), starting a user turn can:

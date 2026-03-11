@@ -39,3 +39,8 @@ The key is detected from:
 - “No channels enabled”: set `channels.<name>.enabled=true` in config.
 - Port conflicts: change `gateway.port` or channel webhook ports.
 - External access: binding `gateway.host=0.0.0.0` exposes health endpoints to the network.
+
+## v0.2.2 operational notes
+
+- Gateway startup/path handling was tightened: prefer invoking the binary through the resolved gateway path and pass the config explicitly when you wrap PicoClaw in scripts or service managers.
+- Empty-model errors are now clarified; if gateway fails early, verify `agents.defaults.model_name` against configured `model_list` entries before debugging channels.

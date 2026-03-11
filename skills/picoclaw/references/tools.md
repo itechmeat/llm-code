@@ -24,6 +24,7 @@ Config keys:
 
 - `tools.exec.enable_deny_patterns` (default true)
 - `tools.exec.custom_deny_patterns` (regex list)
+- `allow_remote` support is now surfaced in web settings, so remote-exec policy can be managed consistently across CLI and web flows.
 
 Docs describe default blocked patterns including:
 
@@ -35,6 +36,11 @@ Docs describe default blocked patterns including:
 - privilege escalation (`sudo`, `chmod`, `chown`)
 - remote ops (`curl | sh`, `ssh`)
 - package managers and container commands
+
+## Security posture update (v0.2.2)
+
+- PicoClaw hardened unauthenticated tool-exec paths.
+- Treat remote execution as an explicit policy decision; do not rely on older implicit behavior.
 
 ## Cron tool
 

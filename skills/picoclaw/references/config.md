@@ -48,6 +48,8 @@ Important:
 Tools are configured under `tools.*` (web search, exec, cron, skills registries).
 See: `tools.md`.
 
+Recent builds also expose exec `allow_remote` support through web-facing settings. If you manage PicoClaw from the web UI/launcher, make sure remote-exec policy matches your CLI config instead of assuming the UI is read-only.
+
 ### `gateway`
 
 - `host`, `port` control the health server bind address.

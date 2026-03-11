@@ -9,7 +9,23 @@ This project uses date-based versioning rather than semantic versioning.
 
 ### Changed
 
+- **vibekanban** — Updated the skill for v0.1.28 with new guidance for active-run image attachments and more reliable workspace duplication and spin-off behavior.
+- **pipecat** — Updated the skill for v0.0.105 with failover service switching, runtime STT reconfiguration, revised TTS audio-context behavior, and Daily transport recording/publishing updates.
+- **picoclaw** — Updated the skill for v0.2.2 with gateway startup notes, remote exec policy guidance, improved channel voice-transcription behavior, and skill metadata parsing caveats.
+- **openclaw / tavily / turso** — Refreshed tracked skill metadata and added missing upstream links for operator navigation.
+- **Repository docs** — Removed Cloudflare-specific examples and generalized provider references in shared templates and deployment guidance.
+
+### Removed
+
+- **agent-browser** — Removed the skill and all remaining references from the repository and root indexes.
+- **livekit-agents** — Removed the skill and all remaining references from the repository and root indexes.
+
+## [2026-03-11]
+
+### Changed
+
 - **skill-master** — Updated to v1.6.0 and expanded it to subsume `skill-creator`: added a dedicated iterative improvement playbook, documented the full eval/baseline/benchmark/viewer loop, added a `quick_validate.py` compatibility wrapper, and aligned `version`/`release_date` handling across the skill frontmatter, templates, and validator.
+- **SKILLS_VERSIONS / skill metadata** — Added `refactored` tracking to the skills table, marked existing compliant skills, and aligned `coderabbit`, `project-creator`, `social-writer`, and `skill-master` with the current skill-master metadata and size rules.
 
 ## [2026-03-03]
 

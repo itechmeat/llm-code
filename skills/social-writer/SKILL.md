@@ -1,6 +1,9 @@
 ---
 name: social-writer
 description: "Create engaging content for social media platforms: X posts and threads, LinkedIn, Threads, Instagram, Facebook. Includes writing styles, AI-avoidance patterns, hooks catalog, and macOS Notes integration. Use when drafting social media posts, writing thread series, applying engagement hooks, or adapting content for specific platforms. Keywords: social media, X, LinkedIn, threads, posts, hooks, content strategy, AI writing avoidance."
+metadata:
+  version: "1.0.0"
+  release_date: "2026-03-11"
 ---
 
 # Social Writer

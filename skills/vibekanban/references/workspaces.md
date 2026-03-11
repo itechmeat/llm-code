@@ -129,6 +129,12 @@ Type `/` in the chat input to open the slash command menu for quick actions.
 | Run Cleanup Script  | Execute cleanup script |
 | Copy Raw Logs       | Copy logs to clipboard |
 
+## Workspace Action Reliability (v0.1.28)
+
+- **Spin Off Workspace** preserves the working branch more reliably.
+- **Duplicate Workspace** preserves executor configuration instead of falling back unexpectedly.
+- Linked issue handling in workspace actions is more reliable, so copied or spun-off workspaces keep better issue continuity.
+
 ## Workspace Logs Capture (v0.1.23)
 
 Workspace logs capture was updated in v0.1.23 (root execution-process provider). If logs look missing or truncated, upgrading to 0.1.23+ is the first thing to try.
@@ -205,6 +211,8 @@ Search workspaces by branch name in sidebar.
 
 Drag images directly into chat for context.
 
+As of v0.1.28, image attachments can also be sent during an active agent run, which makes iterative UI and screenshot-driven workflows smoother.
+
 ## Integrated Terminal
 
 PTY-backed terminal with full shell support:
@@ -242,6 +250,8 @@ Duplicates repos and branch config with fresh conversation.
 Use **Spin Off Workspace** to create a child workspace from the current one.
 
 In v0.1.15, spin-off preserves linked issue context and preferred repository/branch metadata more reliably.
+
+In v0.1.28, spin-off also preserves the branch more reliably during workspace actions.
 
 ## Archiving
 

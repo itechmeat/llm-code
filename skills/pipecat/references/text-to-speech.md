@@ -28,6 +28,8 @@ Some providers expose word timestamps. The guide emphasizes these for:
 - accurate context updates when output is interrupted
 - tighter sync for captions/subtitles and other post-output processing
 
+As of 0.0.105, word timestamp handling is effectively built into the base TTS flow rather than something you opt into with older word/audio-context subclasses.
+
 ## Pipeline-level audio configuration
 
 Prefer setting output sample rate and related audio settings at the pipeline/task level so all processors stay consistent.
@@ -58,6 +60,19 @@ Useful for:
 ## Dynamic updates
 
 The guide shows a settings-update frame to change TTS parameters mid-conversation.
+
+## Audio context changes (0.0.105)
+
+- Audio context management now lives in `TTSService` rather than `AudioContextTTSService`.
+- WebSocket TTS providers now inherit from `WebsocketTTSService` directly.
+- `AudioContextTTSService`, `AudioContextWordTTSService`, `WordTTSService`, `WebsocketWordTTSService`, and `InterruptibleWordTTSService` are deprecated.
+- `supports_word_timestamps` was removed from `TTSService.__init__()`; do not pass it from custom subclasses anymore.
+
+If you maintain custom TTS classes, update inheritance and constructor calls before upgrading.
+
+## Concurrent audio contexts (Cartesia, 0.0.105)
+
+`CartesiaTTSService` can synthesize the next sentence while the previous one is still playing by disabling frame-processing pauses and routing each sentence through its own audio context queue. Use this when you want lower perceived latency without waiting for the prior sentence to finish playback.
 
 ## Practical checklist
 

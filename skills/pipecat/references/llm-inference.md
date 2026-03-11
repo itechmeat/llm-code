@@ -34,6 +34,10 @@ This is useful for UI/UX (“thinking…”) and tracing.
 
 Docs describe an OpenAI-compatible base service pattern where you can point at an OpenAI-spec endpoint via a `base_url` without rewriting pipeline code.
 
+## Service switching and fallback (0.0.105)
+
+Pipecat adds `ServiceSwitcherStrategyFailover`, which automatically moves to the next service after a non-fatal provider error. Use the `on_service_switched` event to log or react to the failover.
+
 ## Parallelism for tool calls
 
 An LLM service option controls whether multiple tool calls run in parallel or sequentially. Use sequential execution for dependent tool chains.
@@ -46,6 +50,12 @@ Docs mention events such as:
 - function calls started
 
 Use these to implement user feedback and recovery (retry/backoff/fallback) as needed.
+
+## System instruction behavior (0.0.105)
+
+- `system_instruction` is now wired consistently across the OpenAI, Anthropic, and AWS Bedrock LLM services as a default system prompt.
+- `run_inference` now accepts a one-shot `system_instruction` override.
+- If you set both constructor-level `system_instruction` and a system message in context, the constructor value takes precedence and Pipecat logs a warning.
 
 ## Practical checklist
 

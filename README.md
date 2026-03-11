@@ -32,7 +32,6 @@ Each skill follows the [agentskills.io](https://agentskills.io) specification.
 
 | Skill                                                  | Description                                   |
 | ------------------------------------------------------ | --------------------------------------------- |
-| [agent-browser](skills/agent-browser/)                 | Headless browser automation for AI agents     |
 | [base-ui](skills/base-ui/)                             | Base UI unstyled React components             |
 | [beads](skills/beads/)                                 | Beads distributed git-backed issue tracker    |
 | [bun](skills/bun/)                                     | Bun JavaScript/TypeScript runtime and toolkit |
@@ -42,7 +41,6 @@ Each skill follows the [agentskills.io](https://agentskills.io) specification.
 | [deps-dev](skills/deps-dev/)                           | deps.dev API v3 package version lookup        |
 | [fastapi](skills/fastapi/)                             | FastAPI web framework                         |
 | [inworld](skills/inworld/)                             | Inworld TTS API                               |
-| [livekit-agents](skills/livekit-agents/)               | LiveKit Agents framework                      |
 | [k8s-cluster-api](skills/k8s-cluster-api/)             | Kubernetes Cluster API v1.12                  |
 | [makefile](skills/makefile/)                           | GNU Make build automation                     |
 | [mantine-dev](skills/mantine-dev/)                     | Mantine UI components                         |
