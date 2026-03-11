@@ -1,8 +1,8 @@
 ---
 name: skill-master
-description: "Agent Skills authoring and evaluation. Create, edit, validate, and optimize skills following the agentskills.io specification. Use when designing SKILL.md files, structuring skill folders (references, scripts, assets), ingesting external documentation into skills, running trigger evals, or improving skill descriptions. Keywords: agentskills.io, SKILL.md, skill authoring, eval, trigger optimization."
+description: "Agent Skills authoring, evaluation, and optimization. Create, edit, validate, benchmark, and improve skills following the agentskills.io specification. Use when designing SKILL.md files, structuring skill folders (references, scripts, assets), ingesting external documentation into skills, running trigger evals, benchmarking skill quality, optimizing descriptions, or performing blind A/B comparisons. Keywords: agentskills.io, SKILL.md, skill authoring, eval, benchmark, trigger optimization."
 metadata:
-  version: "1.4.0"
+  version: "1.5.0"
   release_date: "2026-03-08"
 ---
 
@@ -30,6 +30,11 @@ Create, edit, and validate Agent Skills following the open [agentskills.io](http
 - Advanced features (context, agents, hooks)? Read: `references/advanced-features.md`
 - Creating from docs? Read: `references/docs-ingestion.md`
 - Testing & troubleshooting? Read: `references/testing-troubleshooting.md`
+- Eval testing & benchmarking? Read: `references/eval-testing.md`
+- Description optimization? Read: `references/description-optimization.md`
+- JSON schemas (evals, grading, benchmark)? Read: `references/schemas.md`
+- Eval set review UI? See: `assets/eval_review.html`
+- Eval output viewer? See: `eval-viewer/`
 - Validation & packaging? See `scripts/`
 
 ## When to Use
@@ -51,7 +56,7 @@ my-skill/
 └── assets/           # Optional: templates, images, data files
 ```
 
-_Note on README.md: Anthropic's official guide strictly prohibits including a `README.md` inside the skill folder to avoid confusing the agent. `SKILL.md` is the single source of truth and must be written to be equally readable by humans and agents. If you are migrating an existing skill that has a `README.md`, merge its useful information (like links and brief description) into `SKILL.md` and delete the `README.md`._
+_Do NOT include `README.md` in skill folders. `SKILL.md` is the single source of truth. If migrating a skill with `README.md`, merge its content into `SKILL.md` and delete it._
 
 ### Folder Purposes (CRITICAL)
 
@@ -64,27 +69,10 @@ _Note on README.md: Anthropic's official guide strictly prohibits including a `R
 
 ### When to Use Each
 
-**Use `references/` for:**
-
-- Detailed documentation about concepts
-- API references and usage guides
-- Troubleshooting and FAQ
-- Anything the agent needs to **read and understand**
-
-**Use `examples/` for:**
-
-- Sample outputs showing expected format
-- Usage demonstrations
-- Before/after comparisons
-- Anything showing **what the result should look like**
-
-**Use `assets/` for:**
-
-- Document templates (markdown files to copy as starting point)
-- Configuration file templates
-- Schema files, lookup tables
-- Images and diagrams
-- Anything the agent needs to **copy or reference verbatim**
+- `references/` — documentation the agent reads and understands
+- `examples/` — sample outputs showing expected format
+- `assets/` — templates, configs, schemas to copy verbatim
+- `scripts/` — executable code the agent runs
 
 **IMPORTANT**: Templates belong in `assets/`, examples in `examples/`, documentation in `references/`.
 
@@ -480,6 +468,13 @@ Full pre-publish checklist: `references/testing-troubleshooting.md`
 | `init_copilot_asset.py`   | Scaffold Copilot-specific assets (instructions, agents) |
 | `quick_validate_skill.py` | Validate skill structure                                |
 | `package_skill.py`        | Package skill into distributable zip                    |
+| `run_eval.py`             | Run evals via `claude -p` with parallel workers         |
+| `run_loop.py`             | Eval+improve loop with train/test split                 |
+| `improve_description.py`  | Improve skill description using eval feedback           |
+| `aggregate_benchmark.py`  | Aggregate grading results into benchmark stats          |
+| `generate_report.py`      | Generate HTML report from loop iteration data           |
+
+Agents: `agents/grader.md` (grade expectations), `agents/comparator.md` (blind A/B comparison), `agents/analyzer.md` (post-hoc analysis + benchmark)
 
 ## Links
 
@@ -492,5 +487,10 @@ Full pre-publish checklist: `references/testing-troubleshooting.md`
 - Advanced Features: `references/advanced-features.md`
 - SKILL.md Templates: `assets/skill-templates.md`
 - Docs Ingestion: `references/docs-ingestion.md`
+- Eval Testing & Benchmarking: `references/eval-testing.md`
+- Description Optimization: `references/description-optimization.md`
+- JSON Schemas: `references/schemas.md`
+- Eval Set Review: `assets/eval_review.html`
+- Eval Output Viewer: `eval-viewer/`
 - Official spec: https://agentskills.io/specification
 - Claude Code skills: https://code.claude.com/docs/en/skills
