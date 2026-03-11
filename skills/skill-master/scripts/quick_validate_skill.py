@@ -18,6 +18,7 @@ Usage:
 
 from __future__ import annotations
 
+from datetime import datetime
 import re
 import sys
 from pathlib import Path
@@ -88,6 +89,28 @@ def validate_skill_dir(skill_dir: Path) -> None:
 
     if "<" in description or ">" in description:
         raise ValueError("description must not contain angle brackets (< or >)")
+
+    top_level_version_match = re.search(r"^version:\s*.+$", frontmatter, re.MULTILINE)
+    if top_level_version_match:
+        raise ValueError("version must be stored as metadata.version in this repository")
+
+    top_level_release_date_match = re.search(r"^release_date:\s*.+$", frontmatter, re.MULTILINE)
+    if top_level_release_date_match:
+        raise ValueError("release_date must be stored as metadata.release_date in this repository")
+
+    nested_version_match = re.search(r"^metadata:\n(?:[ \t]+.*\n)*?[ \t]+version:\s*(.+)$", frontmatter, re.MULTILINE)
+    if nested_version_match:
+        version = nested_version_match.group(1).strip().strip('"').strip("'")
+        if len(version) < 1:
+            raise ValueError("metadata.version must not be empty when provided")
+
+    nested_release_date_match = re.search(r"^metadata:\n(?:[ \t]+.*\n)*?[ \t]+release_date:\s*(.+)$", frontmatter, re.MULTILINE)
+    if nested_release_date_match:
+        release_date = nested_release_date_match.group(1).strip().strip('"').strip("'")
+        try:
+            datetime.strptime(release_date, "%Y-%m-%d")
+        except ValueError as exc:
+            raise ValueError("metadata.release_date must use YYYY-MM-DD format") from exc
 
 
 def main(argv: list[str]) -> int:

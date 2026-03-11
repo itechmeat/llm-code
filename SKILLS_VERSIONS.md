@@ -13,6 +13,7 @@ Quick reference for tracking tool versions across skills. Use this file to check
 
 | Skill                          | Skill Version | Release Date | Releases                                                                      | Documentation                                                         |
 | ------------------------------ | ------------- | ------------ | ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **skill-master**               | 1.6.0         | 2026-03-11   | [Commits](https://github.com/agentskills/agentskills/commits/main/)           | [Docs](https://github.com/agentskills/agentskills/tree/main/docs)     |
 | **mantine-dev**                | 8.3.16        | 2026-03-05   | [Releases](https://github.com/mantinedev/mantine/releases)                    | [Docs](https://mantine.dev/getting-started/)                          |
 | **refine-dev**                 | 5.0.10        | 2026-03-05   | [Releases](https://github.com/refinedev/refine/releases)                      | [Docs](https://refine.dev/docs/)                                      |
 | **agent-browser**              | 0.17.0        | 2026-03-08   | [Releases](https://github.com/vercel-labs/agent-browser/releases)             | [Docs](https://agent-browser.dev/)                                    |
@@ -29,7 +30,6 @@ Quick reference for tracking tool versions across skills. Use this file to check
 | **bun**                        | 1.3.10        | 2026-02-26   | [Releases](https://github.com/oven-sh/bun/releases)                           | [Docs](https://bun.sh/docs)                                           |
 | **postgresql**                 | 18.3          | 2026-02-26   | [Releases](https://www.postgresql.org/about/newsarchive/pgsql/)               | [Docs](https://www.postgresql.org/docs/current/)                      |
 | **pgvector**                   | 0.8.2         | 2026-02-25   | [Changelog](https://github.com/pgvector/pgvector/tags)                        | [Docs](https://github.com/pgvector/pgvector)                          |
-| **skill-master**               | 1.4.0         | 2026-03-08   | [Commits](https://github.com/agentskills/agentskills/commits/main/)           | [Docs](https://github.com/agentskills/agentskills/tree/main/docs)     |
 | **perplexity**                 | 0.30.1        | 2026-02-24   | [Releases](https://github.com/perplexityai/perplexity-py/releases)            | [Docs](https://docs.perplexity.ai/)                                   |
 | **fastapi**                    | 0.135.1       | 2026-03-01   | [Releases](https://github.com/fastapi/fastapi/releases)                       | [Docs](https://fastapi.tiangolo.com/)                                 |
 | **picoclaw**                   | v0.2.0        | 2026-02-28   | [Releases](https://github.com/sipeed/picoclaw/releases)                       | [Docs](https://github.com/sipeed/picoclaw/tree/main/docs)             |

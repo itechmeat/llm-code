@@ -84,6 +84,8 @@ Each iteration:
 
 **Train/test split**: Use `--train-ids` for evals used during improvement, `--test-ids` for held-out evals that verify generalization.
 
+For the operator-oriented workflow that mirrors `skill-creator` end-to-end, including baseline selection, `eval_metadata.json`, timing capture, viewer handoff, and feedback ingestion, read `references/iterative-improvement.md`.
+
 ## Blind Comparison
 
 The comparator agent (`agents/comparator.md`) performs blind A/B comparison:

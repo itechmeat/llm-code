@@ -74,7 +74,8 @@ Arbitrary key-value pairs for additional properties.
 ```yaml
 metadata:
   author: example-org
-  version: "1.0"
+  version: "1.0.0"
+  release_date: "2026-01-01"
 ```
 
 ### Optional: `allowed-tools`

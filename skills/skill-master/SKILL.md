@@ -2,8 +2,8 @@
 name: skill-master
 description: "Agent Skills authoring, evaluation, and optimization. Create, edit, validate, benchmark, and improve skills following the agentskills.io specification. Use when designing SKILL.md files, structuring skill folders (references, scripts, assets), ingesting external documentation into skills, running trigger evals, benchmarking skill quality, optimizing descriptions, or performing blind A/B comparisons. Keywords: agentskills.io, SKILL.md, skill authoring, eval, benchmark, trigger optimization."
 metadata:
-  version: "1.5.0"
-  release_date: "2026-03-08"
+  version: "1.6.0"
+  release_date: "2026-03-11"
 ---
 
 # Skill Master
@@ -29,12 +29,10 @@ Create, edit, and validate Agent Skills following the open [agentskills.io](http
 - Adding assets/templates to a skill? Read: `references/assets.md`
 - Advanced features (context, agents, hooks)? Read: `references/advanced-features.md`
 - Creating from docs? Read: `references/docs-ingestion.md`
-- Testing & troubleshooting? Read: `references/testing-troubleshooting.md`
-- Eval testing & benchmarking? Read: `references/eval-testing.md`
+- Testing, evals, benchmarking, or iterative improvement? Read: `references/testing-troubleshooting.md`, `references/eval-testing.md`, `references/iterative-improvement.md`
 - Description optimization? Read: `references/description-optimization.md`
 - JSON schemas (evals, grading, benchmark)? Read: `references/schemas.md`
-- Eval set review UI? See: `assets/eval_review.html`
-- Eval output viewer? See: `eval-viewer/`
+- Eval set review UI and output viewer? See: `assets/eval_review.html`, `eval-viewer/`
 - Validation & packaging? See `scripts/`
 
 ## When to Use
@@ -43,6 +41,9 @@ Create, edit, and validate Agent Skills following the open [agentskills.io](http
 - Updating an existing skill
 - Creating a skill by ingesting external documentation
 - Validating or packaging a skill for distribution
+- Running the full skill-creator-style loop: interview, draft, eval, benchmark, viewer review, and iteration
+
+`skill-master` subsumes `skill-creator`; for the detailed operator playbook, workspace layout, timing capture, benchmark analysis, and viewer handoff, read `references/iterative-improvement.md`.
 
 ## Skill Structure (Required)
 
@@ -84,14 +85,14 @@ Every `SKILL.md` MUST start with YAML frontmatter:
 ---
 name: skill-name
 description: "What it does. Keywords: term1, term2."
-version: "1.2.3"
-release_date: "2026-01-01"
 metadata:
   author: your-name
+  version: "1.2.3"
+  release_date: "2026-01-01"
 ---
 ```
 
-**Field order:** `name` → `description` → `version` → `release_date` → `license` → `compatibility` → `metadata`
+**Field order:** `name` → `description` → `license` → `compatibility` → `metadata`
 
 ### Required Fields
 
@@ -102,19 +103,19 @@ metadata:
 
 ### Optional Fields (Top Level)
 
-| Field         | Purpose                                                      |
-| ------------- | ------------------------------------------------------------ |
-| version       | Upstream product version; `"—"` if product has no versioning |
-| release_date  | Date skill was last meaningfully updated (`YYYY-MM-DD`)      |
-| license       | License name or reference to bundled LICENSE file            |
-| compatibility | Environment requirements (max 500 chars)                     |
-| metadata      | Object for arbitrary key-value pairs (see below)             |
+| Field         | Purpose                                           |
+| ------------- | ------------------------------------------------- |
+| license       | License name or reference to bundled LICENSE file |
+| compatibility | Environment requirements (max 500 chars)          |
+| metadata      | Object for arbitrary key-value pairs (see below)  |
 
 ### metadata Object (Common Fields)
 
 | Field         | Purpose                                       |
 | ------------- | --------------------------------------------- |
 | author        | Author name or organization                   |
+| version       | Upstream product version or skill version     |
+| release_date  | Last meaningful update date (`YYYY-MM-DD`)    |
 | argument-hint | Hint for autocomplete, e.g., `[issue-number]` |
 
 ### Optional Fields (Claude Code / Advanced)
@@ -357,6 +358,8 @@ Naming: `<tool>.minimal.yaml`, `<purpose>-checklist.md`, `<name>.template`, `<to
 
 ```bash
 python scripts/quick_validate_skill.py <skill-path>
+# Compatibility alias:
+python scripts/quick_validate.py <skill-path>
 ```
 
 ## Creating a Skill from Documentation
@@ -408,27 +411,27 @@ For each page:
 
 ### What `version` Means
 
-`version` holds the **upstream product version** the skill was built against (e.g., `"1.12.3"` for CAPI v1.12.3). For standalone skills not tied to an external product, it holds the **skill's own version** (e.g., `"1.2.4"` for skill-master).
-
+In this repository, store version metadata as `metadata.version` and `metadata.release_date` to match the existing skills and current Copilot skill-file validation.
+`metadata.version` holds the **upstream product version** the skill was built against (e.g., `"1.12.3"` for CAPI v1.12.3). For standalone skills not tied to an external product, it holds the **skill's own version** (e.g., `"1.2.4"` for skill-master).
 Use `"—"` when the product uses continuous deployment with no semantic versioning (e.g., hosted services like Cloudflare Workers).
 
 ### When to Update
 
-| Trigger                              | Update `version` | Update `release_date` |
-| ------------------------------------ | ---------------- | --------------------- |
-| Product released a new version       | ✅ Yes           | ✅ Yes                |
-| Content changed, no upstream version | ❌ No            | ✅ Yes                |
-| Typo or minor fix                    | ❌ No            | ❌ No                 |
+| Trigger                              | Update `metadata.version` | Update `metadata.release_date` |
+| ------------------------------------ | ------------------------- | ------------------------------ |
+| Product released a new version       | ✅ Yes                    | ✅ Yes                         |
+| Content changed, no upstream version | ❌ No                     | ✅ Yes                         |
+| Typo or minor fix                    | ❌ No                     | ❌ No                          |
 
-When bumping `version` or making significant content changes, also update:
+When bumping `metadata.version` or making significant content changes, also update:
 
 - `SKILLS_VERSIONS.md` — set new version + date, move row to top of table
 - `CHANGELOG.md` — prepend a new dated block at the top
 
 ### Creating a Skill from Docs
 
-1. Set `version` to the exact upstream version you documented (check the release page)
-2. Set `release_date` to today's date
+1. Set `metadata.version` to the exact upstream version you documented (check the release page)
+2. Set `metadata.release_date` to today's date
 3. Ensure `SKILL.md` has an overview (1-2 sentences) + `## Links` section
 
 **Links format:**
@@ -467,6 +470,7 @@ Full pre-publish checklist: `references/testing-troubleshooting.md`
 | `init_skill.py`           | Scaffold new Agent Skill (agentskills.io)               |
 | `init_copilot_asset.py`   | Scaffold Copilot-specific assets (instructions, agents) |
 | `quick_validate_skill.py` | Validate skill structure                                |
+| `quick_validate.py`       | Compatibility wrapper for legacy validation workflow    |
 | `package_skill.py`        | Package skill into distributable zip                    |
 | `run_eval.py`             | Run evals via `claude -p` with parallel workers         |
 | `run_loop.py`             | Eval+improve loop with train/test split                 |
@@ -488,6 +492,7 @@ Agents: `agents/grader.md` (grade expectations), `agents/comparator.md` (blind A
 - SKILL.md Templates: `assets/skill-templates.md`
 - Docs Ingestion: `references/docs-ingestion.md`
 - Eval Testing & Benchmarking: `references/eval-testing.md`
+- Iterative Improvement Loop: `references/iterative-improvement.md`
 - Description Optimization: `references/description-optimization.md`
 - JSON Schemas: `references/schemas.md`
 - Eval Set Review: `assets/eval_review.html`

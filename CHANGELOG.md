@@ -5,6 +5,12 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-03-11]
+
+### Changed
+
+- **skill-master** — Updated to v1.6.0 and expanded it to subsume `skill-creator`: added a dedicated iterative improvement playbook, documented the full eval/baseline/benchmark/viewer loop, added a `quick_validate.py` compatibility wrapper, and aligned `version`/`release_date` handling across the skill frontmatter, templates, and validator.
+
 ## [2026-03-03]
 
 ### Added

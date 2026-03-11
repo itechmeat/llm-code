@@ -153,7 +153,8 @@ license: Apache-2.0
 compatibility: Requires pdfplumber, PyPDF2
 metadata:
   author: example-org
-  version: "1.0"
+  version: "1.0.0"
+  release_date: "2026-01-01"
 ---
 ```
 
@@ -210,6 +211,7 @@ argument-hint: <issue-number>
 metadata:
   author: team
   version: "1.0.0"
+  release_date: "2026-01-01"
 ---
 ```
 
@@ -229,6 +231,7 @@ allowed-tools: Read Grep Bash(gh:*)
 metadata:
   author: example-org
   version: "1.0.0"
+  release_date: "2026-01-01"
 ---
 ```
 
@@ -244,6 +247,7 @@ allowed-tools: Bash(gh:*)
 ---
 
 ## Pull request context
+
 - PR diff: !`gh pr diff`
 - PR comments: !`gh pr view --comments`
 - Changed files: !`gh pr diff --name-only`
@@ -251,6 +255,7 @@ allowed-tools: Bash(gh:*)
 ## Your task
 
 Summarize this pull request focusing on:
+
 1. Main changes
 2. Potential issues
 3. Testing recommendations
@@ -283,11 +288,7 @@ Fix GitHub issue $ARGUMENTS following our coding standards:
   "organization": "Your Organization",
   "date": "January 2026",
   "abstract": "Comprehensive description of what this skill provides, its scope, and how it helps automated code generation and review.",
-  "references": [
-    "https://docs.example.com",
-    "https://github.com/org/repo",
-    "https://example.com/api-reference"
-  ]
+  "references": ["https://docs.example.com", "https://github.com/org/repo", "https://example.com/api-reference"]
 }
 ```
 
