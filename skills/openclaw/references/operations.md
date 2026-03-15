@@ -14,6 +14,13 @@
 - Gateway lifecycle: install/start/stop/restart/service status.
 - Channel lifecycle: list/add/login/logout/remove and channel log inspection.
 
+Recommended local iteration loop after manual config edits:
+
+1. `openclaw config file`
+2. `openclaw config validate`
+3. `openclaw doctor`
+4. `openclaw gateway restart` when touching gateway infra settings or when hot-reload behavior is unclear.
+
 ### Config file path (v2026.3.1)
 
 Print the active config file location:
@@ -34,6 +41,8 @@ openclaw config validate --json
 ```
 
 Use this as a first step when the gateway fails fast on invalid config keys or paths.
+
+As of v2026.3.11, top-level `config.set`, `config.patch`, and `config.apply` errors surface multiple validation issues in the summary. Read the first few issues carefully before making another write attempt.
 
 ### Cron/heartbeat lightweight context (v2026.3.1)
 
@@ -75,6 +84,7 @@ Operational notes:
 
 - Treat downgrades as risky (older versions can break config); require explicit confirmation.
 - If the gateway is supervised (launchd/systemd), prefer `openclaw gateway restart` after updates.
+- After upgrading to v2026.3.11+, run `openclaw doctor --fix` to migrate legacy cron storage and legacy cron notify/webhook metadata before trusting scheduled delivery.
 
 ## Automatic updates (Gateway core auto-updater)
 
@@ -112,11 +122,12 @@ openclaw health
 
 ## Safe operations pattern
 
-1. Validate gateway health and RPC reachability.
-2. Probe channels and providers before functional tests.
-3. Tail logs during rollout or incident triage.
-4. Run `doctor` and security audit when warnings persist.
-5. Apply config changes with explicit profile targeting.
+1. Validate config path and schema before rollout.
+2. Validate gateway health and RPC reachability.
+3. Probe channels and providers before functional tests.
+4. Tail logs during rollout or incident triage.
+5. Run `doctor` and security audit when warnings persist.
+6. Apply config changes with explicit profile targeting.
 
 ## Security and reliability controls
 
@@ -124,6 +135,7 @@ openclaw health
 - Use deep checks only when necessary (they may trigger live provider calls).
 - Keep remote gateway calls authenticated and timeout-bounded.
 - Avoid Bun runtime for gateway in channel-critical environments.
+- Child commands launched from OpenClaw now carry `OPENCLAW_CLI`; use that marker in wrapper scripts when you need different behavior for CLI-spawned subprocesses.
 
 ## CLI output hygiene (security)
 
@@ -165,3 +177,9 @@ openclaw health
 - Startup failure: check gateway mode, auth for bind mode, and port conflicts.
 - Channel flow failure: validate API scopes, policy gates, and pairing approvals.
 - Node/browser tool failures: isolate permissions, approvals, foreground constraints, and runtime dependencies.
+
+## Cron migration note (BREAKING, v2026.3.11)
+
+- Isolated cron delivery no longer falls back to ad hoc agent sends or main-session summaries.
+- Legacy notify/webhook metadata should be migrated with `openclaw doctor --fix` after upgrade.
+- If scheduled jobs appear "silent" after updating, inspect cron storage and doctor output before changing routing or agent policy.

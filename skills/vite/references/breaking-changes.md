@@ -42,3 +42,9 @@ export default defineConfig({
 - Treat items here as forward-looking; prefer stable APIs.
 - Use `future` config option for opt-in warnings.
 - Monitor linked discussions when you rely on these APIs.
+
+## Already effective in Vite 8
+
+- CJS default-import interop is stricter and more consistent.
+- Format sniffing for `browser` vs `module` resolution is gone.
+- Passing a URL to `import.meta.hot.accept` is no longer supported; pass an id instead.

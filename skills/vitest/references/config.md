@@ -41,7 +41,7 @@ export default mergeConfig(
     test: {
       exclude: ["packages/template/*"],
     },
-  })
+  }),
 );
 ```
 
@@ -198,6 +198,11 @@ export default defineConfig({
   },
 }
 ```
+
+## v4.1.0 notes
+
+- Snapshot update policy can now be expressed more explicitly (`new`, `all`, `none`) instead of a simple binary update mode.
+- If you expose Vitest through the programmatic API, additional `api` permissions like `allowWrite` and `allowExec` are relevant when static collection/execution is delegated.
 
 ## Reporters
 

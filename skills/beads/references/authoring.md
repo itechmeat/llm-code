@@ -5,19 +5,20 @@ Write Beads issues that are implementable without guesswork.
 ## Quality Triangle
 
 Every issue must answer:
+
 - **What must be true?** (`description` = contract/requirements)
 - **How do we implement it here?** (`design` = approach + integration map)
 - **How do we prove it works?** (`acceptance_criteria` = pass/fail)
 
 ## Minimum Content Bar
 
-| Field | Must Include |
-|-------|--------------|
-| **Contract** | Inputs/outputs, schemas, defaults, limits |
-| **Decision closure** | No unresolved "pick one" behaviors |
-| **Integration map** | Concrete files/modules/symbols |
-| **Acceptance** | Executable pass/fail checklist |
-| **Constraints** | Hard rules, allowed identifiers for QA |
+| Field                | Must Include                              |
+| -------------------- | ----------------------------------------- |
+| **Contract**         | Inputs/outputs, schemas, defaults, limits |
+| **Decision closure** | No unresolved "pick one" behaviors        |
+| **Integration map**  | Concrete files/modules/symbols            |
+| **Acceptance**       | Executable pass/fail checklist            |
+| **Constraints**      | Hard rules, allowed identifiers for QA    |
 
 ## Description (Requirements)
 
@@ -32,6 +33,7 @@ Every issue must answer:
 ### EARS Writing Rules
 
 Each requirement must be testable and unambiguous:
+
 - **When** `<trigger>`, the system shall `<behavior>`.
 - **While** `<state>`, the system shall `<behavior>`.
 - **If** `<condition>`, then the system shall `<behavior>`.
@@ -69,6 +71,7 @@ Do not leave behavioral forks (e.g., "reject or return empty — pick one").
 ### Architecture Decomposition
 
 Make component boundaries explicit:
+
 - API/handler layer
 - Tool/agent layer
 - Service layer
@@ -76,6 +79,23 @@ Make component boundaries explicit:
 - External deps (RAG, cache)
 
 For each component: public interface, failure modes, observability.
+
+## File-Backed Design Input (v0.60.0)
+
+When the design section is large or already exists as a checked-in document, prefer passing it from a file instead of stuffing it into inline CLI arguments.
+
+```bash
+bd create "Implement feature X" --design-file ./docs/feature-x-design.md
+```
+
+This keeps issue creation reproducible and avoids truncation/quoting mistakes in automation.
+
+## PRIME.md Fallback
+
+If a repository-local PRIME guidance file is absent, Beads can fall back to `~/.config/beads/PRIME.md`.
+
+- Use the global fallback for durable personal authoring defaults.
+- Keep repo-specific constraints in the repository when they materially affect implementation or review.
 
 ### Cutover Checklist (when replacing legacy)
 
@@ -118,16 +138,19 @@ Require proof in `design`: where tenant context is derived and set.
 ## NFRs (Non-Functional Requirements)
 
 Only include if measurable. Use prefixes:
+
 - **PERF-###**: Latency/size budgets
 - **QUAL-###**: Quality targets with measurement method
 
 Example:
+
 - PERF-001: When retrieval is executed, p95 latency shall be < 500ms.
 - QUAL-001: Grouping correctness shall achieve 95% measured by manual sampling.
 
 ## Task Authoring
 
 Decompose each STAGE into 3–8 atomic TASKs:
+
 - Schemas/contract
 - Data access (queries, RLS)
 - Business logic

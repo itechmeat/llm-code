@@ -63,3 +63,10 @@
 - Binding resolution is deterministic and prioritizes most-specific peer matches before broader channel/account rules.
 - Peer-targeted rules override channel-wide defaults.
 - Avoid shared agent directories across agents to prevent session/auth collisions.
+
+## Multi-agent operator patterns
+
+- Use separate `workspace` and `agentDir` paths per agent; sharing them across agents usually causes memory, auth, and routing bleed.
+- Prefer account- or peer-specific bindings over broad channel defaults when different agents serve different roles.
+- Topic- or chat-level routing works best when the corresponding session scope and mention policy are kept equally explicit.
+- Give each agent its own heartbeat policy; keep heartbeat off globally until each agent has a clear `HEARTBEAT.md` contract.

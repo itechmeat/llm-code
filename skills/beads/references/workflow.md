@@ -8,6 +8,9 @@ Daily task operations with `bd` CLI.
 # 0. Sync database state
 bd sync
 
+# 0b. Repair bootstrap/identity state when a workspace looks miswired
+bd bootstrap
+
 # 1. What can I work on?
 bd ready                    # Unblocked tasks
 bd ready --pretty           # Formatted output
@@ -34,6 +37,15 @@ bd dolt push
 ```
 
 ## Finding Work
+
+### Workspace Context
+
+```bash
+bd context
+bd context --json
+```
+
+Use this before planning or handoff when you need a concise snapshot of the current workspace/task state.
 
 ### Ready Tasks
 
@@ -249,3 +261,13 @@ bd doctor --deep            # Full integrity check
 bd doctor --server          # Dolt server mode health checks
 bd doctor --agent           # Diagnostics for AI agent setups (v0.57.0)
 ```
+
+## Safe Re-initialization (v0.60.0)
+
+When automation must reinitialize a store non-interactively, use the explicit destroy-token flow instead of scripting blind destructive prompts.
+
+```bash
+bd init --destroy-token <token>
+```
+
+Treat the token as a deliberate safety barrier, not as a convenience flag to hardcode into generic scripts.

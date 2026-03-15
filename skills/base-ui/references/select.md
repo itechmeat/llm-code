@@ -8,6 +8,11 @@ description: A high-quality, unstyled React select component for choosing a pred
 
 A high-quality, unstyled React select component for choosing a predefined value in a dropdown menu.
 
+## v1.3.0 notes
+
+- `Select` adds a `Label` part for component-native labeling patterns.
+- Prefer the built-in label part or an explicit `Field.Label` strategy instead of wiring ad hoc `aria-labelledby` relationships by hand.
+
 ## Demo
 
 ### Tailwind
@@ -16,26 +21,22 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-import * as React from 'react';
-import { Select } from '@base-ui/react/select';
-import { Field } from '@base-ui/react/field';
+import * as React from "react";
+import { Select } from "@base-ui/react/select";
+import { Field } from "@base-ui/react/field";
 
 const apples = [
-  { label: 'Gala', value: 'gala' },
-  { label: 'Fuji', value: 'fuji' },
-  { label: 'Honeycrisp', value: 'honeycrisp' },
-  { label: 'Granny Smith', value: 'granny-smith' },
-  { label: 'Pink Lady', value: 'pink-lady' },
+  { label: "Gala", value: "gala" },
+  { label: "Fuji", value: "fuji" },
+  { label: "Honeycrisp", value: "honeycrisp" },
+  { label: "Granny Smith", value: "granny-smith" },
+  { label: "Pink Lady", value: "pink-lady" },
 ];
 
 export default function ExampleSelect() {
   return (
     <Field.Root className="flex flex-col gap-1">
-      <Field.Label
-        className="cursor-default text-sm leading-5 font-medium text-gray-900"
-        nativeLabel={false}
-        render={<div />}
-      >
+      <Field.Label className="cursor-default text-sm leading-5 font-medium text-gray-900" nativeLabel={false} render={<div />}>
         Apple
       </Field.Label>
       <Select.Root items={apples}>
@@ -51,11 +52,7 @@ export default function ExampleSelect() {
               <Select.ScrollUpArrow className="top-0 z-[1] flex h-4 w-full cursor-default items-center justify-center rounded-md bg-[canvas] text-center text-xs before:absolute data-[side=none]:before:top-[-100%] before:left-0 before:h-full before:w-full before:content-['']" />
               <Select.List className="relative py-1 scroll-py-6 overflow-y-auto max-h-[var(--available-height)]">
                 {apples.map(({ label, value }) => (
-                  <Select.Item
-                    key={label}
-                    value={value}
-                    className="grid cursor-default grid-cols-[0.75rem_1fr] items-center gap-2 py-2 pr-4 pl-2.5 text-sm leading-4 outline-none select-none group-data-[side=none]:pr-12 group-data-[side=none]:text-base group-data-[side=none]:leading-4 data-[highlighted]:relative data-[highlighted]:z-0 data-[highlighted]:text-gray-50 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-gray-900 pointer-coarse:py-2.5 pointer-coarse:text-[0.925rem]"
-                  >
+                  <Select.Item key={label} value={value} className="grid cursor-default grid-cols-[0.75rem_1fr] items-center gap-2 py-2 pr-4 pl-2.5 text-sm leading-4 outline-none select-none group-data-[side=none]:pr-12 group-data-[side=none]:text-base group-data-[side=none]:leading-4 data-[highlighted]:relative data-[highlighted]:z-0 data-[highlighted]:text-gray-50 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-gray-900 pointer-coarse:py-2.5 pointer-coarse:text-[0.925rem]">
                     <Select.ItemIndicator className="col-start-1">
                       <CheckIcon className="size-3" />
                     </Select.ItemIndicator>
@@ -72,24 +69,16 @@ export default function ExampleSelect() {
   );
 }
 
-function ChevronUpDownIcon(props: React.ComponentProps<'svg'>) {
+function ChevronUpDownIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      width="8"
-      height="12"
-      viewBox="0 0 8 12"
-      fill="none"
-      stroke="currentcolor"
-      strokeWidth="1.5"
-      {...props}
-    >
+    <svg width="8" height="12" viewBox="0 0 8 12" fill="none" stroke="currentcolor" strokeWidth="1.5" {...props}>
       <path d="M0.5 4.5L4 1.5L7.5 4.5" />
       <path d="M0.5 7.5L4 10.5L7.5 7.5" />
     </svg>
   );
 }
 
-function CheckIcon(props: React.ComponentProps<'svg'>) {
+function CheckIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="10" height="10" viewBox="0 0 10 10" {...props}>
       <path d="M9.1603 1.12218C9.50684 1.34873 9.60427 1.81354 9.37792 2.16038L5.13603 8.66012C5.01614 8.8438 4.82192 8.96576 4.60451 8.99384C4.3871 9.02194 4.1683 8.95335 4.00574 8.80615L1.24664 6.30769C0.939709 6.02975 0.916013 5.55541 1.19372 5.24822C1.47142 4.94102 1.94536 4.91731 2.2523 5.19524L4.36085 7.10461L8.12299 1.33999C8.34934 0.993152 8.81376 0.895638 9.1603 1.12218Z" />
@@ -190,7 +179,7 @@ This example shows how to implement the component using CSS Modules.
     transform: scale(0.9);
   }
 
-  &[data-side='none'] {
+  &[data-side="none"] {
     transition: none;
     transform: none;
     opacity: 1;
@@ -221,22 +210,22 @@ This example shows how to implement the component using CSS Modules.
 .Arrow {
   display: flex;
 
-  &[data-side='top'] {
+  &[data-side="top"] {
     bottom: -8px;
     rotate: 180deg;
   }
 
-  &[data-side='bottom'] {
+  &[data-side="bottom"] {
     top: -8px;
     rotate: 0deg;
   }
 
-  &[data-side='left'] {
+  &[data-side="left"] {
     right: -13px;
     rotate: 90deg;
   }
 
-  &[data-side='right'] {
+  &[data-side="right"] {
     left: -13px;
     rotate: -90deg;
   }
@@ -279,7 +268,7 @@ This example shows how to implement the component using CSS Modules.
     font-size: 0.925rem;
   }
 
-  [data-side='none'] & {
+  [data-side="none"] & {
     font-size: 1rem;
     padding-right: 3rem;
   }
@@ -291,7 +280,7 @@ This example shows how to implement the component using CSS Modules.
   }
 
   &[data-highlighted]::before {
-    content: '';
+    content: "";
     z-index: -1;
     position: absolute;
     inset-block: 0;
@@ -329,25 +318,25 @@ This example shows how to implement the component using CSS Modules.
   justify-content: center;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     height: 100%;
     left: 0;
   }
 
-  &[data-direction='up'] {
-    &[data-side='none'] {
+  &[data-direction="up"] {
+    &[data-side="none"] {
       &::before {
         top: -100%;
       }
     }
   }
 
-  &[data-direction='down'] {
+  &[data-direction="down"] {
     bottom: 0;
 
-    &[data-side='none'] {
+    &[data-side="none"] {
       &::before {
         bottom: -100%;
       }
@@ -358,17 +347,17 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-import * as React from 'react';
-import { Select } from '@base-ui/react/select';
-import { Field } from '@base-ui/react/field';
-import styles from './index.module.css';
+import * as React from "react";
+import { Select } from "@base-ui/react/select";
+import { Field } from "@base-ui/react/field";
+import styles from "./index.module.css";
 
 const apples = [
-  { label: 'Gala', value: 'gala' },
-  { label: 'Fuji', value: 'fuji' },
-  { label: 'Honeycrisp', value: 'honeycrisp' },
-  { label: 'Granny Smith', value: 'granny-smith' },
-  { label: 'Pink Lady', value: 'pink-lady' },
+  { label: "Gala", value: "gala" },
+  { label: "Fuji", value: "fuji" },
+  { label: "Honeycrisp", value: "honeycrisp" },
+  { label: "Granny Smith", value: "granny-smith" },
+  { label: "Pink Lady", value: "pink-lady" },
 ];
 
 export default function ExampleSelect() {
@@ -407,24 +396,16 @@ export default function ExampleSelect() {
   );
 }
 
-function ChevronUpDownIcon(props: React.ComponentProps<'svg'>) {
+function ChevronUpDownIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      width="8"
-      height="12"
-      viewBox="0 0 8 12"
-      fill="none"
-      stroke="currentcolor"
-      strokeWidth="1.5"
-      {...props}
-    >
+    <svg width="8" height="12" viewBox="0 0 8 12" fill="none" stroke="currentcolor" strokeWidth="1.5" {...props}>
       <path d="M0.5 4.5L4 1.5L7.5 4.5" />
       <path d="M0.5 7.5L4 10.5L7.5 7.5" />
     </svg>
   );
 }
 
-function CheckIcon(props: React.ComponentProps<'svg'>) {
+function CheckIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="10" height="10" viewBox="0 0 10 10" {...props}>
       <path d="M9.1603 1.12218C9.50684 1.34873 9.60427 1.81354 9.37792 2.16038L5.13603 8.66012C5.01614 8.8438 4.82192 8.96576 4.60451 8.99384C4.3871 9.02194 4.1683 8.95335 4.00574 8.80615L1.24664 6.30769C0.939709 6.02975 0.916013 5.55541 1.19372 5.24822C1.47142 4.94102 1.94536 4.91731 2.2523 5.19524L4.36085 7.10461L8.12299 1.33999C8.34934 0.993152 8.81376 0.895638 9.1603 1.12218Z" />
@@ -444,7 +425,7 @@ function CheckIcon(props: React.ComponentProps<'svg'>) {
 Import the component and assemble its parts:
 
 ```jsx title="Anatomy"
-import { Select } from '@base-ui/react/select';
+import { Select } from "@base-ui/react/select";
 
 <Select.Root>
   <Select.Trigger>
@@ -498,12 +479,10 @@ When set to `true` (its default) there are a few important points to note about 
 The following example shows a typed wrapper around the Select component with correct type inference and type safety:
 
 ```tsx title="Specifying generic type parameters"
-import * as React from 'react';
-import { Select } from '@base-ui/react/select';
+import * as React from "react";
+import { Select } from "@base-ui/react/select";
 
-export function MySelect<Value, Multiple extends boolean | undefined = false>(
-  props: Select.Root.Props<Value, Multiple>,
-): React.JSX.Element {
+export function MySelect<Value, Multiple extends boolean | undefined = false>(props: Select.Root.Props<Value, Multiple>): React.JSX.Element {
   return <Select.Root {...props}>{/* ... */}</Select.Root>;
 }
 ```
@@ -516,10 +495,10 @@ Passing the `items` prop to `<Select.Root>` instead renders the matching label f
 
 ```jsx title="items prop" "items"1,3
 const items = [
-  { value: null, label: 'Select theme' },
-  { value: 'system', label: 'System default' },
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
+  { value: null, label: "Select theme" },
+  { value: "system", label: "System default" },
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
 ];
 
 <Select.Root items={items}>
@@ -568,9 +547,9 @@ To show a placeholder value, use the `placeholder` prop on `<Select.Value>`:
 
 ```jsx title="Placeholder item" {8}
 const items = [
-  { value: 'system', label: 'System default' },
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
+  { value: "system", label: "System default" },
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
 ];
 
 <Select.Root items={items}>
@@ -582,10 +561,10 @@ With placeholders, users cannot clear selected values using the select itself. I
 
 ```jsx title="Clearable item" {2}
 const items = [
-  { value: null, label: 'Select theme' },
-  { value: 'system', label: 'System default' },
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
+  { value: null, label: "Select theme" },
+  { value: "system", label: "System default" },
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
 ];
 
 <Select.Root items={items}>
@@ -605,22 +584,22 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Select } from '@base-ui/react/select';
-import { Field } from '@base-ui/react/field';
+"use client";
+import * as React from "react";
+import { Select } from "@base-ui/react/select";
+import { Field } from "@base-ui/react/field";
 
 const languages = {
-  javascript: 'JavaScript',
-  typescript: 'TypeScript',
-  python: 'Python',
-  java: 'Java',
-  csharp: 'C#',
-  php: 'PHP',
-  cpp: 'C++',
-  rust: 'Rust',
-  go: 'Go',
-  swift: 'Swift',
+  javascript: "JavaScript",
+  typescript: "TypeScript",
+  python: "Python",
+  java: "Java",
+  csharp: "C#",
+  php: "PHP",
+  cpp: "C++",
+  rust: "Rust",
+  go: "Go",
+  swift: "Swift",
 };
 
 type Language = keyof typeof languages;
@@ -629,25 +608,21 @@ const values = Object.keys(languages) as Language[];
 
 function renderValue(value: Language[]) {
   if (value.length === 0) {
-    return 'Select languages…';
+    return "Select languages…";
   }
 
   const firstLanguage = languages[value[0]];
-  const additionalLanguages = value.length > 1 ? ` (+${value.length - 1} more)` : '';
+  const additionalLanguages = value.length > 1 ? ` (+${value.length - 1} more)` : "";
   return firstLanguage + additionalLanguages;
 }
 
 export default function MultiSelectExample() {
   return (
     <Field.Root className="flex flex-col gap-1">
-      <Field.Label
-        className="cursor-default text-sm leading-5 font-medium text-gray-900"
-        nativeLabel={false}
-        render={<div />}
-      >
+      <Field.Label className="cursor-default text-sm leading-5 font-medium text-gray-900" nativeLabel={false} render={<div />}>
         Languages
       </Field.Label>
-      <Select.Root multiple defaultValue={['javascript', 'typescript']}>
+      <Select.Root multiple defaultValue={["javascript", "typescript"]}>
         <Select.Trigger className="flex h-10 min-w-[14rem] items-center justify-between gap-3 rounded-md border border-gray-200 pr-3 pl-3.5 text-base bg-[canvas] text-gray-900 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 data-[popup-open]:bg-gray-100">
           <Select.Value className="data-[placeholder]:opacity-60">{renderValue}</Select.Value>
           <Select.Icon className="flex">
@@ -655,18 +630,10 @@ export default function MultiSelectExample() {
           </Select.Icon>
         </Select.Trigger>
         <Select.Portal>
-          <Select.Positioner
-            className="outline-none z-10"
-            sideOffset={8}
-            alignItemWithTrigger={false}
-          >
+          <Select.Positioner className="outline-none z-10" sideOffset={8} alignItemWithTrigger={false}>
             <Select.Popup className="group max-h-[var(--available-height)] min-w-[var(--anchor-width)] origin-[var(--transform-origin)] bg-clip-padding overflow-y-auto rounded-md bg-[canvas] py-1 text-gray-900 shadow-lg shadow-gray-200 outline outline-1 outline-gray-200 transition-[transform,scale,opacity] data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[side=none]:min-w-[calc(var(--anchor-width)+1rem)] data-[side=none]:data-[ending-style]:transition-none data-[starting-style]:scale-90 data-[starting-style]:opacity-0 data-[side=none]:data-[starting-style]:scale-100 data-[side=none]:data-[starting-style]:opacity-100 data-[side=none]:data-[starting-style]:transition-none dark:shadow-none dark:outline-gray-300">
               {values.map((value) => (
-                <Select.Item
-                  key={value}
-                  value={value}
-                  className="grid cursor-default grid-cols-[0.75rem_1fr] items-center gap-2 py-2 pr-4 pl-2.5 text-sm leading-4 outline-none select-none scroll-my-1 group-data-[side=none]:pr-12 group-data-[side=none]:text-base group-data-[side=none]:leading-4 pointer-coarse:py-2.5 pointer-coarse:text-[0.925rem] [@media(hover:hover)]:[&[data-highlighted]]:relative [@media(hover:hover)]:[&[data-highlighted]]:z-0 [@media(hover:hover)]:[&[data-highlighted]]:text-gray-50 [@media(hover:hover)]:[&[data-highlighted]]:before:content-[''] [@media(hover:hover)]:[&[data-highlighted]]:before:absolute [@media(hover:hover)]:[&[data-highlighted]]:before:inset-y-0 [@media(hover:hover)]:[&[data-highlighted]]:before:inset-x-1 [@media(hover:hover)]:[&[data-highlighted]]:before:rounded-sm [@media(hover:hover)]:[&[data-highlighted]]:before:bg-gray-900 [@media(hover:hover)]:[&[data-highlighted]]:before:z-[-1]"
-                >
+                <Select.Item key={value} value={value} className="grid cursor-default grid-cols-[0.75rem_1fr] items-center gap-2 py-2 pr-4 pl-2.5 text-sm leading-4 outline-none select-none scroll-my-1 group-data-[side=none]:pr-12 group-data-[side=none]:text-base group-data-[side=none]:leading-4 pointer-coarse:py-2.5 pointer-coarse:text-[0.925rem] [@media(hover:hover)]:[&[data-highlighted]]:relative [@media(hover:hover)]:[&[data-highlighted]]:z-0 [@media(hover:hover)]:[&[data-highlighted]]:text-gray-50 [@media(hover:hover)]:[&[data-highlighted]]:before:content-[''] [@media(hover:hover)]:[&[data-highlighted]]:before:absolute [@media(hover:hover)]:[&[data-highlighted]]:before:inset-y-0 [@media(hover:hover)]:[&[data-highlighted]]:before:inset-x-1 [@media(hover:hover)]:[&[data-highlighted]]:before:rounded-sm [@media(hover:hover)]:[&[data-highlighted]]:before:bg-gray-900 [@media(hover:hover)]:[&[data-highlighted]]:before:z-[-1]">
                   <Select.ItemIndicator className="col-start-1">
                     <CheckIcon className="size-3" />
                   </Select.ItemIndicator>
@@ -681,24 +648,16 @@ export default function MultiSelectExample() {
   );
 }
 
-function ChevronUpDownIcon(props: React.ComponentProps<'svg'>) {
+function ChevronUpDownIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      width="8"
-      height="12"
-      viewBox="0 0 8 12"
-      fill="none"
-      stroke="currentcolor"
-      strokeWidth="1.5"
-      {...props}
-    >
+    <svg width="8" height="12" viewBox="0 0 8 12" fill="none" stroke="currentcolor" strokeWidth="1.5" {...props}>
       <path d="M0.5 4.5L4 1.5L7.5 4.5" />
       <path d="M0.5 7.5L4 10.5L7.5 7.5" />
     </svg>
   );
 }
 
-function CheckIcon(props: React.ComponentProps<'svg'>) {
+function CheckIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="10" height="10" viewBox="0 0 10 10" {...props}>
       <path d="M9.1603 1.12218C9.50684 1.34873 9.60427 1.81354 9.37792 2.16038L5.13603 8.66012C5.01614 8.8438 4.82192 8.96576 4.60451 8.99384C4.3871 9.02194 4.1683 8.95335 4.00574 8.80615L1.24664 6.30769C0.939709 6.02975 0.916013 5.55541 1.19372 5.24822C1.47142 4.94102 1.94536 4.91731 2.2523 5.19524L4.36085 7.10461L8.12299 1.33999C8.34934 0.993152 8.81376 0.895638 9.1603 1.12218Z" />
@@ -799,7 +758,7 @@ This example shows how to implement the component using CSS Modules.
     transform: scale(0.9);
   }
 
-  &[data-side='none'] {
+  &[data-side="none"] {
     transition: none;
     transform: none;
     opacity: 1;
@@ -839,7 +798,7 @@ This example shows how to implement the component using CSS Modules.
     font-size: 0.925rem;
   }
 
-  [data-side='none'] & {
+  [data-side="none"] & {
     font-size: 1rem;
     padding-right: 3rem;
   }
@@ -852,7 +811,7 @@ This example shows how to implement the component using CSS Modules.
     }
 
     &[data-highlighted]::before {
-      content: '';
+      content: "";
       z-index: -1;
       position: absolute;
       inset-block: 0;
@@ -891,14 +850,14 @@ This example shows how to implement the component using CSS Modules.
   justify-content: center;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     height: 100%;
     left: 0;
   }
 
-  &[data-direction='up'] {
+  &[data-direction="up"] {
     top: 0;
 
     &::before {
@@ -906,7 +865,7 @@ This example shows how to implement the component using CSS Modules.
     }
   }
 
-  &[data-direction='down'] {
+  &[data-direction="down"] {
     bottom: 0;
 
     &::before {
@@ -918,23 +877,23 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Select } from '@base-ui/react/select';
-import { Field } from '@base-ui/react/field';
-import styles from './index.module.css';
+"use client";
+import * as React from "react";
+import { Select } from "@base-ui/react/select";
+import { Field } from "@base-ui/react/field";
+import styles from "./index.module.css";
 
 const languages = {
-  javascript: 'JavaScript',
-  typescript: 'TypeScript',
-  python: 'Python',
-  java: 'Java',
-  csharp: 'C#',
-  php: 'PHP',
-  cpp: 'C++',
-  rust: 'Rust',
-  go: 'Go',
-  swift: 'Swift',
+  javascript: "JavaScript",
+  typescript: "TypeScript",
+  python: "Python",
+  java: "Java",
+  csharp: "C#",
+  php: "PHP",
+  cpp: "C++",
+  rust: "Rust",
+  go: "Go",
+  swift: "Swift",
 };
 
 type Language = keyof typeof languages;
@@ -943,11 +902,11 @@ const values = Object.keys(languages) as Language[];
 
 function renderValue(value: Language[]) {
   if (value.length === 0) {
-    return 'Select languages…';
+    return "Select languages…";
   }
 
   const firstLanguage = languages[value[0]];
-  const additionalLanguages = value.length > 1 ? ` (+${value.length - 1} more)` : '';
+  const additionalLanguages = value.length > 1 ? ` (+${value.length - 1} more)` : "";
   return firstLanguage + additionalLanguages;
 }
 
@@ -957,7 +916,7 @@ export default function MultiSelectExample() {
       <Field.Label className={styles.Label} nativeLabel={false} render={<div />}>
         Languages
       </Field.Label>
-      <Select.Root multiple defaultValue={['javascript', 'typescript']}>
+      <Select.Root multiple defaultValue={["javascript", "typescript"]}>
         <Select.Trigger className={styles.Select}>
           <Select.Value className={styles.Value}>{renderValue}</Select.Value>
           <Select.Icon className={styles.SelectIcon}>
@@ -965,11 +924,7 @@ export default function MultiSelectExample() {
           </Select.Icon>
         </Select.Trigger>
         <Select.Portal>
-          <Select.Positioner
-            className={styles.Positioner}
-            sideOffset={8}
-            alignItemWithTrigger={false}
-          >
+          <Select.Positioner className={styles.Positioner} sideOffset={8} alignItemWithTrigger={false}>
             <Select.Popup className={styles.Popup}>
               {values.map((value) => (
                 <Select.Item key={value} value={value} className={styles.Item}>
@@ -987,24 +942,16 @@ export default function MultiSelectExample() {
   );
 }
 
-function ChevronUpDownIcon(props: React.ComponentProps<'svg'>) {
+function ChevronUpDownIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      width="8"
-      height="12"
-      viewBox="0 0 8 12"
-      fill="none"
-      stroke="currentcolor"
-      strokeWidth="1.5"
-      {...props}
-    >
+    <svg width="8" height="12" viewBox="0 0 8 12" fill="none" stroke="currentcolor" strokeWidth="1.5" {...props}>
       <path d="M0.5 4.5L4 1.5L7.5 4.5" />
       <path d="M0.5 7.5L4 10.5L7.5 7.5" />
     </svg>
   );
 }
 
-function CheckIcon(props: React.ComponentProps<'svg'>) {
+function CheckIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="10" height="10" viewBox="0 0 10 10" {...props}>
       <path d="M9.1603 1.12218C9.50684 1.34873 9.60427 1.81354 9.37792 2.16038L5.13603 8.66012C5.01614 8.8438 4.82192 8.96576 4.60451 8.99384C4.3871 9.02194 4.1683 8.95335 4.00574 8.80615L1.24664 6.30769C0.939709 6.02975 0.916013 5.55541 1.19372 5.24822C1.47142 4.94102 1.94536 4.91731 2.2523 5.19524L4.36085 7.10461L8.12299 1.33999C8.34934 0.993152 8.81376 0.895638 9.1603 1.12218Z" />
@@ -1026,19 +973,15 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Select } from '@base-ui/react/select';
-import { Field } from '@base-ui/react/field';
+"use client";
+import * as React from "react";
+import { Select } from "@base-ui/react/select";
+import { Field } from "@base-ui/react/field";
 
 export default function ObjectValueSelect() {
   return (
     <Field.Root className="flex flex-col gap-1">
-      <Field.Label
-        className="cursor-default text-sm leading-5 font-medium text-gray-900"
-        nativeLabel={false}
-        render={<div />}
-      >
+      <Field.Label className="cursor-default text-sm leading-5 font-medium text-gray-900" nativeLabel={false} render={<div />}>
         Shipping method
       </Field.Label>
       <Select.Root defaultValue={shippingMethods[0]} itemToStringValue={(item) => item.id}>
@@ -1063,11 +1006,7 @@ export default function ObjectValueSelect() {
               <Select.ScrollUpArrow className="top-0 z-[1] flex h-4 w-full cursor-default items-center justify-center rounded-md bg-[canvas] text-center text-xs before:absolute data-[side=none]:before:top-[-100%] before:left-0 before:h-full before:w-full before:content-['']" />
               <Select.List className="relative py-1 scroll-py-6 overflow-y-auto max-h-[var(--available-height)]">
                 {shippingMethods.map((method) => (
-                  <Select.Item
-                    key={method.id}
-                    value={method}
-                    className="grid cursor-default grid-cols-[0.75rem_1fr] items-start gap-2 py-2.5 pr-4 pl-2.5 text-sm leading-4 outline-none select-none group-data-[side=none]:pr-12 group-data-[side=none]:text-base group-data-[side=none]:leading-5 pointer-coarse:py-2.5 pointer-coarse:text-[0.925rem] [@media(hover:hover)]:[&[data-highlighted]]:relative [@media(hover:hover)]:[&[data-highlighted]]:z-0 [@media(hover:hover)]:[&[data-highlighted]]:text-gray-50 [@media(hover:hover)]:[&[data-highlighted]]:before:content-[''] [@media(hover:hover)]:[&[data-highlighted]]:before:absolute [@media(hover:hover)]:[&[data-highlighted]]:before:inset-y-0 [@media(hover:hover)]:[&[data-highlighted]]:before:inset-x-1 [@media(hover:hover)]:[&[data-highlighted]]:before:rounded-sm [@media(hover:hover)]:[&[data-highlighted]]:before:bg-gray-900 [@media(hover:hover)]:[&[data-highlighted]]:before:z-[-1]"
-                  >
+                  <Select.Item key={method.id} value={method} className="grid cursor-default grid-cols-[0.75rem_1fr] items-start gap-2 py-2.5 pr-4 pl-2.5 text-sm leading-4 outline-none select-none group-data-[side=none]:pr-12 group-data-[side=none]:text-base group-data-[side=none]:leading-5 pointer-coarse:py-2.5 pointer-coarse:text-[0.925rem] [@media(hover:hover)]:[&[data-highlighted]]:relative [@media(hover:hover)]:[&[data-highlighted]]:z-0 [@media(hover:hover)]:[&[data-highlighted]]:text-gray-50 [@media(hover:hover)]:[&[data-highlighted]]:before:content-[''] [@media(hover:hover)]:[&[data-highlighted]]:before:absolute [@media(hover:hover)]:[&[data-highlighted]]:before:inset-y-0 [@media(hover:hover)]:[&[data-highlighted]]:before:inset-x-1 [@media(hover:hover)]:[&[data-highlighted]]:before:rounded-sm [@media(hover:hover)]:[&[data-highlighted]]:before:bg-gray-900 [@media(hover:hover)]:[&[data-highlighted]]:before:z-[-1]">
                     <Select.ItemIndicator className="col-start-1 flex items-center self-start relative top-[0.4em]">
                       <CheckIcon className="size-3" />
                     </Select.ItemIndicator>
@@ -1089,24 +1028,16 @@ export default function ObjectValueSelect() {
   );
 }
 
-function ChevronUpDownIcon(props: React.ComponentProps<'svg'>) {
+function ChevronUpDownIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      width="8"
-      height="12"
-      viewBox="0 0 8 12"
-      fill="none"
-      stroke="currentcolor"
-      strokeWidth="1.5"
-      {...props}
-    >
+    <svg width="8" height="12" viewBox="0 0 8 12" fill="none" stroke="currentcolor" strokeWidth="1.5" {...props}>
       <path d="M0.5 4.5L4 1.5L7.5 4.5" />
       <path d="M0.5 7.5L4 10.5L7.5 7.5" />
     </svg>
   );
 }
 
-function CheckIcon(props: React.ComponentProps<'svg'>) {
+function CheckIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="10" height="10" viewBox="0 0 10 10" {...props}>
       <path d="M9.1603 1.12218C9.50684 1.34873 9.60427 1.81354 9.37792 2.16038L5.13603 8.66012C5.01614 8.8438 4.82192 8.96576 4.60451 8.99384C4.3871 9.02194 4.1683 8.95335 4.00574 8.80615L1.24664 6.30769C0.939709 6.02975 0.916013 5.55541 1.19372 5.24822C1.47142 4.94102 1.94536 4.91731 2.2523 5.19524L4.36085 7.10461L8.12299 1.33999C8.34934 0.993152 8.81376 0.895638 9.1603 1.12218Z" />
@@ -1123,22 +1054,22 @@ interface ShippingMethod {
 
 const shippingMethods: ShippingMethod[] = [
   {
-    id: 'standard',
-    name: 'Standard',
-    duration: 'Delivers in 4-6 business days',
-    price: '$4.99',
+    id: "standard",
+    name: "Standard",
+    duration: "Delivers in 4-6 business days",
+    price: "$4.99",
   },
   {
-    id: 'express',
-    name: 'Express',
-    duration: 'Delivers in 2-3 business days',
-    price: '$9.99',
+    id: "express",
+    name: "Express",
+    duration: "Delivers in 2-3 business days",
+    price: "$9.99",
   },
   {
-    id: 'overnight',
-    name: 'Overnight',
-    duration: 'Delivers next business day',
-    price: '$19.99',
+    id: "overnight",
+    name: "Overnight",
+    duration: "Delivers next business day",
+    price: "$19.99",
   },
 ];
 ```
@@ -1252,7 +1183,7 @@ This example shows how to implement the component using CSS Modules.
     transform: scale(0.9);
   }
 
-  &[data-side='none'] {
+  &[data-side="none"] {
     transition: none;
     transform: none;
     opacity: 1;
@@ -1301,7 +1232,7 @@ This example shows how to implement the component using CSS Modules.
     font-size: 0.925rem;
   }
 
-  [data-side='none'] & {
+  [data-side="none"] & {
     font-size: 1rem;
     padding-right: 3rem;
   }
@@ -1317,7 +1248,7 @@ This example shows how to implement the component using CSS Modules.
   }
 
   &[data-highlighted]::before {
-    content: '';
+    content: "";
     z-index: -1;
     position: absolute;
     inset-block: 0;
@@ -1375,25 +1306,25 @@ This example shows how to implement the component using CSS Modules.
   justify-content: center;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     height: 100%;
     left: 0;
   }
 
-  &[data-direction='up'] {
-    &[data-side='none'] {
+  &[data-direction="up"] {
+    &[data-side="none"] {
       &::before {
         top: -100%;
       }
     }
   }
 
-  &[data-direction='down'] {
+  &[data-direction="down"] {
     bottom: 0;
 
-    &[data-side='none'] {
+    &[data-side="none"] {
       &::before {
         bottom: -100%;
       }
@@ -1404,11 +1335,11 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Select } from '@base-ui/react/select';
-import { Field } from '@base-ui/react/field';
-import styles from './index.module.css';
+"use client";
+import * as React from "react";
+import { Select } from "@base-ui/react/select";
+import { Field } from "@base-ui/react/field";
+import styles from "./index.module.css";
 
 export default function ObjectValueSelect() {
   return (
@@ -1460,24 +1391,16 @@ export default function ObjectValueSelect() {
   );
 }
 
-function ChevronUpDownIcon(props: React.ComponentProps<'svg'>) {
+function ChevronUpDownIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      width="8"
-      height="12"
-      viewBox="0 0 8 12"
-      fill="none"
-      stroke="currentcolor"
-      strokeWidth="1.5"
-      {...props}
-    >
+    <svg width="8" height="12" viewBox="0 0 8 12" fill="none" stroke="currentcolor" strokeWidth="1.5" {...props}>
       <path d="M0.5 4.5L4 1.5L7.5 4.5" />
       <path d="M0.5 7.5L4 10.5L7.5 7.5" />
     </svg>
   );
 }
 
-function CheckIcon(props: React.ComponentProps<'svg'>) {
+function CheckIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="10" height="10" viewBox="0 0 10 10" {...props}>
       <path d="M9.1603 1.12218C9.50684 1.34873 9.60427 1.81354 9.37792 2.16038L5.13603 8.66012C5.01614 8.8438 4.82192 8.96576 4.60451 8.99384C4.3871 9.02194 4.1683 8.95335 4.00574 8.80615L1.24664 6.30769C0.939709 6.02975 0.916013 5.55541 1.19372 5.24822C1.47142 4.94102 1.94536 4.91731 2.2523 5.19524L4.36085 7.10461L8.12299 1.33999C8.34934 0.993152 8.81376 0.895638 9.1603 1.12218Z" />
@@ -1494,22 +1417,22 @@ interface ShippingMethod {
 
 const shippingMethods: ShippingMethod[] = [
   {
-    id: 'standard',
-    name: 'Standard',
-    duration: 'Delivers in 4-6 business days',
-    price: '$4.99',
+    id: "standard",
+    name: "Standard",
+    duration: "Delivers in 4-6 business days",
+    price: "$4.99",
   },
   {
-    id: 'express',
-    name: 'Express',
-    duration: 'Delivers in 2-3 business days',
-    price: '$9.99',
+    id: "express",
+    name: "Express",
+    duration: "Delivers in 2-3 business days",
+    price: "$9.99",
   },
   {
-    id: 'overnight',
-    name: 'Overnight',
-    duration: 'Delivers next business day',
-    price: '$19.99',
+    id: "overnight",
+    name: "Overnight",
+    duration: "Delivers next business day",
+    price: "$19.99",
   },
 ];
 ```

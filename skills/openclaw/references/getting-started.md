@@ -20,11 +20,15 @@ If not installed, use `references/installation.md` first.
 ## Minimal first-run path
 
 1. Run onboarding with daemon install.
-2. Verify gateway status.
-3. Open dashboard/control UI and run first chat.
+2. Print the active config path with `openclaw config file` and inspect the generated workspace/bootstrap files.
+3. Validate the config with `openclaw config validate` before manual edits.
+4. Verify gateway status.
+5. Open dashboard/control UI and run first chat.
 
 ## Fast verification checklist
 
+- `openclaw config file` resolves the config you expect to operate.
+- `openclaw config validate` passes before restart/reload.
 - `openclaw gateway status` returns healthy runtime.
 - `openclaw dashboard` opens local control surface successfully.
 - Optional: send a test message only after channel provisioning is complete.
@@ -76,6 +80,17 @@ If not installed, use `references/installation.md` first.
 - Workspace acts as persistent memory context and can be managed as a git repository.
 - Bootstrap creates core identity/tools/persona files for first-run guidance.
 - Session reset/compact flows should be part of standard operator controls.
+
+Recommended bootstrap files to review early:
+
+- `AGENTS.md` for top-level operating rules.
+- `SOUL.md` and `IDENTITY.md` for assistant persona and role stability.
+- `USER.md` for user-specific context.
+- `TOOLS.md` for tool-use policy.
+- `HEARTBEAT.md` before enabling proactive turns.
+- `MEMORY.md` and `memory/YYYY-MM-DD.md` for durable and daily memory load.
+
+Keep these files concise; they directly affect context cost and can drown out live conversation if they become bloated.
 
 ## Day-1 safety baseline
 

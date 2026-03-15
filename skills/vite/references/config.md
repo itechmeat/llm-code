@@ -46,3 +46,9 @@ export default defineConfig({
   },
 });
 ```
+
+## Vite 8 migration notes
+
+- `build.rollupOptions` and `worker.rollupOptions` are deprecated in favor of `build.rolldownOptions` / `worker.rolldownOptions`.
+- `build.commonjsOptions` is now effectively a no-op in the Rolldown path.
+- If CommonJS default-import behavior regresses for a dependency, use `legacy.inconsistentCjsInterop: true` only as a temporary migration shim.

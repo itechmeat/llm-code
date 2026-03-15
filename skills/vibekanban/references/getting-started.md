@@ -19,6 +19,7 @@ npx vibe-kanban
 
 - Binds to random free port
 - Opens browser automatically
+- This remains the default docs-first launch path even after the packaged desktop app moved to a Tauri v2 shell in v0.1.30.
 
 ### Fixed Port
 
@@ -50,3 +51,5 @@ Enables: Creating PRs, PR status syncing, auto-move to Done when merged.
 ```bash
 npx vibe-kanban@latest
 ```
+
+- If you run the packaged desktop build rather than `npx`, expect updates to come through the app's Tauri v2 auto-updater path instead of the npm command above.

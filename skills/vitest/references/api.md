@@ -157,6 +157,13 @@ afterEach(async () => {
 });
 ```
 
+### aroundEach / aroundAll (v4.1.0)
+
+Use `aroundEach` or `aroundAll` when setup and teardown need to be expressed as one wrapped lifecycle instead of split hooks.
+
+- Prefer them for resource scopes that must guarantee paired setup/cleanup.
+- If an `around*` hook times out or throws, treat it as test infrastructure failure, not as something to paper over with retries.
+
 ## Test Hooks (Inside Test)
 
 ```ts
@@ -190,7 +197,7 @@ bench(
     const x = [1, 5, 4, 2, 3];
     x.sort((a, b) => a - b);
   },
-  { time: 1000, iterations: 100 }
+  { time: 1000, iterations: 100 },
 );
 
 describe("benchmarks", () => {
@@ -207,8 +214,14 @@ interface TestOptions {
   timeout?: number; // max execution time (default 5s)
   retry?: number; // retry count on failure (default 0)
   repeats?: number; // repeat count even on success
+  meta?: Record<string, unknown>; // custom metadata (v4.1.0)
 }
 ```
+
+### Tags and metadata (v4.1.0)
+
+- Use tags for coarse-grained slicing/reporting.
+- Use `meta` for machine-readable annotations consumed by tooling or reporters.
 
 ## Important Notes
 

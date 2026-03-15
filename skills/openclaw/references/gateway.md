@@ -36,6 +36,7 @@ Use these for process/container probes only; for authenticated deeper checks, us
 - Preferred: private overlay network (for example Tailscale/VPN).
 - Fallback: SSH local tunnel to loopback gateway endpoint.
 - Keep public exposure minimal and pair remote access with strict auth.
+- For remote onboarding on macOS, expect a shared gateway token flow when paired-device auth is not sufficient; retrieve the token from the gateway host instead of guessing or reusing stale local credentials.
 
 ## Configuration levers
 
@@ -77,6 +78,7 @@ Use these for process/container probes only; for authenticated deeper checks, us
 - Remote browser/device access follows pairing trust workflow; new devices require explicit approval.
 - Prefer secure contexts (loopback or HTTPS via Tailscale Serve) to preserve device-identity protections.
 - Use `config.apply` workflows with validation and conflict guards for safer live config edits.
+- Control UI token auth is intentionally session-scoped in the browser; refresh in the same tab should survive, but operators should expect to re-authenticate after a fresh browser session.
 
 ## Tailscale modes and policy
 
@@ -108,6 +110,13 @@ Use these for process/container probes only; for authenticated deeper checks, us
 - Disable insecure control UI auth downgrades in production environments.
 - For direct HTTPS deployments, you can enable HSTS via `gateway.http.securityHeaders.strictTransportSecurity`.
 - Enforce strict file permissions for config/state and enable sensitive-data redaction in logs.
+- Browser-originated WebSocket connections must pass origin validation even behind `trusted-proxy`; never rely on forwarded headers as a substitute for allowed-origin policy.
+
+## New security and reachability notes (v2026.3.11-v2026.3.13)
+
+- Scope-limited probe RPC should be treated as degraded reachability, not full health, when downstream permissions or visibility are incomplete.
+- Gateway/client request handling now bounds unanswered client requests more aggressively; if UI/API calls appear to hang, inspect gateway logs for timed-out pending requests instead of assuming the request is still live.
+- If local `gateway.auth.*` uses SecretRefs, treat missing secret resolution as a hard failure and fix the secret source before retrying startup.
 
 ## New audit finding: `gateway.http.no_auth` (v2026.2.19)
 

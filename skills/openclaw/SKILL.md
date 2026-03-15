@@ -2,8 +2,8 @@
 name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Use when deploying, configuring, or operating an OpenClaw instance, managing gateway routing, setting up channels, or working with the multi-agent tool governance system. Keywords: OpenClaw, gateway, tools, channels, agents."
 metadata:
-  version: "v2026.3.8"
-  release_date: "2026-03-09"
+  version: "v2026.3.13"
+  release_date: "2026-03-14"
 ---
 
 # OpenClaw (Operator Playbook)
@@ -19,6 +19,7 @@ This skill is self-contained and includes operational documentation directly in 
 ## Quick Navigation
 
 - Installation / migration: `references/installation.md`
+- Configuration model & workspace bootstrap: `references/configuration.md`
 - Architecture & multi-agent routing: `references/architecture.md`
 - Extended concepts: `references/concepts.md`
 - Tool governance & safety: `references/tools.md`
@@ -37,9 +38,10 @@ This skill is self-contained and includes operational documentation directly in 
 ## Day-1 Setup
 
 1. Run onboarding with daemon install.
-2. Verify gateway health/status.
-3. Open Control UI/dashboard for first chat.
-4. Add channels/providers only after baseline health is stable.
+2. Confirm the active config path and validate config before first edits.
+3. Verify gateway health/status.
+4. Open Control UI/dashboard for first chat.
+5. Add channels/providers only after baseline health is stable.
 
 If OpenClaw is not installed, use `references/installation.md`.
 
@@ -51,6 +53,18 @@ If OpenClaw is not installed, use `references/installation.md`.
 - Use supervised process mode (launchd/systemd) for reliability.
 - For config changes, treat `config.apply` as controlled rollout and `config.patch` as targeted merge.
 - Remember patch semantics: objects merge, arrays replace, `null` deletes.
+- Treat restart boundaries explicitly: channels/agents/messages/tools often hot-apply, while bind/port and other gateway infra settings commonly require `openclaw gateway restart`.
+
+## Release Updates (v2026.3.11-v2026.3.13)
+
+- **Security:** browser-originated WebSocket connections now enforce origin validation even in `trusted-proxy` mode; keep browser clients on approved origins only and do not treat proxy headers as a bypass.
+- **BREAKING:** isolated cron delivery is stricter; legacy cron storage and legacy notify/webhook metadata should be migrated with `openclaw doctor --fix` after upgrade.
+- Gateway/onboarding: remote macOS onboarding now detects when a shared gateway auth token is required and explains where to retrieve it on the gateway host.
+- Gateway/control UI: token-auth dashboard sessions now keep auth in session-scoped browser storage instead of long-lived local storage; same-tab refresh should survive, but browser restarts should not be treated as persistent auth.
+- Gateway reachability: scope-limited probe RPC now reports degraded reachability instead of looking fully healthy; use that signal during incident triage.
+- Channels: Slack adds opt-in interactive reply directives; Telegram inbound media fetching now has IPv4 retry fallback.
+- Plugins/tooling: plugin channel/binding collisions now fail fast instead of producing ambiguous runtime behavior.
+- Nodes: gateway exposes `node.pending.enqueue` / `node.pending.drain` primitives as the foundation for dormant-node pending work delivery.
 
 ## Release Updates (v2026.3.7)
 
@@ -127,6 +141,7 @@ If OpenClaw is not installed, use `references/installation.md`.
 - Use sandbox settings when strict filesystem isolation is required.
 - Memory is markdown-first: daily notes + curated durable memory.
 - Compaction persists summary to transcript; pruning trims old tool results in-memory.
+- Bootstrap files such as `AGENTS.md`, `SOUL.md`, `USER.md`, `TOOLS.md`, `HEARTBEAT.md`, `IDENTITY.md`, and `MEMORY.md` all consume context budget; keep them deliberate and compact.
 
 ### Messaging, Queueing, Presence
 
@@ -193,10 +208,11 @@ Common triage map:
 ## Core Operating Workflow
 
 1. Confirm topology and responsibilities from architecture notes.
-2. Choose channels/providers and required tools.
-3. Configure gateway access and remote connectivity.
-4. Validate onboarding flow and control UI accessibility.
-5. Run troubleshooting and hardening checklist.
+2. Shape `openclaw.json` around the six operator blocks: gateway, agents, channels, bindings, session/messages, heartbeat/tools/cron/hooks.
+3. Choose channels/providers and required tools.
+4. Configure gateway access, secrets, and remote connectivity.
+5. Validate onboarding flow, config health, and control UI accessibility.
+6. Run troubleshooting and hardening checklist.
 
 ## Critical Prohibitions
 

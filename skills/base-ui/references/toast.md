@@ -8,6 +8,11 @@ description: A high-quality, unstyled React toast component to generate notifica
 
 A high-quality, unstyled React toast component to generate notifications.
 
+## v1.3.0 notes
+
+- Toast manager flows can now close all toasts, which is useful when you want a global "dismiss notifications" action or need to clear stacked notices after route/context changes.
+- If you add a bulk-dismiss UI, keep per-toast close affordances for keyboard and screen-reader users.
+
 ## Demo
 
 ### Tailwind
@@ -16,9 +21,9 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Toast } from '@base-ui/react/toast';
+"use client";
+import * as React from "react";
+import { Toast } from "@base-ui/react/toast";
 
 export default function ExampleToast() {
   return (
@@ -41,16 +46,12 @@ function ToastButton() {
     setCount((prev) => prev + 1);
     toastManager.add({
       title: `Toast ${count + 1} created`,
-      description: 'This is a toast notification.',
+      description: "This is a toast notification.",
     });
   }
 
   return (
-    <button
-      type="button"
-      className="box-border flex h-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 px-3.5 py-0 font-medium text-gray-900 outline-0 select-none hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue active:bg-gray-100"
-      onClick={createToast}
-    >
+    <button type="button" className="box-border flex h-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 px-3.5 py-0 font-medium text-gray-900 outline-0 select-none hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue active:bg-gray-100" onClick={createToast}>
       Create toast
     </button>
   );
@@ -59,18 +60,11 @@ function ToastButton() {
 function ToastList() {
   const { toasts } = Toast.useToastManager();
   return toasts.map((toast) => (
-    <Toast.Root
-      key={toast.id}
-      toast={toast}
-      className="[--gap:0.75rem] [--peek:0.75rem] [--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [--shrink:calc(1-var(--scale))] [--height:var(--toast-frontmost-height,var(--toast-height))] [--offset-y:calc(var(--toast-offset-y)*-1+calc(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))] absolute right-0 bottom-0 left-auto z-[calc(1000-var(--toast-index))] mr-0 w-full origin-bottom [transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scale(var(--scale))] rounded-lg border border-gray-200 bg-gray-50 bg-clip-padding p-4 shadow-lg select-none after:absolute after:top-full after:left-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-[''] data-[ending-style]:opacity-0 data-[expanded]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--offset-y)))] data-[limited]:opacity-0 data-[starting-style]:[transform:translateY(150%)] [&[data-ending-style]:not([data-limited]):not([data-swipe-direction])]:[transform:translateY(150%)] data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] h-[var(--height)] data-[expanded]:h-[var(--toast-height)] [transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.5s,height_0.15s]"
-    >
+    <Toast.Root key={toast.id} toast={toast} className="[--gap:0.75rem] [--peek:0.75rem] [--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [--shrink:calc(1-var(--scale))] [--height:var(--toast-frontmost-height,var(--toast-height))] [--offset-y:calc(var(--toast-offset-y)*-1+calc(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))] absolute right-0 bottom-0 left-auto z-[calc(1000-var(--toast-index))] mr-0 w-full origin-bottom [transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scale(var(--scale))] rounded-lg border border-gray-200 bg-gray-50 bg-clip-padding p-4 shadow-lg select-none after:absolute after:top-full after:left-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-[''] data-[ending-style]:opacity-0 data-[expanded]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--offset-y)))] data-[limited]:opacity-0 data-[starting-style]:[transform:translateY(150%)] [&[data-ending-style]:not([data-limited]):not([data-swipe-direction])]:[transform:translateY(150%)] data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] h-[var(--height)] data-[expanded]:h-[var(--toast-height)] [transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.5s,height_0.15s]">
       <Toast.Content className="overflow-hidden transition-opacity [transition-duration:250ms] data-[behind]:pointer-events-none data-[behind]:opacity-0 data-[expanded]:pointer-events-auto data-[expanded]:opacity-100">
         <Toast.Title className="text-[0.975rem] leading-5 font-medium" />
         <Toast.Description className="text-[0.925rem] leading-5 text-gray-700" />
-        <Toast.Close
-          className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded border-none bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-          aria-label="Close"
-        >
+        <Toast.Close className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded border-none bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700" aria-label="Close">
           <XIcon className="h-4 w-4" />
         </Toast.Close>
       </Toast.Content>
@@ -78,20 +72,9 @@ function ToastList() {
   ));
 }
 
-function XIcon(props: React.ComponentProps<'svg'>) {
+function XIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </svg>
@@ -163,10 +146,7 @@ This example shows how to implement the component using CSS Modules.
   --scale: calc(max(0, 1 - (var(--toast-index) * 0.1)));
   --shrink: calc(1 - var(--scale));
   --height: var(--toast-frontmost-height, var(--toast-height));
-  --offset-y: calc(
-    var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) +
-      var(--toast-swipe-movement-y)
-  );
+  --offset-y: calc(var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) + var(--toast-swipe-movement-y));
   position: absolute;
   right: 0;
   margin: 0 auto;
@@ -192,14 +172,7 @@ This example shows how to implement the component using CSS Modules.
   cursor: default;
   z-index: calc(1000 - var(--toast-index));
   height: var(--height);
-  transform: translateX(var(--toast-swipe-movement-x))
-    translateY(
-      calc(
-        var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) -
-          (var(--shrink) * var(--height))
-      )
-    )
-    scale(var(--scale));
+  transform: translateX(var(--toast-swipe-movement-x)) translateY(calc(var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) - (var(--shrink) * var(--height)))) scale(var(--scale));
 
   &[data-expanded] {
     transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
@@ -218,22 +191,22 @@ This example shows how to implement the component using CSS Modules.
   &[data-ending-style] {
     opacity: 0;
 
-    &[data-swipe-direction='up'] {
+    &[data-swipe-direction="up"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
     }
-    &[data-swipe-direction='left'] {
+    &[data-swipe-direction="left"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='right'] {
+    &[data-swipe-direction="right"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='down'] {
+    &[data-swipe-direction="down"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
     }
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 100%;
     width: 100%;
@@ -295,10 +268,10 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Toast } from '@base-ui/react/toast';
-import styles from './index.module.css';
+"use client";
+import * as React from "react";
+import { Toast } from "@base-ui/react/toast";
+import styles from "./index.module.css";
 
 export default function ExampleToast() {
   return (
@@ -321,7 +294,7 @@ function ToastButton() {
     setCount((prev) => prev + 1);
     toastManager.add({
       title: `Toast ${count + 1} created`,
-      description: 'This is a toast notification.',
+      description: "This is a toast notification.",
     });
   }
 
@@ -347,20 +320,9 @@ function ToastList() {
   ));
 }
 
-function XIcon(props: React.ComponentProps<'svg'>) {
+function XIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </svg>
@@ -373,7 +335,7 @@ function XIcon(props: React.ComponentProps<'svg'>) {
 Import the component and assemble its parts:
 
 ```jsx title="Anatomy"
-import { Toast } from '@base-ui/react/toast';
+import { Toast } from "@base-ui/react/toast";
 
 <Toast.Provider>
   <Toast.Portal>
@@ -469,8 +431,7 @@ The `--toast-swipe-movement-x` and `--toast-swipe-movement-y` CSS variables are 
 
 ```css title="Swipe offset"  "--toast-swipe-movement-x" "--toast-swipe-movement-y"
 .Toast {
-  transform: scale(1 - calc(0.1 * var(--toast-index))) translateX(var(--toast-swipe-movement-x))
-    translateY(calc(var(--toast-swipe-movement-y) + (var(--toast-index) * -20%)));
+  transform: scale(1 - calc(0.1 * var(--toast-index))) translateX(var(--toast-swipe-movement-x)) translateY(calc(var(--toast-swipe-movement-y) + (var(--toast-index) * -20%)));
 }
 ```
 
@@ -480,18 +441,18 @@ The `data-swipe-direction` attribute can be used to determine the swipe directio
 &[data-ending-style] {
   opacity: 0;
 
-  &[data-swipe-direction='up'] {
+  &[data-swipe-direction="up"] {
     transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
   }
-  &[data-swipe-direction='down'] {
+  &[data-swipe-direction="down"] {
     transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
   }
   /* Note: --offset-y is defined locally in these examples and derives from
    --toast-offset-y, --toast-index, and swipe movement values */
-  &[data-swipe-direction='left'] {
+  &[data-swipe-direction="left"] {
     transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y));
   }
-  &[data-swipe-direction='right'] {
+  &[data-swipe-direction="right"] {
     transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--offset-y));
   }
 }
@@ -566,11 +527,11 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Toast } from '@base-ui/react/toast';
-import { Button } from '@base-ui/react/button';
-import { Tooltip } from '@base-ui/react/tooltip';
+"use client";
+import * as React from "react";
+import { Toast } from "@base-ui/react/toast";
+import { Button } from "@base-ui/react/button";
+import { Tooltip } from "@base-ui/react/tooltip";
 
 const stackedToastManager = Toast.createToastManager();
 const anchoredToastManager = Toast.createToastManager();
@@ -596,16 +557,12 @@ export default function ExampleToast() {
 function StackedToastButton() {
   function createToast() {
     stackedToastManager.add({
-      description: 'Copied',
+      description: "Copied",
     });
   }
 
   return (
-    <button
-      type="button"
-      className="box-border flex h-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 px-3.5 py-0 font-medium text-gray-900 outline-0 select-none hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100"
-      onClick={createToast}
-    >
+    <button type="button" className="box-border flex h-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 px-3.5 py-0 font-medium text-gray-900 outline-0 select-none hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100" onClick={createToast}>
       Stacked toast
     </button>
   );
@@ -619,7 +576,7 @@ function CopyButton() {
     setCopied(true);
 
     anchoredToastManager.add({
-      description: 'Copied',
+      description: "Copied",
       positionerProps: {
         anchor: buttonRef.current,
         sideOffset: 8,
@@ -635,18 +592,12 @@ function CopyButton() {
     <Tooltip.Root
       disabled={copied}
       onOpenChange={(open, eventDetails) => {
-        if (eventDetails.reason === 'trigger-press') {
+        if (eventDetails.reason === "trigger-press") {
           eventDetails.cancel();
         }
       }}
     >
-      <Tooltip.Trigger
-        ref={buttonRef}
-        className="box-border flex h-10 w-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-900 outline-0 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100"
-        onClick={handleCopy}
-        aria-label="Copy to clipboard"
-        render={<Button disabled={copied} focusableWhenDisabled />}
-      >
+      <Tooltip.Trigger ref={buttonRef} className="box-border flex h-10 w-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-900 outline-0 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100" onClick={handleCopy} aria-label="Copy to clipboard" render={<Button disabled={copied} focusableWhenDisabled />}>
         {copied ? <CheckIcon className="h-5 w-5" /> : <ClipboardIcon className="h-5 w-5" />}
       </Tooltip.Trigger>
       <Tooltip.Portal>
@@ -669,15 +620,8 @@ function AnchoredToasts() {
     <Toast.Portal>
       <Toast.Viewport className="outline-0">
         {toasts.map((toast) => (
-          <Toast.Positioner
-            key={toast.id}
-            toast={toast}
-            className="z-[calc(1000-var(--toast-index))]"
-          >
-            <Toast.Root
-              toast={toast}
-              className="group flex w-max origin-(--transform-origin) flex-col rounded-md bg-[canvas] px-2 py-1 text-sm shadow-lg shadow-gray-200 outline-1 outline-gray-200 transition-[transform,scale,opacity] data-ending-style:scale-90 data-ending-style:opacity-0 data-starting-style:scale-90 data-starting-style:opacity-0 focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 dark:shadow-none dark:-outline-offset-1 dark:outline-gray-300 dark:focus-visible:outline-blue-400"
-            >
+          <Toast.Positioner key={toast.id} toast={toast} className="z-[calc(1000-var(--toast-index))]">
+            <Toast.Root toast={toast} className="group flex w-max origin-(--transform-origin) flex-col rounded-md bg-[canvas] px-2 py-1 text-sm shadow-lg shadow-gray-200 outline-1 outline-gray-200 transition-[transform,scale,opacity] data-ending-style:scale-90 data-ending-style:opacity-0 data-starting-style:scale-90 data-starting-style:opacity-0 focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 dark:shadow-none dark:-outline-offset-1 dark:outline-gray-300 dark:focus-visible:outline-blue-400">
               <Toast.Arrow className="data-[side=bottom]:-top-2 data-[side=left]:right-[-13px] data-[side=left]:rotate-90 data-[side=right]:left-[-13px] data-[side=right]:-rotate-90 data-[side=top]:-bottom-2 data-[side=top]:rotate-180">
                 <ArrowSvg />
               </Toast.Arrow>
@@ -698,18 +642,11 @@ function StackedToasts() {
     <Toast.Portal>
       <Toast.Viewport className="fixed z-10 top-auto right-[1rem] bottom-[1rem] mx-auto flex w-[250px] sm:right-[2rem] sm:bottom-[2rem] sm:w-[300px]">
         {toasts.map((toast) => (
-          <Toast.Root
-            key={toast.id}
-            toast={toast}
-            className="[--gap:0.75rem] [--peek:0.75rem] [--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [--shrink:calc(1-var(--scale))] [--height:var(--toast-frontmost-height,var(--toast-height))] [--offset-y:calc(var(--toast-offset-y)*-1+calc(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))] absolute right-0 bottom-0 left-auto z-[calc(1000-var(--toast-index))] mr-0 w-full origin-bottom [transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scale(var(--scale))] rounded-lg border border-gray-200 bg-gray-50 bg-clip-padding p-4 shadow-lg select-none after:absolute after:top-full after:left-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-[''] data-[ending-style]:opacity-0 data-[expanded]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--offset-y)))] data-[limited]:opacity-0 data-[starting-style]:[transform:translateY(150%)] [&[data-ending-style]:not([data-limited]):not([data-swipe-direction])]:[transform:translateY(150%)] data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] h-[var(--height)] data-[expanded]:h-[var(--toast-height)] [transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.5s,height_0.15s]"
-          >
+          <Toast.Root key={toast.id} toast={toast} className="[--gap:0.75rem] [--peek:0.75rem] [--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [--shrink:calc(1-var(--scale))] [--height:var(--toast-frontmost-height,var(--toast-height))] [--offset-y:calc(var(--toast-offset-y)*-1+calc(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))] absolute right-0 bottom-0 left-auto z-[calc(1000-var(--toast-index))] mr-0 w-full origin-bottom [transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scale(var(--scale))] rounded-lg border border-gray-200 bg-gray-50 bg-clip-padding p-4 shadow-lg select-none after:absolute after:top-full after:left-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-[''] data-[ending-style]:opacity-0 data-[expanded]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--offset-y)))] data-[limited]:opacity-0 data-[starting-style]:[transform:translateY(150%)] [&[data-ending-style]:not([data-limited]):not([data-swipe-direction])]:[transform:translateY(150%)] data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] h-[var(--height)] data-[expanded]:h-[var(--toast-height)] [transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.5s,height_0.15s]">
             <Toast.Content className="overflow-hidden transition-opacity [transition-duration:250ms] data-[behind]:pointer-events-none data-[behind]:opacity-0 data-[expanded]:pointer-events-auto data-[expanded]:opacity-100">
               <Toast.Title className="text-[0.975rem] leading-5 font-medium" />
               <Toast.Description className="text-[0.925rem] leading-5 text-gray-700" />
-              <Toast.Close
-                className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded border-none bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                aria-label="Close"
-              >
+              <Toast.Close className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded border-none bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700" aria-label="Close">
                 <XIcon className="h-4 w-4" />
               </Toast.Close>
             </Toast.Content>
@@ -720,78 +657,36 @@ function StackedToasts() {
   );
 }
 
-function ArrowSvg(props: React.ComponentProps<'svg'>) {
+function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className="fill-[canvas]"
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className="fill-gray-200 dark:fill-none"
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className="dark:fill-gray-300"
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className="fill-[canvas]" />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className="fill-gray-200 dark:fill-none" />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className="dark:fill-gray-300" />
     </svg>
   );
 }
 
-function ClipboardIcon(props: React.ComponentProps<'svg'>) {
+function ClipboardIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
       <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
     </svg>
   );
 }
 
-function CheckIcon(props: React.ComponentProps<'svg'>) {
+function CheckIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M20 6 9 17l-5-5" />
     </svg>
   );
 }
 
-function XIcon(props: React.ComponentProps<'svg'>) {
+function XIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </svg>
@@ -954,10 +849,7 @@ This example shows how to implement the component using CSS Modules.
   --scale: calc(max(0, 1 - (var(--toast-index) * 0.1)));
   --shrink: calc(1 - var(--scale));
   --height: var(--toast-frontmost-height, var(--toast-height));
-  --offset-y: calc(
-    var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) +
-      var(--toast-swipe-movement-y)
-  );
+  --offset-y: calc(var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) + var(--toast-swipe-movement-y));
   position: absolute;
   right: 0;
   margin: 0 auto;
@@ -983,14 +875,7 @@ This example shows how to implement the component using CSS Modules.
   cursor: default;
   z-index: calc(1000 - var(--toast-index));
   height: var(--height);
-  transform: translateX(var(--toast-swipe-movement-x))
-    translateY(
-      calc(
-        var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) -
-          (var(--shrink) * var(--height))
-      )
-    )
-    scale(var(--scale));
+  transform: translateX(var(--toast-swipe-movement-x)) translateY(calc(var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) - (var(--shrink) * var(--height)))) scale(var(--scale));
 
   &[data-expanded] {
     transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
@@ -1009,22 +894,22 @@ This example shows how to implement the component using CSS Modules.
   &[data-ending-style] {
     opacity: 0;
 
-    &[data-swipe-direction='up'] {
+    &[data-swipe-direction="up"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
     }
-    &[data-swipe-direction='left'] {
+    &[data-swipe-direction="left"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='right'] {
+    &[data-swipe-direction="right"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='down'] {
+    &[data-swipe-direction="down"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
     }
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 100%;
     width: 100%;
@@ -1123,22 +1008,22 @@ This example shows how to implement the component using CSS Modules.
 .Arrow {
   display: flex;
 
-  &[data-side='top'] {
+  &[data-side="top"] {
     bottom: -8px;
     rotate: 180deg;
   }
 
-  &[data-side='bottom'] {
+  &[data-side="bottom"] {
     top: -8px;
     rotate: 0deg;
   }
 
-  &[data-side='left'] {
+  &[data-side="left"] {
     right: -13px;
     rotate: 90deg;
   }
 
-  &[data-side='right'] {
+  &[data-side="right"] {
     left: -13px;
     rotate: -90deg;
   }
@@ -1167,12 +1052,12 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Toast } from '@base-ui/react/toast';
-import { Button } from '@base-ui/react/button';
-import { Tooltip } from '@base-ui/react/tooltip';
-import styles from './index.module.css';
+"use client";
+import * as React from "react";
+import { Toast } from "@base-ui/react/toast";
+import { Button } from "@base-ui/react/button";
+import { Tooltip } from "@base-ui/react/tooltip";
+import styles from "./index.module.css";
 
 const anchoredToastManager = Toast.createToastManager();
 const stackedToastManager = Toast.createToastManager();
@@ -1198,7 +1083,7 @@ export default function ExampleToast() {
 function StackedToastButton() {
   function createToast() {
     stackedToastManager.add({
-      description: 'Copied',
+      description: "Copied",
     });
   }
 
@@ -1217,7 +1102,7 @@ function CopyButton() {
     setCopied(true);
 
     anchoredToastManager.add({
-      description: 'Copied',
+      description: "Copied",
       positionerProps: {
         anchor: buttonRef.current,
         sideOffset: 8,
@@ -1233,18 +1118,12 @@ function CopyButton() {
     <Tooltip.Root
       disabled={copied}
       onOpenChange={(open, eventDetails) => {
-        if (eventDetails.reason === 'trigger-press') {
+        if (eventDetails.reason === "trigger-press") {
           eventDetails.cancel();
         }
       }}
     >
-      <Tooltip.Trigger
-        ref={buttonRef}
-        className={styles.CopyButton}
-        onClick={handleCopy}
-        aria-label="Copy to clipboard"
-        render={<Button disabled={copied} focusableWhenDisabled />}
-      >
+      <Tooltip.Trigger ref={buttonRef} className={styles.CopyButton} onClick={handleCopy} aria-label="Copy to clipboard" render={<Button disabled={copied} focusableWhenDisabled />}>
         {copied ? <CheckIcon className={styles.Icon} /> : <ClipboardIcon className={styles.Icon} />}
       </Tooltip.Trigger>
       <Tooltip.Portal>
@@ -1304,78 +1183,36 @@ function StackedToasts() {
   );
 }
 
-function ArrowSvg(props: React.ComponentProps<'svg'>) {
+function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className={styles.ArrowFill}
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className={styles.ArrowOuterStroke}
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className={styles.ArrowInnerStroke}
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className={styles.ArrowFill} />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className={styles.ArrowOuterStroke} />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className={styles.ArrowInnerStroke} />
     </svg>
   );
 }
 
-function ClipboardIcon(props: React.ComponentProps<'svg'>) {
+function ClipboardIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
       <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
     </svg>
   );
 }
 
-function CheckIcon(props: React.ComponentProps<'svg'>) {
+function CheckIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M20 6 9 17l-5-5" />
     </svg>
   );
 }
 
-function XIcon(props: React.ComponentProps<'svg'>) {
+function XIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </svg>
@@ -1398,9 +1235,9 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Toast } from '@base-ui/react/toast';
+"use client";
+import * as React from "react";
+import { Toast } from "@base-ui/react/toast";
 
 export default function ExampleToast() {
   return (
@@ -1423,16 +1260,12 @@ function ToastButton() {
     setCount((prev) => prev + 1);
     toastManager.add({
       title: `Toast ${count + 1} created`,
-      description: 'This is a toast notification.',
+      description: "This is a toast notification.",
     });
   }
 
   return (
-    <button
-      type="button"
-      className="box-border flex h-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 px-3.5 py-0 font-medium text-gray-900 outline-0 select-none hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue active:bg-gray-100"
-      onClick={createToast}
-    >
+    <button type="button" className="box-border flex h-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 px-3.5 py-0 font-medium text-gray-900 outline-0 select-none hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue active:bg-gray-100" onClick={createToast}>
       Create toast
     </button>
   );
@@ -1441,19 +1274,11 @@ function ToastButton() {
 function ToastList() {
   const { toasts } = Toast.useToastManager();
   return toasts.map((toast) => (
-    <Toast.Root
-      key={toast.id}
-      toast={toast}
-      swipeDirection="up"
-      className="[--gap:0.75rem] [--peek:0.75rem] [--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [--shrink:calc(1-var(--scale))] [--height:var(--toast-frontmost-height,var(--toast-height))] [--offset-y:calc(var(--toast-offset-y)+(var(--toast-index)*var(--gap))+var(--toast-swipe-movement-y))] absolute right-0 top-0 left-0 z-[calc(1000-var(--toast-index))] mx-auto w-[300px] origin-top [transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)+(var(--toast-index)*var(--peek))+(var(--shrink)*var(--height))))_scale(var(--scale))] rounded-lg border border-gray-200 bg-gray-50 bg-clip-padding p-4 shadow-lg select-none after:absolute after:bottom-full after:left-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-[''] data-[ending-style]:opacity-0 data-[expanded]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--offset-y)))] data-[limited]:opacity-0 data-[starting-style]:[transform:translateY(-150%)] [&[data-ending-style]:not([data-limited]):not([data-swipe-direction])]:[transform:translateY(-150%)] data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] h-[var(--height)] data-[expanded]:h-[var(--toast-height)] [transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.5s,height_0.15s]"
-    >
+    <Toast.Root key={toast.id} toast={toast} swipeDirection="up" className="[--gap:0.75rem] [--peek:0.75rem] [--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [--shrink:calc(1-var(--scale))] [--height:var(--toast-frontmost-height,var(--toast-height))] [--offset-y:calc(var(--toast-offset-y)+(var(--toast-index)*var(--gap))+var(--toast-swipe-movement-y))] absolute right-0 top-0 left-0 z-[calc(1000-var(--toast-index))] mx-auto w-[300px] origin-top [transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)+(var(--toast-index)*var(--peek))+(var(--shrink)*var(--height))))_scale(var(--scale))] rounded-lg border border-gray-200 bg-gray-50 bg-clip-padding p-4 shadow-lg select-none after:absolute after:bottom-full after:left-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-[''] data-[ending-style]:opacity-0 data-[expanded]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--offset-y)))] data-[limited]:opacity-0 data-[starting-style]:[transform:translateY(-150%)] [&[data-ending-style]:not([data-limited]):not([data-swipe-direction])]:[transform:translateY(-150%)] data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] h-[var(--height)] data-[expanded]:h-[var(--toast-height)] [transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.5s,height_0.15s]">
       <Toast.Content className="overflow-hidden transition-opacity [transition-duration:250ms] data-[behind]:pointer-events-none data-[behind]:opacity-0 data-[expanded]:pointer-events-auto data-[expanded]:opacity-100">
         <Toast.Title className="text-[0.975rem] leading-5 font-medium" />
         <Toast.Description className="text-[0.925rem] leading-5 text-gray-700" />
-        <Toast.Close
-          className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded border-none bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-          aria-label="Close"
-        >
+        <Toast.Close className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded border-none bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700" aria-label="Close">
           <XIcon className="h-4 w-4" />
         </Toast.Close>
       </Toast.Content>
@@ -1461,20 +1286,9 @@ function ToastList() {
   ));
 }
 
-function XIcon(props: React.ComponentProps<'svg'>) {
+function XIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </svg>
@@ -1541,9 +1355,7 @@ This example shows how to implement the component using CSS Modules.
   --scale: calc(max(0, 1 - (var(--toast-index) * 0.1)));
   --shrink: calc(1 - var(--scale));
   --height: var(--toast-frontmost-height, var(--toast-height));
-  --offset-y: calc(
-    var(--toast-offset-y) + (var(--toast-index) * var(--gap)) + var(--toast-swipe-movement-y)
-  );
+  --offset-y: calc(var(--toast-offset-y) + (var(--toast-index) * var(--gap)) + var(--toast-swipe-movement-y));
   position: absolute;
   margin: 0 auto;
   box-sizing: border-box;
@@ -1570,14 +1382,7 @@ This example shows how to implement the component using CSS Modules.
   cursor: default;
   z-index: calc(1000 - var(--toast-index));
   height: var(--height);
-  transform: translateX(var(--toast-swipe-movement-x))
-    translateY(
-      calc(
-        var(--toast-swipe-movement-y) + (var(--toast-index) * var(--peek)) +
-          (var(--shrink) * var(--height))
-      )
-    )
-    scale(var(--scale));
+  transform: translateX(var(--toast-swipe-movement-x)) translateY(calc(var(--toast-swipe-movement-y) + (var(--toast-index) * var(--peek)) + (var(--shrink) * var(--height)))) scale(var(--scale));
 
   &[data-expanded] {
     transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
@@ -1596,22 +1401,22 @@ This example shows how to implement the component using CSS Modules.
   &[data-ending-style] {
     opacity: 0;
 
-    &[data-swipe-direction='up'] {
+    &[data-swipe-direction="up"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
     }
-    &[data-swipe-direction='left'] {
+    &[data-swipe-direction="left"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='right'] {
+    &[data-swipe-direction="right"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='down'] {
+    &[data-swipe-direction="down"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
     }
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     bottom: 100%;
@@ -1673,10 +1478,10 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Toast } from '@base-ui/react/toast';
-import styles from './index.module.css';
+"use client";
+import * as React from "react";
+import { Toast } from "@base-ui/react/toast";
+import styles from "./index.module.css";
 
 export default function ExampleToast() {
   return (
@@ -1699,7 +1504,7 @@ function ToastButton() {
     setCount((prev) => prev + 1);
     toastManager.add({
       title: `Toast ${count + 1} created`,
-      description: 'This is a toast notification.',
+      description: "This is a toast notification.",
     });
   }
 
@@ -1725,20 +1530,9 @@ function ToastList() {
   ));
 }
 
-function XIcon(props: React.ComponentProps<'svg'>) {
+function XIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </svg>
@@ -1816,10 +1610,7 @@ This example shows how to implement the component using CSS Modules.
   --scale: calc(max(0, 1 - (var(--toast-index) * 0.1)));
   --shrink: calc(1 - var(--scale));
   --height: var(--toast-frontmost-height, var(--toast-height));
-  --offset-y: calc(
-    var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) +
-      var(--toast-swipe-movement-y)
-  );
+  --offset-y: calc(var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) + var(--toast-swipe-movement-y));
   position: absolute;
   right: 0;
   margin: 0 auto;
@@ -1845,14 +1636,7 @@ This example shows how to implement the component using CSS Modules.
   cursor: default;
   z-index: calc(1000 - var(--toast-index));
   height: var(--height);
-  transform: translateX(var(--toast-swipe-movement-x))
-    translateY(
-      calc(
-        var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) -
-          (var(--shrink) * var(--height))
-      )
-    )
-    scale(var(--scale));
+  transform: translateX(var(--toast-swipe-movement-x)) translateY(calc(var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) - (var(--shrink) * var(--height)))) scale(var(--scale));
 
   &[data-expanded] {
     transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
@@ -1871,22 +1655,22 @@ This example shows how to implement the component using CSS Modules.
   &[data-ending-style] {
     opacity: 0;
 
-    &[data-swipe-direction='up'] {
+    &[data-swipe-direction="up"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
     }
-    &[data-swipe-direction='left'] {
+    &[data-swipe-direction="left"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='right'] {
+    &[data-swipe-direction="right"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='down'] {
+    &[data-swipe-direction="down"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
     }
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     top: 100%;
@@ -1969,10 +1753,10 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Toast } from '@base-ui/react/toast';
-import styles from './index.module.css';
+"use client";
+import * as React from "react";
+import { Toast } from "@base-ui/react/toast";
+import styles from "./index.module.css";
 
 export default function UndoToastExample() {
   return (
@@ -1992,15 +1776,15 @@ function Form() {
 
   function action() {
     const id = toastManager.add({
-      title: 'Action performed',
-      description: 'You can undo this action.',
-      type: 'success',
+      title: "Action performed",
+      description: "You can undo this action.",
+      type: "success",
       actionProps: {
-        children: 'Undo',
+        children: "Undo",
         onClick() {
           toastManager.close(id);
           toastManager.add({
-            title: 'Action undone',
+            title: "Action undone",
           });
         },
       },
@@ -2030,20 +1814,9 @@ function ToastList() {
   ));
 }
 
-function XIcon(props: React.ComponentProps<'svg'>) {
+function XIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </svg>
@@ -2123,10 +1896,7 @@ This example shows how to implement the component using CSS Modules.
   --scale: calc(max(0, 1 - (var(--toast-index) * 0.1)));
   --shrink: calc(1 - var(--scale));
   --height: var(--toast-frontmost-height, var(--toast-height));
-  --offset-y: calc(
-    var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) +
-      var(--toast-swipe-movement-y)
-  );
+  --offset-y: calc(var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) + var(--toast-swipe-movement-y));
   position: absolute;
   right: 0;
   margin: 0 auto;
@@ -2152,14 +1922,7 @@ This example shows how to implement the component using CSS Modules.
   cursor: default;
   z-index: calc(1000 - var(--toast-index));
   height: var(--height);
-  transform: translateX(var(--toast-swipe-movement-x))
-    translateY(
-      calc(
-        var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) -
-          (var(--shrink) * var(--height))
-      )
-    )
-    scale(var(--scale));
+  transform: translateX(var(--toast-swipe-movement-x)) translateY(calc(var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) - (var(--shrink) * var(--height)))) scale(var(--scale));
 
   &[data-expanded] {
     transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
@@ -2178,22 +1941,22 @@ This example shows how to implement the component using CSS Modules.
   &[data-ending-style] {
     opacity: 0;
 
-    &[data-swipe-direction='up'] {
+    &[data-swipe-direction="up"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
     }
-    &[data-swipe-direction='left'] {
+    &[data-swipe-direction="left"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='right'] {
+    &[data-swipe-direction="right"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='down'] {
+    &[data-swipe-direction="down"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
     }
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     top: 100%;
@@ -2201,12 +1964,12 @@ This example shows how to implement the component using CSS Modules.
     height: calc(var(--gap) + 1px);
   }
 
-  &[data-type='success'] {
+  &[data-type="success"] {
     background-color: lightgreen;
     color: black;
   }
 
-  &[data-type='error'] {
+  &[data-type="error"] {
     background-color: lightpink;
     color: black;
   }
@@ -2265,10 +2028,10 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Toast } from '@base-ui/react/toast';
-import styles from './index.module.css';
+"use client";
+import * as React from "react";
+import { Toast } from "@base-ui/react/toast";
+import styles from "./index.module.css";
 
 export default function PromiseToastExample() {
   return (
@@ -2293,14 +2056,14 @@ function PromiseDemo() {
         const shouldSucceed = Math.random() > 0.3; // 70% success rate
         setTimeout(() => {
           if (shouldSucceed) {
-            resolve('operation completed');
+            resolve("operation completed");
           } else {
-            reject(new Error('operation failed'));
+            reject(new Error("operation failed"));
           }
         }, 2000);
       }),
       {
-        loading: 'Loading data…',
+        loading: "Loading data…",
         success: (data: string) => `Success: ${data}`,
         error: (err: Error) => `Error: ${err.message}`,
       },
@@ -2329,20 +2092,9 @@ function ToastList() {
   ));
 }
 
-function XIcon(props: React.ComponentProps<'svg'>) {
+function XIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </svg>
@@ -2421,10 +2173,7 @@ This example shows how to implement the component using CSS Modules.
   --scale: calc(max(0, 1 - (var(--toast-index) * 0.1)));
   --shrink: calc(1 - var(--scale));
   --height: var(--toast-frontmost-height, var(--toast-height));
-  --offset-y: calc(
-    var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) +
-      var(--toast-swipe-movement-y)
-  );
+  --offset-y: calc(var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) + var(--toast-swipe-movement-y));
   position: absolute;
   right: 0;
   margin: 0 auto;
@@ -2450,14 +2199,7 @@ This example shows how to implement the component using CSS Modules.
   cursor: default;
   z-index: calc(1000 - var(--toast-index));
   height: var(--height);
-  transform: translateX(var(--toast-swipe-movement-x))
-    translateY(
-      calc(
-        var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) -
-          (var(--shrink) * var(--height))
-      )
-    )
-    scale(var(--scale));
+  transform: translateX(var(--toast-swipe-movement-x)) translateY(calc(var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) - (var(--shrink) * var(--height)))) scale(var(--scale));
 
   &[data-expanded] {
     transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
@@ -2476,22 +2218,22 @@ This example shows how to implement the component using CSS Modules.
   &[data-ending-style] {
     opacity: 0;
 
-    &[data-swipe-direction='up'] {
+    &[data-swipe-direction="up"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
     }
-    &[data-swipe-direction='left'] {
+    &[data-swipe-direction="left"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='right'] {
+    &[data-swipe-direction="right"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='down'] {
+    &[data-swipe-direction="down"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
     }
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 100%;
     width: 100%;
@@ -2553,18 +2295,16 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Toast } from '@base-ui/react/toast';
-import styles from './index.module.css';
+"use client";
+import * as React from "react";
+import { Toast } from "@base-ui/react/toast";
+import styles from "./index.module.css";
 
 interface CustomToastData {
   userId: string;
 }
 
-function isCustomToast(
-  toast: Toast.Root.ToastObject,
-): toast is Toast.Root.ToastObject<CustomToastData> {
+function isCustomToast(toast: Toast.Root.ToastObject): toast is Toast.Root.ToastObject<CustomToastData> {
   return toast.data?.userId !== undefined;
 }
 
@@ -2586,11 +2326,11 @@ function CustomToast() {
 
   function action() {
     const data: CustomToastData = {
-      userId: '123',
+      userId: "123",
     };
 
     toastManager.add({
-      title: 'Toast with custom data',
+      title: "Toast with custom data",
       data,
     });
   }
@@ -2608,13 +2348,7 @@ function ToastList() {
     <Toast.Root key={toast.id} toast={toast} className={styles.Toast}>
       <Toast.Content className={styles.Content}>
         <Toast.Title className={styles.Title}>{toast.title}</Toast.Title>
-        {isCustomToast(toast) && toast.data ? (
-          <Toast.Description className={styles.Description}>
-            `data.userId` is {toast.data.userId}
-          </Toast.Description>
-        ) : (
-          <Toast.Description className={styles.Description} />
-        )}
+        {isCustomToast(toast) && toast.data ? <Toast.Description className={styles.Description}>`data.userId` is {toast.data.userId}</Toast.Description> : <Toast.Description className={styles.Description} />}
         <Toast.Close className={styles.Close} aria-label="Close">
           <XIcon className={styles.Icon} />
         </Toast.Close>
@@ -2623,20 +2357,9 @@ function ToastList() {
   ));
 }
 
-function XIcon(props: React.ComponentProps<'svg'>) {
+function XIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </svg>
@@ -2715,10 +2438,7 @@ This example shows how to implement the component using CSS Modules.
   --scale: calc(max(0, 1 - (var(--toast-index) * 0.1)));
   --shrink: calc(1 - var(--scale));
   --height: var(--toast-frontmost-height, var(--toast-height));
-  --offset-y: calc(
-    var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) +
-      var(--toast-swipe-movement-y)
-  );
+  --offset-y: calc(var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) + var(--toast-swipe-movement-y));
   position: absolute;
   right: 0;
   margin: 0 auto;
@@ -2744,14 +2464,7 @@ This example shows how to implement the component using CSS Modules.
   z-index: calc(1000 - var(--toast-index));
   height: var(--height);
   transform-origin: bottom center;
-  transform: translateX(var(--toast-swipe-movement-x))
-    translateY(
-      calc(
-        var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) -
-          (var(--shrink) * var(--height))
-      )
-    )
-    scale(var(--scale));
+  transform: translateX(var(--toast-swipe-movement-x)) translateY(calc(var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) - (var(--shrink) * var(--height)))) scale(var(--scale));
 
   &[data-expanded] {
     transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
@@ -2770,22 +2483,22 @@ This example shows how to implement the component using CSS Modules.
   &[data-ending-style] {
     opacity: 0;
 
-    &[data-swipe-direction='up'] {
+    &[data-swipe-direction="up"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
     }
-    &[data-swipe-direction='left'] {
+    &[data-swipe-direction="left"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='right'] {
+    &[data-swipe-direction="right"] {
       transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction='down'] {
+    &[data-swipe-direction="down"] {
       transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
     }
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     top: 100%;
@@ -2847,10 +2560,10 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Toast } from '@base-ui/react/toast';
-import styles from './index.module.css';
+"use client";
+import * as React from "react";
+import { Toast } from "@base-ui/react/toast";
+import styles from "./index.module.css";
 
 export default function VaryingHeightsToast() {
   return (
@@ -2900,32 +2613,16 @@ function ToastList() {
   ));
 }
 
-function XIcon(props: React.ComponentProps<'svg'>) {
+function XIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </svg>
   );
 }
 
-const TEXTS = [
-  'Short message.',
-  'A bit longer message that spans two lines.',
-  'This is a longer description that intentionally takes more vertical space to demonstrate stacking with varying heights.',
-  'An even longer description that should span multiple lines so we can verify the clamped collapsed height and smooth expansion animation when hovering or focusing the viewport.',
-];
+const TEXTS = ["Short message.", "A bit longer message that spans two lines.", "This is a longer description that intentionally takes more vertical space to demonstrate stacking with varying heights.", "An even longer description that should span multiple lines so we can verify the clamped collapsed height and smooth expansion animation when hovering or focusing the viewport."];
 ```
 
 ## API reference
@@ -3254,7 +2951,7 @@ function App() {
       type="button"
       onClick={() => {
         toastManager.add({
-          description: 'Hello, world!',
+          description: "Hello, world!",
         });
       }}
     >
@@ -3273,7 +2970,7 @@ Updates the toast with new options.
 
 ```jsx title="Usage"
 toastManager.update(toastId, {
-  description: 'New description',
+  description: "New description",
 });
 ```
 
@@ -3292,11 +2989,11 @@ Creates an asynchronous toast with three possible states: `loading`, `success`, 
 ```tsx title="Description configuration"
 const promise = toastManager.promise(
   new Promise((resolve) => {
-    setTimeout(() => resolve('world!'), 1000);
+    setTimeout(() => resolve("world!"), 1000);
   }),
   {
     // Each are a shortcut for the `description` option
-    loading: 'Loading…',
+    loading: "Loading…",
     success: (data) => `Hello ${data}`,
     error: (err) => `Error: ${err}`,
   },
@@ -3308,22 +3005,22 @@ Each state also accepts the [method options](/react/components/toast.md) object 
 ```tsx title="Method options configuration"
 const promise = toastManager.promise(
   new Promise((resolve) => {
-    setTimeout(() => resolve('world!'), 1000);
+    setTimeout(() => resolve("world!"), 1000);
   }),
   {
     loading: {
-      title: 'Loading…',
-      description: 'The promise is loading.',
+      title: "Loading…",
+      description: "The promise is loading.",
     },
     success: {
-      title: 'Success',
-      description: 'The promise resolved successfully.',
+      title: "Success",
+      description: "The promise resolved successfully.",
     },
     error: {
-      title: 'Error',
-      description: 'The promise rejected.',
+      title: "Error",
+      description: "The promise rejected.",
       actionProps: {
-        children: 'Contact support',
+        children: "Contact support",
         onClick() {
           // Redirect to support page
         },

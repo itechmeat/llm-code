@@ -28,6 +28,12 @@ vitest list --filesOnly
 vitest init browser
 ```
 
+## v4.1.0 additions
+
+- `vitest list` can statically collect tests instead of executing files to discover them.
+- `--detect-async-leaks` helps surface leaked async work that makes runs flaky or hang.
+- `--update` now accepts `new`, `all`, and `none` for finer snapshot control.
+
 ## Test Filtering
 
 ```bash
@@ -161,6 +167,14 @@ vitest --hookTimeout=30000
 
 # Teardown timeout
 vitest --teardownTimeout=10000
+```
+
+## Snapshot update control (v4.1.0)
+
+```bash
+vitest -u --update=new
+vitest -u --update=all
+vitest -u --update=none
 ```
 
 ## Parallelism

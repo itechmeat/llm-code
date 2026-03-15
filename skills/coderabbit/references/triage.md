@@ -24,6 +24,7 @@ Turn CodeRabbit output into a severity-ranked plan: fix/defer/skip with clear ra
 Cross-repo note:
 
 - If linked-repository analysis flags contract drift across repos, default to **HIGH**.
+- Multi-Repo Analysis can now span up to **2** linked repositories on supported plans, so check both linked repos before downgrading a cross-repo warning.
 - Escalate to **CRITICAL** if breakage can cause production runtime failures.
 
 3. Decide per issue:

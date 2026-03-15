@@ -8,6 +8,11 @@ description: A high-quality, unstyled React popover component that displays an a
 
 A high-quality, unstyled React popover component that displays an accessible popup anchored to a button.
 
+## v1.3.0 notes
+
+- Modal popovers with an internal `Popover.Close` now trap focus more reliably, including cases with visually hidden close buttons.
+- Nested hoverable popup behavior was hardened again; if you compose popovers with preview cards or menus, retest pointer transitions instead of assuming older hover bugs still apply.
+
 ## Demo
 
 ### Tailwind
@@ -16,8 +21,8 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-import { Popover } from '@base-ui/react/popover';
-import { BellIcon, ArrowSvg } from './icons-tw';
+import { Popover } from "@base-ui/react/popover";
+import { BellIcon, ArrowSvg } from "./icons-tw";
 
 export default function ExamplePopover() {
   return (
@@ -32,9 +37,7 @@ export default function ExamplePopover() {
               <ArrowSvg />
             </Popover.Arrow>
             <Popover.Title className="text-base font-medium">Notifications</Popover.Title>
-            <Popover.Description className="text-base text-gray-600">
-              You are all caught up. Good job!
-            </Popover.Description>
+            <Popover.Description className="text-base text-gray-600">You are all caught up. Good job!</Popover.Description>
           </Popover.Popup>
         </Popover.Positioner>
       </Popover.Portal>
@@ -45,28 +48,19 @@ export default function ExamplePopover() {
 
 ```tsx
 /* icons-tw.tsx */
-import * as React from 'react';
+import * as React from "react";
 
-export function ArrowSvg(props: React.ComponentProps<'svg'>) {
+export function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className="fill-[canvas]"
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className="fill-gray-200 dark:fill-none"
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className="dark:fill-gray-300"
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className="fill-[canvas]" />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className="fill-gray-200 dark:fill-none" />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className="dark:fill-gray-300" />
     </svg>
   );
 }
 
-export function BellIcon(props: React.ComponentProps<'svg'>) {
+export function BellIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="20" height="20" viewBox="0 0 16 16" {...props}>
       <path d="M 8 1 C 7.453125 1 7 1.453125 7 2 L 7 3.140625 C 5.28125 3.589844 4 5.144531 4 7 L 4 10.984375 C 4 10.984375 3.984375 11.261719 3.851563 11.519531 C 3.71875 11.78125 3.558594 12 3 12 L 3 13 L 13 13 L 13 12 C 12.40625 12 12.253906 11.78125 12.128906 11.53125 C 12.003906 11.277344 12 11.003906 12 11.003906 L 12 7 C 12 5.144531 10.71875 3.589844 9 3.140625 L 9 2 C 9 1.453125 8.546875 1 8 1 Z M 8 13 C 7.449219 13 7 13.449219 7 14 C 7 14.550781 7.449219 15 8 15 C 8.550781 15 9 14.550781 9 14 C 9 13.449219 8.550781 13 8 13 Z M 8 4 C 9.664063 4 11 5.335938 11 7 L 11 10.996094 C 11 10.996094 10.988281 11.472656 11.234375 11.96875 C 11.238281 11.980469 11.246094 11.988281 11.25 12 L 4.726563 12 C 4.730469 11.992188 4.738281 11.984375 4.742188 11.980469 C 4.992188 11.488281 5 11.015625 5 11.015625 L 5 7 C 5 5.335938 6.335938 4 8 4 Z" />
@@ -74,20 +68,9 @@ export function BellIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-export function UserIcon(props: React.ComponentProps<'svg'>) {
+export function UserIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 20a6 6 0 0 0-12 0" />
       <circle cx="12" cy="10" r="4" />
       <circle cx="12" cy="12" r="10" />
@@ -95,20 +78,9 @@ export function UserIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-export function ListIcon(props: React.ComponentProps<'svg'>) {
+export function ListIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M3 5h.01" />
       <path d="M3 12h.01" />
       <path d="M3 19h.01" />
@@ -210,22 +182,22 @@ This example shows how to implement the component using CSS Modules.
 .Arrow {
   display: flex;
 
-  &[data-side='top'] {
+  &[data-side="top"] {
     bottom: -8px;
     rotate: 180deg;
   }
 
-  &[data-side='bottom'] {
+  &[data-side="bottom"] {
     top: -8px;
     rotate: 0deg;
   }
 
-  &[data-side='left'] {
+  &[data-side="left"] {
     right: -13px;
     rotate: 90deg;
   }
 
-  &[data-side='right'] {
+  &[data-side="right"] {
     left: -13px;
     rotate: -90deg;
   }
@@ -307,9 +279,9 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-import * as React from 'react';
-import { Popover } from '@base-ui/react/popover';
-import styles from './index.module.css';
+import * as React from "react";
+import { Popover } from "@base-ui/react/popover";
+import styles from "./index.module.css";
 
 export default function ExamplePopover() {
   return (
@@ -324,9 +296,7 @@ export default function ExamplePopover() {
               <ArrowSvg />
             </Popover.Arrow>
             <Popover.Title className={styles.Title}>Notifications</Popover.Title>
-            <Popover.Description className={styles.Description}>
-              You are all caught up. Good job!
-            </Popover.Description>
+            <Popover.Description className={styles.Description}>You are all caught up. Good job!</Popover.Description>
           </Popover.Popup>
         </Popover.Positioner>
       </Popover.Portal>
@@ -334,26 +304,17 @@ export default function ExamplePopover() {
   );
 }
 
-function ArrowSvg(props: React.ComponentProps<'svg'>) {
+function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className={styles.ArrowFill}
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className={styles.ArrowOuterStroke}
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className={styles.ArrowInnerStroke}
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className={styles.ArrowFill} />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className={styles.ArrowOuterStroke} />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className={styles.ArrowInnerStroke} />
     </svg>
   );
 }
 
-function BellIcon(props: React.ComponentProps<'svg'>) {
+function BellIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="20" height="20" viewBox="0 0 16 16" {...props}>
       <path d="M 8 1 C 7.453125 1 7 1.453125 7 2 L 7 3.140625 C 5.28125 3.589844 4 5.144531 4 7 L 4 10.984375 C 4 10.984375 3.984375 11.261719 3.851563 11.519531 C 3.71875 11.78125 3.558594 12 3 12 L 3 13 L 13 13 L 13 12 C 12.40625 12 12.253906 11.78125 12.128906 11.53125 C 12.003906 11.277344 12 11.003906 12 11.003906 L 12 7 C 12 5.144531 10.71875 3.589844 9 3.140625 L 9 2 C 9 1.453125 8.546875 1 8 1 Z M 8 13 C 7.449219 13 7 13.449219 7 14 C 7 14.550781 7.449219 15 8 15 C 8.550781 15 9 14.550781 9 14 C 9 13.449219 8.550781 13 8 13 Z M 8 4 C 9.664063 4 11 5.335938 11 7 L 11 10.996094 C 11 10.996094 10.988281 11.472656 11.234375 11.96875 C 11.238281 11.980469 11.246094 11.988281 11.25 12 L 4.726563 12 C 4.730469 11.992188 4.738281 11.984375 4.742188 11.980469 C 4.992188 11.488281 5 11.015625 5 11.015625 L 5 7 C 5 5.335938 6.335938 4 8 4 Z" />
@@ -367,7 +328,7 @@ function BellIcon(props: React.ComponentProps<'svg'>) {
 Import the component and assemble its parts:
 
 ```jsx title="Anatomy"
-import { Popover } from '@base-ui/react/popover';
+import { Popover } from "@base-ui/react/popover";
 
 <Popover.Root>
   <Popover.Trigger />
@@ -403,16 +364,13 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-import { Popover } from '@base-ui/react/popover';
-import { BellIcon, ArrowSvg } from './icons-tw';
+import { Popover } from "@base-ui/react/popover";
+import { BellIcon, ArrowSvg } from "./icons-tw";
 
 export default function ExamplePopover() {
   return (
     <Popover.Root>
-      <Popover.Trigger
-        openOnHover
-        className="flex size-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-900 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100 data-[popup-open]:bg-gray-100"
-      >
+      <Popover.Trigger openOnHover className="flex size-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-900 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100 data-[popup-open]:bg-gray-100">
         <BellIcon aria-label="Notifications" />
       </Popover.Trigger>
       <Popover.Portal>
@@ -422,9 +380,7 @@ export default function ExamplePopover() {
               <ArrowSvg />
             </Popover.Arrow>
             <Popover.Title className="text-base font-medium">Notifications</Popover.Title>
-            <Popover.Description className="text-base text-gray-600">
-              You are all caught up. Good job!
-            </Popover.Description>
+            <Popover.Description className="text-base text-gray-600">You are all caught up. Good job!</Popover.Description>
           </Popover.Popup>
         </Popover.Positioner>
       </Popover.Portal>
@@ -435,28 +391,19 @@ export default function ExamplePopover() {
 
 ```tsx
 /* icons-tw.tsx */
-import * as React from 'react';
+import * as React from "react";
 
-export function ArrowSvg(props: React.ComponentProps<'svg'>) {
+export function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className="fill-[canvas]"
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className="fill-gray-200 dark:fill-none"
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className="dark:fill-gray-300"
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className="fill-[canvas]" />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className="fill-gray-200 dark:fill-none" />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className="dark:fill-gray-300" />
     </svg>
   );
 }
 
-export function BellIcon(props: React.ComponentProps<'svg'>) {
+export function BellIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="20" height="20" viewBox="0 0 16 16" {...props}>
       <path d="M 8 1 C 7.453125 1 7 1.453125 7 2 L 7 3.140625 C 5.28125 3.589844 4 5.144531 4 7 L 4 10.984375 C 4 10.984375 3.984375 11.261719 3.851563 11.519531 C 3.71875 11.78125 3.558594 12 3 12 L 3 13 L 13 13 L 13 12 C 12.40625 12 12.253906 11.78125 12.128906 11.53125 C 12.003906 11.277344 12 11.003906 12 11.003906 L 12 7 C 12 5.144531 10.71875 3.589844 9 3.140625 L 9 2 C 9 1.453125 8.546875 1 8 1 Z M 8 13 C 7.449219 13 7 13.449219 7 14 C 7 14.550781 7.449219 15 8 15 C 8.550781 15 9 14.550781 9 14 C 9 13.449219 8.550781 13 8 13 Z M 8 4 C 9.664063 4 11 5.335938 11 7 L 11 10.996094 C 11 10.996094 10.988281 11.472656 11.234375 11.96875 C 11.238281 11.980469 11.246094 11.988281 11.25 12 L 4.726563 12 C 4.730469 11.992188 4.738281 11.984375 4.742188 11.980469 C 4.992188 11.488281 5 11.015625 5 11.015625 L 5 7 C 5 5.335938 6.335938 4 8 4 Z" />
@@ -464,20 +411,9 @@ export function BellIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-export function UserIcon(props: React.ComponentProps<'svg'>) {
+export function UserIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 20a6 6 0 0 0-12 0" />
       <circle cx="12" cy="10" r="4" />
       <circle cx="12" cy="12" r="10" />
@@ -485,20 +421,9 @@ export function UserIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-export function ListIcon(props: React.ComponentProps<'svg'>) {
+export function ListIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M3 5h.01" />
       <path d="M3 12h.01" />
       <path d="M3 19h.01" />
@@ -600,22 +525,22 @@ This example shows how to implement the component using CSS Modules.
 .Arrow {
   display: flex;
 
-  &[data-side='top'] {
+  &[data-side="top"] {
     bottom: -8px;
     rotate: 180deg;
   }
 
-  &[data-side='bottom'] {
+  &[data-side="bottom"] {
     top: -8px;
     rotate: 0deg;
   }
 
-  &[data-side='left'] {
+  &[data-side="left"] {
     right: -13px;
     rotate: 90deg;
   }
 
-  &[data-side='right'] {
+  &[data-side="right"] {
     left: -13px;
     rotate: -90deg;
   }
@@ -697,9 +622,9 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-import * as React from 'react';
-import { Popover } from '@base-ui/react/popover';
-import styles from './index.module.css';
+import * as React from "react";
+import { Popover } from "@base-ui/react/popover";
+import styles from "./index.module.css";
 
 export default function ExamplePopover() {
   return (
@@ -714,9 +639,7 @@ export default function ExamplePopover() {
               <ArrowSvg />
             </Popover.Arrow>
             <Popover.Title className={styles.Title}>Notifications</Popover.Title>
-            <Popover.Description className={styles.Description}>
-              You are all caught up. Good job!
-            </Popover.Description>
+            <Popover.Description className={styles.Description}>You are all caught up. Good job!</Popover.Description>
           </Popover.Popup>
         </Popover.Positioner>
       </Popover.Portal>
@@ -724,26 +647,17 @@ export default function ExamplePopover() {
   );
 }
 
-function ArrowSvg(props: React.ComponentProps<'svg'>) {
+function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className={styles.ArrowFill}
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className={styles.ArrowOuterStroke}
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className={styles.ArrowInnerStroke}
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className={styles.ArrowFill} />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className={styles.ArrowOuterStroke} />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className={styles.ArrowInnerStroke} />
     </svg>
   );
 }
 
-function BellIcon(props: React.ComponentProps<'svg'>) {
+function BellIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="20" height="20" viewBox="0 0 16 16" {...props}>
       <path d="M 8 1 C 7.453125 1 7 1.453125 7 2 L 7 3.140625 C 5.28125 3.589844 4 5.144531 4 7 L 4 10.984375 C 4 10.984375 3.984375 11.261719 3.851563 11.519531 C 3.71875 11.78125 3.558594 12 3 12 L 3 13 L 13 13 L 13 12 C 12.40625 12 12.253906 11.78125 12.128906 11.53125 C 12.003906 11.277344 12 11.003906 12 11.003906 L 12 7 C 12 5.144531 10.71875 3.589844 9 3.140625 L 9 2 C 9 1.453125 8.546875 1 8 1 Z M 8 13 C 7.449219 13 7 13.449219 7 14 C 7 14.550781 7.449219 15 8 15 C 8.550781 15 9 14.550781 9 14 C 9 13.449219 8.550781 13 8 13 Z M 8 4 C 9.664063 4 11 5.335938 11 7 L 11 10.996094 C 11 10.996094 10.988281 11.472656 11.234375 11.96875 C 11.238281 11.980469 11.246094 11.988281 11.25 12 L 4.726563 12 C 4.730469 11.992188 4.738281 11.984375 4.742188 11.980469 C 4.992188 11.488281 5 11.015625 5 11.015625 L 5 7 C 5 5.335938 6.335938 4 8 4 Z" />
@@ -780,20 +694,17 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Popover } from '@base-ui/react/popover';
-import { ArrowSvg, BellIcon } from './icons-tw';
+"use client";
+import * as React from "react";
+import { Popover } from "@base-ui/react/popover";
+import { ArrowSvg, BellIcon } from "./icons-tw";
 
 const demoPopover = Popover.createHandle();
 
 export default function PopoverDetachedTriggersSimpleDemo() {
   return (
     <React.Fragment>
-      <Popover.Trigger
-        className="flex size-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-900 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100 data-[popup-open]:bg-gray-100"
-        handle={demoPopover}
-      >
+      <Popover.Trigger className="flex size-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-900 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100 data-[popup-open]:bg-gray-100" handle={demoPopover}>
         <BellIcon aria-label="Notifications" />
       </Popover.Trigger>
 
@@ -805,9 +716,7 @@ export default function PopoverDetachedTriggersSimpleDemo() {
                 <ArrowSvg />
               </Popover.Arrow>
               <Popover.Title className="text-base font-medium">Notifications</Popover.Title>
-              <Popover.Description className="text-base text-gray-600">
-                You are all caught up. Good job!
-              </Popover.Description>
+              <Popover.Description className="text-base text-gray-600">You are all caught up. Good job!</Popover.Description>
             </Popover.Popup>
           </Popover.Positioner>
         </Popover.Portal>
@@ -819,28 +728,19 @@ export default function PopoverDetachedTriggersSimpleDemo() {
 
 ```tsx
 /* icons-tw.tsx */
-import * as React from 'react';
+import * as React from "react";
 
-export function ArrowSvg(props: React.ComponentProps<'svg'>) {
+export function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className="fill-[canvas]"
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className="fill-gray-200 dark:fill-none"
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className="dark:fill-gray-300"
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className="fill-[canvas]" />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className="fill-gray-200 dark:fill-none" />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className="dark:fill-gray-300" />
     </svg>
   );
 }
 
-export function BellIcon(props: React.ComponentProps<'svg'>) {
+export function BellIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="20" height="20" viewBox="0 0 16 16" {...props}>
       <path d="M 8 1 C 7.453125 1 7 1.453125 7 2 L 7 3.140625 C 5.28125 3.589844 4 5.144531 4 7 L 4 10.984375 C 4 10.984375 3.984375 11.261719 3.851563 11.519531 C 3.71875 11.78125 3.558594 12 3 12 L 3 13 L 13 13 L 13 12 C 12.40625 12 12.253906 11.78125 12.128906 11.53125 C 12.003906 11.277344 12 11.003906 12 11.003906 L 12 7 C 12 5.144531 10.71875 3.589844 9 3.140625 L 9 2 C 9 1.453125 8.546875 1 8 1 Z M 8 13 C 7.449219 13 7 13.449219 7 14 C 7 14.550781 7.449219 15 8 15 C 8.550781 15 9 14.550781 9 14 C 9 13.449219 8.550781 13 8 13 Z M 8 4 C 9.664063 4 11 5.335938 11 7 L 11 10.996094 C 11 10.996094 10.988281 11.472656 11.234375 11.96875 C 11.238281 11.980469 11.246094 11.988281 11.25 12 L 4.726563 12 C 4.730469 11.992188 4.738281 11.984375 4.742188 11.980469 C 4.992188 11.488281 5 11.015625 5 11.015625 L 5 7 C 5 5.335938 6.335938 4 8 4 Z" />
@@ -848,20 +748,9 @@ export function BellIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-export function UserIcon(props: React.ComponentProps<'svg'>) {
+export function UserIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 20a6 6 0 0 0-12 0" />
       <circle cx="12" cy="10" r="4" />
       <circle cx="12" cy="12" r="10" />
@@ -869,20 +758,9 @@ export function UserIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-export function ListIcon(props: React.ComponentProps<'svg'>) {
+export function ListIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M3 5h.01" />
       <path d="M3 12h.01" />
       <path d="M3 19h.01" />
@@ -984,22 +862,22 @@ This example shows how to implement the component using CSS Modules.
 .Arrow {
   display: flex;
 
-  &[data-side='top'] {
+  &[data-side="top"] {
     bottom: -8px;
     rotate: 180deg;
   }
 
-  &[data-side='bottom'] {
+  &[data-side="bottom"] {
     top: -8px;
     rotate: 0deg;
   }
 
-  &[data-side='left'] {
+  &[data-side="left"] {
     right: -13px;
     rotate: 90deg;
   }
 
-  &[data-side='right'] {
+  &[data-side="right"] {
     left: -13px;
     rotate: -90deg;
   }
@@ -1081,10 +959,10 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Popover } from '@base-ui/react/popover';
-import styles from './index.module.css';
+"use client";
+import * as React from "react";
+import { Popover } from "@base-ui/react/popover";
+import styles from "./index.module.css";
 
 const demoPopover = Popover.createHandle();
 
@@ -1103,9 +981,7 @@ export default function PopoverDetachedTriggersSimpleDemo() {
                 <ArrowSvg />
               </Popover.Arrow>
               <Popover.Title className={styles.Title}>Notifications</Popover.Title>
-              <Popover.Description className={styles.Description}>
-                You are all caught up. Good job!
-              </Popover.Description>
+              <Popover.Description className={styles.Description}>You are all caught up. Good job!</Popover.Description>
             </Popover.Popup>
           </Popover.Positioner>
         </Popover.Portal>
@@ -1114,26 +990,17 @@ export default function PopoverDetachedTriggersSimpleDemo() {
   );
 }
 
-function ArrowSvg(props: React.ComponentProps<'svg'>) {
+function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className={styles.ArrowFill}
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className={styles.ArrowOuterStroke}
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className={styles.ArrowInnerStroke}
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className={styles.ArrowFill} />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className={styles.ArrowOuterStroke} />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className={styles.ArrowInnerStroke} />
     </svg>
   );
 }
 
-function BellIcon(props: React.ComponentProps<'svg'>) {
+function BellIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="20" height="20" viewBox="0 0 16 16" {...props}>
       <path d="M 8 1 C 7.453125 1 7 1.453125 7 2 L 7 3.140625 C 5.28125 3.589844 4 5.144531 4 7 L 4 10.984375 C 4 10.984375 3.984375 11.261719 3.851563 11.519531 C 3.71875 11.78125 3.558594 12 3 12 L 3 13 L 13 13 L 13 12 C 12.40625 12 12.253906 11.78125 12.128906 11.53125 C 12.003906 11.277344 12 11.003906 12 11.003906 L 12 7 C 12 5.144531 10.71875 3.589844 9 3.140625 L 9 2 C 9 1.453125 8.546875 1 8 1 Z M 8 13 C 7.449219 13 7 13.449219 7 14 C 7 14.550781 7.449219 15 8 15 C 8.550781 15 9 14.550781 9 14 C 9 13.449219 8.550781 13 8 13 Z M 8 4 C 9.664063 4 11 5.335938 11 7 L 11 10.996094 C 11 10.996094 10.988281 11.472656 11.234375 11.96875 C 11.238281 11.980469 11.246094 11.988281 11.25 12 L 4.726563 12 C 4.730469 11.992188 4.738281 11.984375 4.742188 11.980469 C 4.992188 11.488281 5 11.015625 5 11.015625 L 5 7 C 5 5.335938 6.335938 4 8 4 Z" />
@@ -1225,10 +1092,10 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Popover } from '@base-ui/react/popover';
-import { ArrowSvg, BellIcon } from './icons-tw';
+"use client";
+import * as React from "react";
+import { Popover } from "@base-ui/react/popover";
+import { ArrowSvg, BellIcon } from "./icons-tw";
 
 const demoPopover = Popover.createHandle();
 
@@ -1244,27 +1111,15 @@ export default function PopoverDetachedTriggersSimpleDemo() {
   return (
     <React.Fragment>
       <div className="flex gap-2 flex-wrap justify-center">
-        <Popover.Trigger
-          className="flex size-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-900 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100 data-[popup-open]:bg-gray-100"
-          handle={demoPopover}
-          id="trigger-1"
-        >
+        <Popover.Trigger className="flex size-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-900 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100 data-[popup-open]:bg-gray-100" handle={demoPopover} id="trigger-1">
           <BellIcon aria-label="Notifications" />
         </Popover.Trigger>
 
-        <Popover.Trigger
-          className="flex size-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-900 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100 data-[popup-open]:bg-gray-100"
-          handle={demoPopover}
-          id="trigger-2"
-        >
+        <Popover.Trigger className="flex size-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-900 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100 data-[popup-open]:bg-gray-100" handle={demoPopover} id="trigger-2">
           <BellIcon aria-label="Notifications" />
         </Popover.Trigger>
 
-        <Popover.Trigger
-          className="flex size-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-900 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100 data-[popup-open]:bg-gray-100"
-          handle={demoPopover}
-          id="trigger-3"
-        >
+        <Popover.Trigger className="flex size-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-900 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100 data-[popup-open]:bg-gray-100" handle={demoPopover} id="trigger-3">
           <BellIcon aria-label="Notifications" />
         </Popover.Trigger>
 
@@ -1272,7 +1127,7 @@ export default function PopoverDetachedTriggersSimpleDemo() {
           type="button"
           className="flex h-10 items-center justify-center rounded-md border border-gray-200 bg-gray-50 px-3.5 text-base font-medium text-gray-900 select-none hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 active:bg-gray-100"
           onClick={() => {
-            setTriggerId('trigger-2');
+            setTriggerId("trigger-2");
             setOpen(true);
           }}
         >
@@ -1280,17 +1135,9 @@ export default function PopoverDetachedTriggersSimpleDemo() {
         </button>
       </div>
 
-      <Popover.Root
-        handle={demoPopover}
-        open={open}
-        onOpenChange={handleOpenChange}
-        triggerId={triggerId}
-      >
+      <Popover.Root handle={demoPopover} open={open} onOpenChange={handleOpenChange} triggerId={triggerId}>
         <Popover.Portal>
-          <Popover.Positioner
-            className="h-(--positioner-height) w-(--positioner-width) max-w-(--available-width)"
-            sideOffset={8}
-          >
+          <Popover.Positioner className="h-(--positioner-height) w-(--positioner-width) max-w-(--available-width)" sideOffset={8}>
             <Popover.Popup
               className={`
               h-(--popup-height,auto)
@@ -1314,9 +1161,7 @@ export default function PopoverDetachedTriggersSimpleDemo() {
                 <ArrowSvg />
               </Popover.Arrow>
               <Popover.Title className="text-base font-medium">Notifications</Popover.Title>
-              <Popover.Description className="text-base text-gray-600">
-                You are all caught up. Good job!
-              </Popover.Description>
+              <Popover.Description className="text-base text-gray-600">You are all caught up. Good job!</Popover.Description>
             </Popover.Popup>
           </Popover.Positioner>
         </Popover.Portal>
@@ -1328,28 +1173,19 @@ export default function PopoverDetachedTriggersSimpleDemo() {
 
 ```tsx
 /* icons-tw.tsx */
-import * as React from 'react';
+import * as React from "react";
 
-export function ArrowSvg(props: React.ComponentProps<'svg'>) {
+export function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className="fill-[canvas]"
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className="fill-gray-200 dark:fill-none"
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className="dark:fill-gray-300"
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className="fill-[canvas]" />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className="fill-gray-200 dark:fill-none" />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className="dark:fill-gray-300" />
     </svg>
   );
 }
 
-export function BellIcon(props: React.ComponentProps<'svg'>) {
+export function BellIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="20" height="20" viewBox="0 0 16 16" {...props}>
       <path d="M 8 1 C 7.453125 1 7 1.453125 7 2 L 7 3.140625 C 5.28125 3.589844 4 5.144531 4 7 L 4 10.984375 C 4 10.984375 3.984375 11.261719 3.851563 11.519531 C 3.71875 11.78125 3.558594 12 3 12 L 3 13 L 13 13 L 13 12 C 12.40625 12 12.253906 11.78125 12.128906 11.53125 C 12.003906 11.277344 12 11.003906 12 11.003906 L 12 7 C 12 5.144531 10.71875 3.589844 9 3.140625 L 9 2 C 9 1.453125 8.546875 1 8 1 Z M 8 13 C 7.449219 13 7 13.449219 7 14 C 7 14.550781 7.449219 15 8 15 C 8.550781 15 9 14.550781 9 14 C 9 13.449219 8.550781 13 8 13 Z M 8 4 C 9.664063 4 11 5.335938 11 7 L 11 10.996094 C 11 10.996094 10.988281 11.472656 11.234375 11.96875 C 11.238281 11.980469 11.246094 11.988281 11.25 12 L 4.726563 12 C 4.730469 11.992188 4.738281 11.984375 4.742188 11.980469 C 4.992188 11.488281 5 11.015625 5 11.015625 L 5 7 C 5 5.335938 6.335938 4 8 4 Z" />
@@ -1357,20 +1193,9 @@ export function BellIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-export function UserIcon(props: React.ComponentProps<'svg'>) {
+export function UserIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 20a6 6 0 0 0-12 0" />
       <circle cx="12" cy="10" r="4" />
       <circle cx="12" cy="12" r="10" />
@@ -1378,20 +1203,9 @@ export function UserIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-export function ListIcon(props: React.ComponentProps<'svg'>) {
+export function ListIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M3 5h.01" />
       <path d="M3 12h.01" />
       <path d="M3 19h.01" />
@@ -1493,22 +1307,22 @@ This example shows how to implement the component using CSS Modules.
 .Arrow {
   display: flex;
 
-  &[data-side='top'] {
+  &[data-side="top"] {
     bottom: -8px;
     rotate: 180deg;
   }
 
-  &[data-side='bottom'] {
+  &[data-side="bottom"] {
     top: -8px;
     rotate: 0deg;
   }
 
-  &[data-side='left'] {
+  &[data-side="left"] {
     right: -13px;
     rotate: 90deg;
   }
 
-  &[data-side='right'] {
+  &[data-side="right"] {
     left: -13px;
     rotate: -90deg;
   }
@@ -1590,10 +1404,10 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Popover } from '@base-ui/react/popover';
-import styles from './index.module.css';
+"use client";
+import * as React from "react";
+import { Popover } from "@base-ui/react/popover";
+import styles from "./index.module.css";
 
 const demoPopover = Popover.createHandle();
 
@@ -1625,7 +1439,7 @@ export default function PopoverDetachedTriggersControlledDemo() {
           className={styles.Button}
           type="button"
           onClick={() => {
-            setTriggerId('trigger-2');
+            setTriggerId("trigger-2");
             setOpen(true);
           }}
         >
@@ -1633,12 +1447,7 @@ export default function PopoverDetachedTriggersControlledDemo() {
         </button>
       </div>
 
-      <Popover.Root
-        handle={demoPopover}
-        open={open}
-        onOpenChange={handleOpenChange}
-        triggerId={triggerId}
-      >
+      <Popover.Root handle={demoPopover} open={open} onOpenChange={handleOpenChange} triggerId={triggerId}>
         <Popover.Portal>
           <Popover.Positioner className={styles.Positioner} sideOffset={8}>
             <Popover.Popup className={styles.Popup}>
@@ -1646,9 +1455,7 @@ export default function PopoverDetachedTriggersControlledDemo() {
                 <ArrowSvg />
               </Popover.Arrow>
               <Popover.Title className={styles.Title}>Notifications</Popover.Title>
-              <Popover.Description className={styles.Description}>
-                You are all caught up. Good job!
-              </Popover.Description>
+              <Popover.Description className={styles.Description}>You are all caught up. Good job!</Popover.Description>
             </Popover.Popup>
           </Popover.Positioner>
         </Popover.Portal>
@@ -1657,26 +1464,17 @@ export default function PopoverDetachedTriggersControlledDemo() {
   );
 }
 
-function ArrowSvg(props: React.ComponentProps<'svg'>) {
+function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className={styles.ArrowFill}
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className={styles.ArrowOuterStroke}
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className={styles.ArrowInnerStroke}
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className={styles.ArrowFill} />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className={styles.ArrowOuterStroke} />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className={styles.ArrowInnerStroke} />
     </svg>
   );
 }
 
-function BellIcon(props: React.ComponentProps<'svg'>) {
+function BellIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="20" height="20" viewBox="0 0 16 16" {...props}>
       <path d="M 8 1 C 7.453125 1 7 1.453125 7 2 L 7 3.140625 C 5.28125 3.589844 4 5.144531 4 7 L 4 10.984375 C 4 10.984375 3.984375 11.261719 3.851563 11.519531 C 3.71875 11.78125 3.558594 12 3 12 L 3 13 L 13 13 L 13 12 C 12.40625 12 12.253906 11.78125 12.128906 11.53125 C 12.003906 11.277344 12 11.003906 12 11.003906 L 12 7 C 12 5.144531 10.71875 3.589844 9 3.140625 L 9 2 C 9 1.453125 8.546875 1 8 1 Z M 8 13 C 7.449219 13 7 13.449219 7 14 C 7 14.550781 7.449219 15 8 15 C 8.550781 15 9 14.550781 9 14 C 9 13.449219 8.550781 13 8 13 Z M 8 4 C 9.664063 4 11 5.335938 11 7 L 11 10.996094 C 11 10.996094 10.988281 11.472656 11.234375 11.96875 C 11.238281 11.980469 11.246094 11.988281 11.25 12 L 4.726563 12 C 4.730469 11.992188 4.738281 11.984375 4.742188 11.980469 C 4.992188 11.488281 5 11.015625 5 11.015625 L 5 7 C 5 5.335938 6.335938 4 8 4 Z" />
@@ -1719,11 +1517,11 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Popover } from '@base-ui/react/popover';
-import { Avatar } from '@base-ui/react/avatar';
-import { ArrowSvg, BellIcon, ListIcon, UserIcon } from './icons-tw';
+"use client";
+import * as React from "react";
+import { Popover } from "@base-ui/react/popover";
+import { Avatar } from "@base-ui/react/avatar";
+import { ArrowSvg, BellIcon, ListIcon, UserIcon } from "./icons-tw";
 
 const demoPopover = Popover.createHandle<React.ComponentType>();
 
@@ -1868,9 +1666,7 @@ function NotificationsPanel() {
   return (
     <React.Fragment>
       <Popover.Title className="m-0 text-base font-medium">Notifications</Popover.Title>
-      <Popover.Description className="m-0 text-base text-gray-600">
-        You are all caught up. Good job!
-      </Popover.Description>
+      <Popover.Description className="m-0 text-base text-gray-600">You are all caught up. Good job!</Popover.Description>
     </React.Fragment>
   );
 }
@@ -1878,20 +1674,11 @@ function NotificationsPanel() {
 function ProfilePanel() {
   return (
     <div className="-mx-2 grid grid-cols-[auto_auto] gap-x-4">
-      <Popover.Title className="col-start-2 col-end-3 row-start-1 row-end-2 m-0 text-base font-medium">
-        Jason Eventon
-      </Popover.Title>
+      <Popover.Title className="col-start-2 col-end-3 row-start-1 row-end-2 m-0 text-base font-medium">Jason Eventon</Popover.Title>
       <Avatar.Root className="col-start-1 col-end-2 row-start-1 row-end-3 inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-gray-100 align-middle text-base leading-none font-medium text-gray-900 select-none">
-        <Avatar.Image
-          src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=128&h=128&dpr=2&q=80"
-          width="48"
-          height="48"
-          className="h-full w-full object-cover"
-        />
+        <Avatar.Image src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=128&h=128&dpr=2&q=80" width="48" height="48" className="h-full w-full object-cover" />
       </Avatar.Root>
-      <span className="col-start-2 col-end-3 row-start-2 row-end-3 text-sm text-gray-600">
-        Pro plan
-      </span>
+      <span className="col-start-2 col-end-3 row-start-2 row-end-3 text-sm text-gray-600">Pro plan</span>
       <div className="col-start-1 col-end-3 row-start-3 row-end-4 mt-2 flex flex-col gap-2 border-t border-gray-200 pt-2 text-sm">
         <a href="#" className="text-gray-900 no-underline hover:underline">
           Profile settings
@@ -1908,9 +1695,7 @@ function ActivityPanel() {
   return (
     <React.Fragment>
       <Popover.Title className="m-0 text-base font-medium">Activity</Popover.Title>
-      <Popover.Description className="m-0 text-base text-gray-600">
-        Nothing interesting happened recently.
-      </Popover.Description>
+      <Popover.Description className="m-0 text-base text-gray-600">Nothing interesting happened recently.</Popover.Description>
     </React.Fragment>
   );
 }
@@ -1918,28 +1703,19 @@ function ActivityPanel() {
 
 ```tsx
 /* icons-tw.tsx */
-import * as React from 'react';
+import * as React from "react";
 
-export function ArrowSvg(props: React.ComponentProps<'svg'>) {
+export function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className="fill-[canvas]"
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className="fill-gray-200 dark:fill-none"
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className="dark:fill-gray-300"
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className="fill-[canvas]" />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className="fill-gray-200 dark:fill-none" />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className="dark:fill-gray-300" />
     </svg>
   );
 }
 
-export function BellIcon(props: React.ComponentProps<'svg'>) {
+export function BellIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="20" height="20" viewBox="0 0 16 16" {...props}>
       <path d="M 8 1 C 7.453125 1 7 1.453125 7 2 L 7 3.140625 C 5.28125 3.589844 4 5.144531 4 7 L 4 10.984375 C 4 10.984375 3.984375 11.261719 3.851563 11.519531 C 3.71875 11.78125 3.558594 12 3 12 L 3 13 L 13 13 L 13 12 C 12.40625 12 12.253906 11.78125 12.128906 11.53125 C 12.003906 11.277344 12 11.003906 12 11.003906 L 12 7 C 12 5.144531 10.71875 3.589844 9 3.140625 L 9 2 C 9 1.453125 8.546875 1 8 1 Z M 8 13 C 7.449219 13 7 13.449219 7 14 C 7 14.550781 7.449219 15 8 15 C 8.550781 15 9 14.550781 9 14 C 9 13.449219 8.550781 13 8 13 Z M 8 4 C 9.664063 4 11 5.335938 11 7 L 11 10.996094 C 11 10.996094 10.988281 11.472656 11.234375 11.96875 C 11.238281 11.980469 11.246094 11.988281 11.25 12 L 4.726563 12 C 4.730469 11.992188 4.738281 11.984375 4.742188 11.980469 C 4.992188 11.488281 5 11.015625 5 11.015625 L 5 7 C 5 5.335938 6.335938 4 8 4 Z" />
@@ -1947,20 +1723,9 @@ export function BellIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-export function UserIcon(props: React.ComponentProps<'svg'>) {
+export function UserIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 20a6 6 0 0 0-12 0" />
       <circle cx="12" cy="10" r="4" />
       <circle cx="12" cy="12" r="10" />
@@ -1968,20 +1733,9 @@ export function UserIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-export function ListIcon(props: React.ComponentProps<'svg'>) {
+export function ListIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M3 5h.01" />
       <path d="M3 12h.01" />
       <path d="M3 19h.01" />
@@ -2125,22 +1879,22 @@ This example shows how to implement the component using CSS Modules.
       opacity calc(var(--animation-duration) / 2) var(--easing);
   }
 
-  &[data-activation-direction~='right'] [data-previous][data-ending-style] {
+  &[data-activation-direction~="right"] [data-previous][data-ending-style] {
     transform: translateX(-50%);
     opacity: 0;
   }
 
-  &[data-activation-direction~='right'] [data-current][data-starting-style] {
+  &[data-activation-direction~="right"] [data-current][data-starting-style] {
     transform: translateX(50%);
     opacity: 0;
   }
 
-  &[data-activation-direction~='left'] [data-previous][data-ending-style] {
+  &[data-activation-direction~="left"] [data-previous][data-ending-style] {
     transform: translateX(50%);
     opacity: 0;
   }
 
-  &[data-activation-direction~='left'] [data-current][data-starting-style] {
+  &[data-activation-direction~="left"] [data-current][data-starting-style] {
     transform: translateX(-50%);
     opacity: 0;
   }
@@ -2150,22 +1904,22 @@ This example shows how to implement the component using CSS Modules.
   display: flex;
   transition: left calc(var(--animation-duration)) var(--easing);
 
-  &[data-side='top'] {
+  &[data-side="top"] {
     bottom: -8px;
     rotate: 180deg;
   }
 
-  &[data-side='bottom'] {
+  &[data-side="bottom"] {
     top: -8px;
     rotate: 0deg;
   }
 
-  &[data-side='left'] {
+  &[data-side="left"] {
     right: -13px;
     rotate: 90deg;
   }
 
-  &[data-side='right'] {
+  &[data-side="right"] {
     left: -13px;
     rotate: -90deg;
   }
@@ -2278,22 +2032,18 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-'use client';
-import * as React from 'react';
-import { Popover } from '@base-ui/react/popover';
-import { Avatar } from '@base-ui/react/avatar';
-import styles from './index.module.css';
+"use client";
+import * as React from "react";
+import { Popover } from "@base-ui/react/popover";
+import { Avatar } from "@base-ui/react/avatar";
+import styles from "./index.module.css";
 
 const demoPopover = Popover.createHandle<React.ComponentType>();
 
 export default function PopoverDetachedTriggersFullDemo() {
   return (
     <div className={styles.Container}>
-      <Popover.Trigger
-        className={styles.IconButton}
-        handle={demoPopover}
-        payload={NotificationsPanel}
-      >
+      <Popover.Trigger className={styles.IconButton} handle={demoPopover} payload={NotificationsPanel}>
         <BellIcon aria-label="Notifications" className={styles.Icon} />
       </Popover.Trigger>
 
@@ -2314,9 +2064,7 @@ export default function PopoverDetachedTriggersFullDemo() {
                   <ArrowSvg />
                 </Popover.Arrow>
 
-                <Popover.Viewport className={styles.Viewport}>
-                  {Payload !== undefined && <Payload />}
-                </Popover.Viewport>
+                <Popover.Viewport className={styles.Viewport}>{Payload !== undefined && <Payload />}</Popover.Viewport>
               </Popover.Popup>
             </Popover.Positioner>
           </Popover.Portal>
@@ -2330,9 +2078,7 @@ function NotificationsPanel() {
   return (
     <React.Fragment>
       <Popover.Title className={styles.Title}>Notifications</Popover.Title>
-      <Popover.Description className={styles.Description}>
-        You are all caught up. Good job!
-      </Popover.Description>
+      <Popover.Description className={styles.Description}>You are all caught up. Good job!</Popover.Description>
     </React.Fragment>
   );
 }
@@ -2342,12 +2088,7 @@ function ProfilePanel() {
     <div className={styles.ProfilePanel}>
       <Popover.Title className={styles.Title}>Jason Eventon</Popover.Title>
       <Avatar.Root className={styles.Avatar}>
-        <Avatar.Image
-          src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=128&h=128&dpr=2&q=80"
-          width="48"
-          height="48"
-          className={styles.AvatarImage}
-        />
+        <Avatar.Image src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=128&h=128&dpr=2&q=80" width="48" height="48" className={styles.AvatarImage} />
       </Avatar.Root>
       <span className={styles.Plan}>Pro plan</span>
       <div className={styles.ProfileActions}>
@@ -2362,33 +2103,22 @@ function ActivityPanel() {
   return (
     <React.Fragment>
       <Popover.Title className={styles.Title}>Activity</Popover.Title>
-      <Popover.Description className={styles.Description}>
-        Nothing interesting happened recently.
-      </Popover.Description>
+      <Popover.Description className={styles.Description}>Nothing interesting happened recently.</Popover.Description>
     </React.Fragment>
   );
 }
 
-function ArrowSvg(props: React.ComponentProps<'svg'>) {
+function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className={styles.ArrowFill}
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className={styles.ArrowOuterStroke}
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className={styles.ArrowInnerStroke}
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className={styles.ArrowFill} />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className={styles.ArrowOuterStroke} />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className={styles.ArrowInnerStroke} />
     </svg>
   );
 }
 
-function BellIcon(props: React.ComponentProps<'svg'>) {
+function BellIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg fill="currentcolor" width="20" height="20" viewBox="0 0 16 16" {...props}>
       <path d="M 8 1 C 7.453125 1 7 1.453125 7 2 L 7 3.140625 C 5.28125 3.589844 4 5.144531 4 7 L 4 10.984375 C 4 10.984375 3.984375 11.261719 3.851563 11.519531 C 3.71875 11.78125 3.558594 12 3 12 L 3 13 L 13 13 L 13 12 C 12.40625 12 12.253906 11.78125 12.128906 11.53125 C 12.003906 11.277344 12 11.003906 12 11.003906 L 12 7 C 12 5.144531 10.71875 3.589844 9 3.140625 L 9 2 C 9 1.453125 8.546875 1 8 1 Z M 8 13 C 7.449219 13 7 13.449219 7 14 C 7 14.550781 7.449219 15 8 15 C 8.550781 15 9 14.550781 9 14 C 9 13.449219 8.550781 13 8 13 Z M 8 4 C 9.664063 4 11 5.335938 11 7 L 11 10.996094 C 11 10.996094 10.988281 11.472656 11.234375 11.96875 C 11.238281 11.980469 11.246094 11.988281 11.25 12 L 4.726563 12 C 4.730469 11.992188 4.738281 11.984375 4.742188 11.980469 C 4.992188 11.488281 5 11.015625 5 11.015625 L 5 7 C 5 5.335938 6.335938 4 8 4 Z" />
@@ -2396,20 +2126,9 @@ function BellIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-function UserIcon(props: React.ComponentProps<'svg'>) {
+function UserIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M18 20a6 6 0 0 0-12 0" />
       <circle cx="12" cy="10" r="4" />
       <circle cx="12" cy="12" r="10" />
@@ -2417,20 +2136,9 @@ function UserIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-function ListIcon(props: React.ComponentProps<'svg'>) {
+function ListIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M3 5h.01" />
       <path d="M3 12h.01" />
       <path d="M3 19h.01" />

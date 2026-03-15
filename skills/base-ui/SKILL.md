@@ -2,8 +2,8 @@
 name: base-ui
 description: "Base UI unstyled React components. Covers forms, menus, overlays, composition. Use when building accessible, unstyled React UI components with @base-ui/react, composing with render props, or implementing custom-styled form controls, menus, and overlays. Keywords: @base-ui/react, render props, unstyled components."
 metadata:
-  version: "1.2.0"
-  release_date: "2026-02-12"
+  version: "1.3.0"
+  release_date: "2026-03-12"
 ---
 
 # Base UI (React)
@@ -38,6 +38,7 @@ Base UI provides unstyled, composable React components. This skill focuses on as
 
 ### Menus, navigation, overlays
 
+- references/drawer.md
 - references/menu.md
 - references/menubar.md
 - references/navigation-menu.md
@@ -56,11 +57,14 @@ Base UI provides unstyled, composable React components. This skill focuses on as
 - references/scroll-area.md
 - references/separator.md
 
-## v1.2.0 highlights
+## v1.3.0 highlights
 
-- New Drawer/Sheet overlay component.
-- New `useFilteredItems` hook for filtered item lists (Autocomplete/Combobox).
-- `render` prop supports lazy elements.
+- Drawer is now stable (no longer preview) and should be treated as a first-class overlay primitive.
+- Autocomplete and Combobox add `InputGroup`; Combobox, Select, and Slider add `Label` parts.
+- Drawer adds `SwipeArea` for explicit swipe affordances.
+- Tooltip adds `closeOnClick`; Toast can close all toasts.
+- Checkbox, Radio Group, and Switch improve automatic `aria-labelledby` support.
+- `render` prop support from v1.2.0 remains relevant, including lazy elements.
 
 ## Core concepts to apply
 

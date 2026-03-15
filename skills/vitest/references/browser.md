@@ -98,6 +98,13 @@ export default defineConfig({
 }
 ```
 
+### v4.1.0 browser-mode additions
+
+- Playwright provider can use persistent contexts.
+- `launchOptions` can be combined with `connectOptions` for more advanced browser connection setups.
+- `userEvent.wheel` is available for wheel/scroll interactions.
+- Failure screenshots and trace-oriented artifacts are handled more explicitly.
+
 ### Mixed Node + Browser Projects
 
 ```ts
@@ -239,6 +246,9 @@ await userEvent.upload(fileInput, file);
 
 // Drag and drop
 await userEvent.dragAndDrop(source, target);
+
+// Wheel / scroll (v4.1.0)
+await userEvent.wheel(element, { deltaY: 120 });
 ```
 
 ### Browser Assertions

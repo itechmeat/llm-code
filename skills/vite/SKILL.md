@@ -2,8 +2,8 @@
 name: vite
 description: "Vite next-gen frontend tooling: dev server, HMR, build, config, plugins, Environment API, Rolldown. Use when setting up or running a Vite project, configuring vite.config.*, authoring plugins, working with HMR or JS API, or managing environment variables and modes. Keywords: vite.config, bundler, Vite, HMR, Rolldown."
 metadata:
-  version: "7.3.1"
-  release_date: "2026-01-07"
+  version: "8.0.0"
+  release_date: "2026-03-12"
 ---
 
 # Vite
@@ -57,6 +57,14 @@ metadata:
 - Enable deprecation warnings: `future: { removeSsrLoadModule: 'warn' }`.
 - Use `hotUpdate` hook instead of `handleHotUpdate` for environment-aware HMR.
 - Use `this.environment` instead of `options.ssr` in plugin hooks.
+
+## Release Highlights (8.0.0)
+
+- Default browser target is raised again under `baseline-widely-available`.
+- CommonJS default-import interop becomes more consistent and may expose packages that relied on older ambiguous behavior.
+- Vite stops resolving `browser` vs `module` via format sniffing and follows configured `resolve.mainFields` more strictly.
+- JS API `build()` now throws `BundleError` with nested `.errors` when multiple Rolldown-level errors are present.
+- Rolldown transition becomes more explicit: `build.rollupOptions` / `worker.rollupOptions` are deprecated in favor of `*.rolldownOptions`.
 
 ## Prohibitions
 

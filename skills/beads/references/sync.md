@@ -104,12 +104,23 @@ Integrations (GitLab/Linear/Jira/etc.) are separate from database sync: sync kee
 Beads’ local issue database consistent; integrations exchange data with external
 trackers.
 
+For automation, prefer structured/JSON-aware error handling when integration commands fail instead of scraping human-readable error text.
+
 ### GitLab Sync
 
 ```bash
 bd gitlab sync
 bd gitlab status
 ```
+
+### GitHub Issues Sync (v0.60.0)
+
+```bash
+bd github sync
+bd github status
+```
+
+Use this when your coordination loop lives in GitHub Issues instead of GitLab, Linear, or Jira.
 
 ### Linear Sync
 

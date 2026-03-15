@@ -8,6 +8,11 @@ description: A high-quality, unstyled React slider component that works like a r
 
 A high-quality, unstyled React slider component that works like a range input and is easy to style.
 
+## v1.3.0 notes
+
+- `Slider` adds a `Label` part, which makes slider labeling easier without relying only on `aria-label` on each thumb.
+- For multi-thumb sliders, still verify that each thumb has a meaningful accessible name when the shared label alone is not enough.
+
 ## Demo
 
 ### Tailwind
@@ -16,7 +21,7 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-import { Slider } from '@base-ui/react/slider';
+import { Slider } from "@base-ui/react/slider";
 
 export default function ExampleSlider() {
   return (
@@ -24,10 +29,7 @@ export default function ExampleSlider() {
       <Slider.Control className="flex w-56 touch-none items-center py-3 select-none">
         <Slider.Track className="h-1 w-full rounded bg-gray-200 shadow-[inset_0_0_0_1px] shadow-gray-200 select-none">
           <Slider.Indicator className="rounded bg-gray-700 select-none" />
-          <Slider.Thumb
-            aria-label="Volume"
-            className="size-4 rounded-full bg-white outline outline-1 outline-gray-300 select-none has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-800"
-          />
+          <Slider.Thumb aria-label="Volume" className="size-4 rounded-full bg-white outline outline-1 outline-gray-300 select-none has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-800" />
         </Slider.Track>
       </Slider.Control>
     </Slider.Root>
@@ -82,8 +84,8 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-import { Slider } from '@base-ui/react/slider';
-import styles from './index.module.css';
+import { Slider } from "@base-ui/react/slider";
+import styles from "./index.module.css";
 
 export default function ExampleSlider() {
   return (
@@ -108,7 +110,7 @@ export default function ExampleSlider() {
 Import the component and assemble its parts:
 
 ```jsx title="Anatomy"
-import { Slider } from '@base-ui/react/slider';
+import { Slider } from "@base-ui/react/slider";
 
 <Slider.Root>
   <Slider.Value />
@@ -140,7 +142,7 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-import { Slider } from '@base-ui/react/slider';
+import { Slider } from "@base-ui/react/slider";
 
 export default function RangeSlider() {
   return (
@@ -148,14 +150,8 @@ export default function RangeSlider() {
       <Slider.Control className="flex w-56 touch-none items-center py-3 select-none">
         <Slider.Track className="h-1 w-full rounded bg-gray-200 shadow-[inset_0_0_0_1px] shadow-gray-200 select-none">
           <Slider.Indicator className="rounded bg-gray-700 select-none" />
-          <Slider.Thumb
-            index={0}
-            className="size-4 rounded-full bg-white outline outline-1 outline-gray-300 select-none has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-800"
-          />
-          <Slider.Thumb
-            index={1}
-            className="size-4 rounded-full bg-white outline outline-1 outline-gray-300 select-none has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-800"
-          />
+          <Slider.Thumb index={0} className="size-4 rounded-full bg-white outline outline-1 outline-gray-300 select-none has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-800" />
+          <Slider.Thumb index={1} className="size-4 rounded-full bg-white outline outline-1 outline-gray-300 select-none has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-800" />
         </Slider.Track>
       </Slider.Control>
     </Slider.Root>
@@ -210,8 +206,8 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-import { Slider } from '@base-ui/react/slider';
-import styles from './index.module.css';
+import { Slider } from "@base-ui/react/slider";
+import styles from "./index.module.css";
 
 export default function RangeSlider() {
   return (
@@ -242,7 +238,7 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-import { Slider } from '@base-ui/react/slider';
+import { Slider } from "@base-ui/react/slider";
 
 export default function EdgeAlignedThumb() {
   return (
@@ -305,8 +301,8 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-import { Slider } from '@base-ui/react/slider';
-import styles from './index.module.css';
+import { Slider } from "@base-ui/react/slider";
+import styles from "./index.module.css";
 
 export default function EdgeAlignedThumb() {
   return (

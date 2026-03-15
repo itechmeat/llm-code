@@ -113,7 +113,7 @@ mock.withImplementation(
   () => "temp",
   () => {
     mock(); // 'temp'
-  }
+  },
 );
 mock(); // back to original
 ```
@@ -169,6 +169,8 @@ vi.mock("./module", async (importOriginal) => {
 vi.doMock("./module", () => ({ myFunc: () => "mocked" }));
 const { myFunc } = await import("./module");
 ```
+
+As of v4.1.0, `doMock()` can return a disposable cleanup handle. Use it when you want an explicit scoped mock lifecycle.
 
 ### vi.unmock() / vi.doUnmock()
 
@@ -238,6 +240,16 @@ vi.useFakeTimers();
 vi.useRealTimers();
 
 // Check if fake timers active
+
+### Timer controls in v4.1.0
+
+- `setTickMode` is exposed via fake-timer controls after the upgrade to sinon/fake-timers v15.
+- Use it when advancing timers must coordinate more predictably with queued async work.
+
+### Throwing mocks in v4.1.0
+
+- `mockThrow` and `mockThrowOnce` simplify exception-oriented mocks.
+- Prefer them when the intent is "this mock throws" instead of wrapping each case in `mockImplementation(() => { throw ... })`.
 vi.isFakeTimers(); // boolean
 ```
 
@@ -329,7 +341,7 @@ await vi.waitFor(
   () => {
     if (!server.isReady) throw new Error("Not ready");
   },
-  { timeout: 5000, interval: 100 }
+  { timeout: 5000, interval: 100 },
 );
 ```
 
@@ -384,10 +396,10 @@ export default {
 
 ```ts
 // With explicit resource management
-it('test', () => {
-  using spy = vi.spyOn(console, 'log')
+it("test", () => {
+  using spy = vi.spyOn(console, "log");
   // spy.mockRestore() called automatically at block end
-})
+});
 ```
 
 ### Module Reset Between Tests

@@ -125,6 +125,11 @@ Forum group topics and DM topics support per-topic `agentId` overrides so each t
 
 `channels.slack.typingReaction` enables reaction-based processing status in Socket Mode DMs when native assistant typing is unavailable.
 
+### Slack interactive replies (v2026.3.13)
+
+- Slack now supports opt-in interactive reply directives for richer response handling in supported flows.
+- Treat this as a channel-specific behavior toggle to validate in staging before broad rollout, especially if you already depend on custom Slack reply formatting.
+
 ### Discord allowBots mention gating (v2026.3.7)
 
 `allowBots: "mentions"` accepts bot-authored messages only when they mention the bot.
@@ -138,6 +143,11 @@ Interactive `/oc_model` and `/oc_models` commands for Telegram-style provider/mo
 - Apple Watch companion flows depend on reliable gateway-to-iOS notification relay.
 - APNs registration/signing configuration is now an explicit operational dependency for iOS/watch delivery reliability.
 - If watch/iOS commands appear delayed or missing, validate APNs push path before changing model/tool policy.
+
+## Telegram media reliability (v2026.3.13)
+
+- Telegram inbound media downloads retry with an IPv4 fallback when the primary fetch path fails.
+- If media ingestion still fails, keep checking SSRF/media policy and network reachability rather than assuming the connector lacks retry behavior.
 
 ## Mistral provider (v2026.2.22)
 

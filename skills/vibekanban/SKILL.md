@@ -2,8 +2,8 @@
 name: vibekanban
 description: "Orchestrate AI coding with Vibe Kanban: tasks, review, sessions, workspaces, and isolated git worktrees. Use when managing AI-generated code in isolated environments, planning coding tasks, reviewing AI output, or configuring Vibe Kanban workspaces and agents. Keywords: Vibe Kanban, AI orchestration, worktrees."
 metadata:
-  version: "0.1.28"
-  release_date: "2026-03-10"
+  version: "0.1.30"
+  release_date: "2026-03-13"
 ---
 
 # Vibe Kanban
@@ -37,6 +37,8 @@ Orchestration platform for AI coding agents. Plan, review, and manage AI-generat
 npx vibe-kanban
 ```
 
+`npx vibe-kanban` remains the canonical cross-platform launch path. As of v0.1.30, the packaged desktop app is moving onto a Tauri v2 shell with built-in auto-update behavior for installed desktop builds.
+
 ## Release Highlights (0.1.15 → 0.1.28)
 
 - MCP server expanded: richer issue retrieval (`get_issue` includes tags/relationships/sub-issues) and new workspace/relationship/tag tools (e.g. `update_workspace`, relationship + tag mutations).
@@ -51,6 +53,11 @@ npx vibe-kanban
 - Worktrees: preserve worktree path across cleanup to maintain Claude Code session continuity.
 - Workspaces: improved workspace logs capture (root execution-process provider).
 - Mobile UI fixes and Remote Access docs refresh.
+
+## Release Highlights (0.1.30)
+
+- Desktop packaging now wraps the app in Tauri v2, which introduces a packaged-app auto-updater path alongside the existing `npx vibe-kanban` launch flow.
+- First-turn UX is clearer when setup scripts run in parallel, reducing confusion during initial workspace/session bootstrap.
 
 Opens browser automatically. Use `PORT=8080 npx vibe-kanban` for fixed port.
 

@@ -22,6 +22,7 @@ Actionable notes from the Rolldown integration guide.
 
 - Some Rollup options are unsupported; expect validation warnings.
 - `manualChunks` is deprecated in favor of `advancedChunks`.
+- `build.rollupOptions` / `worker.rollupOptions` are deprecated in favor of `build.rolldownOptions` / `worker.rolldownOptions` during the transition.
 
 ## Performance knobs
 
@@ -34,3 +35,4 @@ Actionable notes from the Rolldown integration guide.
 - Detect `rolldown-vite` via `this.meta.rolldownVersion` or `vite.rolldownVersion`.
 - If you use `transformWithEsbuild`, add `esbuild` as a dependency or switch to `transformWithOxc`.
 - Set `moduleType: 'js'` when transforming non-JS content.
+- If you catch build errors programmatically, expect `BundleError` with a nested `.errors` array instead of assuming a single raw plugin exception.

@@ -37,6 +37,12 @@ Recent Android nodes expose additional command families commonly used in automat
 - `calendar.events`, `calendar.add`
 - `motion.activity`, `motion.pedometer`
 
+## Pending work queue primitives (v2026.3.11)
+
+- Gateway exposes `node.pending.enqueue` and `node.pending.drain` as narrow in-memory primitives for pending work delivery to dormant or waking nodes.
+- Treat them as gateway-coordinated queue helpers, not as durable job storage.
+- If node wake/reconnect flows are flaky, inspect pending-work behavior alongside APNs/push signaling before blaming the node executor itself.
+
 ## Safeguards
 
 - Keep explicit allowlists for high-risk system execution.

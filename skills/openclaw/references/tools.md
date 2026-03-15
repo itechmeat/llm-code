@@ -57,6 +57,11 @@ v2026.3.2 adds PDF output support and quality controls for diff artifacts.
 - Validate node status/capabilities before invoking remote actions.
 - Prefer least-privilege profile first, then add explicit allow entries.
 
+## Plugin and binding safety (v2026.3.13)
+
+- Channel/binding collisions in plugins now fail fast instead of silently competing at runtime.
+- Treat collision errors as configuration bugs to resolve explicitly; do not work around them by retrying the same plugin load order.
+
 ## Browser SSRF policy (v2026.2.23)
 
 - Config key rename: `browser.ssrfPolicy.allowPrivateNetwork` -> `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork`.

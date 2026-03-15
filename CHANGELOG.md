@@ -5,6 +5,18 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-03-15]
+
+### Changed
+
+- **base-ui** — Updated the skill for v1.3.0 with Drawer stabilization, a new Drawer reference, and refreshed notes for Tooltip, Toast, Select, Slider, and Popover component changes.
+- **beads** — Updated the skill for v0.60.0 with GitHub Issues sync, `bd bootstrap`/`bd context`, file-backed design input, safer re-init guidance, and PRIME.md fallback notes.
+- **coderabbit** — Updated the skill for the 2026-03-12 changelog with the two-repo Multi-Repo Analysis limit and the reorganized dashboard/reporting guidance for Git platform vs IDE/CLI reviews.
+- **openclaw** — Expanded the skill for v2026.3.13 with browser-origin WebSocket security guidance, cron migration notes, remote gateway token onboarding, Slack interactive replies, plugin collision fail-fast behavior, node pending-work queue coverage, and a new configuration/workspace bootstrap reference based on operator-focused setup practices.
+- **vite** — Updated the skill for v8.0.0 with migration notes for stricter CJS interop, removed format sniffing, `rolldownOptions`, newer browser targets, and `BundleError` handling in the JS API.
+- **vitest** — Updated the skill for v4.1.0 with around-hooks, tags/meta, static `vitest list`, async leak detection, richer snapshot update modes, and browser-mode additions.
+- **vibekanban** — Updated the skill for v0.1.30 with Tauri v2 desktop packaging and auto-updater guidance while keeping `npx vibe-kanban` as the canonical launch path.
+
 ## [2026-03-11]
 
 ### Changed

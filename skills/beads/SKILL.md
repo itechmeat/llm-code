@@ -2,8 +2,8 @@
 name: beads
 description: "Beads (bd) Dolt-backed issue tracker for agent task memory. Covers CLI ops, molecules, Dolt sync, Linear/Jira/GitLab. Use when tracking tasks and dependencies with the Beads CLI, syncing issues via Dolt, or integrating with Linear/Jira/GitLab. Keywords: bd, beads, Dolt, issue tracker."
 metadata:
-  version: "0.59.0"
-  release_date: "2026-03-06"
+  version: "0.60.0"
+  release_date: "2026-03-12"
 ---
 
 # Beads (bd)
@@ -47,10 +47,13 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 | `bd sync`                     | Sync database state                   |
 | `bd dolt pull`                | Pull latest DB changes (advanced)     |
 | `bd dolt push`                | Push DB changes (advanced)            |
+| `bd bootstrap`                | Repair/bootstrap workspace identity   |
+| `bd context`                  | Show current workspace/task context   |
 | `bd kv set <key> <value>`     | Store key-value pair                  |
 | `bd kv get <key>`             | Retrieve stored value                 |
 | `bd dolt show`                | Show Dolt connection/remote settings  |
 | `bd gitlab sync`              | Sync with GitLab                      |
+| `bd github sync`              | Sync with GitHub Issues               |
 | `bd remember`                 | Write persistent agent memory         |
 | `bd recall`                   | Read persistent agent memory          |
 | `bd purge`                    | Delete closed ephemeral beads (wisps) |
@@ -170,6 +173,16 @@ bd list --json                   # Standard JSON output
 ### MCP Plugin
 
 Beads includes Claude Code MCP plugin for direct integration.
+
+## Release Highlights (0.60.0)
+
+- GitHub Issues joins the tracker integration surface alongside GitLab, Linear, and Jira.
+- `bd bootstrap` now executes workspace identity and recovery actions directly instead of only printing advice.
+- `bd context` provides a concise working-context surface for the current workspace/session.
+- `--design-file` lets you source design content from files instead of forcing large inline payloads.
+- `bd init` / re-init flows add `--destroy-token` for safer non-interactive destructive initialization.
+- Error handling is more machine-friendly with JSON-aware output and JSONL schema validation.
+- If a repo-local PRIME file is missing, Beads can fall back to `~/.config/beads/PRIME.md`.
 
 ## Critical Commands
 

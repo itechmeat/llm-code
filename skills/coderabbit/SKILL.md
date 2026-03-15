@@ -3,7 +3,7 @@ name: coderabbit
 description: "CodeRabbit AI code review. Covers CLI usage, .coderabbit.yaml configuration, supported linters/tools, PR commands, and triage workflow. Use when running AI-powered code reviews on pull requests or local changes, configuring review rules, or triaging CodeRabbit findings. Keywords: @coderabbitai, code review, CLI, .coderabbit.yaml."
 metadata:
   version: "—"
-  release_date: "2026-03-04"
+  release_date: "2026-03-12"
 ---
 
 # CodeRabbit
@@ -157,8 +157,15 @@ coderabbit auth status
 CodeRabbit can analyze linked repositories during PR review to catch cross-repo breakages (API/type/dependency drift).
 
 - Configure linked repositories in Knowledge Base settings.
+- As of 2026-03-11, Pro plans can link up to **2** repositories for Multi-Repo Analysis.
 - Use this when changes in one repo affect contracts in another.
 - Treat cross-repo findings as HIGH/CRITICAL when they indicate runtime incompatibility.
+
+## Dashboard and Reporting (2026-03-12)
+
+- Dashboard metrics are now split between **Git platform reviews** and **IDE/CLI reviews**.
+- Reporting surfaces now include Git-platform pages like Knowledge Base, Pre-merge Checks, and Reporting, plus IDE/CLI pages like Summary, Organization Trends, and Data Metrics.
+- Team filters are available across dashboards; use them when review volume or findings need to be separated by team rather than repository alone.
 
 ## Custom Finishing Touch Recipes (Early Access) (2026-02-23)
 
