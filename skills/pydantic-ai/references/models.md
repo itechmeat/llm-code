@@ -190,6 +190,49 @@ agent = Agent(fallback)
 
 ```
 
+### Response-Based Fallback (v1.69.0)
+
+`FallbackModel` can now trigger failover based on the returned `ModelResponse`, not only raised exceptions.
+
+- Use this for semantic failures such as truncated responses or built-in tool failures.
+- This currently works only for non-streaming runs: `run()` and `run_sync()`.
+- If you pass only a response handler to `fallback_on`, it replaces the default exception-based fallback; include both when you need both behaviors.
+
+```python
+from pydantic_ai import Agent, ModelAPIError
+from pydantic_ai.messages import ModelResponse
+from pydantic_ai.models.fallback import FallbackModel
+
+def bad_finish_reason(response: ModelResponse) -> bool:
+    return response.finish_reason in ('length', 'content_filter', 'error')
+
+fallback = FallbackModel(
+    'openai:gpt-5.2',
+    'anthropic:claude-sonnet-4-5',
+    fallback_on=[ModelAPIError, bad_finish_reason],
+)
+
+agent = Agent(fallback)
+```
+
+## Bedrock Inference Profiles (v1.70.0)
+
+Use `bedrock_inference_profile` when you need AWS Bedrock inference-profile routing while still keeping the base model name for capability detection and token counting.
+
+```python
+from pydantic_ai import ModelSettings
+from pydantic_ai.models.bedrock import BedrockModel
+
+model = BedrockModel(
+    'anthropic.claude-sonnet-4-5-20250929-v1:0',
+    settings=ModelSettings(
+        bedrock_inference_profile='arn:aws:bedrock:us-east-1:123456789012:inference-profile/my-profile'
+    ),
+)
+```
+
+When set, the inference-profile ARN is sent as the Bedrock `modelId` for API calls.
+
 ## Concurrency Limiting (v1.54.0)
 
 Limit concurrent requests per model or across a shared limiter.

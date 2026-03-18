@@ -3,7 +3,7 @@ name: coderabbit
 description: "CodeRabbit AI code review. Covers CLI usage, .coderabbit.yaml configuration, supported linters/tools, PR commands, and triage workflow. Use when running AI-powered code reviews on pull requests or local changes, configuring review rules, or triaging CodeRabbit findings. Keywords: @coderabbitai, code review, CLI, .coderabbit.yaml."
 metadata:
   version: "—"
-  release_date: "2026-03-12"
+  release_date: "2026-03-17"
 ---
 
 # CodeRabbit
@@ -89,6 +89,8 @@ Options:
 ```text
 @coderabbitai review          # Incremental review
 @coderabbitai full review     # Complete review
+@coderabbitai simplify        # Apply targeted simplifications to changed files
+@coderabbitai fix merge conflict  # Attempt automatic merge-conflict resolution
 @coderabbitai pause           # Stop auto-reviews
 @coderabbitai resume          # Resume auto-reviews
 @coderabbitai resolve         # Mark comments resolved
@@ -166,6 +168,26 @@ CodeRabbit can analyze linked repositories during PR review to catch cross-repo 
 - Dashboard metrics are now split between **Git platform reviews** and **IDE/CLI reviews**.
 - Reporting surfaces now include Git-platform pages like Knowledge Base, Pre-merge Checks, and Reporting, plus IDE/CLI pages like Summary, Organization Trends, and Data Metrics.
 - Team filters are available across dashboards; use them when review volume or findings need to be separated by team rather than repository alone.
+
+## Simplify Code (Open Beta, Pro) (2026-03-13)
+
+- `@coderabbitai simplify` runs an agentic cleanup pass over the files changed in the PR.
+- It focuses on extracting reusable helpers, simplifying conditionals, and removing redundancy while preserving behavior.
+- CodeRabbit validates the result with the repository's existing test suite and can either open a follow-up PR or commit directly to the branch.
+- Not available for fork PR direct-commit mode.
+
+## Chat Access Control (GitHub Orgs) (2026-03-16)
+
+- Use `chat.allow_non_org_members: false` in `.coderabbit.yaml` when PR comment chat must stay limited to organization members.
+- This affects comment-thread interaction only; automatic PR review behavior is unchanged.
+- Default remains `true`, so public-repo chat stays open unless you opt out.
+
+## Resolve Merge Conflicts (Open Beta, Pro) (2026-03-17)
+
+- CodeRabbit can detect merge conflicts during PR review and offer one-click or comment-triggered resolution.
+- Trigger with `@coderabbitai fix merge conflict` or the Walkthrough checkbox on GitHub.
+- It commits a proper merge commit when successful, but declines if the resolution is ambiguous or touches security-critical logic such as auth, encryption, secrets, or access control.
+- If any conflicted file is declined, the whole auto-resolution attempt is aborted and no partial commit is created.
 
 ## Custom Finishing Touch Recipes (Early Access) (2026-02-23)
 

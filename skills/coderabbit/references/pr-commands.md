@@ -29,6 +29,13 @@ All commands use `@coderabbitai` mention in PR comments.
 | `@coderabbitai generate docstrings` | Generate documentation for functions |
 | `@coderabbitai generate unit tests` | Generate test coverage               |
 
+## Finishing Touches
+
+| Command                            | Description                                                           |
+| ---------------------------------- | --------------------------------------------------------------------- |
+| `@coderabbitai simplify`           | Simplify the changed files in the PR while preserving behavior        |
+| `@coderabbitai fix merge conflict` | Attempt automatic merge-conflict resolution and commit a merge result |
+
 ## Chat Interaction
 
 Ask questions about code changes:
@@ -47,3 +54,5 @@ Ask questions about code changes:
 - `@coderabbitai resolve` marks ALL comments as resolved
 - CodeRabbit learns from your feedback over time
 - Chat responses consider full repository context
+- `@coderabbitai simplify` is an Open Beta Pro feature and may take up to 20 minutes on large PRs
+- `@coderabbitai fix merge conflict` aborts without a commit when any conflicted file is too ambiguous or security-sensitive for safe automation

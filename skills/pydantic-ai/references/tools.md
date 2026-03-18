@@ -203,6 +203,14 @@ def click_and_capture(x: int, y: int) -> ToolReturn:
 | `content`      | Additional context (text, images, docs) as user message |
 | `metadata`     | App-side data, not sent to LLM ("artifacts")            |
 
+### Multimodal Tool Results (v1.69.0)
+
+When provider APIs support multimodal tool-result payloads, Pydantic AI now forwards those results directly instead of always splitting them into extra user-message parts.
+
+- Keep using `ToolReturn.content` for images, docs, and other multimodal artifacts.
+- Prefer provider-native multimodal flows when a downstream model can consume them directly.
+- If you depend on provider-specific multimodal behavior, verify it with the target model rather than assuming every provider handles the same content types identically.
+
 ### UploadedFile (v1.65.0)
 
 Pydantic AI adds an `UploadedFile` object to support files uploaded to model providers. Use it when a provider requires a pre-upload step (instead of inlining raw bytes in every request).

@@ -47,6 +47,19 @@ Operational guidance:
 | `tone_instructions` | string  | `""`    | Custom tone (max 250 chars)  |
 | `early_access`      | boolean | `false` | Enable early-access features |
 
+### Chat
+
+GitHub organization repositories can restrict PR comment chat to org members only:
+
+```yaml
+chat:
+  allow_non_org_members: false
+```
+
+- Default: `true`
+- Effect: limits comment-thread interaction to organization members
+- Does not affect automatic PR review eligibility or background review execution
+
 ### Reviews
 
 | Setting                                     | Type    | Default | Description                                                      |
@@ -181,6 +194,8 @@ reviews:
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 language: en-US
 tone_instructions: "Be direct. Focus on bugs and security issues."
+chat:
+  allow_non_org_members: false
 
 reviews:
   profile: chill

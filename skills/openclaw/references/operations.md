@@ -85,6 +85,7 @@ Operational notes:
 - Treat downgrades as risky (older versions can break config); require explicit confirmation.
 - If the gateway is supervised (launchd/systemd), prefer `openclaw gateway restart` after updates.
 - After upgrading to v2026.3.11+, run `openclaw doctor --fix` to migrate legacy cron storage and legacy cron notify/webhook metadata before trusting scheduled delivery.
+- For `v2026.3.13-1`, remember that the `-1` suffix is only a GitHub release/tag recovery marker; runtime versioning still tracks `2026.3.13`.
 
 ## Automatic updates (Gateway core auto-updater)
 
@@ -177,6 +178,12 @@ openclaw health
 - Startup failure: check gateway mode, auth for bind mode, and port conflicts.
 - Channel flow failure: validate API scopes, policy gates, and pairing approvals.
 - Node/browser tool failures: isolate permissions, approvals, foreground constraints, and runtime dependencies.
+
+## Patch-level triage additions (v2026.3.13-1)
+
+- If compaction quality regresses after update, inspect post-compaction sanity using full-session token counts before tuning prompt/summary policies.
+- If session continuity breaks after reset flows, verify whether `lastAccountId` / `lastThreadId` were preserved instead of assuming channel routing drift.
+- If gateway/UI requests look stuck, check for bounded unanswered client requests in logs rather than waiting indefinitely.
 
 ## Cron migration note (BREAKING, v2026.3.11)
 

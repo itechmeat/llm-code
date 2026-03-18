@@ -21,6 +21,8 @@ When gateway is running:
 
 Bind address comes from `gateway.host` and `gateway.port` in config.
 
+Recent releases also surface `server.pid` in health output, which is useful when supervising PicoClaw under service managers or wrapper scripts.
+
 ## Debug logs
 
 - `picoclaw gateway --debug`
@@ -44,3 +46,9 @@ The key is detected from:
 
 - Gateway startup/path handling was tightened: prefer invoking the binary through the resolved gateway path and pass the config explicitly when you wrap PicoClaw in scripts or service managers.
 - Empty-model errors are now clarified; if gateway fails early, verify `agents.defaults.model_name` against configured `model_list` entries before debugging channels.
+
+## v0.2.3 operational notes
+
+- Web gateway hot reload and polling state sync improve operator feedback when config or runtime state changes through the web flow.
+- WebSocket traffic can now proxy through the web-server port, which simplifies deployments that only expose one web-facing port.
+- Gateway should no longer start if the underlying gateway server is not actually running; treat that as an early failure signal, not a partial-success state.

@@ -2,8 +2,8 @@
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Use when building Python AI agents with Pydantic AI, configuring model providers, implementing typed tools/dependencies, running evals, or integrating MCP servers. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
 metadata:
-  version: "1.68.0"
-  release_date: "2026-03-12"
+  version: "1.70.0"
+  release_date: "2026-03-17"
 ---
 
 # Pydantic AI
@@ -37,12 +37,13 @@ Python agent framework for building production-grade GenAI applications with the
 
 See `references/installation.md` for full/slim install options and optional dependency groups. Requires Python 3.10+.
 
-## Release Highlights (1.63.0 → 1.65.0)
+## Release Highlights (1.69.0 → 1.70.0)
 
-- Outputs: `template=False` on `PromptedOutput` / `NativeOutput` disables schema prompt injection (v1.64.0).
-- Files: provider uploads are supported via the new `UploadedFile` object (v1.65.0).
-- Google Gemini: added `gemini-3.1-flash-lite-preview` model support (v1.65.0).
-- Stability: fixes for UI adapter `run_id`, Google streaming error wrapping, MCP race hardening, and parallel tools sibling-task cancellation.
+- Agents: `Agent(description=...)` adds a human-readable description to the run span as `gen_ai.agent.description` when instrumentation is enabled.
+- Models: `FallbackModel` now supports response-based fallback handlers for semantic failures in non-streaming runs.
+- Tools: multimodal tool results are passed directly to provider APIs instead of always being split into extra user-message parts.
+- Bedrock: `bedrock_inference_profile` is available on model and embedding settings for routing requests through an inference profile ARN.
+- Stability: provider fixes landed for OpenRouter Anthropic model matching, Cohere embeddings, Google image sizes, Bedrock tool-name sanitization, and malformed tool-call retry handling.
 
 ## Quick Start
 

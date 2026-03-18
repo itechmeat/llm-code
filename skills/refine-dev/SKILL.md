@@ -2,8 +2,8 @@
 name: refine-dev
 description: "Refine.dev headless React framework for CRUD apps: data providers, resources, routing, authentication, hooks, and forms. Use when building admin panels, dashboards, or internal tools with React and various backends (REST, GraphQL, Supabase, Strapi), or configuring Refine data providers and authentication. Keywords: Refine, CRUD, admin panel, data provider, React."
 metadata:
-  version: "5.0.10"
-  release_date: "2026-03-05"
+  version: "5.0.11"
+  release_date: "2026-03-16"
 ---
 
 # Refine.dev Framework

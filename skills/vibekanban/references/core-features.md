@@ -46,6 +46,8 @@ Press `C` or click `+` icon.
 - Description (optional, supports markdown; paste preserves inline code and supports raw paste)
 - Base branch (defaults to configured target branch)
 
+Description editing UX was refined in v0.1.31 with better typeahead priority and toolbar behavior in the WYSIWYG editor.
+
 ### Task Tags
 
 Reusable text snippets via `@mention`:
@@ -60,6 +62,11 @@ Manage tags: Settings → General → Task Tags
 
 - Image attachments are supported on issues.
 - Use inline attachments in descriptions/comments; attachment handling is proxied by the server (ensure proxy routes are enabled for self-hosting).
+
+### Expanded Attachments (v0.1.32)
+
+- Attachments are no longer limited to images; arbitrary files are supported across issues and workspace flows.
+- This is useful when a task needs logs, archives, specs, or other non-image artifacts attached directly to the working context.
 
 ### Task Columns
 

@@ -2,8 +2,8 @@
 name: vibekanban
 description: "Orchestrate AI coding with Vibe Kanban: tasks, review, sessions, workspaces, and isolated git worktrees. Use when managing AI-generated code in isolated environments, planning coding tasks, reviewing AI output, or configuring Vibe Kanban workspaces and agents. Keywords: Vibe Kanban, AI orchestration, worktrees."
 metadata:
-  version: "0.1.30"
-  release_date: "2026-03-13"
+  version: "0.1.32"
+  release_date: "2026-03-18"
 ---
 
 # Vibe Kanban
@@ -54,10 +54,14 @@ npx vibe-kanban
 - Workspaces: improved workspace logs capture (root execution-process provider).
 - Mobile UI fixes and Remote Access docs refresh.
 
-## Release Highlights (0.1.30)
+## Release Highlights (0.1.31 → 0.1.32)
 
-- Desktop packaging now wraps the app in Tauri v2, which introduces a packaged-app auto-updater path alongside the existing `npx vibe-kanban` launch flow.
-- First-turn UX is clearer when setup scripts run in parallel, reducing confusion during initial workspace/session bootstrap.
+- Desktop/Tauri: Windows desktop app support lands, Tauri notifications are available, and desktop zoom behavior is reworked around font-size scaling.
+- Workspaces: sessions can be renamed and auto-named; draft workspace-creation preference is persisted.
+- Attachments: arbitrary attachments are supported across workspaces and issues.
+- MCP: issue filters are available through the MCP surface.
+- Remote/admin: remote audit logging is added, short issue IDs become org-scoped, and analytics are disabled when PostHog config is blank.
+- Editor UX: WYSIWYG typeahead, toolbar, and issue-description editing flows are improved.
 
 Opens browser automatically. Use `PORT=8080 npx vibe-kanban` for fixed port.
 

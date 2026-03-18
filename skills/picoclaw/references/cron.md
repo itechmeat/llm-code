@@ -22,6 +22,14 @@ Delivery options:
 
 - Add `--deliver` plus `--channel` and `--to` to route the result to a channel.
 
+## Execution policy note (v0.2.3)
+
+Cron command execution is now gated through exec settings.
+
+- If a cron task needs command execution, verify the relevant `tools.exec` policy first.
+- Keep deny patterns enabled unless the environment is fully trusted.
+- Use `tools.cron.exec_timeout_minutes` together with exec policy so scheduled commands stay bounded.
+
 ## Enable/disable
 
 - `picoclaw cron disable <job_id>`

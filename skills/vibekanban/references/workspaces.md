@@ -29,6 +29,8 @@ Workspace auto-creates working branch from target branch.
 
 **Defaults**: Create flow now defaults to the last used project/repo/branch and sets a base target branch automatically. Adjust per repo if needed.
 
+Draft workspace-creation preference is also persisted, which is useful if you regularly stage workspaces before fully launching them.
+
 ## Workspace Create Flow Updates (v0.1.15)
 
 - Navigation in create flow is standardized via callback handlers.
@@ -96,6 +98,11 @@ Conversation threads within a workspace. All sessions share repos and git state.
 Sessions maintain independent conversation history.
 
 Session dropdown shows agent icons next to session titles for quick identification.
+
+### Session Naming (v0.1.31)
+
+- Sessions can be renamed explicitly.
+- Vibe Kanban can also auto-name purpose-specific sessions to keep multi-session workspaces easier to scan.
 
 ## Command Bar
 
@@ -212,6 +219,8 @@ Search workspaces by branch name in sidebar.
 Drag images directly into chat for context.
 
 As of v0.1.28, image attachments can also be sent during an active agent run, which makes iterative UI and screenshot-driven workflows smoother.
+
+As of v0.1.32, attachments are no longer limited to images; arbitrary attachments can be carried across workspace and issue flows.
 
 ## Integrated Terminal
 

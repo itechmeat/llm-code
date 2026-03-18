@@ -2,8 +2,8 @@
 name: picoclaw
 description: "PicoClaw Go AI assistant. Covers CLI ops, config.json, channels, auth, skills, gateway. Use when running the PicoClaw CLI, configuring models/tools/gateway in config.json, or operating channels and authentication. Keywords: picoclaw, onboard, gateway, model_list."
 metadata:
-  version: "v0.2.2"
-  release_date: "2026-03-11"
+  version: "v0.2.3"
+  release_date: "2026-03-17"
 ---
 
 # PicoClaw
@@ -96,6 +96,13 @@ Use when you need to:
 - Do not commit real API keys or OAuth tokens into a repo; keep them in `~/.picoclaw/` only.
 - Be cautious enabling the exec tool; keep deny patterns enabled unless you fully trust the environment.
 - Exposing gateway to `0.0.0.0` makes health endpoints reachable from the network; do that only intentionally.
+
+## Release Highlights (v0.2.3)
+
+- Config/exec: exec controls are stronger and cron command execution is now gated through exec settings.
+- Gateway/web: web gateway hot reload and polling-based state sync were added; WebSocket traffic can proxy through the web-server port.
+- Gateway health: `server.pid` is now included in health surfaces, and gateway refuses to start when the gateway server is not actually running.
+- Tools: `SpawnStatusTool` reports subagent status; exec whitelist checks are safer around symlinked allowed roots.
 
 ## Links
 

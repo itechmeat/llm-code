@@ -4,14 +4,15 @@ Core interface for interacting with LLMs in Pydantic AI.
 
 ## Agent Components
 
-| Component      | Description                            |
-| -------------- | -------------------------------------- |
-| Instructions   | Developer-written prompts for LLM      |
-| Function Tools | Functions LLM can call during response |
-| Output Type    | Structured datatype LLM must return    |
-| Dependencies   | Context passed to tools and prompts    |
-| Model          | Default LLM (can override at runtime)  |
-| Model Settings | Temperature, max_tokens, timeout, etc. |
+| Component      | Description                                    |
+| -------------- | ---------------------------------------------- |
+| Instructions   | Developer-written prompts for LLM              |
+| Description    | Human-readable label for instrumentation spans |
+| Function Tools | Functions LLM can call during response         |
+| Output Type    | Structured datatype LLM must return            |
+| Dependencies   | Context passed to tools and prompts            |
+| Model          | Default LLM (can override at runtime)          |
+| Model Settings | Temperature, max_tokens, timeout, etc.         |
 
 ## Multimodal Input
 
@@ -78,11 +79,27 @@ agent = Agent(
     'openai:gpt-4o',           # model identifier
     deps_type=int,              # dependency type
     output_type=bool,           # structured output type
+    description='Triage GitHub issues and draft concise replies',
     system_prompt='Your instructions here',
     model_settings=ModelSettings(temperature=0.5),
     retries=2,                  # default retry count
 )
 ```
+
+### Agent Description (v1.69.0)
+
+Use `description=` when you want traces and observability spans to carry a stable, human-readable agent label.
+
+```python
+from pydantic_ai import Agent
+
+agent = Agent(
+    'openai:gpt-4o',
+    description='Customer-support classifier',
+)
+```
+
+When instrumentation is enabled, Pydantic AI attaches this value to the run span as `gen_ai.agent.description`.
 
 ## Dependencies
 

@@ -118,6 +118,13 @@ Use these for process/container probes only; for authenticated deeper checks, us
 - Gateway/client request handling now bounds unanswered client requests more aggressively; if UI/API calls appear to hang, inspect gateway logs for timed-out pending requests instead of assuming the request is still live.
 - If local `gateway.auth.*` uses SecretRefs, treat missing secret resolution as a hard failure and fix the secret source before retrying startup.
 
+## Recovery release notes (v2026.3.13-1)
+
+- The `v2026.3.13-1` tag is a release-path recovery tag; do not treat the `-1` suffix as a new npm/runtime version line.
+- If the control UI is reached through an insecure compatibility path, shared-auth behavior has been restored; still prefer loopback or HTTPS/Tailscale contexts for normal operations.
+- Connect failures are classified more explicitly now, so incident triage should distinguish auth/connectivity failures from generic UI breakage.
+- Docker deployments can set `OPENCLAW_TZ` to keep gateway/container timezone behavior explicit.
+
 ## New audit finding: `gateway.http.no_auth` (v2026.2.19)
 
 - Trigger condition: `gateway.auth.mode="none"` with reachable Gateway HTTP APIs.

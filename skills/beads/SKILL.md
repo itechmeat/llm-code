@@ -2,8 +2,8 @@
 name: beads
 description: "Beads (bd) Dolt-backed issue tracker for agent task memory. Covers CLI ops, molecules, Dolt sync, Linear/Jira/GitLab. Use when tracking tasks and dependencies with the Beads CLI, syncing issues via Dolt, or integrating with Linear/Jira/GitLab. Keywords: bd, beads, Dolt, issue tracker."
 metadata:
-  version: "0.60.0"
-  release_date: "2026-03-12"
+  version: "0.61.0"
+  release_date: "2026-03-16"
 ---
 
 # Beads (bd)
@@ -40,10 +40,12 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 | `bd show <id>`                | View task details and audit trail     |
 | `bd update <id> --status=X`   | Update status (open/in_progress/done) |
 | `bd close <id>`               | Close task                            |
+| `bd close <id> --claim-next`  | Close current task and claim next     |
 | `bd dep add <child> <parent>` | Link tasks (blocks, related, parent)  |
 | `bd list`                     | List issues (default: 50, non-closed) |
 | `bd show --current`           | Show active issue (no ID needed)      |
 | `bd update <id> --claim`      | Atomically claim issue for work       |
+| `bd import -i <file>`         | Import JSONL incrementally            |
 | `bd sync`                     | Sync database state                   |
 | `bd dolt pull`                | Pull latest DB changes (advanced)     |
 | `bd dolt push`                | Push DB changes (advanced)            |
@@ -174,15 +176,14 @@ bd list --json                   # Standard JSON output
 
 Beads includes Claude Code MCP plugin for direct integration.
 
-## Release Highlights (0.60.0)
+## Release Highlights (0.61.0)
 
-- GitHub Issues joins the tracker integration surface alongside GitLab, Linear, and Jira.
-- `bd bootstrap` now executes workspace identity and recovery actions directly instead of only printing advice.
-- `bd context` provides a concise working-context surface for the current workspace/session.
-- `--design-file` lets you source design content from files instead of forcing large inline payloads.
-- `bd init` / re-init flows add `--destroy-token` for safer non-interactive destructive initialization.
-- Error handling is more machine-friendly with JSON-aware output and JSONL schema validation.
-- If a repo-local PRIME file is missing, Beads can fall back to `~/.config/beads/PRIME.md`.
+- `bd close --claim-next` shortens the common close-and-claim-next loop for agents.
+- `bd create` gains `--skills`, `--context`, and `--no-history` for richer task creation and optional Dolt-history suppression.
+- `bd import` adds incremental JSONL import for portability and recovery workflows.
+- `bd init` / `bd bootstrap` can auto-detect the Beads database from the repository git origin.
+- Dolt/server-mode sync improves credential pass-through, runtime port reporting, and health checks.
+- Config and backup handling are safer, including proper project+user config merge and `BD_BACKUP_ENABLED=false` support.
 
 ## Critical Commands
 
@@ -193,12 +194,14 @@ bd ready --pretty           # Formatted output
 
 # Create with dependencies
 bd create "Task B" --blocks bd-a1b2
+bd create "Task C" --context "Need schema review" --skills "python,sql"
 
 # Doctor (fix issues)
 bd doctor                   # Check health
 bd doctor --fix             # Auto-fix problems
 
 bd sync                     # Sync DB state
+bd import -i backup.jsonl   # Incremental JSONL import
 
 bd dolt pull                # Pull latest changes (advanced)
 bd dolt push                # Push to remote (advanced)

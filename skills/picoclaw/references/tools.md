@@ -42,9 +42,16 @@ Docs describe default blocked patterns including:
 - PicoClaw hardened unauthenticated tool-exec paths.
 - Treat remote execution as an explicit policy decision; do not rely on older implicit behavior.
 
+## Exec and subagent updates (v0.2.3)
+
+- Exec controls are now used to gate cron command execution as well as direct command flows.
+- Whitelist path checks are normalized for symlinked allowed roots, which reduces false negatives in workspace layouts that rely on symlinks.
+- `SpawnStatusTool` is available for reporting subagent status back into the agent/tool surface.
+
 ## Cron tool
 
 - `tools.cron.exec_timeout_minutes` controls how long scheduled executions may run.
+- Scheduled command execution now depends on exec policy, so review `tools.exec` when cron jobs need shell access.
 
 ## Skills tool (registries)
 

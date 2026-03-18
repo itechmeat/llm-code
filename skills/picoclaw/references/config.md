@@ -50,6 +50,8 @@ See: `tools.md`.
 
 Recent builds also expose exec `allow_remote` support through web-facing settings. If you manage PicoClaw from the web UI/launcher, make sure remote-exec policy matches your CLI config instead of assuming the UI is read-only.
 
+As of v0.2.3, cron command execution is also gated by exec settings. If a scheduled command stops running after upgrade, inspect `tools.exec` policy before debugging cron syntax.
+
 ### `gateway`
 
 - `host`, `port` control the health server bind address.

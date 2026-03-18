@@ -98,6 +98,12 @@ Or search: `@id:bloop.vibe-kanban`
 | Cursor   | ✅      | Open VSX Registry  |
 | Windsurf | ✅      | Open VSX Registry  |
 
+## Desktop / Tauri Notes (v0.1.31 → v0.1.32)
+
+- Windows desktop packaging is available through the Tauri app shell.
+- Tauri builds can surface system notifications.
+- If you are validating desktop behavior, note that zoom was reimplemented via font-size scaling in the Tauri app.
+
 ## Connecting MCP Servers to Agents
 
 Add external tools to coding agents.
@@ -180,6 +186,8 @@ Tools (grouped):
 | Relationships | `create_issue_relationship`, `delete_issue_relationship`                                               |
 | Scripts       | `update_setup_script`, `update_cleanup_script`, `update_dev_server_script`                             |
 
+MCP issue listing now supports richer filtering, which is useful when external MCP clients need to narrow issue sets before calling `get_issue` or mutation tools.
+
 ### Example Usage
 
 **Create issues from plan**:
@@ -211,3 +219,8 @@ Docker Compose URLs and port bindings are configurable for self-hosting. Review 
 
 - Claude Code integration was updated to handle newer message types.
 - If your executor bridge is pinned to older transport assumptions, validate task attempt streaming after upgrade.
+
+## Remote Operations (v0.1.32)
+
+- Remote audit logging can be exported through Application Insights OTLP integrations.
+- Remote short issue IDs are org-scoped, so cross-org references are less collision-prone.

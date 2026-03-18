@@ -17,8 +17,32 @@ Complete workflow from running a review to implementing fixes.
 1. Run CodeRabbit (prompt-only) for the relevant scope.
 2. If the review fails (rate limit/auth/network), stop and resolve the failure first.
 3. Triage findings with `triage.md`.
-4. Implement fixes with `fix.md` (one issue at a time).
-5. Verify quality gates (project checks, tests).
+4. If the PR needs agentic cleanup, optionally trigger `@coderabbitai simplify` and review the produced branch/commit before touching code manually.
+5. If the PR is blocked by merge conflicts, use the merge-conflict path below instead of manual triage.
+6. Implement fixes with `fix.md` (one issue at a time).
+7. Verify quality gates (project checks, tests).
+
+## Merge Conflict Resolution Path (2026-03-17)
+
+Use this when CodeRabbit detects merge conflicts in a PR or merge request.
+
+Trigger options:
+
+- `@coderabbitai fix merge conflict`
+- **Resolve merge conflicts** checkbox in the GitHub Walkthrough
+
+Operational behavior:
+
+- CodeRabbit simulates the merge in a sandbox, analyzes the intent of both sides, edits the repo, and validates the result.
+- On success it creates a proper merge commit with two parents.
+- If the branch changes during processing, the run is aborted and must be retried.
+- If any file is ambiguous or security-sensitive, the entire attempt is declined and no partial commit is created.
+
+Treat these conflict classes as manual-review territory even if CodeRabbit offers the action:
+
+- authentication or authorization logic
+- encryption, secrets handling, or access control
+- mutually exclusive architectural decisions that need product judgment
 
 ## Critical prohibitions
 

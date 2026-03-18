@@ -27,6 +27,13 @@ If you need to skip pushing (e.g. read-only environments):
 bd sync --no-push
 ```
 
+## Init / Bootstrap Auto-Detection (v0.61.0)
+
+`bd init` and `bd bootstrap` can now auto-detect the Beads database from the repository's git origin.
+
+- Prefer this when reconnecting an existing clone or repairing a miswired workspace.
+- It reduces manual remote/database discovery during bootstrap and recovery flows.
+
 ## Sync Modes
 
 Beads supports different sync modes depending on your backend and workflow.
@@ -53,6 +60,8 @@ Notes:
 
 - For git-protocol remotes, Beads may fall back to the Dolt CLI for transfer.
 - `bd dolt show` and `bd dolt test` help validate configuration and connectivity.
+- In server mode and federation flows, Beads now routes CLI credentials through push/pull/fetch operations more consistently.
+- `bd context` now reports the actual runtime Dolt port instead of assuming the default port.
 
 ## Multiple Clones / Worktrees: `.beads/redirect`
 
@@ -88,6 +97,8 @@ bd backup
 bd backup status
 ```
 
+Set `BD_BACKUP_ENABLED=false` when automation must suppress backup commits.
+
 ## Upgrades & Migrations
 
 For upgrades, prefer inspecting first:
@@ -98,6 +109,8 @@ bd migrate --to-dolt --dry-run
 bd migrate --to-dolt
 ```
 
+Recent releases also merge user-level config under project config instead of discarding it.
+
 ## External Integrations
 
 Integrations (GitLab/Linear/Jira/etc.) are separate from database sync: sync keeps
@@ -105,6 +118,8 @@ Beads’ local issue database consistent; integrations exchange data with extern
 trackers.
 
 For automation, prefer structured/JSON-aware error handling when integration commands fail instead of scraping human-readable error text.
+
+`bd doctor` also has stronger server-mode behavior, including cold-start Dolt detection and committed runtime/sensitive-file detection.
 
 ### GitLab Sync
 

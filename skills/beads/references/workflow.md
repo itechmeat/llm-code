@@ -24,6 +24,7 @@ bd update bd-xyz --status=in_progress
 
 # 3. Complete work
 bd close bd-xyz --reason "Implemented per spec"
+bd close bd-xyz --reason "Implemented per spec" --claim-next
 
 # 4. Share DB changes (when you want to share)
 bd sync
@@ -110,6 +111,9 @@ bd update bd-xyz --persistent
 ```bash
 # Close with reason (recommended)
 bd close bd-xyz --reason "Implemented and tested"
+
+# Close and immediately claim the next ready task
+bd close bd-xyz --reason "Implemented and tested" --claim-next
 
 # Close multiple
 bd close bd-abc bd-def --reason "Batch completion"
@@ -201,6 +205,18 @@ Notes:
 
 - Use `bd backup --help` to see the available options (location, format, automation).
 - Treat restore as a bootstrap/recovery tool; validate Dolt connectivity after restoring.
+- `bd import` supports incremental JSONL replay workflows and avoids duplicating already-imported comment history.
+
+## Richer Task Creation (v0.61.0)
+
+```bash
+bd create "Task C" --context "Needs schema review" --skills "python,sql"
+bd create "Scratch task" --no-history
+```
+
+- `--context` captures concise execution context at creation time.
+- `--skills` records the intended skill/tooling surface for the task.
+- `--no-history` skips the Dolt commit for that create operation without making the item GC-eligible.
 
 ## Maintenance
 

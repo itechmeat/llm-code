@@ -2,7 +2,7 @@
 name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Use when deploying, configuring, or operating an OpenClaw instance, managing gateway routing, setting up channels, or working with the multi-agent tool governance system. Keywords: OpenClaw, gateway, tools, channels, agents."
 metadata:
-  version: "v2026.3.13"
+  version: "v2026.3.13-1"
   release_date: "2026-03-14"
 ---
 
@@ -65,6 +65,14 @@ If OpenClaw is not installed, use `references/installation.md`.
 - Channels: Slack adds opt-in interactive reply directives; Telegram inbound media fetching now has IPv4 retry fallback.
 - Plugins/tooling: plugin channel/binding collisions now fail fast instead of producing ambiguous runtime behavior.
 - Nodes: gateway exposes `node.pending.enqueue` / `node.pending.drain` primitives as the foundation for dormant-node pending work delivery.
+
+## Release Updates (v2026.3.13-1)
+
+- This is a recovery Git tag for the broken `v2026.3.13` release path; the npm/runtime version remains `2026.3.13`.
+- Gateway/UI: control-ui connect failures are classified more clearly, and insecure-control-ui shared-auth behavior is restored for the intended compatibility path.
+- Operations: post-compaction sanity now checks full-session token counts, which makes compaction regressions easier to detect during incident triage.
+- Sessions/channels: session reset preserves `lastAccountId` and `lastThreadId`; Telegram inbound media retries keep IPv4 fallback behavior.
+- Runtime/platforms: Docker adds `OPENCLAW_TZ`; gateway probe handling and unanswered client-request bounding are more operator-visible when reachability degrades.
 
 ## Release Updates (v2026.3.7)
 
