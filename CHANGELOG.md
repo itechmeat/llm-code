@@ -5,6 +5,16 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-03-22]
+
+### Added
+
+- **seaweedfs** — Added a new operator-focused skill for SeaweedFS covering topology, filer, filer stores, S3/IAM, encryption, cloud drive, backup, operations, and client tooling.
+
+### Changed
+
+- **README registry / SKILLS_VERSIONS** — Added the SeaweedFS skill to the root skills table, updated the skill count to 46, and tracked SeaweedFS upstream version 4.17 dated 2026-03-11.
+
 ## [2026-03-15]
 
 ### Changed

@@ -13,6 +13,7 @@ Quick reference for tracking tool versions across skills. Use this file to check
 
 | Skill                               | Skill Version | Release Date | Releases                                                                      | Documentation                                                         |
 | ----------------------------------- | ------------- | ------------ | ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **seaweedfs**                       | 4.17          | 2026-03-11   | [Releases](https://github.com/seaweedfs/seaweedfs/releases)                   | [Docs](https://github.com/seaweedfs/seaweedfs/wiki/Getting-Started)   |
 | **bun**                             | 1.3.11        | 2026-03-18   | [Releases](https://github.com/oven-sh/bun/releases)                           | [Docs](https://bun.sh/docs)                                           |
 | **refine-dev**                      | 5.0.11        | 2026-03-16   | [Releases](https://github.com/refinedev/refine/releases)                      | [Docs](https://refine.dev/docs/)                                      |
 | **picoclaw**                        | v0.2.3        | 2026-03-17   | [Releases](https://github.com/sipeed/picoclaw/releases)                       | [Docs](https://github.com/sipeed/picoclaw/tree/main/docs)             |

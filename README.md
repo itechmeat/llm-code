@@ -26,7 +26,7 @@ npx add-skill itechmeat/llm-code -a claude-code -a github-copilot
 npx add-skill itechmeat/llm-code -y
 ```
 
-## Available Skills (45)
+## Available Skills (46)
 
 Each skill follows the [agentskills.io](https://agentskills.io) specification.
 
@@ -59,6 +59,7 @@ Each skill follows the [agentskills.io](https://agentskills.io) specification.
 | [qdrant](skills/qdrant/)                                 | Qdrant vector database                        |
 | [react-testing-library](skills/react-testing-library/)   | React component testing                       |
 | [refine-dev](skills/refine-dev/)                         | Refine admin framework                        |
+| [seaweedfs](skills/seaweedfs/)                           | SeaweedFS distributed storage                 |
 | [skill-master](skills/skill-master/)                     | Agent Skills authoring and evaluation         |
 | [social-writer](skills/social-writer/)                   | Social media content creation                 |
 | [tavily](skills/tavily/)                                 | Tavily AI search API                          |
