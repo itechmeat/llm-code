@@ -18,6 +18,34 @@ Environment overrides exist for many fields (Go struct tags), e.g.:
 - `PICOCLAW_AGENTS_DEFAULTS_WORKSPACE`
 - `PICOCLAW_AGENTS_DEFAULTS_MODEL_NAME`
 
+### `agents.list` and `bindings` (agent routing)
+
+You can define multiple agents and route incoming messages to them by channel/account/context:
+
+```json
+{
+  "agents": {
+    "defaults": { "workspace": "~/.picoclaw/workspace", "model_name": "gpt-4o-mini" },
+    "list": [
+      { "id": "main", "default": true, "name": "Main Assistant" },
+      { "id": "support", "name": "Support Assistant" }
+    ]
+  },
+  "bindings": [
+    {
+      "agent_id": "support",
+      "match": { "channel": "telegram", "account_id": "*", "peer": { "kind": "direct", "id": "user123" } }
+    }
+  ]
+}
+```
+
+Match priority: `peer` → `parent_peer` → `guild_id` → `team_id` → `account_id` (non-wildcard) → channel wildcard → default agent. Missing `agent_id` silently falls back to the default agent.
+
+### `gateway.log_level`
+
+Controls gateway log verbosity. Default: `warn`. Supported: `debug`, `info`, `warn`, `error`, `fatal`. Override with `PICOCLAW_LOG_LEVEL` env var.
+
 ### `model_list` (preferred)
 
 Each entry describes _one way_ to call a model:
@@ -61,6 +89,41 @@ As of v0.2.3, cron command execution is also gated by exec settings. If a schedu
 
 - `heartbeat.enabled` and `heartbeat.interval` start periodic tasks.
 - `devices.enabled` and `devices.monitor_usb` manage device event monitoring.
+
+### `.security.yml` (sensitive data separation)
+
+Store API keys and tokens in `~/.picoclaw/.security.yml` separate from `config.json`:
+
+```yaml
+model_list:
+  gpt-5.4:
+    api_keys:
+      - "sk-proj-your-openai-key"
+channels:
+  telegram:
+    token: "your-telegram-bot-token"
+```
+
+Values from `.security.yml` auto-map to config fields. If a field exists in both, `.security.yml` takes precedence. Set `chmod 600` on the file.
+
+### `voice` (audio transcription)
+
+`voice.model_name` lets you use any multimodal model for audio transcription instead of Groq Whisper:
+
+```json
+{
+  "voice": {
+    "model_name": "voice-gemini",
+    "echo_transcription": false
+  }
+}
+```
+
+If `voice.model_name` is unset, PicoClaw falls back to Groq when a Groq API key is available.
+
+### Workspace file hot-reload
+
+`AGENT.md`, `SOUL.md`, `USER.md`, and `memory/MEMORY.md` are auto-detected via mtime tracking. No gateway restart needed after editing these files.
 
 ## Minimal config change checklist
 

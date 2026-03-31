@@ -130,6 +130,24 @@ Forum group topics and DM topics support per-topic `agentId` overrides so each t
 - Slack now supports opt-in interactive reply directives for richer response handling in supported flows.
 - Treat this as a channel-specific behavior toggle to validate in staging before broad rollout, especially if you already depend on custom Slack reply formatting.
 
+### Slack exec approvals (v2026.3.28)
+
+- Native Slack approval routing with approver authorization so exec approval prompts stay in Slack instead of falling back to Web UI or terminal.
+
+### WhatsApp reactions (v2026.3.28)
+
+- Agents can react with emoji on incoming WhatsApp messages for more natural conversational interactions.
+
+### LINE outbound media (v2026.3.28)
+
+- LINE image, video, and audio outbound sends on the LINE-specific delivery path with explicit preview/tracking handling for videos.
+
+### Matrix improvements (v2026.3.28)
+
+- `channels.matrix.historyLimit` for optional room history context in group triggers, with per-agent watermarks and retry-safe snapshots.
+- Per-DM `threadReplies` overrides with thread session isolation.
+- `channels.matrix.proxy` for routing Matrix traffic through HTTP(S) proxy.
+
 ### Discord allowBots mention gating (v2026.3.7)
 
 `allowBots: "mentions"` accepts bot-authored messages only when they mention the bot.

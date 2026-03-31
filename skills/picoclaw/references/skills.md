@@ -33,6 +33,15 @@ Skills loader markdown metadata parsing was refactored. If a custom skill sudden
 
 - `picoclaw skills remove <skill-name>`
 
+## Skill channel commands
+
+From any chat channel, you can inspect and force skills:
+
+- `/list skills` — shows installed skill names available to the current agent.
+- `/use <skill> <message>` — forces a specific skill for a single request.
+- `/use <skill>` — arms that skill for your next message in the same chat session.
+- `/use clear` — cancels a pending skill override.
+
 ## Built-in skills
 
 - `picoclaw skills install-builtin` copies a small set of builtin skills (weather/news/stock/calculator) into the workspace.

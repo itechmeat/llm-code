@@ -47,6 +47,24 @@
 - Presence is best-effort gateway/client/node visibility; stable `instanceId` prevents duplicate entries.
 - Message flow includes dedupe, optional inbound debounce, queue modes, and channel-aware outbound behavior.
 
+### Background tasks and flows (v2026.3.28)
+
+- Background tasks unified into a shared SQLite-backed control plane (ACP, subagent, cron, background CLI under one ledger).
+- Detached lifecycle updates routed through the executor seam with audit/maintenance/status visibility.
+- Auto-cleanup and lost-run recovery tightened.
+- **ClawFlow**: first linear flow control surface — `openclaw flows list|show|cancel`.
+- Multi-task manual flows separate from one-task auto-sync flows.
+- Blocked state persisted on one-task flows; same flow can reopen cleanly on retry.
+- Doctor recovery hints for obviously orphaned or broken flow/task linkage.
+
+### Memory/QMD improvements (v2026.3.28)
+
+- Per-agent `memorySearch.qmd.extraCollections` for cross-agent session search.
+- CJK-aware chunk sizing (weight CJK text correctly, preserve surrogate-pair characters).
+- Session indexer includes `.jsonl.reset.*` and `.jsonl.deleted.*` transcripts.
+- `memory.qmd.searchTool` as exact mcporter tool override for custom QMD MCP tools.
+- `memory.qmd.update.embedInterval` as dedicated embed-cadence maintenance timer.
+
 ## Source availability notes
 
 The following Concepts URLs were listed in navigation during ingestion but returned 404 or non-extractable content:

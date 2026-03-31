@@ -2,8 +2,8 @@
 name: pipecat
 description: "Pipecat realtime voice/multimodal bots. Covers pipelines/frames, transports, RTVI, Pipecat Cloud deploy. Use when building real-time voice bots (STT/LLM/TTS pipelines), multimodal AI agents, WebRTC/WebSocket transports, or deploying to Pipecat Cloud. Keywords: pipecat, pipecat-ai, RTVI, WebRTC, voice bot."
 metadata:
-  version: "0.0.105"
-  release_date: "2026-03-10"
+  version: "0.0.108"
+  release_date: "2026-03-27"
 ---
 
 # Pipecat
@@ -86,6 +86,34 @@ It composes streaming speech/LLM/TTS services into a low-latency pipeline, conne
 - Expect and handle “at capacity” responses (HTTP 429) when the pool is exhausted.
 - Plan for cold-start latency if `min_agents = 0`.
 - Ensure secrets and image-pull credentials are created in the same region as the deployed agent.
+
+## Release Highlights (0.0.106–0.0.108)
+
+### New services
+
+- **`XAIHttpTTSService`** — TTS via xAI HTTP API.
+- **`SmallestTTSService`** — WebSocket TTS with Smallest AI Waves API (Lightning v2/v3.1).
+- **`SarvamLLMService`** — Sarvam AI models (30b, 105b).
+- **`NovitaLLMService`** — Novita AI OpenAI-compatible LLM.
+- **`DeepgramFluxSageMakerSTTService`** — Deepgram Flux STT on AWS SageMaker.
+- **`KrispVivaVadAnalyzer`** — VAD via Krisp VIVA SDK.
+
+### Breaking changes
+
+- **xAI module reorganization**: Grok services moved to `pipecat.services.xai.*`. Old `pipecat.services.grok.*` paths deprecated.
+- **GeminiLLMAdapter**: only `messages[0]` is treated as system message now (previously searched anywhere).
+- **Realtime services**: `system_instruction` from settings takes precedence over context-provided system instructions.
+- **Dependencies**: `mem0ai` bumped to `>=1.0.8,<2`; `protobuf` bumped to 6.x.
+- **`TTSService.add_word_timestamps()`**: "Reset"/"TTSStoppedFrame" sentinel strings removed.
+- **`SambaNovaSTTService`**: removed (SambaNova no longer offers STT).
+
+### Other
+
+- "developer" role messages in conversation context for all LLM adapters.
+- Gemini 3 support in Gemini Live.
+- AssemblyAI Medical Mode via `domain="medical-v1"`.
+- `Mem0MemoryService.get_memories()` convenience method.
+- `on_end_of_turn` event for `AssemblyAISTTService`.
 
 ## Links
 

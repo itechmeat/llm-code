@@ -4,15 +4,64 @@ Core interface for interacting with LLMs in Pydantic AI.
 
 ## Agent Components
 
-| Component      | Description                                    |
-| -------------- | ---------------------------------------------- |
-| Instructions   | Developer-written prompts for LLM              |
-| Description    | Human-readable label for instrumentation spans |
-| Function Tools | Functions LLM can call during response         |
-| Output Type    | Structured datatype LLM must return            |
-| Dependencies   | Context passed to tools and prompts            |
-| Model          | Default LLM (can override at runtime)          |
-| Model Settings | Temperature, max_tokens, timeout, etc.         |
+| Component      | Description                                            |
+| -------------- | ------------------------------------------------------ |
+| Instructions   | Developer-written prompts for LLM                      |
+| Description    | Human-readable label for instrumentation spans         |
+| Function Tools | Functions LLM can call during response                 |
+| Output Type    | Structured datatype LLM must return                    |
+| Dependencies   | Context passed to tools and prompts                    |
+| Model          | Default LLM (can override at runtime)                  |
+| Model Settings | Temperature, max_tokens, timeout, etc.                 |
+| Capabilities   | Composable units bundling tools + hooks + instructions |
+
+## Capabilities (v1.71.0+)
+
+Composable, reusable units of agent behavior that bundle tools, lifecycle hooks, instructions, and model settings into a single class:
+
+```python
+from pydantic_ai import Agent
+from pydantic_ai.capabilities import WebSearch, Thinking, MCP, Hooks
+
+# Provider-adaptive tools — auto-fallback from builtin to local
+agent = Agent('openai:gpt-4o', capabilities=[
+    WebSearch(),
+    Thinking(),
+    MCP(url='http://localhost:3000'),
+])
+```
+
+Built-in capabilities: `WebSearch`, `WebFetch`, `MCP`, `ImageGeneration`, `Thinking`, `Hooks`.
+
+### Hooks Capability
+
+Define hooks using decorators:
+
+```python
+from pydantic_ai.capabilities import Hooks
+
+hooks = Hooks()
+
+@hooks.on_model_request
+async def log_request(ctx):
+    print(f"Sending request to {ctx.model}")
+
+agent = Agent('openai:gpt-4o', capabilities=[hooks])
+```
+
+Hooks can raise `ModelRetry` for retry control flow. `before_model_request` / wrap hooks can swap models via `ModelRequestContext`.
+
+## AgentSpec (v1.71.0+)
+
+Load agents from YAML/JSON files:
+
+```python
+from pydantic_ai import Agent
+
+agent = Agent.from_file('agent.yaml')
+```
+
+Supports `TemplateStr` for templated instructions referencing deps.
 
 ## Multimodal Input
 

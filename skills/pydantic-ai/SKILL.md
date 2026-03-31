@@ -2,8 +2,8 @@
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Use when building Python AI agents with Pydantic AI, configuring model providers, implementing typed tools/dependencies, running evals, or integrating MCP servers. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
 metadata:
-  version: "1.70.0"
-  release_date: "2026-03-17"
+  version: "1.74.0"
+  release_date: "2026-03-30"
 ---
 
 # Pydantic AI
@@ -15,6 +15,7 @@ Python agent framework for building production-grade GenAI applications with the
 | Topic        | Reference                                     |
 | ------------ | --------------------------------------------- |
 | Agents       | [agents.md](references/agents.md)             |
+| Capabilities | [agents.md](references/agents.md)             |
 | Tools        | [tools.md](references/tools.md)               |
 | Models       | [models.md](references/models.md)             |
 | Embeddings   | [embeddings.md](references/embeddings.md)     |
@@ -36,6 +37,20 @@ Python agent framework for building production-grade GenAI applications with the
 ## Installation
 
 See `references/installation.md` for full/slim install options and optional dependency groups. Requires Python 3.10+.
+
+## Release Highlights (1.71.0 → 1.74.0)
+
+- **Capabilities**: composable, reusable units of agent behavior that bundle tools, lifecycle hooks, instructions, and model settings into a single class. Plug into any agent for maximum reuse.
+- **AgentSpec**: load agents from YAML/JSON files via `Agent.from_file`. Supports `TemplateStr` for templated instructions referencing deps.
+- **Hooks capability**: define hooks using decorators (`@hooks.on_model_request`, etc.).
+- **Thinking capability**: cross-provider `thinking` model setting for reasoning.
+- **Provider-adaptive tools**: `WebSearch`, `WebFetch`, `MCP`, `ImageGeneration` — automatically fall back from builtin (provider) tools to local tools.
+- **Online evaluation**: evaluation infrastructure in `pydantic-evals`.
+- **`TextContent`**: user prompts with `metadata` not sent to model.
+- **CaseLifecycle hooks**: hooks for `Dataset.evaluate` lifecycle.
+- **Model swapping in hooks**: `before_model_request` / wrap hooks can swap models via `ModelRequestContext`.
+- **`ModelRetry` from hooks**: hooks can raise `ModelRetry` for retry control flow.
+- Sync tool preparation functions supported. `MCP` capability no longer requires explicit `url=`.
 
 ## Release Highlights (1.69.0 → 1.70.0)
 

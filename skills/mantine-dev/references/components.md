@@ -2,6 +2,32 @@
 
 `@mantine/core` provides 120+ components. This reference covers key patterns.
 
+## New in v9.0
+
+### FloatingWindow
+
+Draggable floating element with viewport constraint support:
+
+```tsx
+import { FloatingWindow } from "@mantine/core";
+
+<FloatingWindow w={280} p="md" withBorder radius="md" excludeDragHandleSelector="button" initialPosition={{ top: 300, left: 20 }} style={{ cursor: "move" }}>
+  Drag me around
+</FloatingWindow>;
+```
+
+### OverflowList
+
+Displays items and collapses overflowing ones into a single element.
+
+### Typography
+
+Generalized text component.
+
+### Collapse (horizontal)
+
+`Collapse` now supports `orientation="horizontal"` for animating width.
+
 ## Layout Components
 
 ### Container, Stack, Group, Flex
@@ -220,19 +246,22 @@ All components accept these props:
 ```tsx
 <Component
   // Margin & Padding
-  m="md" mt="xs" p="sm" px="md"
-  
+  m="md"
+  mt="xs"
+  p="sm"
+  px="md"
   // Colors
-  c="dimmed" bg="blue.1"
-  
+  c="dimmed"
+  bg="blue.1"
   // Typography
-  fw={500} fz="sm"
-  
+  fw={500}
+  fz="sm"
   // Dimensions
-  w={200} h="100%" maw={500}
-  
+  w={200}
+  h="100%"
+  maw={500}
   // Responsive
-  p={{ base: 'xs', sm: 'md', lg: 'xl' }}
+  p={{ base: "xs", sm: "md", lg: "xl" }}
 />
 ```
 

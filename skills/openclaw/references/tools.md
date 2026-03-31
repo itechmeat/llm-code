@@ -62,6 +62,19 @@ v2026.3.2 adds PDF output support and quality controls for diff artifacts.
 - Channel/binding collisions in plugins now fail fast instead of silently competing at runtime.
 - Treat collision errors as configuration bugs to resolve explicitly; do not work around them by retrying the same plugin load order.
 
+## Plugin install security (v2026.3.28)
+
+- `before_install` hook with structured request provenance, built-in scan status, and install-target metadata for external security scanners.
+- `--dangerously-force-unsafe-install` as break-glass override for built-in dangerous-code false positives.
+- Gateway-backed skill dependency installs blocked on dangerous-code `critical` findings unless override is set.
+
+## MCP remote servers (v2026.3.28)
+
+- `mcp.servers` now supports remote HTTP/SSE URLs with auth headers.
+- Bundled MCP tools use provider-safe names (`serverName__toolName`).
+- `streamable-http` transport selection and per-server connection timeouts available.
+- Real tool results preserved from aborted/error turns unless truncation explicitly drops them.
+
 ## Browser SSRF policy (v2026.2.23)
 
 - Config key rename: `browser.ssrfPolicy.allowPrivateNetwork` -> `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork`.

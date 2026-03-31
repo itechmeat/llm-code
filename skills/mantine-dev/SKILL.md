@@ -2,13 +2,20 @@
 name: mantine-dev
 description: "Mantine UI library for React: 100+ components, hooks, forms, theming, dark mode, CSS modules, and Vite/TypeScript setup. Use when building React applications with Mantine components, configuring theming/dark mode, or working with Mantine hooks and forms. Keywords: Mantine, React, UI components, CSS modules, theming."
 metadata:
-  version: "8.3.18"
-  release_date: "2026-03-17"
+  version: "9.0.0"
+  release_date: "2026-03-31"
 ---
 
 # Mantine UI Library
 
 Mantine is a fully-featured React components library with TypeScript support. It provides 100+ hooks and components with native dark mode, CSS-in-JS via CSS modules, and excellent accessibility.
+
+## v9.0 Breaking Changes
+
+- **React 19.2+** required for all `@mantine/*` packages
+- **Tiptap 3+** required for `@mantine/tiptap`
+- **Recharts 3+** required for `@mantine/charts` (no migration needed)
+- Follow the official [8.x → 9.x migration guide](https://mantine.dev/changelog/9-0-0/) for full details
 
 ## Focus
 
@@ -117,6 +124,7 @@ Many components support `component` prop to render as different elements.
 - [components.md](references/components.md) — Core UI components patterns
 - [hooks.md](references/hooks.md) — @mantine/hooks utility hooks
 - [forms.md](references/forms.md) — @mantine/form, useForm, validation
+- [schedule.md](references/schedule.md) — @mantine/schedule calendar scheduling
 
 ### Development
 

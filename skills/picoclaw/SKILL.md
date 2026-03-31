@@ -2,8 +2,8 @@
 name: picoclaw
 description: "PicoClaw Go AI assistant. Covers CLI ops, config.json, channels, auth, skills, gateway. Use when running the PicoClaw CLI, configuring models/tools/gateway in config.json, or operating channels and authentication. Keywords: picoclaw, onboard, gateway, model_list."
 metadata:
-  version: "v0.2.3"
-  release_date: "2026-03-17"
+  version: "v0.2.4"
+  release_date: "2026-03-25"
 ---
 
 # PicoClaw
@@ -19,12 +19,13 @@ PicoClaw is an ultra-lightweight AI assistant written in Go. This skill is a pra
 ## Quick navigation
 
 - Getting started + common commands: `references/quickstart.md`
-- Config (`model_list`, tools, gateway, channels): `references/config.md`
+- Config (`model_list`, tools, gateway, channels, bindings): `references/config.md`
 - Tools (web search, exec guardrails, registries): `references/tools.md`
 - Auth flows (OpenAI OAuth, Google Antigravity OAuth, token): `references/auth.md`
 - Gateway operations (health/ready, cron, heartbeat, voice): `references/gateway.md`
-- Channels (Telegram/Discord/WeCom/OneBot/etc): `references/channels.md`
-- Skills management (install/list/remove, registries): `references/skills.md`
+- Channels (Telegram/Discord/WeCom/Feishu/OneBot/etc): `references/channels.md`
+- Skills management (install/list/remove, channel commands): `references/skills.md`
+- Hook system (observers, interceptors, approvers): `references/hooks.md`
 - Cron scheduling via CLI: `references/cron.md`
 - Migration notes: `references/migration.md`
 - Troubleshooting: `references/troubleshooting.md`
@@ -39,6 +40,9 @@ Use when you need to:
 - Enable chat channels (Telegram/Discord/Slack/WeCom/...)
 - Configure tools (web search, exec deny patterns, skills registries)
 - Install/remove skills into the workspace
+- Use skill channel commands (`/list skills`, `/use <skill>`)
+- Configure hook system (observers, interceptors, approvers)
+- Configure agent bindings (route messages to different agents)
 - Schedule recurring jobs (cron)
 
 ## Recipes
@@ -97,14 +101,17 @@ Use when you need to:
 - Be cautious enabling the exec tool; keep deny patterns enabled unless you fully trust the environment.
 - Exposing gateway to `0.0.0.0` makes health endpoints reachable from the network; do that only intentionally.
 
-## Release Highlights (v0.2.3)
+## Release Highlights (v0.2.4)
 
-- Config/exec: exec controls are stronger and cron command execution is now gated through exec settings.
-- Gateway/web: web gateway hot reload and polling-based state sync were added; WebSocket traffic can proxy through the web-server port.
-- Gateway health: `server.pid` is now included in health surfaces, and gateway refuses to start when the gateway server is not actually running.
-- Tools: `SpawnStatusTool` reports subagent status; exec whitelist checks are safer around symlinked allowed roots.
+- **Hook system**: in-process and out-of-process hooks (JSON-RPC over stdio) with observer, LLM interceptor, tool interceptor, and tool approver stages. Configurable via `hooks` in config.
+- **Agent bindings**: route incoming messages to different agents by channel/account/context via `bindings` config section.
+- **Skill channel commands**: `/list skills`, `/use <skill> <message>`, `/use <skill>` (arm for next message), `/use clear`.
+- **Configurable log level**: `gateway.log_level` (debug/info/warn/error/fatal) in config or `PICOCLAW_LOG_LEVEL` env var.
+- **Voice transcription model**: `voice.model_name` lets you use any multimodal model for audio transcription; Groq Whisper remains as fallback.
+- **Security config separation**: `.security.yml` file for storing API keys/tokens separate from `config.json`.
+- **Workspace file hot-reload**: `AGENT.md`, `SOUL.md`, `USER.md`, `MEMORY.md` are auto-detected via mtime tracking — no restart needed.
+- SubTurn error handling and logging improved. Security config precedence fixed during migration.
 
 ## Links
 
-- PicoClaw source tree in this workspace: `picoclaw-main/`
 - Upstream repo (for releases/issues): https://github.com/sipeed/picoclaw

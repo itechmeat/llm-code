@@ -14,8 +14,12 @@ Zvec provides embedding functions to convert text into vectors for similarity se
   - Uses `all-MiniLM-L6-v2` by default (384 dimensions) and downloads the model on first use.
 - **Qwen dense** (`QwenDenseEmbedding`): Dashscope API (requires API key; dimension must be set explicitly).
 - **OpenAI dense** (`OpenAIDenseEmbedding`): OpenAI API (requires API key; follow provider limits).
-- **Jina dense** (`JinaDenseEmbedding`): Jina Embeddings API (requires API key).
+- **Jina dense** (`JinaDenseEmbedding`): Jina Embeddings API (requires API key). Supports Jina Embeddings v5.
   - Docs mention task-specific embeddings and Matryoshka-style dimension reduction support.
+
+### Custom HTTP embeddings
+
+- **Custom HTTP** (`CustomHTTPEmbedding`): call any OpenAI-compatible embedding endpoint (LM Studio, Ollama, self-hosted models). Configure `base_url`, `model`, and optional `api_key`.
 
 ### Sparse embeddings
 

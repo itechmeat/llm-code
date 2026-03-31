@@ -2,8 +2,8 @@
 name: beads
 description: "Beads (bd) Dolt-backed issue tracker for agent task memory. Covers CLI ops, molecules, Dolt sync, Linear/Jira/GitLab. Use when tracking tasks and dependencies with the Beads CLI, syncing issues via Dolt, or integrating with Linear/Jira/GitLab. Keywords: bd, beads, Dolt, issue tracker."
 metadata:
-  version: "0.61.0"
-  release_date: "2026-03-16"
+  version: "0.63.3"
+  release_date: "2026-03-30"
 ---
 
 # Beads (bd)
@@ -36,6 +36,7 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 | ----------------------------- | ------------------------------------- |
 | `bd ready`                    | List tasks with no open blockers      |
 | `bd ready --gated`            | Tasks waiting at gate checkpoints     |
+| `bd ready --exclude-type=X`   | Exclude specific issue types          |
 | `bd create "Title" -p 0`      | Create P0 task                        |
 | `bd show <id>`                | View task details and audit trail     |
 | `bd update <id> --status=X`   | Update status (open/in_progress/done) |
@@ -43,8 +44,10 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 | `bd close <id> --claim-next`  | Close current task and claim next     |
 | `bd dep add <child> <parent>` | Link tasks (blocks, related, parent)  |
 | `bd list`                     | List issues (default: 50, non-closed) |
+| `bd list --format json`       | JSON output (alias for `--json`)      |
 | `bd show --current`           | Show active issue (no ID needed)      |
 | `bd update <id> --claim`      | Atomically claim issue for work       |
+| `bd note <id> "text"`         | Append note (shorthand)               |
 | `bd import -i <file>`         | Import JSONL incrementally            |
 | `bd sync`                     | Sync database state                   |
 | `bd dolt pull`                | Pull latest DB changes (advanced)     |
@@ -54,6 +57,9 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 | `bd kv set <key> <value>`     | Store key-value pair                  |
 | `bd kv get <key>`             | Retrieve stored value                 |
 | `bd dolt show`                | Show Dolt connection/remote settings  |
+| `bd ado sync`                 | Sync with Azure DevOps work items     |
+| `bd ado status`               | Check Azure DevOps sync status        |
+| `bd ado projects`             | List Azure DevOps projects            |
 | `bd gitlab sync`              | Sync with GitLab                      |
 | `bd github sync`              | Sync with GitHub Issues               |
 | `bd remember`                 | Write persistent agent memory         |
@@ -175,6 +181,20 @@ bd list --json                   # Standard JSON output
 ### MCP Plugin
 
 Beads includes Claude Code MCP plugin for direct integration.
+
+## Release Highlights (0.62.0–0.63.3)
+
+- **Azure DevOps integration**: `bd ado` CLI commands (sync, status, projects) for work item tracking.
+- **Embedded Dolt support**: dep, duplicate, epic, graph, supersede, swarm operations work without a running Dolt server.
+- **Custom status categories**: configure active/wip/done/frozen status groupings.
+- **`bd note` command**: shorthand for appending notes to issues.
+- **`--exclude-type` flag**: filter by issue type on `bd ready` and `bd list`.
+- **`--format json` alias**: alternative to `--json` flag for consistency.
+- **Audit log**: captures close reason; status changes logged to `interactions.jsonl`.
+- **Memories in export/import**: round-trip includes agent memories.
+- **Init defaults**: AGENTS.md defaults to minimal profile; `--agents-profile` flag added.
+- **Quality/lifecycle commands**: surfaced in prime, template, and doctor.
+- **Validation on close**: `--validate` checks `--acceptance` field; `validation.on-close` config.
 
 ## Release Highlights (0.61.0)
 

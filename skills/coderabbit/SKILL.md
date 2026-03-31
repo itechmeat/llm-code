@@ -3,7 +3,7 @@ name: coderabbit
 description: "CodeRabbit AI code review. Covers CLI usage, .coderabbit.yaml configuration, supported linters/tools, PR commands, and triage workflow. Use when running AI-powered code reviews on pull requests or local changes, configuring review rules, or triaging CodeRabbit findings. Keywords: @coderabbitai, code review, CLI, .coderabbit.yaml."
 metadata:
   version: "—"
-  release_date: "2026-03-17"
+  release_date: "2026-03-31"
 ---
 
 # CodeRabbit
@@ -188,6 +188,40 @@ CodeRabbit can analyze linked repositories during PR review to catch cross-repo 
 - Trigger with `@coderabbitai fix merge conflict` or the Walkthrough checkbox on GitHub.
 - It commits a proper merge commit when successful, but declines if the resolution is ambiguous or touches security-critical logic such as auth, encryption, secrets, or access control.
 - If any conflicted file is declined, the whole auto-resolution attempt is aborted and no partial commit is created.
+
+## Betterleaks (replaces Gitleaks) (2026-03-19)
+
+- Secret scanning now uses Betterleaks (improved detection over Gitleaks).
+- The `gitleaks` config key in `.coderabbit.yaml` now controls Betterleaks.
+- Default remains enabled; existing secret scanning continues without changes.
+
+## Slop Detection (2026-03-24)
+
+- Automatically detects low-quality AI-generated PRs on public GitHub repositories.
+- Flagged in the PR Walkthrough comment.
+- Opt-in label tagging:
+
+```yaml
+reviews:
+  slop_detection:
+    enabled: true # default
+    label: "slop" # optional label
+```
+
+## Bitbucket Data Center (2026-03-24)
+
+- Full support for Bitbucket Data Center as a Git platform.
+- OAuth 2.0, automated webhook configuration, and full PR review capabilities.
+
+## Audit Logs (2026-03-25)
+
+- Tamper-resistant audit log for every administrative action across the workspace.
+- Covers seat assignments/removals, role changes, org/repo changes, subscription events, config updates, and API key operations.
+- Accessible in Settings UI or via REST API for automated export.
+
+## CLI Agent Mode (2026-03-31)
+
+- `coderabbit review --agent` outputs results in structured JSON format for Skills and agent integrations.
 
 ## Custom Finishing Touch Recipes (Early Access) (2026-02-23)
 

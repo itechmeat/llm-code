@@ -4,7 +4,7 @@ This skill assumes Zvec is already installed. Use this page only when you need t
 
 ## Python
 
-- Requirement (as documented in the GitHub README): Python 3.10–3.12
+- Requirement (as documented in the GitHub README): Python 3.10–3.14
 
 ```bash
 pip install zvec

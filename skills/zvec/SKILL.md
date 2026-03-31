@@ -2,8 +2,8 @@
 name: zvec
 description: "Zvec in-process vector database. Covers collections, embedding, reranking, persistence. Use when embedding Zvec as an in-process vector database, managing collections, configuring embedding/reranking, or running approximate nearest-neighbor searches. Keywords: Zvec, vector DB, ANN, SQLite for vectors."
 metadata:
-  version: "0.2.0"
-  release_date: "2026-02-13"
+  version: "0.2.1"
+  release_date: "2026-03-18"
 ---
 
 # Zvec
@@ -49,6 +49,18 @@ Zvec is a lightweight, in-process vector database meant to be embedded into appl
 - Do not mirror vendor docs verbatim; summarize in your own words.
 - Do not assume a client/server deployment model: Zvec is in-process.
 - Do not add project-specific paths, secrets, or environment assumptions.
+
+## Release Highlights (0.2.1)
+
+- **Jina Embeddings v5** integration
+- **Custom HTTP embedding** for LM Studio / Ollama (any OpenAI-compatible endpoint)
+- **Python 3.13 / 3.14** support (was 3.10–3.12)
+- **Android** cross-platform builds
+- **Python API function overloads** for improved usability
+- **Ice Lake optimization** and L2 batch distance for int8 quantization
+- **Increased index size limit** for sparse vectors
+- **IVF** implementation optimized for better stability and performance
+- 13+ bug fixes including uint8 overflow, MIPS distance, cosine metric, query filtering
 
 ## Links
 

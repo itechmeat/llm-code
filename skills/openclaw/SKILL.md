@@ -2,8 +2,8 @@
 name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Use when deploying, configuring, or operating an OpenClaw instance, managing gateway routing, setting up channels, or working with the multi-agent tool governance system. Keywords: OpenClaw, gateway, tools, channels, agents."
 metadata:
-  version: "v2026.3.13-1"
-  release_date: "2026-03-14"
+  version: "v2026.3.28"
+  release_date: "2026-03-29"
 ---
 
 # OpenClaw (Operator Playbook)
@@ -65,6 +65,21 @@ If OpenClaw is not installed, use `references/installation.md`.
 - Channels: Slack adds opt-in interactive reply directives; Telegram inbound media fetching now has IPv4 retry fallback.
 - Plugins/tooling: plugin channel/binding collisions now fail fast instead of producing ambiguous runtime behavior.
 - Nodes: gateway exposes `node.pending.enqueue` / `node.pending.drain` primitives as the foundation for dormant-node pending work delivery.
+
+## Release Updates (v2026.3.14–v2026.3.28)
+
+- **MCP remote servers**: `mcp.servers` now supports remote HTTP/SSE URLs with auth headers and safer credential redaction. Bundled MCP tools use provider-safe names (`serverName__toolName`), support `streamable-http` transport, per-server connection timeouts, and preserve tool results from aborted turns.
+- **Plugin `before_install` hook**: structured request with provenance, built-in scan status, and install-target metadata for external security scanners. `--dangerously-force-unsafe-install` as break-glass override. Gateway-backed skill dependency installs blocked on dangerous-code `critical` findings unless override is set.
+- **Background tasks → unified control plane**: ACP, subagent, cron, and background CLI unified under one SQLite-backed ledger with audit/maintenance/status visibility, auto-cleanup, and lost-run recovery.
+- **ClawFlow**: first linear flow control surface (`openclaw flows list|show|cancel`). Multi-task flows separate from one-task auto-sync flows. Doctor recovery hints for orphaned flow/task linkage.
+- **Memory/QMD**: per-agent `memorySearch.qmd.extraCollections` for cross-agent search; CJK-aware chunk sizing; session indexer includes reset/deleted transcripts; `memory.qmd.searchTool` as mcporter tool override.
+- **WhatsApp reactions**: agents can react with emoji on incoming WhatsApp messages.
+- **Matrix**: `channels.matrix.historyLimit` for room history context in group triggers; per-DM `threadReplies` overrides; proxy config via `channels.matrix.proxy`.
+- **Slack**: native Slack exec approval routing with approver authorization.
+- **LINE**: image/video/audio outbound sends on LINE-specific delivery path.
+- **Android**: notification-forwarding controls with package filtering, quiet hours, rate limiting.
+- **Agents/LLM**: configurable idle-stream timeout for embedded runner; `text.verbosity` forwarded across Responses HTTP/WebSocket transports.
+- **Security**: Nostr inbound DM signature verification; LINE webhook timing-safe HMAC compare; sandbox browser CJK fonts; gateway auth hardening (origin validation, local-direct token enforcement).
 
 ## Release Updates (v2026.3.13-1)
 
