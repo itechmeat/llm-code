@@ -48,6 +48,11 @@ Example shape:
 - Gateway server settings such as bind, port, and related HTTP exposure should be treated as restart-bound unless verified otherwise.
 - When rollout safety matters more than speed, prefer an explicit restart and status check over assuming live reload.
 
+## Local-model lean mode (v2026.4.15)
+
+- `agents.defaults.experimental.localModelLean: true` drops heavyweight default tools such as `browser`, `cron`, and `message` for weaker local-model deployments.
+- Treat this as an opt-in low-context profile for constrained local runtimes, not as the normal default for strong hosted models.
+
 ## Workspace bootstrap files
 
 Common workspace/bootstrap surfaces include:
@@ -62,6 +67,12 @@ Common workspace/bootstrap surfaces include:
 - `memory/YYYY-MM-DD.md`
 
 These files are part of the agent context surface. Keep them short, current, and role-specific.
+
+## Memory backend updates (v2026.4.15)
+
+- `memory-lancedb` can now store durable indexes on cloud object storage instead of local disk only.
+- Dreaming now defaults to `separate` storage mode; Dreaming phase files go under `memory/dreaming/...` instead of inflating the daily memory file.
+- If you want the old inline behavior, set the corresponding dreaming storage mode explicitly instead of assuming the legacy default.
 
 ## Heartbeat guidance
 

@@ -4,6 +4,8 @@
 
 In Pipecat, context is the conversation history the LLM uses to respond: a sequence of role-tagged messages (system/user/assistant/tool).
 
+As of `1.0.0`, Pipecat standardizes on the universal `LLMContext` model. Older service-specific context classes (`OpenAILLMContext`, Anthropic/AWS variants) and older service-owned context aggregator helpers have been removed.
+
 ## Automatic context updates
 
 The Learn guide describes a default automatic flow:
@@ -17,6 +19,7 @@ Important detail: storing **TTS text** keeps context aligned with what the user 
 
 - Place the **user** context aggregator downstream from STT (so it can collect transcription frames).
 - Place the **assistant** context aggregator after `transport.output()` so it can observe the post-TTS text frames and update word-by-word when supported.
+- Build aggregators around `LLMContextAggregatorPair(context)` instead of per-provider `create_context_aggregator(...)` patterns.
 
 This placement also helps keep context correct when interruptions cut off the bot mid-sentence.
 
@@ -24,6 +27,7 @@ This placement also helps keep context correct when interruptions cut off the bo
 
 - Tool/function definitions live in the context as a schema.
 - Tool calls and results are also stored in history so the conversation remains complete.
+- Async tool completions can arrive later as `developer` messages; design any downstream logic that inspects history with that role in mind.
 
 ## Manual control via frames
 
@@ -38,6 +42,8 @@ Use cases:
 - system-mode changes (“you are now…”) applied mid-session
 - injecting external events into the conversation
 
+`1.0.0` also adds `LLMMessagesTransformFrame`, which is safer than taking an old snapshot of messages, mutating it locally, and overwriting queued context updates.
+
 ## Context summarization
 
 For long sessions, the guide describes built-in summarization that compresses older history while keeping recent turns. Enable it via assistant aggregator params.
@@ -50,3 +56,4 @@ Pipecat 0.0.105 also exposes an `on_summary_applied` event on `LLMAssistantAggre
 - Be explicit about whether `system_instruction` lives on the service, in the context, or both; service-level instruction now wins if both are present.
 - If you mutate context manually, decide whether it should trigger an immediate LLM run.
 - Enable summarization early for long-running agents to control token growth.
+- If you are upgrading, replace any service-specific context imports before changing business logic; that migration is usually mechanical.

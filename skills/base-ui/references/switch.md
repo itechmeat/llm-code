@@ -8,6 +8,10 @@ description: A high-quality, unstyled React switch component that indicates whet
 
 A high-quality, unstyled React switch component that indicates whether a setting is on or off.
 
+## v1.4.0 notes
+
+- `readOnly` mode now blocks input state changes instead of allowing accidental toggles through the hidden input path.
+
 ## Demo
 
 ### Tailwind
@@ -117,11 +121,17 @@ This example shows how to implement the component using CSS Modules.
   }
 
   @media (prefers-color-scheme: light) {
-    box-shadow: 0 0 1px 1px var(--color-gray-100), 0 1px 1px var(--color-gray-100), 1px 2px 4px -1px var(--color-gray-100);
+    box-shadow:
+      0 0 1px 1px var(--color-gray-100),
+      0 1px 1px var(--color-gray-100),
+      1px 2px 4px -1px var(--color-gray-100);
   }
 
   @media (prefers-color-scheme: dark) {
-    box-shadow: 0 0 1px 1px rgb(0 0 0 / 25%), 0 1px 1px rgb(0 0 0 / 25%), 1px 2px 4px -1px rgb(0 0 0 / 25%);
+    box-shadow:
+      0 0 1px 1px rgb(0 0 0 / 25%),
+      0 1px 1px rgb(0 0 0 / 25%),
+      1px 2px 4px -1px rgb(0 0 0 / 25%);
   }
 }
 ```

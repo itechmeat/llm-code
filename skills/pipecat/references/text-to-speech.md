@@ -61,6 +61,11 @@ Useful for:
 
 The guide shows a settings-update frame to change TTS parameters mid-conversation.
 
+Recent service notes (`1.0.0` line):
+
+- `MistralTTSService` adds SSE-based streaming TTS with automatic resampling.
+- ElevenLabs services now support `pcm_32000` / `pcm_48000` and an `enable_logging=False` zero-retention mode.
+
 ## Audio context changes (0.0.105)
 
 - Audio context management now lives in `TTSService` rather than `AudioContextTTSService`.
@@ -79,3 +84,4 @@ If you maintain custom TTS classes, update inheritance and constructor calls bef
 - Use WebSocket TTS providers when latency is critical.
 - Capture spoken text (not just LLM text) in context for correctness under interruptions.
 - Decide upfront how you will handle URLs/code/structured output so the bot doesn’t read garbage aloud.
+- If you still call `TTSService.say()`, migrate to pushing `TTSSpeakFrame` into the pipeline.

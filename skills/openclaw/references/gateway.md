@@ -80,6 +80,12 @@ Use these for process/container probes only; for authenticated deeper checks, us
 - Use `config.apply` workflows with validation and conflict guards for safer live config edits.
 - Control UI token auth is intentionally session-scoped in the browser; refresh in the same tab should survive, but operators should expect to re-authenticate after a fresh browser session.
 
+## Model auth status (v2026.4.15)
+
+- Control UI now exposes a model-auth status card showing OAuth token health and provider rate-limit pressure.
+- The backing `models.authStatus` gateway method strips credentials and caches results briefly (60s) for operator visibility without exposing secrets.
+- Use this card during incident triage before re-running onboarding flows or manually rotating tokens.
+
 ## Tailscale modes and policy
 
 - `serve`: recommended tailnet HTTPS proxy while gateway stays loopback-bound.
@@ -111,6 +117,12 @@ Use these for process/container probes only; for authenticated deeper checks, us
 - For direct HTTPS deployments, you can enable HSTS via `gateway.http.securityHeaders.strictTransportSecurity`.
 - Enforce strict file permissions for config/state and enable sensitive-data redaction in logs.
 - Browser-originated WebSocket connections must pass origin validation even behind `trusted-proxy`; never rely on forwarded headers as a substitute for allowed-origin policy.
+
+## Auth and media hardening notes (v2026.4.15)
+
+- HTTP bearer auth is now resolved per request on the server and upgrade paths, so secret rotation via reload/hot config applies immediately instead of waiting for a gateway restart.
+- `/mcp` bearer checks now use constant-time comparison and reject non-loopback browser-origin requests before the auth gate runs.
+- Webchat audio/media embedding enforces `localRoots` containment and rejects remote-host `file://` URLs.
 
 ## New security and reachability notes (v2026.3.11-v2026.3.13)
 

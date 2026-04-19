@@ -34,6 +34,8 @@ This is useful for UI/UX (“thinking…”) and tracing.
 
 Docs describe an OpenAI-compatible base service pattern where you can point at an OpenAI-spec endpoint via a `base_url` without rewriting pipeline code.
 
+`1.0.0` changes the default OpenAI Responses integration: `OpenAIResponsesLLMService` now uses a persistent WebSocket connection and incremental context via `previous_response_id`. If you explicitly want the prior request/response model, use `OpenAIResponsesHttpLLMService`.
+
 ## Service switching and fallback (0.0.105)
 
 Pipecat adds `ServiceSwitcherStrategyFailover`, which automatically moves to the next service after a non-fatal provider error. Use the `on_service_switched` event to log or react to the failover.
@@ -41,6 +43,8 @@ Pipecat adds `ServiceSwitcherStrategyFailover`, which automatically moves to the
 ## Parallelism for tool calls
 
 An LLM service option controls whether multiple tool calls run in parallel or sequentially. Use sequential execution for dependent tool chains.
+
+OpenAI-oriented tool schemas can also include `custom_tools` when you need provider-specific capabilities alongside standard function tools.
 
 ## Event handlers
 
@@ -62,3 +66,4 @@ Use these to implement user feedback and recovery (retry/backoff/fallback) as ne
 - Keep completion streaming enabled if you want low perceived latency.
 - If you skip TTS for specific outputs, ensure your client still receives a useful text channel.
 - Decide whether tool calls must be parallel or sequential based on dependencies.
+- If you migrate from older OpenAI Responses code, verify connection lifecycle, proxy compatibility, and reconnect behavior under WebSocket transport.

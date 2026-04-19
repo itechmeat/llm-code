@@ -8,6 +8,12 @@ description: A high-quality, unstyled React navigation menu component that displ
 
 A high-quality, unstyled React navigation menu component that displays a collection of links and menus for website navigation.
 
+## v1.4.0 notes
+
+- `NavigationMenu.Root` gained generic `Value` typing for stronger controlled-state typing.
+- Pointer-event blocking, reverse `Shift+Tab` submenu re-entry, nested inline hover handoff, and reopen width transitions were fixed.
+- Remove any local workarounds for invalid `aria-orientation`; the component no longer emits that attribute incorrectly.
+
 ## Demo
 
 ### Tailwind
@@ -16,8 +22,8 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-import * as React from 'react';
-import { NavigationMenu } from '@base-ui/react/navigation-menu';
+import * as React from "react";
+import { NavigationMenu } from "@base-ui/react/navigation-menu";
 
 export default function ExampleNavigationMenu() {
   return (
@@ -78,11 +84,11 @@ export default function ExampleNavigationMenu() {
         <NavigationMenu.Positioner
           sideOffset={10}
           collisionPadding={{ top: 5, bottom: 5, left: 20, right: 20 }}
-          collisionAvoidance={{ side: 'none' }}
+          collisionAvoidance={{ side: "none" }}
           className="box-border h-[var(--positioner-height)] w-[var(--positioner-width)] max-w-[var(--available-width)] transition-[top,left,right,bottom] duration-[var(--duration)] ease-[var(--easing)] before:absolute before:content-[''] data-[instant]:transition-none data-[side=bottom]:before:top-[-10px] data-[side=bottom]:before:right-0 data-[side=bottom]:before:left-0 data-[side=bottom]:before:h-2.5 data-[side=left]:before:top-0 data-[side=left]:before:right-[-10px] data-[side=left]:before:bottom-0 data-[side=left]:before:w-2.5 data-[side=right]:before:top-0 data-[side=right]:before:bottom-0 data-[side=right]:before:left-[-10px] data-[side=right]:before:w-2.5 data-[side=top]:before:right-0 data-[side=top]:before:bottom-[-10px] data-[side=top]:before:left-0 data-[side=top]:before:h-2.5"
           style={{
-            ['--duration' as string]: '0.35s',
-            ['--easing' as string]: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            ["--duration" as string]: "0.35s",
+            ["--easing" as string]: "cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >
           <NavigationMenu.Popup className="data-[ending-style]:easing-[ease] relative h-[var(--popup-height)] origin-[var(--transform-origin)] rounded-lg bg-[canvas] text-gray-900 shadow-lg shadow-gray-200 outline outline-1 outline-gray-200 transition-[opacity,transform,width,height,scale,translate] duration-[var(--duration)] ease-[var(--easing)] data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[ending-style]:duration-150 data-[starting-style]:scale-90 data-[starting-style]:opacity-0 w-[var(--popup-width)] xs:w-[var(--popup-width)] dark:shadow-none dark:-outline-offset-1 dark:outline-gray-300">
@@ -111,7 +117,7 @@ function Link(props: NavigationMenu.Link.Props) {
   );
 }
 
-function ChevronDownIcon(props: React.ComponentProps<'svg'>) {
+function ChevronDownIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" {...props}>
       <path d="M1 3.5L5 7.5L9 3.5" stroke="currentColor" strokeWidth="1.5" />
@@ -119,87 +125,60 @@ function ChevronDownIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-function ArrowSvg(props: React.ComponentProps<'svg'>) {
+function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className="fill-[canvas]"
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className="fill-gray-200 dark:fill-none"
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className="dark:fill-gray-300"
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className="fill-[canvas]" />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className="fill-gray-200 dark:fill-none" />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className="dark:fill-gray-300" />
     </svg>
   );
 }
 
-const triggerClassName =
-  'box-border flex items-center justify-center gap-1.5 h-10 ' +
-  'px-2 xs:px-3.5 m-0 rounded-md bg-gray-50 text-gray-900 font-medium ' +
-  'text-[0.925rem] xs:text-base leading-6 select-none no-underline ' +
-  'hover:bg-gray-100 active:bg-gray-100 data-[popup-open]:bg-gray-100 ' +
-  'focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 focus-visible:relative';
+const triggerClassName = "box-border flex items-center justify-center gap-1.5 h-10 " + "px-2 xs:px-3.5 m-0 rounded-md bg-gray-50 text-gray-900 font-medium " + "text-[0.925rem] xs:text-base leading-6 select-none no-underline " + "hover:bg-gray-100 active:bg-gray-100 data-[popup-open]:bg-gray-100 " + "focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 focus-visible:relative";
 
-const contentClassName =
-  'w-[calc(100vw_-_40px)] h-full p-6 xs:w-max xs:min-w-[400px] xs:w-max ' +
-  'transition-[opacity,transform,translate] duration-[var(--duration)] ease-[var(--easing)] ' +
-  'data-[starting-style]:opacity-0 data-[ending-style]:opacity-0 ' +
-  'data-[starting-style]:data-[activation-direction=left]:translate-x-[-50%] ' +
-  'data-[starting-style]:data-[activation-direction=right]:translate-x-[50%] ' +
-  'data-[ending-style]:data-[activation-direction=left]:translate-x-[50%] ' +
-  'data-[ending-style]:data-[activation-direction=right]:translate-x-[-50%]';
+const contentClassName = "w-[calc(100vw_-_40px)] h-full p-6 xs:w-max xs:min-w-[400px] xs:w-max " + "transition-[opacity,transform,translate] duration-[var(--duration)] ease-[var(--easing)] " + "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0 " + "data-[starting-style]:data-[activation-direction=left]:translate-x-[-50%] " + "data-[starting-style]:data-[activation-direction=right]:translate-x-[50%] " + "data-[ending-style]:data-[activation-direction=left]:translate-x-[50%] " + "data-[ending-style]:data-[activation-direction=right]:translate-x-[-50%]";
 
-const linkCardClassName =
-  'block rounded-md p-2 xs:p-3 no-underline text-inherit ' +
-  'hover:bg-gray-100 focus-visible:relative focus-visible:outline focus-visible:outline-2 ' +
-  'focus-visible:-outline-offset-1 focus-visible:outline-blue-800';
+const linkCardClassName = "block rounded-md p-2 xs:p-3 no-underline text-inherit " + "hover:bg-gray-100 focus-visible:relative focus-visible:outline focus-visible:outline-2 " + "focus-visible:-outline-offset-1 focus-visible:outline-blue-800";
 
 const overviewLinks = [
   {
-    href: '/react/overview/quick-start',
-    title: 'Quick Start',
-    description: 'Install and assemble your first component.',
+    href: "/react/overview/quick-start",
+    title: "Quick Start",
+    description: "Install and assemble your first component.",
   },
   {
-    href: '/react/overview/accessibility',
-    title: 'Accessibility',
-    description: 'Learn how we build accessible components.',
+    href: "/react/overview/accessibility",
+    title: "Accessibility",
+    description: "Learn how we build accessible components.",
   },
   {
-    href: '/react/overview/releases',
-    title: 'Releases',
-    description: 'See what’s new in the latest Base UI versions.',
+    href: "/react/overview/releases",
+    title: "Releases",
+    description: "See what’s new in the latest Base UI versions.",
   },
   {
-    href: '/react/overview/about',
-    title: 'About',
-    description: 'Learn more about Base UI and our mission.',
+    href: "/react/overview/about",
+    title: "About",
+    description: "Learn more about Base UI and our mission.",
   },
 ] as const;
 
 const handbookLinks = [
   {
-    href: '/react/handbook/styling',
-    title: 'Styling',
-    description:
-      'Base UI components can be styled with plain CSS, Tailwind CSS, CSS-in-JS, or CSS Modules.',
+    href: "/react/handbook/styling",
+    title: "Styling",
+    description: "Base UI components can be styled with plain CSS, Tailwind CSS, CSS-in-JS, or CSS Modules.",
   },
   {
-    href: '/react/handbook/animation',
-    title: 'Animation',
-    description:
-      'Base UI components can be animated with CSS transitions, CSS animations, or JavaScript libraries.',
+    href: "/react/handbook/animation",
+    title: "Animation",
+    description: "Base UI components can be animated with CSS transitions, CSS animations, or JavaScript libraries.",
   },
   {
-    href: '/react/handbook/composition',
-    title: 'Composition',
-    description:
-      'Base UI components can be replaced and composed with your own existing components.',
+    href: "/react/handbook/composition",
+    title: "Composition",
+    description: "Base UI components can be replaced and composed with your own existing components.",
   },
 ] as const;
 ```
@@ -289,32 +268,32 @@ This example shows how to implement the component using CSS Modules.
   max-width: var(--available-width);
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
   }
 
-  &[data-side='top']::before {
+  &[data-side="top"]::before {
     left: 0;
     right: 0;
     bottom: -10px;
     height: 10px;
   }
 
-  &[data-side='bottom']::before {
+  &[data-side="bottom"]::before {
     left: 0;
     right: 0;
     top: -10px;
     height: 10px;
   }
 
-  &[data-side='left']::before {
+  &[data-side="left"]::before {
     top: 0;
     bottom: 0;
     right: -10px;
     width: 10px;
   }
 
-  &[data-side='right']::before {
+  &[data-side="right"]::before {
     top: 0;
     bottom: 0;
     left: -10px;
@@ -387,19 +366,19 @@ This example shows how to implement the component using CSS Modules.
   }
 
   &[data-starting-style] {
-    &[data-activation-direction='left'] {
+    &[data-activation-direction="left"] {
       transform: translateX(-50%);
     }
-    &[data-activation-direction='right'] {
+    &[data-activation-direction="right"] {
       transform: translateX(50%);
     }
   }
 
   &[data-ending-style] {
-    &[data-activation-direction='left'] {
+    &[data-activation-direction="left"] {
       transform: translateX(50%);
     }
-    &[data-activation-direction='right'] {
+    &[data-activation-direction="right"] {
       transform: translateX(-50%);
     }
   }
@@ -479,22 +458,22 @@ This example shows how to implement the component using CSS Modules.
   display: flex;
   transition: left calc(var(--duration)) var(--easing);
 
-  &[data-side='top'] {
+  &[data-side="top"] {
     bottom: -8px;
     rotate: 180deg;
   }
 
-  &[data-side='bottom'] {
+  &[data-side="bottom"] {
     top: -8px;
     rotate: 0deg;
   }
 
-  &[data-side='left'] {
+  &[data-side="left"] {
     right: -13px;
     rotate: 90deg;
   }
 
-  &[data-side='right'] {
+  &[data-side="right"] {
     left: -13px;
     rotate: -90deg;
   }
@@ -519,9 +498,9 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-import * as React from 'react';
-import { NavigationMenu } from '@base-ui/react/navigation-menu';
-import styles from './index.module.css';
+import * as React from "react";
+import { NavigationMenu } from "@base-ui/react/navigation-menu";
+import styles from "./index.module.css";
 
 export default function ExampleNavigationMenu() {
   return (
@@ -577,12 +556,7 @@ export default function ExampleNavigationMenu() {
       </NavigationMenu.List>
 
       <NavigationMenu.Portal>
-        <NavigationMenu.Positioner
-          className={styles.Positioner}
-          sideOffset={10}
-          collisionPadding={{ top: 5, bottom: 5, left: 20, right: 20 }}
-          collisionAvoidance={{ side: 'none' }}
-        >
+        <NavigationMenu.Positioner className={styles.Positioner} sideOffset={10} collisionPadding={{ top: 5, bottom: 5, left: 20, right: 20 }} collisionAvoidance={{ side: "none" }}>
           <NavigationMenu.Popup className={styles.Popup}>
             <NavigationMenu.Arrow className={styles.Arrow}>
               <ArrowSvg />
@@ -609,7 +583,7 @@ function Link(props: NavigationMenu.Link.Props) {
   );
 }
 
-function ChevronDownIcon(props: React.ComponentProps<'svg'>) {
+function ChevronDownIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" {...props}>
       <path d="M1 3.5L5 7.5L9 3.5" stroke="currentcolor" strokeWidth="1.5" />
@@ -617,66 +591,54 @@ function ChevronDownIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-function ArrowSvg(props: React.ComponentProps<'svg'>) {
+function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className={styles.ArrowFill}
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className={styles.ArrowOuterStroke}
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className={styles.ArrowInnerStroke}
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className={styles.ArrowFill} />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className={styles.ArrowOuterStroke} />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className={styles.ArrowInnerStroke} />
     </svg>
   );
 }
 
 const overviewLinks = [
   {
-    href: '/react/overview/quick-start',
-    title: 'Quick Start',
-    description: 'Install and assemble your first component.',
+    href: "/react/overview/quick-start",
+    title: "Quick Start",
+    description: "Install and assemble your first component.",
   },
   {
-    href: '/react/overview/accessibility',
-    title: 'Accessibility',
-    description: 'Learn how we build accessible components.',
+    href: "/react/overview/accessibility",
+    title: "Accessibility",
+    description: "Learn how we build accessible components.",
   },
   {
-    href: '/react/overview/releases',
-    title: 'Releases',
-    description: 'See what’s new in the latest Base UI versions.',
+    href: "/react/overview/releases",
+    title: "Releases",
+    description: "See what’s new in the latest Base UI versions.",
   },
   {
-    href: '/react/overview/about',
-    title: 'About',
-    description: 'Learn more about Base UI and our mission.',
+    href: "/react/overview/about",
+    title: "About",
+    description: "Learn more about Base UI and our mission.",
   },
 ] as const;
 
 const handbookLinks = [
   {
-    href: '/react/handbook/styling',
-    title: 'Styling',
-    description:
-      'Base UI components can be styled with plain CSS, Tailwind CSS, CSS-in-JS, or CSS Modules.',
+    href: "/react/handbook/styling",
+    title: "Styling",
+    description: "Base UI components can be styled with plain CSS, Tailwind CSS, CSS-in-JS, or CSS Modules.",
   },
   {
-    href: '/react/handbook/animation',
-    title: 'Animation',
-    description:
-      'Base UI components can be animated with CSS transitions, CSS animations, or JavaScript libraries.',
+    href: "/react/handbook/animation",
+    title: "Animation",
+    description: "Base UI components can be animated with CSS transitions, CSS animations, or JavaScript libraries.",
   },
   {
-    href: '/react/handbook/composition',
-    title: 'Composition',
-    description:
-      'Base UI components can be replaced and composed with your own existing components.',
+    href: "/react/handbook/composition",
+    title: "Composition",
+    description: "Base UI components can be replaced and composed with your own existing components.",
   },
 ] as const;
 ```
@@ -686,7 +648,7 @@ const handbookLinks = [
 Import the component and assemble its parts:
 
 ```jsx title="Anatomy"
-import { NavigationMenu } from '@base-ui/react/navigation-menu';
+import { NavigationMenu } from "@base-ui/react/navigation-menu";
 
 <NavigationMenu.Root>
   <NavigationMenu.List>
@@ -726,8 +688,8 @@ This example shows how to implement the component using Tailwind CSS.
 
 ```tsx
 /* index.tsx */
-import * as React from 'react';
-import { NavigationMenu } from '@base-ui/react/navigation-menu';
+import * as React from "react";
+import { NavigationMenu } from "@base-ui/react/navigation-menu";
 
 export default function ExampleNavigationMenu() {
   return (
@@ -756,9 +718,7 @@ export default function ExampleNavigationMenu() {
                   <NavigationMenu.Item>
                     <NavigationMenu.Trigger className={linkCardClassName}>
                       <span className="m-0 mb-1 text-base leading-5 font-medium">Handbook</span>
-                      <p className="m-0 text-sm leading-5 text-gray-500">
-                        How to use Base UI effectively.
-                      </p>
+                      <p className="m-0 text-sm leading-5 text-gray-500">How to use Base UI effectively.</p>
                       <NavigationMenu.Icon className="absolute top-1/2 right-2.5 flex h-2.5 w-2.5 -translate-y-1/2 items-center justify-center transition-transform duration-200 ease-in-out data-[popup-open]:rotate-180">
                         <ChevronRightIcon />
                       </NavigationMenu.Icon>
@@ -768,12 +728,8 @@ export default function ExampleNavigationMenu() {
                         {handbookLinks.map((item) => (
                           <li key={item.href}>
                             <Link href={item.href} className={linkCardClassName}>
-                              <h3 className="m-0 mb-1 text-base leading-5 font-medium">
-                                {item.title}
-                              </h3>
-                              <p className="m-0 text-sm leading-5 text-gray-500">
-                                {item.description}
-                              </p>
+                              <h3 className="m-0 mb-1 text-base leading-5 font-medium">{item.title}</h3>
+                              <p className="m-0 text-sm leading-5 text-gray-500">{item.description}</p>
                             </Link>
                           </li>
                         ))}
@@ -789,8 +745,8 @@ export default function ExampleNavigationMenu() {
                       side="right"
                       className="box-border h-[var(--positioner-height)] w-[var(--positioner-width)] max-w-[var(--available-width)] transition-[top,left,right,bottom] duration-[var(--duration)] ease-[var(--easing)] before:absolute before:content-[''] data-[instant]:transition-none data-[side=bottom]:before:top-[-10px] data-[side=bottom]:before:right-0 data-[side=bottom]:before:left-0 data-[side=bottom]:before:h-2.5 data-[side=left]:before:top-0 data-[side=left]:before:right-[-10px] data-[side=left]:before:bottom-0 data-[side=left]:before:w-2.5 data-[side=right]:before:top-0 data-[side=right]:before:bottom-0 data-[side=right]:before:left-[-10px] data-[side=right]:before:w-2.5 data-[side=top]:before:right-0 data-[side=top]:before:bottom-[-10px] data-[side=top]:before:left-0 data-[side=top]:before:h-2.5"
                       style={{
-                        ['--duration' as string]: '0.35s',
-                        ['--easing' as string]: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                        ["--duration" as string]: "0.35s",
+                        ["--easing" as string]: "cubic-bezier(0.22, 1, 0.36, 1)",
                       }}
                     >
                       <NavigationMenu.Popup className="data-[ending-style]:easing-[ease] relative h-[var(--popup-height)] w-[300px] origin-[var(--transform-origin)] rounded-lg bg-[canvas] text-gray-900 shadow-lg shadow-gray-200 outline outline-1 outline-gray-200 transition-[opacity,transform,width,height,scale,translate] duration-[var(--duration)] ease-[var(--easing)] data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[ending-style]:duration-150 data-[starting-style]:scale-90 data-[starting-style]:opacity-0 min-[500px]:w-[var(--popup-width)] dark:shadow-none dark:-outline-offset-1 dark:outline-gray-300">
@@ -811,8 +767,8 @@ export default function ExampleNavigationMenu() {
           collisionPadding={{ top: 5, bottom: 5, left: 20, right: 20 }}
           className="box-border h-[var(--positioner-height)] w-[var(--positioner-width)] max-w-[var(--available-width)] transition-[top,left,right,bottom] duration-[var(--duration)] ease-[var(--easing)] before:absolute before:content-[''] data-[instant]:transition-none data-[side=bottom]:before:top-[-10px] data-[side=bottom]:before:right-0 data-[side=bottom]:before:left-0 data-[side=bottom]:before:h-2.5 data-[side=left]:before:top-0 data-[side=left]:before:right-[-10px] data-[side=left]:before:bottom-0 data-[side=left]:before:w-2.5 data-[side=right]:before:top-0 data-[side=right]:before:bottom-0 data-[side=right]:before:left-[-10px] data-[side=right]:before:w-2.5 data-[side=top]:before:right-0 data-[side=top]:before:bottom-[-10px] data-[side=top]:before:left-0 data-[side=top]:before:h-2.5"
           style={{
-            ['--duration' as string]: '0.35s',
-            ['--easing' as string]: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            ["--duration" as string]: "0.35s",
+            ["--easing" as string]: "cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >
           <NavigationMenu.Popup className="data-[ending-style]:easing-[ease] relative h-[var(--popup-height)] origin-[var(--transform-origin)] rounded-lg bg-[canvas] text-gray-900 shadow-lg shadow-gray-200 outline outline-1 outline-gray-200 transition-[opacity,transform,width,height,scale,translate] duration-[var(--duration)] ease-[var(--easing)] data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[ending-style]:duration-150 data-[starting-style]:scale-90 data-[starting-style]:opacity-0 w-[var(--popup-width)] dark:shadow-none dark:-outline-offset-1 dark:outline-gray-300">
@@ -841,7 +797,7 @@ function Link(props: NavigationMenu.Link.Props) {
   );
 }
 
-function ChevronDownIcon(props: React.ComponentProps<'svg'>) {
+function ChevronDownIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" {...props}>
       <path d="M1 3.5L5 7.5L9 3.5" stroke="currentColor" strokeWidth="1.5" />
@@ -849,7 +805,7 @@ function ChevronDownIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-function ChevronRightIcon(props: React.ComponentProps<'svg'>) {
+function ChevronRightIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" {...props}>
       <path d="M3.5 1L7.5 5L3.5 9" stroke="currentColor" strokeWidth="1.5" />
@@ -857,83 +813,55 @@ function ChevronRightIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-function ArrowSvg(props: React.ComponentProps<'svg'>) {
+function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className="fill-[canvas]"
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className="fill-gray-200 dark:fill-none"
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className="dark:fill-gray-300"
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className="fill-[canvas]" />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className="fill-gray-200 dark:fill-none" />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className="dark:fill-gray-300" />
     </svg>
   );
 }
 
-const triggerClassName =
-  'box-border flex items-center justify-center gap-1.5 h-10 ' +
-  'px-2 sm:px-3.5 m-0 rounded-md bg-gray-50 text-gray-900 font-medium ' +
-  'text-[0.925rem] sm:text-base leading-6 select-none no-underline ' +
-  'hover:bg-gray-100 active:bg-gray-100 data-[popup-open]:bg-gray-100 ' +
-  'focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 focus-visible:relative';
+const triggerClassName = "box-border flex items-center justify-center gap-1.5 h-10 " + "px-2 sm:px-3.5 m-0 rounded-md bg-gray-50 text-gray-900 font-medium " + "text-[0.925rem] sm:text-base leading-6 select-none no-underline " + "hover:bg-gray-100 active:bg-gray-100 data-[popup-open]:bg-gray-100 " + "focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 focus-visible:relative";
 
-const contentClassName =
-  'w-[calc(100vw_-_40px)] h-full p-6 xs:w-max xs:min-w-[400px] xs:w-max ' +
-  'transition-[opacity,transform,translate] duration-[var(--duration)] ease-[var(--easing)] ' +
-  'data-[starting-style]:opacity-0 data-[ending-style]:opacity-0 ' +
-  'data-[starting-style]:data-[activation-direction=left]:translate-x-[-50%] ' +
-  'data-[starting-style]:data-[activation-direction=right]:translate-x-[50%] ' +
-  'data-[ending-style]:data-[activation-direction=left]:translate-x-[50%] ' +
-  'data-[ending-style]:data-[activation-direction=right]:translate-x-[-50%]';
+const contentClassName = "w-[calc(100vw_-_40px)] h-full p-6 xs:w-max xs:min-w-[400px] xs:w-max " + "transition-[opacity,transform,translate] duration-[var(--duration)] ease-[var(--easing)] " + "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0 " + "data-[starting-style]:data-[activation-direction=left]:translate-x-[-50%] " + "data-[starting-style]:data-[activation-direction=right]:translate-x-[50%] " + "data-[ending-style]:data-[activation-direction=left]:translate-x-[50%] " + "data-[ending-style]:data-[activation-direction=right]:translate-x-[-50%]";
 
-const linkCardClassName =
-  'w-full text-left relative block rounded-md p-2 sm:p-3 no-underline text-inherit ' +
-  'hover:bg-gray-100 focus-visible:relative focus-visible:outline focus-visible:outline-2 ' +
-  'focus-visible:-outline-offset-1 focus-visible:outline-blue-800 ' +
-  'data-[popup-open]:bg-gray-100';
+const linkCardClassName = "w-full text-left relative block rounded-md p-2 sm:p-3 no-underline text-inherit " + "hover:bg-gray-100 focus-visible:relative focus-visible:outline focus-visible:outline-2 " + "focus-visible:-outline-offset-1 focus-visible:outline-blue-800 " + "data-[popup-open]:bg-gray-100";
 
 const overviewLinks = [
   {
-    href: '/react/overview/quick-start',
-    title: 'Quick Start',
-    description: 'Install and assemble your first component.',
+    href: "/react/overview/quick-start",
+    title: "Quick Start",
+    description: "Install and assemble your first component.",
   },
   {
-    href: '/react/overview/accessibility',
-    title: 'Accessibility',
-    description: 'Learn how we build accessible components.',
+    href: "/react/overview/accessibility",
+    title: "Accessibility",
+    description: "Learn how we build accessible components.",
   },
   {
-    href: '/react/overview/releases',
-    title: 'Releases',
-    description: 'See what’s new in the latest Base UI versions.',
+    href: "/react/overview/releases",
+    title: "Releases",
+    description: "See what’s new in the latest Base UI versions.",
   },
 ] as const;
 
 const handbookLinks = [
   {
-    href: '/react/handbook/styling',
-    title: 'Styling',
-    description:
-      'Base UI components can be styled with plain CSS, Tailwind CSS, CSS-in-JS, or CSS Modules.',
+    href: "/react/handbook/styling",
+    title: "Styling",
+    description: "Base UI components can be styled with plain CSS, Tailwind CSS, CSS-in-JS, or CSS Modules.",
   },
   {
-    href: '/react/handbook/animation',
-    title: 'Animation',
-    description:
-      'Base UI components can be animated with CSS transitions, CSS animations, or JavaScript libraries.',
+    href: "/react/handbook/animation",
+    title: "Animation",
+    description: "Base UI components can be animated with CSS transitions, CSS animations, or JavaScript libraries.",
   },
   {
-    href: '/react/handbook/composition',
-    title: 'Composition',
-    description:
-      'Base UI components can be replaced and composed with your own existing components.',
+    href: "/react/handbook/composition",
+    title: "Composition",
+    description: "Base UI components can be replaced and composed with your own existing components.",
   },
 ] as const;
 ```
@@ -1023,32 +951,32 @@ This example shows how to implement the component using CSS Modules.
   max-width: var(--available-width);
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
   }
 
-  &[data-side='top']::before {
+  &[data-side="top"]::before {
     left: 0;
     right: 0;
     bottom: -10px;
     height: 10px;
   }
 
-  &[data-side='bottom']::before {
+  &[data-side="bottom"]::before {
     left: 0;
     right: 0;
     top: -10px;
     height: 10px;
   }
 
-  &[data-side='left']::before {
+  &[data-side="left"]::before {
     top: 0;
     bottom: 0;
     right: -10px;
     width: 10px;
   }
 
-  &[data-side='right']::before {
+  &[data-side="right"]::before {
     top: 0;
     bottom: 0;
     left: -10px;
@@ -1122,19 +1050,19 @@ This example shows how to implement the component using CSS Modules.
   }
 
   &[data-starting-style] {
-    &[data-activation-direction='left'] {
+    &[data-activation-direction="left"] {
       transform: translateX(-50%);
     }
-    &[data-activation-direction='right'] {
+    &[data-activation-direction="right"] {
       transform: translateX(50%);
     }
   }
 
   &[data-ending-style] {
-    &[data-activation-direction='left'] {
+    &[data-activation-direction="left"] {
       transform: translateX(50%);
     }
-    &[data-activation-direction='right'] {
+    &[data-activation-direction="right"] {
       transform: translateX(-50%);
     }
   }
@@ -1221,22 +1149,22 @@ This example shows how to implement the component using CSS Modules.
 .Arrow {
   display: flex;
 
-  &[data-side='top'] {
+  &[data-side="top"] {
     bottom: -8px;
     rotate: 180deg;
   }
 
-  &[data-side='bottom'] {
+  &[data-side="bottom"] {
     top: -8px;
     rotate: 0deg;
   }
 
-  &[data-side='left'] {
+  &[data-side="left"] {
     right: -13px;
     rotate: 90deg;
   }
 
-  &[data-side='right'] {
+  &[data-side="right"] {
     left: -13px;
     rotate: -90deg;
   }
@@ -1278,9 +1206,9 @@ This example shows how to implement the component using CSS Modules.
 
 ```tsx
 /* index.tsx */
-import * as React from 'react';
-import { NavigationMenu } from '@base-ui/react/navigation-menu';
-import styles from './index.module.css';
+import * as React from "react";
+import { NavigationMenu } from "@base-ui/react/navigation-menu";
+import styles from "./index.module.css";
 
 export default function ExampleNavigationMenu() {
   return (
@@ -1330,13 +1258,7 @@ export default function ExampleNavigationMenu() {
                   </NavigationMenu.List>
 
                   <NavigationMenu.Portal>
-                    <NavigationMenu.Positioner
-                      className={styles.Positioner}
-                      sideOffset={24}
-                      alignOffset={-24}
-                      align="end"
-                      side="right"
-                    >
+                    <NavigationMenu.Positioner className={styles.Positioner} sideOffset={24} alignOffset={-24} align="end" side="right">
                       <NavigationMenu.Popup className={styles.Popup}>
                         <NavigationMenu.Viewport className={styles.Viewport} />
                       </NavigationMenu.Popup>
@@ -1350,11 +1272,7 @@ export default function ExampleNavigationMenu() {
       </NavigationMenu.List>
 
       <NavigationMenu.Portal>
-        <NavigationMenu.Positioner
-          className={styles.Positioner}
-          sideOffset={10}
-          collisionPadding={{ top: 5, bottom: 5, left: 20, right: 20 }}
-        >
+        <NavigationMenu.Positioner className={styles.Positioner} sideOffset={10} collisionPadding={{ top: 5, bottom: 5, left: 20, right: 20 }}>
           <NavigationMenu.Popup className={styles.Popup}>
             <NavigationMenu.Arrow className={styles.Arrow}>
               <ArrowSvg />
@@ -1381,7 +1299,7 @@ function Link(props: NavigationMenu.Link.Props) {
   );
 }
 
-function ChevronDownIcon(props: React.ComponentProps<'svg'>) {
+function ChevronDownIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" {...props}>
       <path d="M1 3.5L5 7.5L9 3.5" stroke="currentcolor" strokeWidth="1.5" />
@@ -1389,7 +1307,7 @@ function ChevronDownIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-function ChevronRightIcon(props: React.ComponentProps<'svg'>) {
+function ChevronRightIcon(props: React.ComponentProps<"svg">) {
   return (
     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" {...props}>
       <path d="M3.5 1L7.5 5L3.5 9" stroke="currentcolor" strokeWidth="1.5" />
@@ -1397,61 +1315,49 @@ function ChevronRightIcon(props: React.ComponentProps<'svg'>) {
   );
 }
 
-function ArrowSvg(props: React.ComponentProps<'svg'>) {
+function ArrowSvg(props: React.ComponentProps<"svg">) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-      <path
-        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-        className={styles.ArrowFill}
-      />
-      <path
-        d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z"
-        className={styles.ArrowOuterStroke}
-      />
-      <path
-        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-        className={styles.ArrowInnerStroke}
-      />
+      <path d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z" className={styles.ArrowFill} />
+      <path d="M8.99542 1.85876C9.75604 1.17425 10.9106 1.17422 11.6713 1.85878L16.5281 6.22989C17.0789 6.72568 17.7938 7.00001 18.5349 7.00001L15.89 7L11.0023 2.60207C10.622 2.2598 10.0447 2.2598 9.66436 2.60207L4.77734 7L2.13171 7.00001C2.87284 7.00001 3.58774 6.72568 4.13861 6.22989L8.99542 1.85876Z" className={styles.ArrowOuterStroke} />
+      <path d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z" className={styles.ArrowInnerStroke} />
     </svg>
   );
 }
 
 const overviewLinks = [
   {
-    href: '/react/overview/quick-start',
-    title: 'Quick Start',
-    description: 'Install and assemble your first component.',
+    href: "/react/overview/quick-start",
+    title: "Quick Start",
+    description: "Install and assemble your first component.",
   },
   {
-    href: '/react/overview/accessibility',
-    title: 'Accessibility',
-    description: 'Learn how we build accessible components.',
+    href: "/react/overview/accessibility",
+    title: "Accessibility",
+    description: "Learn how we build accessible components.",
   },
   {
-    href: '/react/overview/releases',
-    title: 'Releases',
-    description: 'See what’s new in the latest Base UI versions.',
+    href: "/react/overview/releases",
+    title: "Releases",
+    description: "See what’s new in the latest Base UI versions.",
   },
 ] as const;
 
 const handbookLinks = [
   {
-    href: '/react/handbook/styling',
-    title: 'Styling',
-    description:
-      'Base UI components can be styled with plain CSS, Tailwind CSS, CSS-in-JS, or CSS Modules.',
+    href: "/react/handbook/styling",
+    title: "Styling",
+    description: "Base UI components can be styled with plain CSS, Tailwind CSS, CSS-in-JS, or CSS Modules.",
   },
   {
-    href: '/react/handbook/animation',
-    title: 'Animation',
-    description:
-      'Base UI components can be animated with CSS transitions, CSS animations, or JavaScript libraries.',
+    href: "/react/handbook/animation",
+    title: "Animation",
+    description: "Base UI components can be animated with CSS transitions, CSS animations, or JavaScript libraries.",
   },
   {
-    href: '/react/handbook/composition',
-    title: 'Composition',
-    description:
-      'Base UI components can be replaced and composed with your own existing components.',
+    href: "/react/handbook/composition",
+    title: "Composition",
+    description: "Base UI components can be replaced and composed with your own existing components.",
   },
 ] as const;
 ```

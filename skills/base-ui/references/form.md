@@ -8,6 +8,11 @@ description: A high-quality, unstyled React form component with consolidated err
 
 A high-quality, unstyled React form component with consolidated error handling.
 
+## v1.4.0 notes
+
+- Hidden inputs used by Base UI controls now expose a `form` prop, which helps when the control lives outside the visual `<form>` element but still needs to submit into it.
+- Hidden inputs also support `suppressHydrationWarning`, which is useful when SSR markup and client state can differ briefly during hydration.
+
 ## Demo
 
 ### Tailwind

@@ -2,8 +2,8 @@
 name: openspec
 description: "OpenSpec artifact-driven workflow. Covers OPSX commands, schemas, project config. Use when applying the artifact-driven workflow (OPSX), planning or reviewing changes based on artifact dependencies, or working with OPSX commands and schema/template resolution. Keywords: OPSX, artifact graph, /opsx:."
 metadata:
-  version: "1.2.0"
-  release_date: "2026-02-23"
+  version: "1.3.0"
+  release_date: "2026-04-11"
 ---
 
 # OpenSpec (OPSX) Skill
@@ -19,12 +19,12 @@ Use this skill to guide or reason about the OpenSpec artifact-driven workflow sy
 - End-to-end schema workflow gaps and proposed solution: references/schema-workflow-gaps.md
 - Experimental release plan and rollout checklist: references/experimental-release-plan.md
 
-## Release Highlights (1.1.1 → 1.2.0)
+## Release Highlights (1.2.0 → 1.3.0)
 
-- **Profiles:** select a workflow profile via `openspec config profile` (preset: `core` or custom selection) and apply it to a project via `openspec update`.
-- **Propose workflow (all-at-once):** legacy slash command `/openspec:proposal` creates proposal + specs + design + tasks in one request (instead of `/opsx:new` + `/opsx:ff`).
-- **More tool integrations:** adds support for Pi and Kiro tool directories.
-- **Cleaner updates:** `openspec update` can prune deselected workflows to keep projects tidy.
+- **More tool integrations:** adds support for Junie, Lingma, ForgeCode, and IBM Bob.
+- **Safer setup:** shell completion installation is now opt-in, and Copilot auto-detection no longer triggers from a bare `.github/` directory alone.
+- **Adapter fixes:** Pi command generation was corrected, and OpenCode now uses the canonical `.opencode/commands/` path.
+- **Safer status checks:** `openspec status` now exits cleanly when a project has no changes yet.
 
 ## OPSX Commands
 

@@ -2,8 +2,8 @@
 name: picoclaw
 description: "PicoClaw Go AI assistant. Covers CLI ops, config.json, channels, auth, skills, gateway. Use when running the PicoClaw CLI, configuring models/tools/gateway in config.json, or operating channels and authentication. Keywords: picoclaw, onboard, gateway, model_list."
 metadata:
-  version: "v0.2.4"
-  release_date: "2026-03-25"
+  version: "v0.2.6"
+  release_date: "2026-04-08"
 ---
 
 # PicoClaw
@@ -38,6 +38,7 @@ Use when you need to:
 - Switch providers/models via `model_list`
 - Run the agent in CLI mode or operate `gateway`
 - Enable chat channels (Telegram/Discord/Slack/WeCom/...)
+- Send outbound notifications to Microsoft Teams via webhook targets
 - Configure tools (web search, exec deny patterns, skills registries)
 - Install/remove skills into the workspace
 - Use skill channel commands (`/list skills`, `/use <skill>`)
@@ -100,6 +101,14 @@ Use when you need to:
 - Do not commit real API keys or OAuth tokens into a repo; keep them in `~/.picoclaw/` only.
 - Be cautious enabling the exec tool; keep deny patterns enabled unless you fully trust the environment.
 - Exposing gateway to `0.0.0.0` makes health endpoints reachable from the network; do that only intentionally.
+
+## Release Highlights (v0.2.6)
+
+- **Hooks `respond` action**: `before_tool` hooks can now return a final tool result directly, which is useful for plugin-style tools, caching, or policy-controlled mocks without registering a native tool implementation.
+- **Teams outbound channel**: `teams_webhook` adds an output-only Microsoft Teams path with named webhook targets and Adaptive Card rendering for richer notifications.
+- **Provider request shaping**: `model_list[].custom_headers` lets you inject extra HTTP headers per model entry, and fallback resolution now uses each fallback candidate's own provider settings.
+- **Gateway/web reliability**: PID ownership/stale-pid handling was hardened, and the web UI now derives its WebSocket endpoint from the browser-visible location instead of backend assumptions.
+- **Channel polish**: Feishu reply context was improved for card/file replies, reducing broken follow-up threading in that connector.
 
 ## Release Highlights (v0.2.4)
 

@@ -2,6 +2,17 @@
 
 Daily task operations with `bd` CLI.
 
+## Non-interactive setup (v1.0.0)
+
+Use the non-interactive flags when bootstrapping CI runners or cloud agents that cannot answer prompts.
+
+```bash
+bd init --non-interactive --role=<role>
+bd bootstrap --non-interactive
+```
+
+Use `--role` to make the workspace intent explicit for agent automation.
+
 ## Daily Loop
 
 ```bash
@@ -52,6 +63,7 @@ Use this before planning or handoff when you need a concise snapshot of the curr
 
 ```bash
 bd ready                    # Tasks with no open blockers
+bd ready --explain          # Explain dependency/blocker reasoning
 bd ready --json             # JSON output for agents
 bd ready --limit=10         # Limit results
 ```
@@ -62,6 +74,7 @@ bd ready --limit=10         # Limit results
 bd list                     # Default: 50 non-closed issues
 bd list --all               # All issues
 bd list --status=open       # Filter by status
+bd list --status=open,in_progress  # Comma-separated status values
 bd list --type=bug          # Filter by type
 bd list --tree              # Tree view with hierarchy
 bd list --tree --parent=bd-abc  # Subtree
@@ -138,6 +151,8 @@ bd dep rm bd-child bd-parent
 bd dep tree bd-xyz
 ```
 
+`1.0.x` also adds batch dependency listing for multiple issue IDs, which is useful when an agent is triaging several candidates at once.
+
 ## Labels
 
 ```bash
@@ -181,6 +196,10 @@ bd kv delete config.api_url
 ```
 
 Useful for storing agent configuration, session state, or project metadata.
+
+## Batch config updates (v1.0.0)
+
+Use `bd config set-many` when automation needs to apply several config changes together instead of mutating keys one by one.
 
 ## Backend Management
 

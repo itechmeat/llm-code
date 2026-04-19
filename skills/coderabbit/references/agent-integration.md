@@ -22,6 +22,7 @@ git rev-parse main >/dev/null 2>&1         # Base branch exists (or use --base)
 ```
 
 **Critical:** CodeRabbit CLI silently crashes with `[error] stopping cli` if:
+
 - The repo has **no commits** (GitError)
 - The **base branch** doesn't exist (defaults to `main`)
 
@@ -98,13 +99,32 @@ Don't run CodeRabbit more than 3 times in a given set of changes.
 
 ## Codex Integration
 
-Same pattern as Claude Code:
+CodeRabbit now has a dedicated Codex plugin in addition to the standalone CLI.
+
+Setup flow:
+
+1. Install Codex.
+2. Install/authenticate CodeRabbit CLI.
+3. Install the `coderabbit` plugin from the Codex plugin marketplace.
+4. Trigger reviews with natural language or `@coderabbit` mentions.
+
+Examples:
 
 ```text
-Please implement phase 7.3 of the planning doc and then run
-coderabbit review --prompt-only --type uncommitted --no-color,
-let it run as long as it needs and fix any issues.
+Review my current changes with CodeRabbit
+@coderabbit Review my current changes
 ```
+
+Operational notes:
+
+- The plugin verifies CLI installation and authentication before running.
+- It summarizes the diff first, then reports findings with severity, file path, impact, and fix direction.
+- Keep direct CLI usage for debugging/manual control; let the plugin drive normal Codex review loops.
+
+## Structured agent output
+
+- Prefer `coderabbit review --agent` when another agent needs machine-readable findings.
+- Consume the output line by line and branch on event `type`; findings include severity, file path, and codegen guidance.
 
 ## Recommended Commands
 

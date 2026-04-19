@@ -45,6 +45,11 @@ async def handle_specific(message: Message): ...
 async def handle_text(message: Message): ...
 ```
 
+### CommandStart deep-link guard (v3.27.0)
+
+- `CommandStart(deep_link=False)` now rejects deep-link arguments instead of silently accepting them.
+- Use this strict mode for bots that want a plain `/start` entry point, and register a separate deep-link-enabled handler when referral or onboarding arguments are expected.
+
 ## Callback Query Handlers
 
 ```python
@@ -235,3 +240,8 @@ async def handle(message: Message) -> None:
 - ❌ No bare `except:` — catch specific exceptions
 - ✅ Always `callback.answer()` for callback queries
 - ✅ Use routers for handler organization
+
+## Bot API 9.6 sync notes
+
+- Plan for managed-bot update payloads if your bot participates in bot-management flows.
+- Poll-related handlers should move to `correct_option_ids` and persistent option IDs instead of assuming a single correct option and stable positional identity.

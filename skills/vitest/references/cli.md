@@ -132,6 +132,10 @@ vitest --outputFile=./results.json
 vitest --outputFile.json=./json.json --outputFile.junit=./junit.xml
 ```
 
+`4.1.4` note:
+
+- If you need to filter or sanitize test `meta` in JSON output, configure the JSON reporter with `filterMeta` in `vitest.config.*`; do not assume the CLI shorthand alone is enough for reporter-specific options.
+
 ## UI
 
 ```bash

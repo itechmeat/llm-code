@@ -20,7 +20,7 @@ coderabbit auth login
 cr auth login
 ```
 
-Follow browser redirect, sign in, copy token back to CLI.
+Authentication completes in the browser; no token copy-paste step is required in current CLI builds.
 
 Check status:
 
@@ -31,6 +31,7 @@ coderabbit auth status
 ## Prerequisites
 
 CodeRabbit CLI requires:
+
 1. **Initialized git repo** — must be run from within a git repository
 2. **At least one commit** — the CLI uses git diff internally and will crash with `GitError` on repos with no commits
 3. **Valid base branch** — defaults to `main`; use `--base` if your branch is named differently (e.g., `master`, `develop`)
@@ -41,19 +42,22 @@ The `review` subcommand is the default — `coderabbit --plain` and `coderabbit 
 
 ### Output Modes
 
-| Mode        | Command                            | Use Case                               |
-| ----------- | ---------------------------------- | -------------------------------------- |
-| Interactive | `coderabbit review`                | Browsable findings, apply fixes inline |
-| Plain text  | `coderabbit review --plain`        | Detailed feedback with suggestions     |
-| Prompt-only | `coderabbit review --prompt-only`  | Optimized for AI agents                |
+| Mode        | Command                           | Use Case                               |
+| ----------- | --------------------------------- | -------------------------------------- |
+| Interactive | `coderabbit review`               | Browsable findings, apply fixes inline |
+| Plain text  | `coderabbit review --plain`       | Detailed feedback with suggestions     |
+| Prompt-only | `coderabbit review --prompt-only` | Optimized for AI agents                |
+| Agent JSON  | `coderabbit review --agent`       | Structured events for agent workflows  |
+
+`--agent` writes JSON objects to stdout (one per line). Expect event types such as `review_context`, `status`, `finding`, `complete`, and `error`.
 
 ### Review Types
 
-| Type        | Command                                 | Description                              |
-| ----------- | --------------------------------------- | ---------------------------------------- |
-| All changes | `coderabbit review --type all`          | Both committed and uncommitted (default) |
-| Uncommitted | `coderabbit review --type uncommitted`  | Working directory only                   |
-| Committed   | `coderabbit review --type committed`    | Committed changes only                   |
+| Type        | Command                                | Description                              |
+| ----------- | -------------------------------------- | ---------------------------------------- |
+| All changes | `coderabbit review --type all`         | Both committed and uncommitted (default) |
+| Uncommitted | `coderabbit review --type uncommitted` | Working directory only                   |
+| Committed   | `coderabbit review --type committed`   | Committed changes only                   |
 
 ### Base Branch
 
@@ -78,15 +82,16 @@ coderabbit review --plain --type uncommitted --no-color
 
 ## Command Reference
 
-| Command                        | Description                              |
-| ------------------------------ | ---------------------------------------- |
-| `coderabbit review`            | Run code review (interactive by default) |
-| `coderabbit review --plain`    | Plain text output                        |
-| `coderabbit review --prompt-only` | Minimal AI-optimized output           |
-| `coderabbit auth login`        | Authenticate with CodeRabbit             |
-| `coderabbit auth status`       | Check authentication status              |
-| `coderabbit update`            | Update CLI to latest version             |
-| `cr`                           | Short alias for all commands             |
+| Command                           | Description                              |
+| --------------------------------- | ---------------------------------------- |
+| `coderabbit review`               | Run code review (interactive by default) |
+| `coderabbit review --plain`       | Plain text output                        |
+| `coderabbit review --prompt-only` | Minimal AI-optimized output              |
+| `coderabbit auth login`           | Authenticate with CodeRabbit             |
+| `coderabbit auth status`          | Check authentication status              |
+| `coderabbit stats`                | Show local review statistics             |
+| `coderabbit update`               | Update CLI to latest version             |
+| `cr`                              | Short alias for all commands             |
 
 ## Additional Options
 
@@ -96,7 +101,7 @@ coderabbit review --plain --type uncommitted --no-color
 | `-c, --config <files...>` | Additional instruction files (claude.md, .cursorrules) |
 | `--base <branch>`         | Base branch for comparison (default: main)             |
 | `--base-commit <commit>`  | Base commit on current branch                          |
-| `--cwd <path>`            | Working directory path                                 |
+| `--dir <path>`            | Review directory path (replaces `--cwd`)               |
 | `--no-color`              | Disable colored output (recommended for agents)        |
 | `--api-key <key>`         | API key for authentication (usage-based billing)       |
 
@@ -109,12 +114,12 @@ coderabbit review --plain --type uncommitted --no-color
 
 ## Troubleshooting
 
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| `[error] stopping cli` + `GitError` in logs | No commits in repo | Create at least one commit |
-| `Failed to get commit SHA for branch main` | Base branch doesn't exist | Use `--base master` or appropriate branch |
-| `Raw mode is not supported` | Interactive mode without TTY | Use `--prompt-only` or `--plain` |
-| Silent failure, empty output | Auth expired | Re-run `coderabbit auth login` |
+| Symptom                                     | Cause                        | Fix                                       |
+| ------------------------------------------- | ---------------------------- | ----------------------------------------- |
+| `[error] stopping cli` + `GitError` in logs | No commits in repo           | Create at least one commit                |
+| `Failed to get commit SHA for branch main`  | Base branch doesn't exist    | Use `--base master` or appropriate branch |
+| `Raw mode is not supported`                 | Interactive mode without TTY | Use `--prompt-only` or `--plain`          |
+| Silent failure, empty output                | Auth expired                 | Re-run `coderabbit auth login`            |
 
 Debug mode: `DEBUG=* coderabbit review --prompt-only 2>&1`
 Logs: `~/.coderabbit/logs/`

@@ -14,6 +14,7 @@ Server docs describe a “bot runner” as an HTTP gateway that:
 - Lets you run the same bot logic across multiple transports.
 - Handles setup for WebRTC (local), Daily rooms/tokens, and telephony webhooks.
 - Encourages a pattern: keep core bot logic transport-agnostic, create the transport in the entry point based on runner args.
+- `1.0.0` exports a module-level FastAPI `app` from the development runner, so you can register custom routes/middleware before calling `main()`.
 
 ## Installation (extras)
 

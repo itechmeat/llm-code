@@ -59,3 +59,10 @@ Per-process-hook `timeout_ms` is not currently supported.
 - **Tool approval gate**: require explicit approval for dangerous tools before execution
 - **LLM request/response filtering**: modify prompts or responses in-flight
 - **Cost tracking**: intercept LLM calls to log token usage
+
+## Direct tool responses (v0.2.6)
+
+- `before_tool` hooks can now return `action: "respond"` with a final tool result payload.
+- Use this for plugin-style tools implemented completely inside the hook process, result caching, or controlled mock responses during testing.
+- `respond` skips the actual tool execution path and does not trigger `after_tool`, so treat it as a terminal decision for that tool call.
+- The upstream JSON-RPC hook protocol documents the response envelope fields (`for_llm`, `for_user`, `silent`, `is_error`) explicitly; keep your hook output aligned with that structure.

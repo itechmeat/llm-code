@@ -57,7 +57,7 @@ globalThis.count = count;
 export default {
   fetch() {
     return new Response(`Count: ${++count}`);
-  }
+  },
 };
 ```
 
@@ -69,6 +69,25 @@ export default {
 | Process  | Restart     | In-place     |
 | Speed    | Slower      | Faster       |
 | Use case | General dev | HTTP servers |
+
+### `Bun.cron()` in-process scheduler (v1.3.12)
+
+Use in-process cron when the job should share memory, caches, DB pools, or module state with the current Bun process.
+
+```typescript
+process.on("unhandledRejection", console.error);
+
+using job = Bun.cron("*/5 * * * *", async function () {
+  await syncState();
+});
+```
+
+Operational rules:
+
+- In-process cron uses UTC, not the host local timezone.
+- Jobs never overlap; the next run is scheduled only after the current handler settles.
+- Under `bun --hot`, in-process cron jobs are cleared before module re-evaluation, so schedule edits do not leak duplicate timers.
+- Use `Bun.cron(path, schedule, title)` only when you need OS-level persistence across restarts.
 
 ---
 
@@ -116,7 +135,7 @@ bun --inspect index.ts
 
 ```typescript
 const inspector = Bun.inspector;
-inspector.url;               // WebSocket URL
+inspector.url; // WebSocket URL
 inspector.open({ port: 9229 });
 inspector.close();
 

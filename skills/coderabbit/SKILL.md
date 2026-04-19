@@ -3,7 +3,7 @@ name: coderabbit
 description: "CodeRabbit AI code review. Covers CLI usage, .coderabbit.yaml configuration, supported linters/tools, PR commands, and triage workflow. Use when running AI-powered code reviews on pull requests or local changes, configuring review rules, or triaging CodeRabbit findings. Keywords: @coderabbitai, code review, CLI, .coderabbit.yaml."
 metadata:
   version: "—"
-  release_date: "2026-03-31"
+  release_date: "2026-04-16"
 ---
 
 # CodeRabbit
@@ -222,6 +222,28 @@ reviews:
 ## CLI Agent Mode (2026-03-31)
 
 - `coderabbit review --agent` outputs results in structured JSON format for Skills and agent integrations.
+
+## CLI 0.4.x (2026-04-01 to 2026-04-06)
+
+- `coderabbit auth login` completes fully in the browser.
+- `--agent` now covers auth-related workflows better for agent environments.
+- `--dir` replaces `--cwd` for subdirectory-scoped reviews.
+- `coderabbit stats` is available for local review telemetry.
+
+## GitLab SSH Access (2026-04-02)
+
+- Self-managed GitLab can use SSH clone credentials instead of HTTPS.
+- This is useful when GitLab instances do not expose HTTPS cloning or enforce SSH-only repository access.
+
+## Codex Plugin (2026-04-14)
+
+- CodeRabbit is available as a dedicated Codex plugin in addition to the standalone CLI.
+- The plugin verifies CLI install/auth, triggers reviews from natural language or `@coderabbit`, and keeps findings inside the agent loop for follow-up fixes.
+
+## Global Overrides (2026-04-16)
+
+- Organization admins can enforce top-priority configuration overrides across every repository.
+- Nested objects merge with lower layers; arrays and scalar values replace them.
 
 ## Custom Finishing Touch Recipes (Early Access) (2026-02-23)
 

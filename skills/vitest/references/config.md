@@ -227,6 +227,11 @@ export default defineConfig({
 }
 ```
 
+Reporter note for `4.1.4`:
+
+- The JSON reporter now supports `filterMeta`, which lets you control how test `meta` is emitted in machine-readable output.
+- If your CI/report consumer depends on `meta`, pin the expected shape explicitly instead of assuming every key will always be present.
+
 ## Watch Mode
 
 ```ts

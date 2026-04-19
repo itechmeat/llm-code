@@ -33,6 +33,14 @@ agent = Agent('openai:gpt-4o', capabilities=[
 
 Built-in capabilities: `WebSearch`, `WebFetch`, `MCP`, `ImageGeneration`, `Thinking`, `Hooks`.
 
+### Capability ordering (v1.80.0+)
+
+When multiple capabilities wrap the same agent flow, ordering is now part of the public design surface.
+
+- `CapabilityOrdering` supports explicit placement such as `innermost`, `outermost`, `wraps`, `wrapped_by`, and `requires`.
+- `Hooks` also gained ordering controls and instance references so wrapper relationships can be expressed directly.
+- Use explicit ordering when capability composition changes semantics, for example when you need one capability to observe or transform requests before another wrapper runs.
+
 ### Hooks Capability
 
 Define hooks using decorators:
@@ -50,6 +58,15 @@ agent = Agent('openai:gpt-4o', capabilities=[hooks])
 ```
 
 Hooks can raise `ModelRetry` for retry control flow. `before_model_request` / wrap hooks can swap models via `ModelRequestContext`.
+
+### Server-side compaction capabilities (v1.80.0+)
+
+Pydantic AI now exposes provider-backed compaction capabilities for long-running conversations:
+
+- `OpenAICompaction`
+- `AnthropicCompaction`
+
+OpenAI compaction also gained a stateful mode in the `1.84.x` line. Use these capabilities when you want the provider to manage context reduction instead of layering your own summarization logic on every turn.
 
 ## AgentSpec (v1.71.0+)
 

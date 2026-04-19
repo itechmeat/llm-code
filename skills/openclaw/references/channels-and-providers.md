@@ -74,6 +74,13 @@ Config shape (from Discord channel docs):
 - Add local providers only after resource and latency constraints are validated.
 - Treat provider credentials as secrets and rotate through your secret-management process.
 
+## Provider/runtime updates (v2026.4.15)
+
+- Anthropic defaults and `opus` aliases now point bundled image-understanding flows at Claude Opus 4.7.
+- The bundled `google` plugin now supports TTS with voice selection plus WAV/PCM output paths.
+- GitHub Copilot is available as a memory-search embedding provider, which is useful when memory search should align with Copilot-authenticated environments.
+- Bundled Microsoft and ElevenLabs speech providers now auto-enable for TTS-oriented setups.
+
 ## Telegram channel playbook
 
 - Configure bot token, DM policy, and group mention policy before production use.

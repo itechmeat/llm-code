@@ -8,7 +8,13 @@ The Bot API is an HTTP-based interface for building Telegram bots. It provides:
 - JSON responses
 - Webhook or long polling for updates
 
-**Bot API 9.4** is supported in aiogram v3.25.0.
+**Bot API 9.6** is supported in aiogram v3.27.0.
+
+## Bot API 9.6 highlights
+
+- Managed bots: new managed-bot request flows, token-management methods, and update payloads.
+- Polls: multiple correct answers, revoting, option shuffling/addition, descriptions, and persistent option IDs.
+- Formatting: `date_time` entities are allowed in more quote/checklist/gift contexts.
 
 ## Authentication
 
@@ -85,13 +91,21 @@ await client.post(
 
 ### Bot Info
 
-| Method                  | Description           |
-| ----------------------- | --------------------- |
-| `getMe`                 | Get bot info          |
-| `setMyCommands`         | Set bot commands      |
-| `getMyCommands`         | Get bot commands      |
-| `setMyDescription`      | Set bot description   |
-| `setMyShortDescription` | Set short description |
+| Method                   | Description               |
+| ------------------------ | ------------------------- |
+| `getMe`                  | Get bot info              |
+| `setMyCommands`          | Set bot commands          |
+| `getMyCommands`          | Get bot commands          |
+| `setMyDescription`       | Set bot description       |
+| `setMyShortDescription`  | Set short description     |
+| `getManagedBotToken`     | Get token for managed bot |
+| `replaceManagedBotToken` | Rotate managed bot token  |
+
+### Mini Apps / prepared buttons
+
+| Method                       | Description                           |
+| ---------------------------- | ------------------------------------- |
+| `savePreparedKeyboardButton` | Save reusable keyboard request button |
 
 ### Inline Mode
 
@@ -135,6 +149,7 @@ class Update:
     my_chat_member: ChatMemberUpdated | None
     chat_member: ChatMemberUpdated | None
     chat_join_request: ChatJoinRequest | None
+    managed_bot: ManagedBotUpdated | None
 ```
 
 ## Common Types
@@ -173,7 +188,23 @@ class User:
     last_name: str | None
     username: str | None
     language_code: str | None
+    can_manage_bots: bool | None
 ```
+
+### Poll (Bot API 9.6)
+
+```python
+class Poll:
+    id: str
+    question: str
+    options: list[PollOption]
+    allows_multiple_answers: bool
+    correct_option_ids: list[int] | None
+    allows_revoting: bool | None
+    description: str | None
+```
+
+Use `correct_option_ids` instead of the old single-answer mental model, and do not key business logic only by option position when persistent option IDs are available.
 
 ### Contact
 

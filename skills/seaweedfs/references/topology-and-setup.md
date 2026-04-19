@@ -64,6 +64,8 @@ Sources:
 - Use `-index=leveldb` on very large volume servers to reduce memory pressure from index handling.
 - Throttle maintenance impact on hot nodes with `-compactionMBps` rather than letting compaction consume unbounded disk bandwidth.
 - Expect new capacity to receive new writes but not automatic rebalance of existing data; manual `weed shell` commands are the explicit maintenance path.
+- Recent master updates make volume assignment more size-aware and drain pending size before marking a volume readonly, which improves placement predictability during high-ingest periods.
+- If a topology has more racks than the requested replica count, upgrade before diagnosing endless new-volume growth as a capacity problem; 4.20 fixes one such placement bug.
 - Generate `filer.toml` with `weed scaffold -config=filer` and choose the filer store according to HA and scale needs instead of accepting `leveldb2` blindly.
 - Treat a shared filer store plus multiple peer filer processes as the recommended production model because it makes filers stateless.
 - Start S3 alongside filer when possible so the S3 endpoint follows the same filer-backed metadata view and multi-filer setup stays simpler.

@@ -25,8 +25,8 @@ const match = Bun.password.verifySync(password, hash);
 ```ts
 const hash = await Bun.password.hash(password, {
   algorithm: "argon2id", // "argon2id" | "argon2i" | "argon2d"
-  memoryCost: 4,         // kibibytes
-  timeCost: 3,           // iterations
+  memoryCost: 4, // kibibytes
+  timeCost: 3, // iterations
 });
 ```
 
@@ -48,8 +48,8 @@ const hash = await Bun.password.hash(password, {
 Fast hashing for non-security uses (default: Wyhash).
 
 ```ts
-Bun.hash("data");                    // bigint
-Bun.hash("data", 1234);              // with seed
+Bun.hash("data"); // bigint
+Bun.hash("data", 1234); // with seed
 Bun.hash(new Uint8Array([1, 2, 3])); // TypedArray
 
 // Other algorithms
@@ -77,9 +77,9 @@ hasher.update("hello");
 hasher.update(" world");
 
 // Output formats
-hasher.digest();           // Uint8Array
-hasher.digest("hex");      // string
-hasher.digest("base64");   // string
+hasher.digest(); // Uint8Array
+hasher.digest("hex"); // string
+hasher.digest("base64"); // string
 
 // Write to existing buffer
 const buffer = new Uint8Array(32);
@@ -109,8 +109,8 @@ Fast native glob pattern matching.
 ```ts
 const glob = new Glob("*.ts");
 
-glob.match("index.ts");     // true
-glob.match("index.js");     // false
+glob.match("index.ts"); // true
+glob.match("index.js"); // false
 glob.match("src/index.ts"); // false
 ```
 
@@ -135,10 +135,10 @@ for (const file of glob.scanSync(".")) {
 ```ts
 glob.scan({
   cwd: "./src",
-  dot: true,              // Match dotfiles
-  absolute: true,         // Return absolute paths
+  dot: true, // Match dotfiles
+  absolute: true, // Return absolute paths
   followSymlinks: true,
-  onlyFiles: true,        // default
+  onlyFiles: true, // default
 });
 ```
 
@@ -157,9 +157,9 @@ glob.scan({
 | `\*`       | Literal `*`                 |
 
 ```ts
-new Glob("**/*.{ts,tsx}");           // TypeScript files
-new Glob("src/**/[A-Z]*.ts");        // PascalCase files
-new Glob("!**/*.test.ts");           // Exclude tests
+new Glob("**/*.{ts,tsx}"); // TypeScript files
+new Glob("src/**/[A-Z]*.ts"); // PascalCase files
+new Glob("!**/*.test.ts"); // Exclude tests
 ```
 
 ---
@@ -215,9 +215,9 @@ rewriter.on("div.content", {
     el.removeAndKeepContent();
 
     // Properties
-    el.tagName;      // lowercase
-    el.selfClosing;  // boolean
-    el.removed;      // boolean
+    el.tagName; // lowercase
+    el.selfClosing; // boolean
+    el.removed; // boolean
 
     // Iterate attributes
     for (const [name, value] of el.attributes) {
@@ -225,14 +225,14 @@ rewriter.on("div.content", {
     }
 
     // End tag
-    el.onEndTag(tag => {
+    el.onEndTag((tag) => {
       tag.before("before </div>");
       tag.remove();
     });
   },
 
   text(text) {
-    text.text;           // content
+    text.text; // content
     text.lastInTextNode; // boolean
     text.replace("new");
     text.remove();
@@ -249,19 +249,19 @@ rewriter.on("div.content", {
 ### CSS Selectors
 
 ```ts
-rewriter.on("p", handler);               // Tag
-rewriter.on(".class", handler);          // Class
-rewriter.on("#id", handler);             // ID
-rewriter.on("[attr]", handler);          // Has attribute
-rewriter.on('[attr="value"]', handler);  // Exact match
+rewriter.on("p", handler); // Tag
+rewriter.on(".class", handler); // Class
+rewriter.on("#id", handler); // ID
+rewriter.on("[attr]", handler); // Has attribute
+rewriter.on('[attr="value"]', handler); // Exact match
 rewriter.on('[attr^="prefix"]', handler); // Starts with
 rewriter.on('[attr$="suffix"]', handler); // Ends with
 rewriter.on('[attr*="contains"]', handler);
-rewriter.on("div > p", handler);         // Direct child
-rewriter.on("div p", handler);           // Descendant
-rewriter.on("p:first-child", handler);   // Pseudo-class
+rewriter.on("div > p", handler); // Direct child
+rewriter.on("div p", handler); // Descendant
+rewriter.on("p:first-child", handler); // Pseudo-class
 rewriter.on("p:nth-child(2)", handler);
-rewriter.on("*", handler);               // Universal
+rewriter.on("*", handler); // Universal
 ```
 
 ### Document Handlers
@@ -289,7 +289,7 @@ rewriter.onDocument({
 import { semver } from "bun";
 
 semver.satisfies("1.2.3", "^1.0.0"); // true
-semver.order("1.2.3", "1.2.4");      // -1
+semver.order("1.2.3", "1.2.4"); // -1
 ```
 
 ### Sleep
@@ -302,7 +302,7 @@ await Bun.sleepSync(1000);
 ### Random
 
 ```ts
-Bun.randomUUIDv7();  // UUID v7
+Bun.randomUUIDv7(); // UUID v7
 crypto.randomUUID(); // UUID v4
 ```
 
@@ -316,10 +316,10 @@ Bun.inspect(object, { depth: 2, colors: true });
 ### Path Utilities
 
 ```ts
-Bun.main;           // Entry point path
-import.meta.dir;    // Directory of current file
-import.meta.file;   // Filename of current file
-import.meta.path;   // Full path of current file
+Bun.main; // Entry point path
+import.meta.dir; // Directory of current file
+import.meta.file; // Filename of current file
+import.meta.path; // Full path of current file
 ```
 
 ---
@@ -327,6 +327,24 @@ import.meta.path;   // Full path of current file
 ## Markdown Parser (Bun.markdown)
 
 Built-in CommonMark-compliant Markdown parser (v1.3.8+).
+
+### Render Markdown for the terminal (v1.3.12)
+
+```ts
+const ansi = Bun.markdown.ansi("# Hello\n\n**bold**");
+process.stdout.write(ansi);
+
+const plain = Bun.markdown.ansi("# Hello", { colors: false });
+const linked = Bun.markdown.ansi("[docs](https://bun.sh)", { hyperlinks: true });
+```
+
+CLI shortcut:
+
+```bash
+bun ./README.md
+```
+
+Use `Bun.markdown.ansi()` when the output target is a terminal; keep `html()` or callback-based rendering for browser/UI pipelines.
 
 ### Render to HTML
 

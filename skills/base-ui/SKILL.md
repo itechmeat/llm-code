@@ -2,8 +2,8 @@
 name: base-ui
 description: "Base UI unstyled React components. Covers forms, menus, overlays, composition. Use when building accessible, unstyled React UI components with @base-ui/react, composing with render props, or implementing custom-styled form controls, menus, and overlays. Keywords: @base-ui/react, render props, unstyled components."
 metadata:
-  version: "1.3.0"
-  release_date: "2026-03-12"
+  version: "1.4.0"
+  release_date: "2026-04-13"
 ---
 
 # Base UI (React)
@@ -25,6 +25,7 @@ Base UI provides unstyled, composable React components. This skill focuses on as
 - references/fieldset.md
 - references/input.md
 - references/number-field.md
+- references/otp-field.md
 - references/radio.md
 - references/select.md
 - references/slider.md
@@ -56,6 +57,13 @@ Base UI provides unstyled, composable React components. This skill focuses on as
 
 - references/scroll-area.md
 - references/separator.md
+
+## v1.4.0 highlights
+
+- `OTPField` arrives as a preview primitive for one-time-password and verification-code entry.
+- Hidden inputs expose `form` and `suppressHydrationWarning`, which matters when controls submit to external forms or hydrate across SSR boundaries.
+- `render` warnings and `preventBaseUIHandler()` runtime behavior are more reliable in composed components.
+- Overlay/input primitives received important behavioral fixes across `Drawer`, `NavigationMenu`, `Select`, `Slider`, `Toast`, and `Switch`.
 
 ## v1.3.0 highlights
 

@@ -64,6 +64,18 @@ Sources:
 - Document rename cost expectations for large directory trees.
 - Keep example flows for HTTP upload/download and paginated listing in operator references and integration tests.
 
+## Mount/FUSE reliability notes (4.20)
+
+- `weed mount -dlm` adds distributed lock coordination for cross-mount write paths; use it when several mounts can modify the same tree concurrently.
+- Recent fixes tighten POSIX-facing behavior for directory `nlink`, parent `mtime/ctime`, hard-link metadata, and nanosecond timestamp precision.
+- Mount mutation paths now avoid some redundant filer RPCs, and writeback cache mode pre-allocates file IDs to reduce write amplification under sustained change.
+- If you saw metadata flush problems for files unlinked while still open, re-test before keeping downstream workarounds.
+
+## Filer reliability notes (4.20)
+
+- Graceful shutdown no longer risks the same corruption path as earlier 4.17-era builds, so shutdown/restart drills are worth revalidating after upgrade.
+- Filer no longer aborts entry deletion just because hard-link cleanup failed, and redundant disk reads that caused memory/CPU regressions were removed.
+
 ## File Operations Quick Reference
 
 ### What this page is about

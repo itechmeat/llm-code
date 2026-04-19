@@ -19,6 +19,7 @@ Sources:
 - Restart filers and volume servers after changing master metrics settings because they need to re-read the configuration.
 - Use dedicated metrics ports per process when exposing scrape endpoints directly.
 - Reuse the upstream Grafana dashboard as a starting point instead of building panels from scratch.
+- Master and volume processes now export `start_time_seconds`, which is useful for restart detection and rollout dashboards.
 
 ### Gotchas / prohibitions
 
@@ -44,6 +45,8 @@ Sources:
 - Rely on `volume.fix.replication`, `volume.vacuum`, `volume.balance`, `ec.*`, `fs.meta.*`, `remote.*`, and `s3.*` commands as the canonical operational toolkit.
 - Use dry-run or preview-style flags such as `-n` before performing replication repair when possible.
 - Use `volume.check.disk`, `volume.fsck`, `fs.meta.cat`, and `fs.verify` when diagnosing missing chunks or filer-to-volume inconsistencies.
+- Recent shell updates add group-management commands and make `s3.user.provision` idempotent for existing users by attaching policy instead of failing the whole flow.
+- When scripting `weed shell`, prompt suppression on piped input reduces brittle non-interactive automation.
 
 ### Gotchas / prohibitions
 

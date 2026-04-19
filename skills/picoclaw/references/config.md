@@ -62,6 +62,8 @@ Notes:
   - If no prefix is specified, PicoClaw treats it as `openai/`.
 - Multiple entries can share the same `model_name` for round-robin load balancing.
 - If you keep legacy `providers`, PicoClaw may auto-convert internally for backward compatibility.
+- `custom_headers` can inject per-model HTTP headers and may override built-in headers; use it for provider-specific routing hints only when `api_base`/auth settings are not enough.
+- Fallback evaluation now respects each fallback candidate's own provider settings, so keep fallback entries fully configured instead of assuming they inherit the primary provider behavior.
 
 ### `channels`
 

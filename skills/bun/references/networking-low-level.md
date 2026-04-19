@@ -12,17 +12,21 @@ const server = Bun.listen({
   hostname: "localhost",
   port: 8080,
   socket: {
-    open(socket) { console.log("Connected"); },
-    data(socket, data) { socket.write(`Echo: ${data}`); },
+    open(socket) {
+      console.log("Connected");
+    },
+    data(socket, data) {
+      socket.write(`Echo: ${data}`);
+    },
     close(socket, error) {},
-    drain(socket) {},  // Socket ready for more data
+    drain(socket) {}, // Socket ready for more data
     error(socket, error) {},
   },
 });
 
-server.stop();       // Keep existing connections
-server.stop(true);   // Close all
-server.unref();      // Don't keep process alive
+server.stop(); // Keep existing connections
+server.stop(true); // Close all
+server.unref(); // Don't keep process alive
 ```
 ````
 
@@ -33,13 +37,17 @@ const socket = await Bun.connect({
   hostname: "localhost",
   port: 8080,
   socket: {
-    open(socket) { socket.write("Hello server!"); },
-    data(socket, data) { console.log("Received:", data); },
+    open(socket) {
+      socket.write("Hello server!");
+    },
+    data(socket, data) {
+      console.log("Received:", data);
+    },
     close(socket, error) {},
     drain(socket) {},
     error(socket, error) {},
-    connectError(socket, error) {},  // Connection failed
-    end(socket) {},                  // Server closed
+    connectError(socket, error) {}, // Connection failed
+    end(socket) {}, // Server closed
     timeout(socket) {},
   },
 });
@@ -70,7 +78,9 @@ Bun.listen<SocketData>({
 // Server
 Bun.listen({
   port: 443,
-  socket: { /* handlers */ },
+  socket: {
+    /* handlers */
+  },
   tls: {
     key: Bun.file("./key.pem"),
     cert: Bun.file("./cert.pem"),
@@ -82,7 +92,9 @@ await Bun.connect({
   hostname: "example.com",
   port: 443,
   tls: true,
-  socket: { /* handlers */ },
+  socket: {
+    /* handlers */
+  },
 });
 ```
 
@@ -91,7 +103,9 @@ await Bun.connect({
 ```typescript
 server.reload({
   socket: {
-    data(socket, data) { /* new handler */ },
+    data(socket, data) {
+      /* new handler */
+    },
   },
 });
 ```
@@ -100,7 +114,9 @@ server.reload({
 
 ```typescript
 // ❌ Slow - multiple syscalls
-socket.write("h"); socket.write("e"); socket.write("l");
+socket.write("h");
+socket.write("e");
+socket.write("l");
 
 // ✅ Fast - single syscall
 socket.write("hello");
@@ -109,11 +125,11 @@ socket.write("hello");
 ### Socket Methods
 
 ```typescript
-socket.write(data);           // Send data
-socket.end();                 // Close gracefully
-socket.terminate();           // Close immediately
-socket.flush();               // Flush buffer
-socket.timeout(seconds);      // Set timeout
+socket.write(data); // Send data
+socket.end(); // Close gracefully
+socket.terminate(); // Close immediately
+socket.flush(); // Flush buffer
+socket.timeout(seconds); // Set timeout
 socket.ref() / socket.unref();
 ```
 
@@ -143,6 +159,26 @@ const server = await Bun.udpSocket({
 });
 ```
 
+### Error and truncation handling (v1.3.12)
+
+```typescript
+const socket = await Bun.udpSocket({
+  socket: {
+    error(err) {
+      console.log(err.code);
+    },
+    data(socket, data, port, address, flags) {
+      if (flags.truncated) {
+        console.log("Datagram truncated");
+      }
+    },
+  },
+});
+```
+
+- ICMP failures such as `ECONNREFUSED` now surface through the `error` handler instead of silently closing the socket.
+- The extra `flags` argument lets you distinguish truncated datagrams from complete payloads.
+
 ### Connected Socket
 
 ```typescript
@@ -153,7 +189,7 @@ const client = await Bun.udpSocket({
   },
 });
 
-client.send("Hello");  // No destination needed
+client.send("Hello"); // No destination needed
 ```
 
 ### Batch Sending
@@ -193,6 +229,11 @@ socket.setMulticastLoopback(true);
 - Batch writes for performance
 - `socket.data` for per-connection state (TCP)
 - `unref()` to not block process exit
+
+## Unix domain socket lifecycle (v1.3.12)
+
+- Binding to an existing unix socket path now throws `EADDRINUSE` instead of silently replacing the socket file.
+- Closing a unix listener automatically cleans up the socket file for `Bun.listen`, `Bun.serve`, and `net.Server` compatibility paths.
 
 ```
 

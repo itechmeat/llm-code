@@ -41,6 +41,19 @@ See also: [inline-mode.md](inline-mode.md)
 
 See also: [payments.md](payments.md)
 
+## Managed Bots (Bot API 9.6)
+
+- Telegram now supports managed-bot flows where one bot can help create and operate another bot.
+- New button/request flows allow asking the user for a managed bot directly from keyboards and Mini Apps.
+- Managed bot creation and token-change events are now first-class update/message payloads, so webhook routing and allowlist logic should treat them as operationally sensitive events.
+
+## Polls (Bot API 9.6)
+
+- Quizzes can now have multiple correct answers.
+- Polls can allow revoting, shuffle options, hide results until close, and carry a description.
+- Option metadata now has persistent identifiers and audit-style fields for who added an option and when.
+- If your bot stores poll state externally, prefer persistent option IDs over positional assumptions.
+
 ## Mini Apps
 
 JavaScript web apps inside Telegram with native features:
@@ -50,6 +63,8 @@ JavaScript web apps inside Telegram with native features:
 - Cloud storage
 - QR scanner
 - Fullscreen mode
+- `requestChat` from `WebApp`
+- Prepared keyboard buttons for requesting users, chats, and managed bots
 
 See also: [mini-apps.md](mini-apps.md)
 

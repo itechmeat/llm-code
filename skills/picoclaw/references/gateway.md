@@ -52,3 +52,9 @@ The key is detected from:
 - Web gateway hot reload and polling state sync improve operator feedback when config or runtime state changes through the web flow.
 - WebSocket traffic can now proxy through the web-server port, which simplifies deployments that only expose one web-facing port.
 - Gateway should no longer start if the underlying gateway server is not actually running; treat that as an early failure signal, not a partial-success state.
+
+## v0.2.6 operational notes
+
+- Gateway PID handling now validates ownership/liveness more carefully and cleans stale pid files instead of treating every leftover pid as a live instance.
+- If a wrapped/service-managed gateway still refuses to start, inspect the pid file and ownership first; manual pid deletion should be the last resort, not the first step.
+- The web UI now derives the WebSocket URL from the browser location instead of backend assumptions, which is the safer behavior behind reverse proxies or browser-facing launchers.

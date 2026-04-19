@@ -12,6 +12,8 @@ Complete workflow from running a review to implementing fixes.
 - Target scope: repo root or a subfolder (e.g. `src/`).
 - CodeRabbit output (prompt-only) for triage.
 
+If the team is close to PR review limits, confirm whether the Usage-based add-on is enabled before assuming PR/CLI reviews will continue past the plan cap.
+
 ## Process
 
 1. Run CodeRabbit (prompt-only) for the relevant scope.
@@ -51,6 +53,12 @@ Treat these conflict classes as manual-review territory even if CodeRabbit offer
 - Do not broaden the scope beyond the reviewed findings.
 
 ## Reporting & Metrics
+
+### Usage-based review continuity (2026-04-08)
+
+- PR reviews and CLI-triggered reviews follow the same usage-based add-on behavior when a plan limit is exceeded.
+- When enabled, only the overflow is billed; the normal usage remains on-plan.
+- Treat sudden review stoppage after plan exhaustion as an account/billing configuration issue before debugging the CLI.
 
 ### Dashboard Structure (2026-03-12)
 

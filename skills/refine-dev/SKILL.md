@@ -2,8 +2,8 @@
 name: refine-dev
 description: "Refine.dev headless React framework for CRUD apps: data providers, resources, routing, authentication, hooks, and forms. Use when building admin panels, dashboards, or internal tools with React and various backends (REST, GraphQL, Supabase, Strapi), or configuring Refine data providers and authentication. Keywords: Refine, CRUD, admin panel, data provider, React."
 metadata:
-  version: "5.0.11"
-  release_date: "2026-03-16"
+  version: "5.0.12"
+  release_date: "2026-04-02"
 ---
 
 # Refine.dev Framework
@@ -83,6 +83,10 @@ function App() {
 - [ ] TypeScript types for resource data defined
 - [ ] Error handling in place
 - [ ] Loading states handled
+
+## Release Note (5.0.12)
+
+- `useList` and `useTable` now preserve custom fields returned by `getList`, which matters when your data provider returns extra aggregate or pagination metadata alongside the row list.
 
 ## References (Detailed Guides)
 

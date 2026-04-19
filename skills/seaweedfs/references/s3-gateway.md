@@ -106,3 +106,10 @@ Sources:
 - Use bucket-scoped permissions by default for tenant isolation.
 - Align IdP claim design, SeaweedFS role names, and IAM policy scope before rollout.
 - Validate the full login-to-role-assumption path in staging, including JWKS refresh and token expiry behavior.
+
+## Patch-level IAM notes (4.20)
+
+- Embedded IAM now supports `ListUserPolicies` and group inline policy actions, which reduces the need for external policy bookkeeping when operating many S3 identities.
+- User-policy round trips preserve the exact policy document more reliably, and `GetUserPolicy` fallback no longer drops actions/resources.
+- `DeleteBucket` now prunes bucket-scoped IAM actions tied to that bucket, so cleanup is safer after tenant teardown.
+- In S3 failover flows, `ErrNotFound` is no longer treated as filer health failure by itself; treat missing objects differently from actual filer unavailability.

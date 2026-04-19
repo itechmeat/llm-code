@@ -7,6 +7,7 @@ Collections are the primary containers for documents in Zvec (similar to tables)
 Use `create_and_open()` to create a new collection on disk and return a `Collection` handle.
 
 - If a collection already exists at the path, creation errors (prevents accidental overwrite).
+- As of `0.3.1`, upstream removed earlier collection path restrictions and fixed Windows cross-drive creation issues.
 
 ### Schema building blocks
 
@@ -43,6 +44,7 @@ Use `open()` to load an existing collection directory.
 
 - `path` must point to a valid collection directory.
 - Use `read_only=True` when multiple processes access the same collection.
+- If you previously had Windows-specific workarounds for drive/path behavior, re-test them on `0.3.1`; path-related diagnostics also improved.
 
 ```python
 import zvec

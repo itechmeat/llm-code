@@ -34,12 +34,12 @@ await fetch(req);
 ## Response Body
 
 ```typescript
-response.text();        // Promise<string>
-response.json();        // Promise<any>
-response.formData();    // Promise<FormData>
-response.bytes();       // Promise<Uint8Array>
+response.text(); // Promise<string>
+response.json(); // Promise<any>
+response.formData(); // Promise<FormData>
+response.bytes(); // Promise<Uint8Array>
 response.arrayBuffer(); // Promise<ArrayBuffer>
-response.blob();        // Promise<Blob>
+response.blob(); // Promise<Blob>
 ```
 
 ## Streaming
@@ -98,6 +98,8 @@ await fetch(url, {
   },
 });
 ```
+
+As of v1.3.12, HTTPS requests sent through an HTTP proxy can reuse CONNECT tunnels for sequential requests to the same proxy/target pair instead of renegotiating the tunnel every time.
 
 ## TLS Options
 
@@ -183,6 +185,8 @@ Or at startup:
 ```bash
 bun --fetch-preconnect https://api.example.com script.ts
 ```
+
+Proxy environment variables such as `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` now take effect on subsequent `fetch()` calls when changed at runtime, instead of being read only once at process startup.
 
 ### Connection Limit
 

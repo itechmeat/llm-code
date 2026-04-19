@@ -4,12 +4,26 @@ CodeRabbit can be configured via `.coderabbit.yaml` in repository root.
 
 ## Configuration Priority (highest to lowest)
 
-1. **Local .coderabbit.yaml** — Completely overrides all other settings
-2. **Central configuration** — From dedicated `coderabbit` repository
+0. **Global overrides** — Organization Settings → Global Overrides
+1. **Local .coderabbit.yaml** — repository root
+2. **Central configuration** — dedicated `coderabbit` repository
 3. **Repository settings** — Web UI per-repository
 4. **Organization settings** — Web UI organization-wide
+5. **Schema defaults**
 
-Configuration sources don't merge — highest priority replaces all lower.
+Configuration is resolved through the precedence chain above, and Global overrides are applied last as the authoritative enforcement layer.
+
+## Global Overrides (2026-04-16)
+
+- Use Global overrides when organization admins need settings that repositories cannot bypass.
+- Nested objects merge with the effective lower-priority configuration.
+- Arrays and scalar values replace the lower-priority value entirely.
+- The PR comment shows the winning configuration source, which is useful during rollout/debugging.
+
+## Central configuration notes
+
+- The central `coderabbit` repository must itself be installed in CodeRabbit so the config file can be read.
+- On GitLab, CodeRabbit can resolve the nearest `coderabbit` repository in the nested group hierarchy, which enables team-specific central configs with fallback to parent groups.
 
 ## Minimal Example
 

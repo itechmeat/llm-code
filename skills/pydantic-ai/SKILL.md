@@ -2,8 +2,8 @@
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Use when building Python AI agents with Pydantic AI, configuring model providers, implementing typed tools/dependencies, running evals, or integrating MCP servers. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
 metadata:
-  version: "1.74.0"
-  release_date: "2026-03-30"
+  version: "1.84.1"
+  release_date: "2026-04-17"
 ---
 
 # Pydantic AI
@@ -37,6 +37,14 @@ Python agent framework for building production-grade GenAI applications with the
 ## Installation
 
 See `references/installation.md` for full/slim install options and optional dependency groups. Requires Python 3.10+.
+
+## Release Highlights (1.75.0 -> 1.84.1)
+
+- **Capabilities**: `CapabilityOrdering` adds explicit wrapping/ordering control (`innermost`, `outermost`, `wraps`, `wrapped_by`, `requires`) for complex capability stacks.
+- **Compaction**: new server-side compaction capabilities for OpenAI and Anthropic; OpenAI adds stateful compaction mode.
+- **Models**: Claude Opus 4.7 support and a native `OllamaModel` path with corrected Ollama capability flags for structured output.
+- **Tools**: tool hooks now consistently receive dict-shaped validated args for single-`BaseModel` tools, and internal output tools skip hook execution.
+- **Hardening**: Google `FileSearchTool` parsing received regex hardening in the `1.83/1.84` line.
 
 ## Release Highlights (1.71.0 → 1.74.0)
 
@@ -159,6 +167,7 @@ result = agent.run_sync('What is my name?', deps=Deps(user_id=123))
 - Do not ignore tool errors
 - Do not use `run_stream` without handling partial outputs
 - Do not forget to close MCP connections (`async with agent`)
+- Do not assume capability order is arbitrary once multiple wrappers/hooks are involved; define it explicitly when composition matters.
 
 ## Common Patterns
 

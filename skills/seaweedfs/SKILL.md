@@ -2,8 +2,8 @@
 name: seaweedfs
 description: "SeaweedFS distributed storage. Covers filer, S3 API, replication, cloud tiers, and operations. Use when deploying SeaweedFS, configuring filer stores, exposing S3-compatible endpoints, or planning backup and security controls. Keywords: SeaweedFS, weed, filer, S3, object storage."
 metadata:
-  version: "4.17"
-  release_date: "2026-03-11"
+  version: "4.20"
+  release_date: "2026-04-13"
 ---
 
 # SeaweedFS
@@ -45,6 +45,14 @@ Prefer production guidance from multi-component setups over `weed mini` shortcut
 - The filer layer adds directories, metadata stores, and higher-level protocols.
 - S3, WebDAV, FUSE, and other interfaces are front doors on top of the same storage services.
 - Production deployments should document topology, credentials, persistence, monitoring, and recovery paths explicitly.
+
+## Release Highlights (4.20)
+
+- **S3/IAM**: embedded IAM flows gained `ListUserPolicies`, group inline policy actions, safer user-policy round trips, and bucket-scoped cleanup on `DeleteBucket`.
+- **Mount/FUSE**: `weed mount` adds `-dlm` for cross-mount write coordination and improves POSIX metadata behavior, `nlink` accounting, and filer RPC efficiency.
+- **Master placement**: volume assignment is more size-aware, readonly transitions drain pending size first, and a topology bug that could cause endless growth in some DC/rack layouts was fixed.
+- **Filer reliability**: PgBouncer/Postgres compatibility improved, graceful shutdown corruption was fixed, and redundant filer disk reads that caused memory/CPU regressions were removed.
+- **Ops surfaces**: `weed shell` gained group-management helpers, S3 user provisioning handles existing users more safely, and master/volume now export `start_time_seconds` metrics.
 
 ## Prohibitions
 

@@ -19,6 +19,12 @@ Pydantic AI is model-agnostic with 30+ providers.
 | SambaNova    | `SambaNovaModel`                       | `sambanova:...`                    |
 | Hugging Face | `HuggingFaceModel`                     | `huggingface:meta-llama/...`       |
 
+## Recent model-surface updates (1.80.0+)
+
+- Anthropic support now includes Claude Opus 4.7.
+- Pydantic AI added a native `OllamaModel` subclass and corrected Ollama capability flags, which is especially relevant for structured output on Ollama Cloud.
+- OpenAI compaction gained a stateful mode in the `1.84.x` line.
+
 ## xAI (Grok)
 
 Native xAI SDK provider (replaces deprecated `GrokProvider`):
@@ -172,6 +178,8 @@ model = OpenAIChatModel('llama3.2', provider=provider)
 
 agent = Agent(model)
 ```
+
+Current releases also provide a native `OllamaModel` path. Prefer the native model integration when available, especially if you depend on structured output or capability detection against Ollama Cloud; keep the OpenAI-compatible base URL approach as the fallback interoperability pattern.
 
 ## Fallback Models
 

@@ -112,6 +112,11 @@ async def my_tool(ctx: RunContext[MyDeps]) -> str:
     ctx.usage        # Token usage so far
 ```
 
+## Tool hook notes (1.84.x)
+
+- Internal output tools now skip tool hooks; do not rely on hook side effects for framework-managed output tools.
+- For single-`BaseModel` tools, validated hook arguments are consistently passed as a `dict` shape instead of an ambiguous model/object form.
+
 ## Tool Retries
 
 ````python
@@ -146,6 +151,8 @@ def validate_user_id(ctx: RunContext[int], user_id: int) -> None:
 def get_user(ctx: RunContext[int], user_id: int) -> str:
     return f'User {user_id}'
 ````
+
+If you inspect validated args inside hooks, align that code with the dict-shaped behavior above before upgrading shared tool infrastructure.
 
 ````
 

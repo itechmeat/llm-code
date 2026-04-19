@@ -12,6 +12,11 @@ The `useRender` hook lets you build custom components that provide a `render` pr
 
 `render` supports lazy elements (v1.2.0).
 
+## v1.4.0 notes
+
+- Warning messages around incorrect `render` prop usage are more accurate, which helps when debugging wrapper components.
+- `event.preventBaseUIHandler()` runtime wrapping was fixed; keep using it only inside merged synthetic event handlers where you intentionally want to block Base UI's internal behavior.
+
 ## Examples
 
 A `render` prop for a custom Text component lets consumers use it to replace the default rendered `p` element with a different tag or component.

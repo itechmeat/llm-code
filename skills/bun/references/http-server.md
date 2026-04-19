@@ -71,7 +71,7 @@ Bun.serve({
 
 ```typescript
 Bun.serve({
-  port: 8080,        // Default: $BUN_PORT, $PORT, 3000
+  port: 8080, // Default: $BUN_PORT, $PORT, 3000
   hostname: "0.0.0.0", // Default: "0.0.0.0"
   // port: 0,        // Random available port
 });
@@ -81,18 +81,20 @@ Bun.serve({
 
 ```typescript
 // Stop server
-await server.stop();       // Graceful (wait for requests)
-await server.stop(true);   // Force close all connections
+await server.stop(); // Graceful (wait for requests)
+await server.stop(true); // Force close all connections
 
 // Hot reload handlers
 server.reload({
   routes: { "/": new Response("v2") },
-  fetch(req) { return new Response("v2"); },
+  fetch(req) {
+    return new Response("v2");
+  },
 });
 
 // Process lifecycle
-server.unref();  // Don't keep process alive
-server.ref();    // Keep process alive (default)
+server.unref(); // Don't keep process alive
+server.ref(); // Keep process alive (default)
 ```
 
 ## Per-Request Controls
@@ -115,8 +117,8 @@ Bun.serve({
 ## Metrics
 
 ```typescript
-server.pendingRequests;     // Active HTTP requests
-server.pendingWebSockets;   // Active WebSocket connections
+server.pendingRequests; // Active HTTP requests
+server.pendingWebSockets; // Active WebSocket connections
 server.subscriberCount("topic"); // WebSocket subscribers
 ```
 
@@ -124,7 +126,9 @@ server.subscriberCount("topic"); // WebSocket subscribers
 
 ```typescript
 Bun.serve({
-  fetch(req) { /* ... */ },
+  fetch(req) {
+    /* ... */
+  },
   error(error) {
     console.error(error);
     return new Response("Server Error", { status: 500 });
@@ -141,16 +145,20 @@ Bun.serve({
       const success = server.upgrade(req, {
         data: { userId: "123" },
       });
-      return success
-        ? undefined
-        : new Response("Upgrade failed", { status: 400 });
+      return success ? undefined : new Response("Upgrade failed", { status: 400 });
     }
     return new Response("Hello");
   },
   websocket: {
-    open(ws) { console.log("Connected"); },
-    message(ws, msg) { ws.send(`Echo: ${msg}`); },
-    close(ws) { console.log("Disconnected"); },
+    open(ws) {
+      console.log("Connected");
+    },
+    message(ws, msg) {
+      ws.send(`Echo: ${msg}`);
+    },
+    close(ws) {
+      console.log("Disconnected");
+    },
   },
 });
 ```
@@ -186,9 +194,7 @@ Bun.serve({
     },
     "/api/users/:id": (req) => {
       const user = db.query("SELECT * FROM users WHERE id = ?").get(req.params.id);
-      return user
-        ? Response.json(user)
-        : new Response("Not Found", { status: 404 });
+      return user ? Response.json(user) : new Response("Not Found", { status: 404 });
     },
   },
 });
@@ -201,3 +207,8 @@ Bun.serve({
 - `req.params` for URL parameters
 - `Response.json()` for JSON responses
 - WebSocket support built-in via `server.upgrade()`
+
+## Runtime notes (v1.3.12)
+
+- Linux `Bun.serve()` now enables `TCP_DEFER_ACCEPT`, which can reduce latency on busy HTTP listeners.
+- Async handlers that resume after `await` no longer hit the same write-batching performance cliff under concurrency.

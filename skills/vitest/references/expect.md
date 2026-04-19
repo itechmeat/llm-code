@@ -104,6 +104,11 @@ expect(data).toMatchInlineSnapshot(`
 expect(data).toMatchFileSnapshot("./output.txt");
 ```
 
+## Snapshot notes (v4.1.4)
+
+- Vitest `4.1.4` adds experimental ARIA snapshot support.
+- Treat this as an evolving surface: check the current upstream docs/examples before baking helpers or custom abstractions around it.
+
 ## Mock Matchers
 
 ```ts

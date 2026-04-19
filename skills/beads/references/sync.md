@@ -34,6 +34,8 @@ bd sync --no-push
 - Prefer this when reconnecting an existing clone or repairing a miswired workspace.
 - It reduces manual remote/database discovery during bootstrap and recovery flows.
 
+`1.0.x` adds non-interactive init/bootstrap flows for CI and improves bootstrap recovery in fresh clones and shared-server scenarios.
+
 ## Sync Modes
 
 Beads supports different sync modes depending on your backend and workflow.
@@ -62,6 +64,7 @@ Notes:
 - `bd dolt show` and `bd dolt test` help validate configuration and connectivity.
 - In server mode and federation flows, Beads now routes CLI credentials through push/pull/fetch operations more consistently.
 - `bd context` now reports the actual runtime Dolt port instead of assuming the default port.
+- Credentials-file support is also available for Dolt server passwords in newer `1.0.x` setups.
 
 ## Multiple Clones / Worktrees: `.beads/redirect`
 
@@ -119,6 +122,8 @@ trackers.
 
 For automation, prefer structured/JSON-aware error handling when integration commands fail instead of scraping human-readable error text.
 
+`1.0.x` also tightened integration safety: external tracker content is sanitized for terminal display, response sizes are bounded, and sync warnings are surfaced more explicitly.
+
 `bd doctor` also has stronger server-mode behavior, including cold-start Dolt detection and committed runtime/sensitive-file detection.
 
 ### GitLab Sync
@@ -127,6 +132,8 @@ For automation, prefer structured/JSON-aware error handling when integration com
 bd gitlab sync
 bd gitlab status
 ```
+
+Recent updates improved GitLab dedup behavior, type filtering, and epic → milestone mapping.
 
 ### GitHub Issues Sync (v0.60.0)
 
@@ -148,3 +155,8 @@ bd linear sync --project-id=<id>
 ```bash
 bd jira import --project=KEY
 ```
+
+### Azure DevOps sync notes (1.0.x)
+
+- ADO push flows now respect `--types`, `--states`, and `--no-create` filters more consistently.
+- New work items are created in the initial state and then transitioned to the target state when needed.

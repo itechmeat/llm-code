@@ -77,6 +77,27 @@ Setup notes:
 
 Recent builds also improved Slack reply behavior when audio transcription echo is involved.
 
+## Teams Webhook (output-only, v0.2.6)
+
+Config surface comes from the upstream `teams_webhook` channel type:
+
+- `channels.<name>.type = "teams_webhook"`
+- `channels.<name>.settings.webhooks.default.webhook_url`
+- optional additional named webhook targets under `webhooks.<target>`
+- optional target title per webhook
+
+Operational notes:
+
+- This is an output-only channel. It does not receive inbound chat events.
+- Webhook URLs must use HTTPS, and a `default` target is required.
+- Outbound `ChatID` selects the webhook target; unknown or empty targets fall back to `default`.
+- PicoClaw renders rich notifications as Adaptive Cards and converts markdown tables into native Teams table elements when possible.
+
+## Feishu reply context (v0.2.6)
+
+- Recent builds improved reply context for Feishu card and file replies.
+- If follow-up replies used to lose thread context, re-test after upgrading before adding custom channel-side workarounds.
+
 ## OneBot
 
 Config keys:

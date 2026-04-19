@@ -19,11 +19,17 @@ OPSX provides a fluid, iterative workflow for OpenSpec changes. It replaces rigi
 
 ## Commands (Typical)
 
+- `status`: inspect what exists and what is ready; safe even before the first change exists.
 - `new`: start a change and scaffold structure.
 - `continue`: create the next ready artifact.
 - `apply`: implement tasks and update artifacts as needed.
 - `sync`: reconcile delta specs with main specs.
 - `archive`: finalize and move the change to archive.
+
+### Status behavior (v1.3.0)
+
+- `openspec status` now exits gracefully when no changes exist instead of failing hard.
+- Use it as a safe preflight check before telling the operator to create a new change or continue an existing one.
 
 ## Profiles and the “Propose” Workflow (v1.2.0)
 

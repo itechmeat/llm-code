@@ -19,6 +19,8 @@ const { data, isLoading } = useList({
 // data.data — records array, data.total — total count
 ```
 
+As of `5.0.12`, custom fields returned from your data provider's `getList` response are preserved on the hook result instead of being stripped away. Use this when your backend returns extra aggregates, cursors, or summary metadata together with the list.
+
 ### useOne — Single Record
 
 ```tsx
@@ -78,14 +80,14 @@ deleteMany({ resource: "posts", ids: [1, 2, 3] });
 
 ### Filter Operators
 
-| Operator | Description | Operator | Description |
-|----------|-------------|----------|-------------|
-| `eq` | Equal | `ne` | Not equal |
-| `lt` | Less than | `gt` | Greater than |
-| `lte` | ≤ | `gte` | ≥ |
-| `in` | In array | `nin` | Not in array |
-| `contains` | Contains | `null` | Is null |
-| `between` | Range | `nnull` | Is not null |
+| Operator   | Description | Operator | Description  |
+| ---------- | ----------- | -------- | ------------ |
+| `eq`       | Equal       | `ne`     | Not equal    |
+| `lt`       | Less than   | `gt`     | Greater than |
+| `lte`      | ≤           | `gte`    | ≥            |
+| `in`       | In array    | `nin`    | Not in array |
+| `contains` | Contains    | `null`   | Is null      |
+| `between`  | Range       | `nnull`  | Is not null  |
 
 ---
 
@@ -110,7 +112,10 @@ export const PostCreate = () => (
     <TextInput label="Title" {...getInputProps("title")} />
     <Select
       label="Status"
-      data={[{ value: "draft", label: "Draft" }, { value: "published", label: "Published" }]}
+      data={[
+        { value: "draft", label: "Draft" },
+        { value: "published", label: "Published" },
+      ]}
       {...getInputProps("status")}
     />
   </Create>
@@ -119,29 +124,31 @@ export const PostCreate = () => (
 
 ### useForm Configuration
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `action` | "create" \| "edit" \| "clone" | Auto-detected from route |
-| `id` | string \| number | Record ID (edit/clone) |
-| `redirect` | "list" \| "edit" \| "show" \| false | After success |
-| `mutationMode` | "pessimistic" \| "optimistic" \| "undoable" | Behavior |
-| `warnWhenUnsavedChanges` | boolean | Browser prompt on leave |
+| Property                 | Type                                        | Description              |
+| ------------------------ | ------------------------------------------- | ------------------------ |
+| `action`                 | "create" \| "edit" \| "clone"               | Auto-detected from route |
+| `id`                     | string \| number                            | Record ID (edit/clone)   |
+| `redirect`               | "list" \| "edit" \| "show" \| false         | After success            |
+| `mutationMode`           | "pessimistic" \| "optimistic" \| "undoable" | Behavior                 |
+| `warnWhenUnsavedChanges` | boolean                                     | Browser prompt on leave  |
 
 ### useForm Return Values
 
-| Property | Description |
-|----------|-------------|
-| `getInputProps(field)` | Props for Mantine inputs |
-| `saveButtonProps` | Props for submit button |
-| `values` / `setValues` | Form state |
-| `errors` / `setFieldValue` | Validation |
-| `refineCore.formLoading` | Loading state |
-| `refineCore.queryResult` | Fetched data (edit/clone) |
+| Property                   | Description               |
+| -------------------------- | ------------------------- |
+| `getInputProps(field)`     | Props for Mantine inputs  |
+| `saveButtonProps`          | Props for submit button   |
+| `values` / `setValues`     | Form state                |
+| `errors` / `setFieldValue` | Validation                |
+| `refineCore.formLoading`   | Loading state             |
+| `refineCore.queryResult`   | Fetched data (edit/clone) |
 
 ### Auto-Save
 
 ```tsx
-const { refineCore: { autoSaveProps } } = useForm({
+const {
+  refineCore: { autoSaveProps },
+} = useForm({
   refineCoreProps: {
     autoSave: { enabled: true, debounce: 1000 },
   },
@@ -162,7 +169,11 @@ import { useTable } from "@refinedev/react-table";
 import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { Table, Pagination, Group } from "@mantine/core";
 
-interface Post { id: number; title: string; status: string; }
+interface Post {
+  id: number;
+  title: string;
+  status: string;
+}
 
 const columns: ColumnDef<Post>[] = [
   { id: "id", accessorKey: "id", header: "ID" },
@@ -197,9 +208,7 @@ export const PostList = () => {
           {getHeaderGroups().map((hg) => (
             <Table.Tr key={hg.id}>
               {hg.headers.map((h) => (
-                <Table.Th key={h.id}>
-                  {flexRender(h.column.columnDef.header, h.getContext())}
-                </Table.Th>
+                <Table.Th key={h.id}>{flexRender(h.column.columnDef.header, h.getContext())}</Table.Th>
               ))}
             </Table.Tr>
           ))}
@@ -208,30 +217,28 @@ export const PostList = () => {
           {getRowModel().rows.map((row) => (
             <Table.Tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <Table.Td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </Table.Td>
+                <Table.Td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</Table.Td>
               ))}
             </Table.Tr>
           ))}
         </Table.Tbody>
       </Table>
       <Group justify="flex-end" mt="md">
-        <Pagination
-          total={getPageCount()}
-          value={getState().pagination.pageIndex + 1}
-          onChange={(p) => setPageIndex(p - 1)}
-        />
+        <Pagination total={getPageCount()} value={getState().pagination.pageIndex + 1} onChange={(p) => setPageIndex(p - 1)} />
       </Group>
     </>
   );
 };
 ```
 
+As of `5.0.12`, `useTable` also preserves custom `getList` response fields, so list-level metadata can stay attached to the hook result rather than living only on the raw query object.
+
 ### Filtering
 
 ```tsx
-const { refineCore: { setFilters } } = table;
+const {
+  refineCore: { setFilters },
+} = table;
 
 // Set filters
 setFilters([{ field: "status", operator: "eq", value: "published" }]);
@@ -295,10 +302,10 @@ import { Select } from "@mantine/core";
 const { selectProps } = useSelect({
   resource: "categories",
   optionLabel: "name", // Display field (default: "title")
-  optionValue: "id",   // Value field (default: "id")
+  optionValue: "id", // Value field (default: "id")
 });
 
-<Select label="Category" {...selectProps} />
+<Select label="Category" {...selectProps} />;
 ```
 
 ### Searchable with Filters
@@ -308,14 +315,17 @@ const { selectProps } = useSelect({
   resource: "users",
   debounce: 500,
   onSearch: (value) => [
-    { operator: "or", value: [
-      { field: "firstName", operator: "contains", value },
-      { field: "email", operator: "contains", value },
-    ]},
+    {
+      operator: "or",
+      value: [
+        { field: "firstName", operator: "contains", value },
+        { field: "email", operator: "contains", value },
+      ],
+    },
   ],
 });
 
-<Select {...selectProps} searchable clearable />
+<Select {...selectProps} searchable clearable />;
 ```
 
 ### Dependent Selects
@@ -340,25 +350,29 @@ const { selectProps: tagProps } = useSelect({
 ```tsx
 const { selectProps, queryResult } = useSelect({ resource: "users" });
 
-const customData = queryResult.data?.data.map((u) => ({
-  value: String(u.id),
-  label: `${u.firstName} ${u.lastName} (${u.email})`,
-})) ?? [];
+const customData =
+  queryResult.data?.data.map((u) => ({
+    value: String(u.id),
+    label: `${u.firstName} ${u.lastName} (${u.email})`,
+  })) ?? [];
 
-<Select {...selectProps} data={customData} />
+<Select {...selectProps} data={customData} />;
 ```
 
 ### In Forms
 
 ```tsx
-const { getInputProps, refineCore: { queryResult } } = useForm();
+const {
+  getInputProps,
+  refineCore: { queryResult },
+} = useForm();
 
 const { selectProps } = useSelect({
   resource: "categories",
   defaultValue: queryResult?.data?.data?.category_id, // Pre-select in edit
 });
 
-<Select label="Category" {...selectProps} {...getInputProps("category_id")} />
+<Select label="Category" {...selectProps} {...getInputProps("category_id")} />;
 ```
 
 ---
@@ -366,13 +380,21 @@ const { selectProps } = useSelect({
 ## Common Return Values
 
 **Query hooks** (useList, useOne, useMany):
+
 ```ts
-{ data, isLoading, isFetching, isError, error, refetch }
+{
+  (data, isLoading, isFetching, isError, error, refetch);
+}
 ```
 
+For `useList`/`useTable`, expect extra top-level fields from `getList` to remain available when the provider returns them.
+
 **Mutation hooks** (useCreate, useUpdate, useDelete):
+
 ```ts
-{ mutate, mutateAsync, isLoading, isSuccess, isError, error, data }
+{
+  (mutate, mutateAsync, isLoading, isSuccess, isError, error, data);
+}
 ```
 
 **Query invalidation**: Mutations auto-invalidate related queries. Override with `invalidates: ["list", "detail"] | ["all"] | false`.

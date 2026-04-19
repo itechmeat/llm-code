@@ -2,8 +2,8 @@
 name: bun
 description: "Bun JavaScript/TypeScript runtime and all-in-one toolkit. Covers runtime, package manager, bundler, test runner, HTTP server, WebSockets, SQLite, S3, Redis, file I/O, shell scripting, FFI, Markdown parser. Use when running JS/TS with Bun, managing packages, bundling, testing, or using Bun-specific APIs. Keywords: bun, bunx, bun install, bun run, bun test, bun build, Bun.serve, Bun.file, bun:sqlite, Bun.markdown."
 metadata:
-  version: "1.3.11"
-  release_date: "2026-03-18"
+  version: "1.3.12"
+  release_date: "2026-04-10"
 ---
 
 # Bun
@@ -12,43 +12,46 @@ All-in-one JavaScript/TypeScript toolkit: runtime, package manager, test runner,
 
 ## Quick Navigation
 
-| Topic             | Reference                            |
-| ----------------- | ------------------------------------ |
-| Package Manager   | `references/package-manager.md`      |
-| Project Setup     | `references/project-scaffolding.md`  |
-| Development       | `references/development.md`          |
-| Module System     | `references/module-system.md`        |
-| TypeScript & JSX  | `references/typescript-jsx.md`       |
-| Configuration     | `references/bunfig.md`               |
-| HTTP Server       | `references/http-server.md`          |
-| WebSockets        | `references/websockets.md`           |
-| File I/O          | `references/file-io.md`              |
-| SQLite            | `references/sqlite.md`               |
-| S3 Storage        | `references/s3.md`                   |
-| Redis             | `references/redis.md`                |
-| Low-Level Network | `references/networking-low-level.md` |
-| Fetch API         | `references/fetch.md`                |
-| Shell Scripts     | `references/shell.md`                |
-| Spawn Process     | `references/spawn.md`                |
-| Workers           | `references/workers.md`              |
-| Native FFI        | `references/native-interop.md`       |
-| C/C++ Compile     | `references/cc.md`                   |
-| Transpiler        | `references/transpiler.md`           |
-| Plugins           | `references/plugins.md`              |
-| FS Router         | `references/file-system-router.md`   |
-| Environment Vars  | `references/env.md`                  |
-| Utilities         | `references/utilities.md`            |
-| Node.js Compat    | `references/nodejs-compat.md`        |
+| Topic              | Reference                            |
+| ------------------ | ------------------------------------ |
+| Package Manager    | `references/package-manager.md`      |
+| Project Setup      | `references/project-scaffolding.md`  |
+| Development        | `references/development.md`          |
+| Module System      | `references/module-system.md`        |
+| TypeScript & JSX   | `references/typescript-jsx.md`       |
+| Configuration      | `references/bunfig.md`               |
+| HTTP Server        | `references/http-server.md`          |
+| Browser Automation | `references/webview.md`              |
+| WebSockets         | `references/websockets.md`           |
+| File I/O           | `references/file-io.md`              |
+| SQLite             | `references/sqlite.md`               |
+| S3 Storage         | `references/s3.md`                   |
+| Redis              | `references/redis.md`                |
+| Low-Level Network  | `references/networking-low-level.md` |
+| Fetch API          | `references/fetch.md`                |
+| Shell Scripts      | `references/shell.md`                |
+| Spawn Process      | `references/spawn.md`                |
+| Workers            | `references/workers.md`              |
+| Native FFI         | `references/native-interop.md`       |
+| C/C++ Compile      | `references/cc.md`                   |
+| Transpiler         | `references/transpiler.md`           |
+| Plugins            | `references/plugins.md`              |
+| FS Router          | `references/file-system-router.md`   |
+| Environment Vars   | `references/env.md`                  |
+| Utilities          | `references/utilities.md`            |
+| Node.js Compat     | `references/nodejs-compat.md`        |
 
 ## When to Use Bun
 
 - Running TypeScript/JSX without build step
 - Fast HTTP server with native routing
+- Headless browser automation with native input events
 - SQLite database (embedded, no deps)
 - WebSocket server/client
 - S3-compatible storage (AWS, R2, MinIO)
 - Redis caching/pub-sub
 - Cross-platform shell scripts
+- In-process cron scheduling
 - **Markdown parsing** (v1.3.8+)
 - Native library calls via FFI
 
@@ -94,6 +97,13 @@ bun build ./index.ts --metafile-md --outdir ./dist
 | `better-sqlite3`       | `bun:sqlite`             |
 | `child_process.exec()` | `Bun.$` or `Bun.spawn()` |
 | `dotenv`               | Built-in `.env` support  |
+
+## Release Highlights (1.3.12)
+
+- **`Bun.WebView`**: native headless browser automation with WebKit on macOS and Chrome/Chromium via CDP on all platforms.
+- **`Bun.cron()` callback mode**: in-process scheduler with no-overlap execution, UTC semantics, hot-reload cleanup, and `Disposable` job handles.
+- **Markdown in terminal**: `bun ./file.md` and `Bun.markdown.ansi()` make terminal-native rendering a first-class workflow.
+- **Networking/runtime**: UDP error/truncation handling, Node-compatible unix-socket lifecycle, proxy tunnel reuse, and `Bun.serve()` accept/perf improvements.
 
 ## Essential Recipes
 

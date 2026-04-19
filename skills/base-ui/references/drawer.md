@@ -43,6 +43,12 @@ Prefer `Popover` when the UI must stay anchored to a trigger and behave like a p
 - Avoid controlled swipe-dismiss flows unless you have a clear state-owner strategy; 1.3.0 specifically hardens controlled-drawer swipe behavior.
 - Test nested scrolling and text selection on touch devices, especially for bottom sheets with forms.
 
+## v1.4.0 notes
+
+- Touch scrolling inside portaled popups is more reliable.
+- Nested swipe-cancel and interrupted swipe-dismiss cleanup were fixed, so retest any local drawer gesture workarounds before keeping them.
+- Base UI now warns when a drawer popup is missing `Viewport`; keep the full anatomy intact for swipe/stack correctness.
+
 ## Accessibility checklist
 
 - Provide a visible title or an equivalent accessible label.

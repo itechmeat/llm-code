@@ -2,8 +2,8 @@
 name: beads
 description: "Beads (bd) Dolt-backed issue tracker for agent task memory. Covers CLI ops, molecules, Dolt sync, Linear/Jira/GitLab. Use when tracking tasks and dependencies with the Beads CLI, syncing issues via Dolt, or integrating with Linear/Jira/GitLab. Keywords: bd, beads, Dolt, issue tracker."
 metadata:
-  version: "0.63.3"
-  release_date: "2026-03-30"
+  version: "1.0.2"
+  release_date: "2026-04-15"
 ---
 
 # Beads (bd)
@@ -12,7 +12,7 @@ Distributed, Dolt-backed (Git-like) graph issue tracker for AI coding agents. Pe
 
 ## Quick Start
 
-Install: `brew install steveyegge/beads/bd` or use the install script from the [GitHub repo](https://github.com/steveyegge/beads).
+Install: `brew install beads` or use the install scripts/binaries from the [GitHub repo](https://github.com/gastownhall/beads).
 
 ```bash
 # Initialize in repo (humans run once)
@@ -32,39 +32,41 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 
 ## Essential Commands
 
-| Command                       | Action                                |
-| ----------------------------- | ------------------------------------- |
-| `bd ready`                    | List tasks with no open blockers      |
-| `bd ready --gated`            | Tasks waiting at gate checkpoints     |
-| `bd ready --exclude-type=X`   | Exclude specific issue types          |
-| `bd create "Title" -p 0`      | Create P0 task                        |
-| `bd show <id>`                | View task details and audit trail     |
-| `bd update <id> --status=X`   | Update status (open/in_progress/done) |
-| `bd close <id>`               | Close task                            |
-| `bd close <id> --claim-next`  | Close current task and claim next     |
-| `bd dep add <child> <parent>` | Link tasks (blocks, related, parent)  |
-| `bd list`                     | List issues (default: 50, non-closed) |
-| `bd list --format json`       | JSON output (alias for `--json`)      |
-| `bd show --current`           | Show active issue (no ID needed)      |
-| `bd update <id> --claim`      | Atomically claim issue for work       |
-| `bd note <id> "text"`         | Append note (shorthand)               |
-| `bd import -i <file>`         | Import JSONL incrementally            |
-| `bd sync`                     | Sync database state                   |
-| `bd dolt pull`                | Pull latest DB changes (advanced)     |
-| `bd dolt push`                | Push DB changes (advanced)            |
-| `bd bootstrap`                | Repair/bootstrap workspace identity   |
-| `bd context`                  | Show current workspace/task context   |
-| `bd kv set <key> <value>`     | Store key-value pair                  |
-| `bd kv get <key>`             | Retrieve stored value                 |
-| `bd dolt show`                | Show Dolt connection/remote settings  |
-| `bd ado sync`                 | Sync with Azure DevOps work items     |
-| `bd ado status`               | Check Azure DevOps sync status        |
-| `bd ado projects`             | List Azure DevOps projects            |
-| `bd gitlab sync`              | Sync with GitLab                      |
-| `bd github sync`              | Sync with GitHub Issues               |
-| `bd remember`                 | Write persistent agent memory         |
-| `bd recall`                   | Read persistent agent memory          |
-| `bd purge`                    | Delete closed ephemeral beads (wisps) |
+| Command                       | Action                                    |
+| ----------------------------- | ----------------------------------------- |
+| `bd ready`                    | List tasks with no open blockers          |
+| `bd ready --explain`          | Explain why tasks are or are not ready    |
+| `bd ready --gated`            | Tasks waiting at gate checkpoints         |
+| `bd ready --exclude-type=X`   | Exclude specific issue types              |
+| `bd create "Title" -p 0`      | Create P0 task                            |
+| `bd show <id>`                | View task details and audit trail         |
+| `bd update <id> --status=X`   | Update status (open/in_progress/done)     |
+| `bd close <id>`               | Close task                                |
+| `bd close <id> --claim-next`  | Close current task and claim next         |
+| `bd dep add <child> <parent>` | Link tasks (blocks, related, parent)      |
+| `bd list`                     | List issues (default: 50, non-closed)     |
+| `bd list --format json`       | JSON output (alias for `--json`)          |
+| `bd show --current`           | Show active issue (no ID needed)          |
+| `bd update <id> --claim`      | Atomically claim issue for work           |
+| `bd note <id> "text"`         | Append note (shorthand)                   |
+| `bd import -i <file>`         | Import JSONL incrementally                |
+| `bd sync`                     | Sync database state                       |
+| `bd dolt pull`                | Pull latest DB changes (advanced)         |
+| `bd dolt push`                | Push DB changes (advanced)                |
+| `bd bootstrap`                | Repair/bootstrap workspace identity       |
+| `bd context`                  | Show current workspace/task context       |
+| `bd kv set <key> <value>`     | Store key-value pair                      |
+| `bd kv get <key>`             | Retrieve stored value                     |
+| `bd dolt show`                | Show Dolt connection/remote settings      |
+| `bd config set-many`          | Apply multiple config changes in one step |
+| `bd ado sync`                 | Sync with Azure DevOps work items         |
+| `bd ado status`               | Check Azure DevOps sync status            |
+| `bd ado projects`             | List Azure DevOps projects                |
+| `bd gitlab sync`              | Sync with GitLab                          |
+| `bd github sync`              | Sync with GitHub Issues                   |
+| `bd remember`                 | Write persistent agent memory             |
+| `bd recall`                   | Read persistent agent memory              |
+| `bd purge`                    | Delete closed ephemeral beads (wisps)     |
 
 ## Hash-Based IDs
 
@@ -182,6 +184,14 @@ bd list --json                   # Standard JSON output
 
 Beads includes Claude Code MCP plugin for direct integration.
 
+## Release Highlights (1.0.0–1.0.2)
+
+- **Distribution**: precompiled binaries now cover Linux, macOS (Intel/Apple Silicon), Windows (AMD64/ARM64), Android/Termux, and FreeBSD.
+- **Automation**: `bd init --non-interactive` / `--role` and `bd bootstrap --non-interactive` improve CI/cloud-agent setup.
+- **Workflow**: `bd ready --explain`, `bd config set-many`, batch dependency listing, and comma-separated status filters improve agent ergonomics.
+- **Authoring/modeling**: `spike`, `story`, and `milestone` are now first-class issue types; custom statuses/types moved to normalized tables.
+- **Integrations/sync**: GitLab sync adds better dedup + epic→milestone mapping, ADO sync respects more filters, and embedded/shared-server recovery got safer.
+
 ## Release Highlights (0.62.0–0.63.3)
 
 - **Azure DevOps integration**: `bd ado` CLI commands (sync, status, projects) for work item tracking.
@@ -239,6 +249,6 @@ bd dolt push                # Push to remote (advanced)
 
 ## Links
 
-- [Releases](https://github.com/steveyegge/beads/releases)
-- [Documentation](https://github.com/steveyegge/beads#readme)
-- [Community Tools](https://github.com/steveyegge/beads/blob/main/docs/COMMUNITY_TOOLS.md)
+- [Releases](https://github.com/gastownhall/beads/releases)
+- [Documentation](https://github.com/gastownhall/beads#readme)
+- [Community Tools](https://github.com/gastownhall/beads/blob/main/docs/COMMUNITY_TOOLS.md)

@@ -13,6 +13,12 @@ A high-quality, unstyled React slider component that works like a range input an
 - `Slider` adds a `Label` part, which makes slider labeling easier without relying only on `aria-label` on each thumb.
 - For multi-thumb sliders, still verify that each thumb has a meaningful accessible name when the shared label alone is not enough.
 
+## v1.4.0 notes
+
+- Keyboard floating-point rounding was fixed, which matters for precise step-based sliders.
+- Extra TalkBack focus targets were removed, so Android accessibility behavior should be retested before shipping custom ARIA workarounds.
+- Prehydration client-only scripts are skipped more safely, reducing hydration noise in SSR setups.
+
 ## Demo
 
 ### Tailwind

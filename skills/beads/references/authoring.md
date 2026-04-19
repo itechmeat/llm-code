@@ -159,3 +159,13 @@ Decompose each STAGE into 3–8 atomic TASKs:
 - Tests
 
 Each TASK must name concrete touch points and what verification it adds.
+
+## Issue types (v1.0.0)
+
+Beads now treats `spike`, `story`, and `milestone` as first-class issue types.
+
+- Use `story` for user-visible slices of behavior.
+- Use `spike` for bounded investigation where uncertainty reduction is the deliverable.
+- Use `milestone` for tracking larger delivery checkpoints without forcing an epic/task misuse.
+
+Custom statuses and custom types also moved to normalized tables in the `1.0.x` line. Prefer built-in types when they fit; use custom types only when the workflow semantics are truly different.

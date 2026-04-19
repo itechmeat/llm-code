@@ -1,9 +1,9 @@
 ---
 name: zvec
-description: "Zvec in-process vector database. Covers collections, embedding, reranking, persistence. Use when embedding Zvec as an in-process vector database, managing collections, configuring embedding/reranking, or running approximate nearest-neighbor searches. Keywords: Zvec, vector DB, ANN, SQLite for vectors."
+description: "Zvec in-process vector database. Covers collections, indexing, embeddings, reranking, and persistence. Use when embedding Zvec into applications or tuning retrieval/storage behavior. Keywords: Zvec, HNSW-RaBitQ, vector database, ANN."
 metadata:
-  version: "0.2.1"
-  release_date: "2026-03-18"
+  version: "0.3.1"
+  release_date: "2026-04-17"
 ---
 
 # Zvec
@@ -16,6 +16,7 @@ Zvec is a lightweight, in-process vector database meant to be embedded into appl
 - Concepts: `references/concepts.md`
 - Quickstart (first operations): `references/quickstart.md`
 - Installation (only if needed): `references/installation.md`
+- Index types & quantization: `references/indexing.md`
 - Embedding pipelines: `references/embedding.md`
 - Reranking pipelines: `references/reranker.md`
 - Data modeling & collections: `references/collections.md`
@@ -40,6 +41,10 @@ Zvec is a lightweight, in-process vector database meant to be embedded into appl
   - Vector + filter: pass both `vectors=...` and `filter=...`.
   - Multi-vector fusion: pass multiple `VectorQuery` items and rerank using `WeightedReRanker` or RRF.
 
+- Memory-sensitive ANN on x86_64
+  - Prefer `HNSW-RaBitQ` when HNSW-quality recall matters but memory is the limiting factor.
+  - Start with the documented defaults (`total_bits=7`, `num_clusters=16`) and tune query-time `ef` before changing quantization bits.
+
 - Safe evolution of live collections
   - Add/drop/alter scalar columns via `add_column()`, `drop_column()`, `alter_column()`.
   - Manage indexes via `create_index()` / `drop_index()` (scalar). Vector indexes cannot be dropped.
@@ -49,18 +54,15 @@ Zvec is a lightweight, in-process vector database meant to be embedded into appl
 - Do not mirror vendor docs verbatim; summarize in your own words.
 - Do not assume a client/server deployment model: Zvec is in-process.
 - Do not add project-specific paths, secrets, or environment assumptions.
+- Do not choose `HNSW-RaBitQ` on unsupported hardware; current docs limit it to `x86_64` with `AVX2` or better.
 
-## Release Highlights (0.2.1)
+## Release Highlights (0.3.0 -> 0.3.1)
 
-- **Jina Embeddings v5** integration
-- **Custom HTTP embedding** for LM Studio / Ollama (any OpenAI-compatible endpoint)
-- **Python 3.13 / 3.14** support (was 3.10–3.12)
-- **Android** cross-platform builds
-- **Python API function overloads** for improved usability
-- **Ice Lake optimization** and L2 batch distance for int8 quantization
-- **Increased index size limit** for sparse vectors
-- **IVF** implementation optimized for better stability and performance
-- 13+ bug fixes including uint8 overflow, MIPS distance, cosine metric, query filtering
+- **Windows** support and official Windows packages for Python and Node.js
+- **HNSW-RaBitQ** quantized vector indexing for lower-memory ANN on supported x86_64 hosts
+- **Stable C API** for building or maintaining additional language bindings
+- **MCP server / agent skills** ecosystem for AI-driven collection management and retrieval workflows
+- **0.3.1 hotfixes** for relaxed collection path restrictions and better Windows cross-drive/path handling
 
 ## Links
 

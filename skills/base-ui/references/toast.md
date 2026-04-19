@@ -13,6 +13,11 @@ A high-quality, unstyled React toast component to generate notifications.
 - Toast manager flows can now close all toasts, which is useful when you want a global "dismiss notifications" action or need to clear stacked notices after route/context changes.
 - If you add a bulk-dismiss UI, keep per-toast close affordances for keyboard and screen-reader users.
 
+## v1.4.0 notes
+
+- `toastManager.add()` supports upsert-style flows, which is useful when one logical notification should refresh instead of stacking duplicates.
+- Touch swipe keeps the viewport expanded more reliably, and timers resume correctly after the window regains focus.
+
 ## Demo
 
 ### Tailwind

@@ -9,7 +9,7 @@ CodeRabbit integrates with major Git platforms for PR-based code reviews.
 | GitHub       | github.com, Enterprise Cloud, Enterprise Server |
 | GitLab       | gitlab.com, Self-Managed                        |
 | Azure DevOps | Azure DevOps Services                           |
-| Bitbucket    | Cloud, Server                                   |
+| Bitbucket    | Cloud, Server, Data Center                      |
 
 ## Integration Process
 
@@ -37,6 +37,14 @@ CodeRabbit integrates with major Git platforms for PR-based code reviews.
 
 - Developer role in primary group to view repositories
 - Maintainer role in primary group to enable toggle
+- Self-managed GitLab works best on `16.x+`.
+
+### Self-managed GitLab SSH cloning (2026-04-02)
+
+- CodeRabbit can use SSH clone credentials instead of HTTPS for self-managed GitLab.
+- SSH keys must be passphrase-free, and the public key must be registered on the GitLab account used by CodeRabbit.
+- Optional `known_hosts` content helps avoid first-connect trust issues.
+- If SSH credentials are invalid or cannot be decrypted, CodeRabbit falls back to HTTPS.
 
 ### Azure DevOps
 

@@ -2,8 +2,8 @@
 name: vibekanban
 description: "Orchestrate AI coding with Vibe Kanban: tasks, review, sessions, workspaces, and isolated git worktrees. Use when managing AI-generated code in isolated environments, planning coding tasks, reviewing AI output, or configuring Vibe Kanban workspaces and agents. Keywords: Vibe Kanban, AI orchestration, worktrees."
 metadata:
-  version: "0.1.36"
-  release_date: "2026-03-23"
+  version: "0.1.43"
+  release_date: "2026-04-17"
 ---
 
 # Vibe Kanban
@@ -53,6 +53,12 @@ npx vibe-kanban
 - Worktrees: preserve worktree path across cleanup to maintain Claude Code session continuity.
 - Workspaces: improved workspace logs capture (root execution-process provider).
 - Mobile UI fixes and Remote Access docs refresh.
+
+## Release Highlights (0.1.37 → 0.1.43)
+
+- Executor surface refreshed with newer pinned versions for Codex, OpenCode, and Claude Code.
+- Claude Code adds an `xhigh effort` variant.
+- Cross-compile/runtime fixes improve Windows/MSVC and musl build reliability.
 
 ## Release Highlights (0.1.31 → 0.1.32)
 
@@ -136,18 +142,18 @@ One task can have multiple attempts:
 
 ## Supported Agents
 
-| Agent          | Variants              |
-| -------------- | --------------------- |
-| Claude Code    | DEFAULT, PLAN, ROUTER |
-| Codex          | DEFAULT, HIGH         |
-| Gemini         | DEFAULT, FLASH        |
-| GitHub Copilot | DEFAULT               |
-| Amp            | DEFAULT               |
-| Cursor Agent   | DEFAULT               |
-| OpenCode       | DEFAULT               |
-| Qwen Code      | DEFAULT               |
-| Droid          | DEFAULT               |
-| Antigravity    | DEFAULT               |
+| Agent          | Variants                     |
+| -------------- | ---------------------------- |
+| Claude Code    | DEFAULT, PLAN, ROUTER, XHIGH |
+| Codex          | DEFAULT, HIGH                |
+| Gemini         | DEFAULT, FLASH               |
+| GitHub Copilot | DEFAULT                      |
+| Amp            | DEFAULT                      |
+| Cursor Agent   | DEFAULT                      |
+| OpenCode       | DEFAULT                      |
+| Qwen Code      | DEFAULT                      |
+| Droid          | DEFAULT                      |
+| Antigravity    | DEFAULT                      |
 
 Select agent when creating task attempt or workspace session.
 

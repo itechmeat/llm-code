@@ -68,6 +68,17 @@ v2026.3.2 adds PDF output support and quality controls for diff artifacts.
 - `--dangerously-force-unsafe-install` as break-glass override for built-in dangerous-code false positives.
 - Gateway-backed skill dependency installs blocked on dangerous-code `critical` findings unless override is set.
 
+## Loop guards and tool identity (v2026.4.15)
+
+- The unknown-tool stream guard is now enabled by default. Keep `tools.loopDetection.unknownToolThreshold` explicit only when you need to raise or lower the tolerance.
+- Client-defined tool names can no longer normalize-collide with built-ins or with another client tool in the same request.
+- Trusted local `MEDIA:` passthrough is anchored to the exact raw name of the built-in tool registered for the current run; do not assume a lookalike client tool will inherit built-in media trust.
+
+## Skills snapshot invalidation (v2026.4.15)
+
+- Config writes touching `skills.*` now bump the cached skills-snapshot version.
+- Existing sessions still keep the snapshot that was frozen at session creation, so if a disabled skill/tool continues to be called, restart the affected session instead of repeatedly toggling config.
+
 ## MCP remote servers (v2026.3.28)
 
 - `mcp.servers` now supports remote HTTP/SSE URLs with auth headers.

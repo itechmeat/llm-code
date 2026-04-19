@@ -2,8 +2,8 @@
 name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Use when deploying, configuring, or operating an OpenClaw instance, managing gateway routing, setting up channels, or working with the multi-agent tool governance system. Keywords: OpenClaw, gateway, tools, channels, agents."
 metadata:
-  version: "v2026.3.28"
-  release_date: "2026-03-29"
+  version: "v2026.4.15"
+  release_date: "2026-04-16"
 ---
 
 # OpenClaw (Operator Playbook)
@@ -80,6 +80,15 @@ If OpenClaw is not installed, use `references/installation.md`.
 - **Android**: notification-forwarding controls with package filtering, quiet hours, rate limiting.
 - **Agents/LLM**: configurable idle-stream timeout for embedded runner; `text.verbosity` forwarded across Responses HTTP/WebSocket transports.
 - **Security**: Nostr inbound DM signature verification; LINE webhook timing-safe HMAC compare; sandbox browser CJK fonts; gateway auth hardening (origin validation, local-direct token enforcement).
+
+## Release Updates (v2026.4.15)
+
+- **Anthropic/model defaults**: bundled Anthropic defaults and `opus` aliases now target Claude Opus 4.7, including bundled image understanding.
+- **Google TTS**: bundled `google` plugin now exposes text-to-speech with voice selection, WAV replies, and PCM telephony output.
+- **Control UI / gateway**: model auth status card backed by `models.authStatus` shows OAuth token health and provider rate-limit pressure.
+- **Memory**: LanceDB can use cloud object storage, GitHub Copilot is available as a memory-search embedding provider, and Dreaming defaults to `separate` storage instead of inline daily memory blocks.
+- **Agents/tools**: `agents.defaults.experimental.localModelLean: true` trims heavyweight default tools for weaker local models; unknown-tool loop guard is now enabled by default; skills-snapshot invalidation is stricter on `skills.*` config writes.
+- **Security hardening**: built-in tool-name collisions are rejected, `/mcp` auth uses constant-time comparison with browser-origin checks, HTTP bearer rotation applies immediately after secret reload, and webchat/media paths enforce stronger local-root/file restrictions.
 
 ## Release Updates (v2026.3.13-1)
 

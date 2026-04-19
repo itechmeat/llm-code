@@ -5,6 +5,26 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-04-19]
+
+### Changed
+
+- **zvec** — Updated the skill for v0.3.1 with Windows platform/package guidance, a new indexing reference for HNSW-RaBitQ, refreshed C API and AI-agent ecosystem notes, and collection path caveats from the 0.3.x release line.
+- **pipecat** — Updated the skill for v1.0.0 with migration guidance for universal `LLMContext`, WebSocket-based OpenAI Responses, grouped/async function calls, new transport/turn-detection rules, and refreshed TTS/runner notes.
+- **vitest** — Updated the skill for v4.1.4 with notes for experimental ARIA snapshots and JSON reporter `filterMeta`, while keeping the earlier 4.1.0 metadata/snapshot guidance in the right references.
+- **pydantic-ai** — Updated the skill for v1.84.1 with capability ordering and compaction notes, refreshed Ollama/Claude model guidance, and tool-hook behavior updates from the 1.80.x–1.84.x release line.
+- **beads** — Updated the skill for v1.0.2 with the new install surface, non-interactive init/bootstrap flows, `bd ready --explain`, first-class issue types, and stronger sync/integration notes from the 1.0.x line.
+- **vibekanban** — Updated the skill for v0.1.43 with the new Claude Code `xhigh` variant and refreshed executor/runtime highlights from the recent release line.
+- **openclaw** — Updated the skill for v2026.4.15 with gateway/auth hardening notes, new Google TTS and model-status surfaces, memory backend updates, and tighter tool/skills-loop protection guidance.
+- **picoclaw** — Updated the skill for v0.2.6 with hook `respond` coverage, the new Teams webhook channel, provider custom-header/fallback notes, and gateway PID/WebSocket runtime guidance.
+- **seaweedfs** — Updated the skill for v4.20 with IAM/S3 policy changes, mount/FUSE and filer reliability notes, size-aware master placement guidance, and refreshed metrics/shell operational details.
+- **bun** — Updated the skill for v1.3.12 with `Bun.WebView`, in-process `Bun.cron()`, terminal Markdown rendering, and the latest networking/fetch/server runtime notes.
+- **refine-dev** — Updated the skill for v5.0.12 with `useList`/`useTable` guidance for preserving custom `getList` response fields.
+- **coderabbit** — Updated the skill for the 2026-04-16 release line with Global overrides, Codex plugin workflow, CLI `0.4.x` changes, self-managed GitLab SSH cloning, and usage-based review continuity notes.
+- **base-ui** — Updated the skill for v1.4.0 with preview `OTPField` coverage and fresh guidance for render handling, hidden-input form semantics, and the latest overlay/control patch notes.
+- **telegram** — Updated the skill for aiogram `3.27.0` / Bot API `9.6` with managed-bot flows, richer poll semantics, and new aiogram notes for strict `CommandStart` deep-link handling.
+- **openspec** — Updated the skill for `1.3.0` with new tool integrations (Junie, Lingma, ForgeCode, IBM Bob), stricter Copilot detection markers, corrected OpenCode output paths, opt-in shell completions, and safer `openspec status` guidance.
+
 ## [2026-03-22]
 
 ### Added

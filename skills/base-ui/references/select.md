@@ -13,6 +13,12 @@ A high-quality, unstyled React select component for choosing a predefined value 
 - `Select` adds a `Label` part for component-native labeling patterns.
 - Prefer the built-in label part or an explicit `Field.Label` strategy instead of wiring ad hoc `aria-labelledby` relationships by hand.
 
+## v1.4.0 notes
+
+- Browser autofill with object values is more reliable when the browser autofills using the visible label.
+- Touch reopen/highlight behavior and scroll-arrow edge behavior were fixed; re-check custom mobile patches before keeping them.
+- `alignItemWithTrigger` now behaves better in RTL layouts.
+
 ## Demo
 
 ### Tailwind

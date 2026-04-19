@@ -37,6 +37,10 @@ Sources:
 - Record approved filer stores with the reasons they fit each deployment class.
 - Add a migration runbook for `fs.meta.save`/`fs.meta.load`, including write freeze and validation steps.
 
+## Postgres / PgBouncer note (4.20)
+
+- Postgres-backed filer deployments using PgBouncer should revalidate simple-protocol compatibility after upgrading to 4.20, because the upstream fix moved to the `pgx v5` API path for that mode.
+
 ## Filer Cassandra Setup
 
 ### What this page is about

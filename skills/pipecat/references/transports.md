@@ -53,6 +53,8 @@ The Learn guide describes a shared `TransportParams` structure with flags for:
 
 Transport-specific parameter types may extend this base.
 
+Migration note for `1.0.0`: deprecated transport-level VAD/turn parameters are gone, and the older `camera_*` compatibility params were removed in favor of the `video_in_*` / `video_out_*` names.
+
 ## Daily transport updates (0.0.105)
 
 - `DailyParams` can publish custom video tracks via `video_out_destinations`, mirroring the existing multi-destination audio model.
@@ -86,6 +88,7 @@ The Learn guide shows a practical pattern:
 - Model the transport as a state machine; do not start streaming audio until the bot is “ready”.
 - Buffer local audio until the bot is ready if the transport supports it.
 - Prefer a server “start” endpoint that creates the transport session and returns connection params to the client.
+- Do not keep transport-specific workarounds for interruption/VAD behavior if you are upgrading; that policy now belongs with user-turn aggregation.
 
 ## WebRTC vs WebSocket (rules of thumb)
 
