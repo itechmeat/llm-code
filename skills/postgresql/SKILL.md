@@ -2,8 +2,8 @@
 name: postgresql
 description: "PostgreSQL best practices: multi-tenancy with RLS, schema design, Alembic migrations, async SQLAlchemy, and query optimization. Use when designing multi-tenant tables with Row-Level Security, debugging tenant isolation, creating/changing Alembic migrations, or optimizing PostgreSQL queries. Keywords: PostgreSQL, RLS, Alembic, SQLAlchemy, multi-tenancy."
 metadata:
-  version: "18.3"
-  release_date: "2026-02-26"
+  version: "18.4"
+  release_date: "2026-05-14"
 ---
 
 # PostgreSQL
@@ -60,6 +60,12 @@ USING (tenant_id = current_setting('app.current_tenant_id', true)::uuid);
 3. Enable RLS and create/adjust policies
 4. Add verification (tests) for isolation
 5. Provide a real downgrade (no stubs)
+
+## Patch Notes (18.4)
+
+- `18.4` is a security/robustness patch release; no dump/restore is required for existing `18.x` clusters.
+- The patch line hardens startup packet parsing, backup tools (`pg_basebackup`, `pg_rewind`, `pg_verifybackup`), and several logical replication code paths.
+- Planner/executor fixes also land for `MERGE`, nondeterministic collations, generated columns, and assorted aggregate/window edge cases.
 
 ## RLS Isolation Testing Recipe
 

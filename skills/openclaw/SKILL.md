@@ -2,8 +2,8 @@
 name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Use when deploying, configuring, or operating an OpenClaw instance, managing gateway routing, setting up channels, or working with the multi-agent tool governance system. Keywords: OpenClaw, gateway, tools, channels, agents."
 metadata:
-  version: "v2026.4.15"
-  release_date: "2026-04-16"
+  version: "v2026.5.12"
+  release_date: "2026-05-14"
 ---
 
 # OpenClaw (Operator Playbook)
@@ -80,6 +80,14 @@ If OpenClaw is not installed, use `references/installation.md`.
 - **Android**: notification-forwarding controls with package filtering, quiet hours, rate limiting.
 - **Agents/LLM**: configurable idle-stream timeout for embedded runner; `text.verbosity` forwarded across Responses HTTP/WebSocket transports.
 - **Security**: Nostr inbound DM signature verification; LINE webhook timing-safe HMAC compare; sandbox browser CJK fonts; gateway auth hardening (origin validation, local-direct token enforcement).
+
+## Release Updates (v2026.5.12)
+
+- **Leaner installs**: Slack, WhatsApp, Amazon Bedrock, Anthropic Vertex, and related provider/plugin dependency cones moved out of the core runtime, so installs only pull what you actually use.
+- **Telegram resilience**: isolated polling, durable local spooling, safer group-media handling, and preserved HTML/Markdown formatting improve operator confidence on the default channel path.
+- **Codex/OpenAI/media**: auth-profile-backed media tools, MCP server projection, context-engine thread rotation, and runtime fallback behavior were tightened.
+- **Ops/security/UI**: plugin install/update flows, pnpm 11 handling, gateway/browser/sandbox/node-pairing hardening, and Control UI/WebChat reply delivery all received a significant polish pass.
+- **ACP fallbacks**: ACP turns can try configured backup runtime backends before emitting output, which matters for graceful degraded operation.
 
 ## Release Updates (v2026.4.15)
 

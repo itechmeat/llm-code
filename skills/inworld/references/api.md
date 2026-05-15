@@ -22,7 +22,7 @@ Authorization: Basic {INWORLD_API_KEY}
 {
   "text": "Hello, world!",
   "voiceId": "Ashley",
-  "modelId": "inworld-tts-1.5-max"
+  "modelId": "inworld-tts-2"
 }
 ```
 
@@ -66,15 +66,23 @@ Same body. Returns chunked audio + alignment per chunk.
 | `temperature`                    | 1.1      | Expressiveness (0.0-2.0)         |
 | `talking_speed`                  | 1.0      | Speed (0.5-1.5)                  |
 | `timestampType`                  | none     | WORD, CHARACTER                  |
+| `deliveryMode`                   | varies   | `STABLE`, `BALANCED`, `CREATIVE` |
+| `language`                       | auto     | Target language / locale hint    |
 
 ## Models
 
-| Model        | ID                     | Latency | Price        |
-| ------------ | ---------------------- | ------- | ------------ |
-| TTS 1.5 Max  | `inworld-tts-1.5-max`  | ~200ms  | $10/1M chars |
-| TTS 1.5 Mini | `inworld-tts-1.5-mini` | ~120ms  | $5/1M chars  |
+| Model        | ID                     | Latency | Price    |
+| ------------ | ---------------------- | ------- | -------- |
+| TTS-2        | `inworld-tts-2`        | latest  | see docs |
+| TTS 1.5 Max  | `inworld-tts-1.5-max`  | legacy  | legacy   |
+| TTS 1.5 Mini | `inworld-tts-1.5-mini` | legacy  | legacy   |
 
 **Languages:** en, zh, ja, ko, ru, it, es, pt, fr, de, pl, nl, hi, he, ar
+
+`TTS-2` notes:
+
+- `deliveryMode` lets you choose consistency vs expressiveness.
+- Set `language` explicitly when reusing a voice across multiple languages or when localizing a voice for a specific target language.
 
 ## Integrations
 

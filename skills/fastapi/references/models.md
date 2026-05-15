@@ -92,6 +92,10 @@ UserInDB(**user_in.model_dump(), hashed_password=hashed)
 updated = stored_model.model_copy(update=update_data)
 ```
 
+`0.136.1` note:
+
+- FastAPI refreshed its own Pydantic v2 integration to avoid deprecated patterns. In app code, prefer current Pydantic v2 methods such as `model_dump()` / `model_copy()` and avoid reviving deprecated v1-style helpers in new examples.
+
 ## Response Filtering Options
 
 ```python

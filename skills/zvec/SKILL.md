@@ -2,8 +2,8 @@
 name: zvec
 description: "Zvec in-process vector database. Covers collections, indexing, embeddings, reranking, and persistence. Use when embedding Zvec into applications or tuning retrieval/storage behavior. Keywords: Zvec, HNSW-RaBitQ, vector database, ANN."
 metadata:
-  version: "0.3.1"
-  release_date: "2026-04-17"
+  version: "0.4.0"
+  release_date: "2026-05-09"
 ---
 
 # Zvec
@@ -56,13 +56,14 @@ Zvec is a lightweight, in-process vector database meant to be embedded into appl
 - Do not add project-specific paths, secrets, or environment assumptions.
 - Do not choose `HNSW-RaBitQ` on unsupported hardware; current docs limit it to `x86_64` with `AVX2` or better.
 
-## Release Highlights (0.3.0 -> 0.3.1)
+## Release Highlights (0.3.0 -> 0.4.0)
 
 - **Windows** support and official Windows packages for Python and Node.js
 - **HNSW-RaBitQ** quantized vector indexing for lower-memory ANN on supported x86_64 hosts
 - **Stable C API** for building or maintaining additional language bindings
 - **MCP server / agent skills** ecosystem for AI-driven collection management and retrieval workflows
 - **0.3.1 hotfixes** for relaxed collection path restrictions and better Windows cross-drive/path handling
+- **0.4.0** adds official Dart/Flutter bindings, iOS build support, a larger `topK` ceiling, stricter `query_params` validation, and fixes an SQ8 quantizer recall regression.
 
 ## Links
 

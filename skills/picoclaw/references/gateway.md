@@ -58,3 +58,9 @@ The key is detected from:
 - Gateway PID handling now validates ownership/liveness more carefully and cleans stale pid files instead of treating every leftover pid as a live instance.
 - If a wrapped/service-managed gateway still refuses to start, inspect the pid file and ownership first; manual pid deletion should be the last resort, not the first step.
 - The web UI now derives the WebSocket URL from the browser location instead of backend assumptions, which is the safer behavior behind reverse proxies or browser-facing launchers.
+
+## v0.2.8 operational notes
+
+- The web surface now gives clearer save/restart prompts and tracks which config changes require a restart before they take effect.
+- Tool/model/channel/web-search restart requirements are surfaced more explicitly, which reduces the risk of “saved but not applied” operator confusion.
+- Frontend file downloads and thought/tool-visibility toggles are more capable, so operator expectations around what the web UI can inspect/control should be updated.

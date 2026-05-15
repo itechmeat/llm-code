@@ -2,8 +2,8 @@
 name: vibekanban
 description: "Orchestrate AI coding with Vibe Kanban: tasks, review, sessions, workspaces, and isolated git worktrees. Use when managing AI-generated code in isolated environments, planning coding tasks, reviewing AI output, or configuring Vibe Kanban workspaces and agents. Keywords: Vibe Kanban, AI orchestration, worktrees."
 metadata:
-  version: "0.1.43"
-  release_date: "2026-04-17"
+  version: "0.1.44"
+  release_date: "2026-04-24"
 ---
 
 # Vibe Kanban
@@ -53,6 +53,13 @@ npx vibe-kanban
 - Worktrees: preserve worktree path across cleanup to maintain Claude Code session continuity.
 - Workspaces: improved workspace logs capture (root execution-process provider).
 - Mobile UI fixes and Remote Access docs refresh.
+
+## Release Highlights (0.1.44)
+
+- Claude Code CLI pin moved forward again and the Codex executor surface was refreshed around Codex `0.124.0`.
+- Legacy project routes are being sunset to an export-only page, so deep links or screenshots from older project pages may no longer match the current UX.
+- Execution logs are pre-registered before normalized streaming begins, which improves log availability during live runs.
+- Model selector ordering is now alphabetical, which changes some small but visible operator workflows in setup/review dialogs.
 
 ## Release Highlights (0.1.37 → 0.1.43)
 

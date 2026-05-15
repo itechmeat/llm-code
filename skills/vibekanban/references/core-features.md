@@ -4,6 +4,10 @@ Projects, tasks, execution monitoring, testing, code review, and task completion
 
 ## Creating Projects
 
+### Project route change (v0.1.44)
+
+Legacy project routes are being sunset to an export-only page. If older docs, bookmarks, or teammate screenshots point at project-specific pages that no longer behave the same way, treat that as expected product drift rather than a broken local install.
+
 ### From Existing Repository
 
 1. Click "Create Project"
@@ -106,6 +110,11 @@ Manage tags: Settings → General → Task Tags
 4. **Action approvals** (Codex; Claude Code coming soon)
 5. **Cleanup Script** runs
 6. **Commit generated** (auto-message from agent's last message)
+
+### Execution log reliability (v0.1.44)
+
+- Execution log stores are now pre-registered before normalized log streaming starts.
+- If you rely on live process inspection, this release reduces the chance of early-run logs appearing missing purely because the store was registered too late.
 
 ### Interaction During Execution
 

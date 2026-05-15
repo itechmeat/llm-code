@@ -41,18 +41,38 @@ See also: [inline-mode.md](inline-mode.md)
 
 See also: [payments.md](payments.md)
 
-## Managed Bots (Bot API 9.6)
+## Managed & Business Bots (Bot API 9.6-10.0)
 
 - Telegram now supports managed-bot flows where one bot can help create and operate another bot.
 - New button/request flows allow asking the user for a managed bot directly from keyboards and Mini Apps.
 - Managed bot creation and token-change events are now first-class update/message payloads, so webhook routing and allowlist logic should treat them as operationally sensitive events.
+- Bot API 10.0 adds managed-bot access settings methods and lets business bots manage user accounts without requiring Telegram Premium.
+- If bot-to-bot communication is enabled, treat conversations with other bots as explicit allowlisted flows rather than assuming all peer bots are unreachable.
 
-## Polls (Bot API 9.6)
+## Guest Mode (Bot API 10.0)
+
+- Bots can now receive certain guest-mode messages and reply in chats where they are not members.
+- New guest-mode payloads (`guest_message`, `guest_query_id`, caller user/chat metadata) should be routed separately from normal membership-based chat flows.
+- Do not assume chat membership when authorizing guest-mode replies, logging sender context, or deciding whether a bot may answer.
+
+## Polls (Bot API 9.6-10.0)
 
 - Quizzes can now have multiple correct answers.
 - Polls can allow revoting, shuffle options, hide results until close, and carry a description.
 - Option metadata now has persistent identifiers and audit-style fields for who added an option and when.
-- If your bot stores poll state externally, prefer persistent option IDs over positional assumptions.
+- Bot API 10.0 adds media in poll questions/options/explanations, `members_only`, `country_codes`, and allows single-option poll flows.
+- If your bot stores poll state externally, prefer persistent option IDs over positional assumptions, and validate media-bearing options with the patched aiogram `3.28.1+` serializers.
+
+## Media Updates (Bot API 10.0)
+
+- Live photos are now first-class media with dedicated send/edit/media-group support.
+- Polls can carry media in the question, answer options, and quiz explanations.
+- If your bot mirrors Telegram media types in a strict schema, add live-photo and poll-media variants before enforcing validation.
+
+## Chat Management (Bot API 10.0)
+
+- Bots can now delete reactions from messages and work with `can_react_to_messages` permissions.
+- `getChatAdministrators` can optionally return bots, which matters if your admin sync logic previously filtered them out by assumption.
 
 ## Mini Apps
 

@@ -9,6 +9,23 @@ Sections:
 - `tools.cron`: scheduler limits
 - `tools.skills`: skill registries (e.g. ClawHub)
 
+## MCP management (v0.2.8)
+
+Recent PicoClaw builds add CLI-level MCP management commands for inspecting and operating configured servers:
+
+- `picoclaw mcp list`
+- `picoclaw mcp show`
+- `picoclaw mcp add`
+- `picoclaw mcp edit`
+- `picoclaw mcp remove`
+- `picoclaw mcp test`
+
+Operational notes:
+
+- Treat `mcp test` as the first-line check before blaming agent/tool routing.
+- MCP init failures are surfaced to command handlers more clearly in the newer release line, so a failed test/init is now a meaningful signal rather than silent flakiness.
+- Local stdio command paths are normalized and home-directory paths are expanded, which reduces config drift across machines.
+
 ## Web tools
 
 Supported switches (from project docs):
@@ -74,3 +91,10 @@ Example:
 - `PICOCLAW_TOOLS_WEB_DUCKDUCKGO_ENABLED=true`
 
 Note: array-type environment variables are not supported for tools; set those in the config file.
+
+## Serial hardware tool (v0.2.8)
+
+PicoClaw now ships a cross-platform serial tool and wires it into runtime/dashboard flows.
+
+- Treat serial access as an explicit operator capability; do not enable it casually on hosts where attached hardware should stay out of scope.
+- Re-check exec/remote policy and agent permissions when exposing serial operations through gateway/web management surfaces.

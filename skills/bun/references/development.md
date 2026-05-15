@@ -89,6 +89,16 @@ Operational rules:
 - Under `bun --hot`, in-process cron jobs are cleared before module re-evaluation, so schedule edits do not leak duplicate timers.
 - Use `Bun.cron(path, schedule, title)` only when you need OS-level persistence across restarts.
 
+## Test Workflow Notes (v1.3.13)
+
+The `1.3.13` line improves dependency-aware test filtering for changed-file workflows. If you rely on partial local verification, re-test your assumptions about which dependent test files Bun includes instead of assuming older file-only matching behavior.
+
+Keep these rules in mind:
+
+- `bun test` still discovers files by naming conventions such as `*.test.ts`, `*_test.ts`, `*.spec.ts`, and `*_spec.ts`.
+- Positional filters remain simple path substring matches, not glob patterns.
+- For exact files, prefer `bun test ./path/to/file.test.ts` so Bun treats the argument as a path rather than a fuzzy filter.
+
 ---
 
 ## Debugging

@@ -263,6 +263,12 @@ spec:
     minHealthyPeriod: 2h # Reset retry count if healthy this long
 ```
 
+`1.13` notes:
+
+- KCP is more tolerant of multiple simultaneous failures and unexpected control-plane state (for example missing labels or etcd/member drift) than earlier lines; if you built manual remediation playbooks around those older gaps, re-test before keeping them.
+- `Cluster.spec.topology` can now drive `rolloutAfter` for both control plane and `MachineDeployment` rollouts, which is cleaner than patching rollout intent directly on the generated objects.
+- `Machine.status.failureDomain` is now a first-class placement signal; include it in diagnostics when investigating skewed placement or remediation behavior.
+
 ## External etcd
 
 ### Setup

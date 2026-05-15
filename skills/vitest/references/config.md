@@ -172,6 +172,7 @@ export default defineConfig({
   coverage: {
     enabled: true,
     provider: 'v8',        // 'v8' | 'istanbul'
+    instrumenter: 'v8',    // Optional in newer 4.1.x coverage flows when instrumenter choice matters
     reporter: ['text', 'json', 'html'],
     reportsDirectory: './coverage',
 
@@ -198,6 +199,10 @@ export default defineConfig({
   },
 }
 ```
+
+`4.1.5` note:
+
+- Coverage now exposes an `instrumenter` option in the `4.1.x` line. Keep it explicit if your coverage pipeline depends on a specific transformation path instead of accepting the default provider behavior.
 
 ## v4.1.0 notes
 
@@ -245,6 +250,10 @@ Reporter note for `4.1.4`:
   watchTriggerPatterns: ['src/**', 'test/**'],
 }
 ```
+
+`4.1.6` note:
+
+- If you rely on `sequence.concurrent`, re-test any local workarounds: `4.1.6` fixes concurrent sequencing behavior that previously produced inconsistent scheduling.
 
 ## Test Filtering
 

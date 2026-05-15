@@ -2,8 +2,8 @@
 name: turso
 description: "Turso SQLite database. Covers encryption, sync, agent patterns. Use when working with Turso/libSQL embedded databases, configuring encryption-at-rest, setting up sync replication, or building agent-friendly database patterns. Keywords: Turso, libSQL, embedded, SQLite, encryption, sync."
 metadata:
-  version: "0.5.3"
-  release_date: "2026-04-02"
+  version: "0.6.0"
+  release_date: "2026-05-14"
 ---
 
 # Turso Database
@@ -93,7 +93,11 @@ const db = await connect({
 
 ## Version
 
-Based on product version: 0.5.3
+Based on product version: 0.6.0
+
+## Release Note (0.6.0)
+
+- Turso `0.6.0` expands the practical client surface with JS/serverless timeouts, interactive transactions, Python SQLAlchemy improvements, npm-based CLI distribution, and a broader SQL surface for local-first/agent workloads.
 
 ## Links
 

@@ -8,6 +8,10 @@ description: A high-quality, unstyled React popover component that displays an a
 
 A high-quality, unstyled React popover component that displays an accessible popup anchored to a button.
 
+## v1.4.1 notes
+
+- Popup sizing was fixed for rapid trigger-hover transitions. If you previously added manual re-measure hacks for hover-driven overlays, retest before keeping them.
+
 ## v1.3.0 notes
 
 - Modal popovers with an internal `Popover.Close` now trap focus more reliably, including cases with visually hidden close buttons.

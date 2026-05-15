@@ -19,19 +19,23 @@ This note captures what a collection is, what configuration choices matter in pr
 ## Multitenancy decision: one collection vs many
 
 The page explicitly calls out a key design choice:
+
 - Prefer **one collection + payload-based partitioning** for “most cases” (the multitenancy approach).
 - Use **multiple collections** when you need stronger isolation and you have a limited number of tenants/users; note that many collections can create overhead and cross-impact performance.
 
 Practical takeaway:
+
 - Decide early whether your tenant boundary is a payload field (single collection) or a collection boundary (many collections), and align indexing + access control with that choice.
 
 ## Create collection: what you must decide up front
 
 At minimum:
+
 - vector size (embedding dimensionality)
 - distance metric
 
 High-value optional knobs the page lists:
+
 - `hnsw_config` (vector index behavior; see Indexing)
 - `wal_config` (write-ahead log behavior; impacts ingestion durability/perf)
 - `optimizers_config` (background optimization/compaction behavior)
@@ -50,11 +54,16 @@ High-value optional knobs the page lists:
 
 - Named vectors let you keep multiple embeddings per point (e.g., `image`, `text`).
 - Per-vector overrides are possible (e.g., vector-specific `hnsw_config`, `quantization_config`, `on_disk`).
+- `1.18.0` adds API support to create and delete named vectors in an existing collection. That reduces the need for full collection rebuilds when a multi-vector schema evolves, but you should still treat it as a controlled migration and benchmark the resulting index/storage impact.
 
 ## Vector datatypes (compressed embeddings)
 
 - Qdrant supports `uint8` vectors (useful for providers that ship pre-quantized embeddings).
 - Tradeoff: lower memory + potentially faster search, at the cost of precision.
+
+`1.18.0` note:
+
+- TurboQuant is a new quantization variant aimed at much stronger compression without the usual recall penalty profile. Benchmark it against existing scalar/product quantization before adopting it blindly for production recall-sensitive workloads.
 
 ## Sparse vectors (for text-style retrieval)
 
@@ -91,5 +100,4 @@ High-value optional knobs the page lists:
 
 - Search page (connect collection config + filtering/indexing knobs to search-time parameters)
 - Snapshots page (to build an ops backup/restore runbook)
-
 ```

@@ -3,21 +3,38 @@
 ## macOS / Linux
 
 ```bash
-curl --proto '=https' --tlsv1.2 -LsSf https://github.com/tursodatabase/turso/releases/latest/download/turso_cli-installer.sh | sh
+brew install tursodatabase/tap/turso
 ```
 
-## Windows (PowerShell)
+Or use the official install script:
+
+```bash
+curl -sSfL https://get.tur.so/install.sh | bash
+```
+
+## Windows
+
+Windows installation is documented via WSL. Start a WSL shell from PowerShell:
 
 ```powershell
-irm https://github.com/tursodatabase/turso/releases/latest/download/turso_cli-installer.ps1 | iex
+wsl
+```
+
+Then run the standard installer inside WSL:
+
+```bash
+curl -sSfL https://get.tur.so/install.sh | bash
 ```
 
 ## Launch
 
 ```bash
+turso             # Verify CLI installation
 tursodb           # In-memory database
 tursodb mydata.db # File database
 ```
+
+For ephemeral CI/dev usage, Turso `0.6.0` also ships an npm package, so `npx turso <command>` is a reasonable no-global-install path when your environment is already Node-based.
 
 ## Basic SQL
 
@@ -35,6 +52,12 @@ SELECT * FROM users;
 
 **Warning:** Not production ready.
 
-## Python (v0.5.0)
+## Python / SQLAlchemy (v0.6.0)
 
-Turso v0.5.0 adds a SQLAlchemy dialect for Python bindings. If you use Turso from Python services or agent backends, prefer the dialect over ad-hoc adapters.
+Turso documents SQLAlchemy via the `sqlalchemy-libsql` dialect. Prefer the official dialect over ad-hoc wrappers for Python services or agent backends, and treat the `0.6.0` line as the point where Python coverage became more practical for asyncio-heavy apps and named-parameter usage.
+
+```bash
+pip install sqlalchemy-libsql
+```
+
+Use standard SQLAlchemy engines for local, remote, memory-only, or embedded-replica setups, and keep Turso credentials in environment variables instead of hardcoding them.

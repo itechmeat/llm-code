@@ -2,8 +2,8 @@
 name: perplexity
 description: "Perplexity API for web-grounded AI and search. Covers Sonar models, chat/search APIs, streaming, structured outputs, filters, and attachments. Keywords: Perplexity, Sonar, search API, grounded LLM."
 metadata:
-  version: "0.32.0"
-  release_date: "2026-04-14"
+  version: "0.34.0"
+  release_date: "2026-05-13"
 ---
 
 # Perplexity API

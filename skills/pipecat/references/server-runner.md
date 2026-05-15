@@ -39,6 +39,10 @@ The runner passes transport-specific data to the bot entry point, e.g.:
 - WebRTC connection object
 - WebSocket stream for telephony
 
+`1.2.0` note:
+
+- Runner arguments now carry a `session_id` consistently across local development flows, Daily `/start`, and dial-in style entry points. Reuse that id for logs, traces, and cross-service correlation instead of minting a second session identifier in user code.
+
 Implementation note: some signal-handling args are development-only and not available on Pipecat Cloud.
 
 ## Built-in endpoints and RTVI `/start`
@@ -50,6 +54,8 @@ Docs mention an RTVI-compatible `POST /start` endpoint for Daily flows that:
 - returns connection info to the client
 
 Use this pattern to keep provider secrets on the server.
+
+Security note from the `1.2.0` line: if you expose file-download helpers around the development runner, validate resolved paths against the allowed base directory; the upstream runner patched a traversal issue in its `/files/{filename:path}` endpoint.
 
 ## Transport utilities (for custom runners)
 

@@ -63,6 +63,7 @@ Re-enable by unsetting the variable once investigation is complete.
 **Solutions**:
 
 - Upgrade Vibe Kanban to version 0.1.23+ (workspace logs capture was updated).
+- Upgrade to 0.1.44+ if missing logs happen at the very start of execution; log stores are now pre-registered before normalized streaming begins.
 - Enable debug logs to get more detail: `RUST_LOG=debug npx vibe-kanban`.
 
 ## Debug Logs

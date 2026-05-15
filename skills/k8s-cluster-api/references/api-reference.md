@@ -23,8 +23,8 @@
 | ----------- | ---------- | ------------------------ |
 | v1beta2     | Supported  | Current                  |
 | v1beta1     | Deprecated | Stopped serving in v1.14 |
-| v1alpha4    | EOL        | Removal in v1.13         |
-| v1alpha3    | EOL        | Removal in v1.13         |
+| v1alpha4    | Removed    | Removed in v1.13         |
+| v1alpha3    | Removed    | Removed in v1.13         |
 
 ### Contract Versions
 
@@ -41,6 +41,7 @@
 
 | CAPI Release | Kubernetes Versions |
 | ------------ | ------------------- |
+| v1.13.x      | v1.32 - v1.36       |
 | v1.12.x      | v1.28 - v1.32       |
 | v1.11.x      | v1.27 - v1.31       |
 | v1.10.x      | v1.26 - v1.30       |
@@ -49,6 +50,7 @@
 
 | CAPI Release | Kubernetes Versions |
 | ------------ | ------------------- |
+| v1.13.x      | v1.30 - v1.36       |
 | v1.12.x      | v1.26 - v1.32       |
 | v1.11.x      | v1.25 - v1.31       |
 | v1.10.x      | v1.24 - v1.30       |

@@ -2,8 +2,8 @@
 name: k8s-cluster-api
 description: "Kubernetes Cluster API v1.12. Covers clusterctl CLI, ClusterClass, GitOps integration. Scripts for health checks, backup, migration, linting. Templates: clusters, DR, Prometheus. Use when provisioning, upgrading, or operating Kubernetes clusters with CAPI, or running clusterctl and ClusterClass workflows. Keywords: CAPI, clusterctl, kubeadm, cluster lifecycle."
 metadata:
-  version: "1.12.5"
-  release_date: "2026-04-08"
+  version: "1.13.2"
+  release_date: "2026-05-13"
 ---
 
 # Kubernetes Cluster API
@@ -188,6 +188,14 @@ spec:
 - Do NOT mix provider versions without checking compatibility
 - Do NOT skip cluster upgrade steps (control plane before workers)
 - Do NOT ignore MachineHealthCheck alerts
+
+## Release Highlights (1.13.x)
+
+- Kubernetes compatibility moves to management clusters `v1.32.x -> v1.36.x` and workload clusters `v1.30.x -> v1.36.x` by the `1.13.2` line.
+- `v1alpha3` and `v1alpha4` API versions are now removed; providers should keep moving toward the `v1beta2` contract because `v1beta1` remains on the path to becoming unserved in a later release.
+- Cluster topology can now drive `rolloutAfter` for both control plane and `MachineDeployment` resources.
+- KubeadmControlPlane improves remediation tolerance for multiple failures and better surfaces common join/remediation symptoms.
+- `PriorityQueue` and `ReconcilerRateLimiting` are now beta defaults in the `1.13` line, which can change reconciliation behavior under load.
 
 ## Scripts
 

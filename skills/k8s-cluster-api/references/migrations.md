@@ -194,6 +194,11 @@ default/wait-machine-deployment-upgrade: ["10m", "10s"]
 
 **Strong recommendation**: Start migration to v1beta2 contract.
 
+`1.13` note:
+
+- `v1alpha3` and `v1alpha4` are no longer available. If any provider templates, generated YAML, or custom tooling still reference them, the upgrade is blocked until those manifests are rewritten.
+- `v1beta1` is still temporarily compatible, but providers should treat `v1beta2` implementation as current work, not future cleanup.
+
 | Item                           | Deadline    |
 | ------------------------------ | ----------- |
 | v1beta1 deprecation            | Now         |
@@ -215,6 +220,8 @@ util.IsOwnedByObject(obj, owner, schema.GroupKind{Group: "infrastructure.cluster
 ### Rate Limiting
 
 New `ReconcilerRateLimiting` feature gate limits reconcilers to 1 request/second.
+
+In the `1.13` line, `ReconcilerRateLimiting` and `PriorityQueue` are beta and enabled by default together. Re-test automation that assumed older controller queue behavior under heavy churn.
 
 ---
 

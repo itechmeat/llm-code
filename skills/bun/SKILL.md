@@ -2,8 +2,8 @@
 name: bun
 description: "Bun JavaScript/TypeScript runtime and all-in-one toolkit. Covers runtime, package manager, bundler, test runner, HTTP server, WebSockets, SQLite, S3, Redis, file I/O, shell scripting, FFI, Markdown parser. Use when running JS/TS with Bun, managing packages, bundling, testing, or using Bun-specific APIs. Keywords: bun, bunx, bun install, bun run, bun test, bun build, Bun.serve, Bun.file, bun:sqlite, Bun.markdown."
 metadata:
-  version: "1.3.12"
-  release_date: "2026-04-10"
+  version: "1.3.14"
+  release_date: "2026-05-13"
 ---
 
 # Bun
@@ -97,6 +97,12 @@ bun build ./index.ts --metafile-md --outdir ./dist
 | `better-sqlite3`       | `bun:sqlite`             |
 | `child_process.exec()` | `Bun.$` or `Bun.spawn()` |
 | `dotenv`               | Built-in `.env` support  |
+
+## Release Highlights (1.3.14)
+
+- **`Bun.Image`**: built-in image decoding, transforms, and encoding for common formats with no npm dependency or native addon build step.
+- **Test workflow**: the `1.3.13` line improves dependency-aware filtering for changed-file test runs, which matters when you rely on partial local verification.
+- **Patch-line runtime work**: `1.3.13`-`1.3.14` continues compatibility and performance work on top of the `1.3.12` WebView/cron/Markdown release line.
 
 ## Release Highlights (1.3.12)
 

@@ -2,8 +2,8 @@
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Use when building Python AI agents with Pydantic AI, configuring model providers, implementing typed tools/dependencies, running evals, or integrating MCP servers. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
 metadata:
-  version: "1.84.1"
-  release_date: "2026-04-17"
+  version: "1.96.1"
+  release_date: "2026-05-14"
 ---
 
 # Pydantic AI
@@ -37,6 +37,12 @@ Python agent framework for building production-grade GenAI applications with the
 ## Installation
 
 See `references/installation.md` for full/slim install options and optional dependency groups. Requires Python 3.10+.
+
+## Release Highlights (1.96.1)
+
+- **V2 preparation**: `Agent(..., prepare_tools=..., prepare_output_tools=..., event_stream_handler=...)` is now the deprecated path; capability-based migration is the new direction.
+- **Capability migration**: use `PrepareTools`, `PrepareOutputTools`, and `ProcessEventStream` capabilities instead of wiring those behaviors through constructor sugar.
+- **OpenAI fixes**: the latest patch line also tightens `OpenAIResponsesModel` system-prompt-role handling and image-generation request shaping.
 
 ## Release Highlights (1.75.0 -> 1.84.1)
 

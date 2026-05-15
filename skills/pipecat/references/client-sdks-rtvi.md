@@ -14,6 +14,12 @@ A typical pattern in client SDKs:
 - **Client → server request**: request/response with a timeout
 - Event handlers for server messages and connection state
 
+`1.2.0` note:
+
+- RTVI adds first-class UI Agent Protocol messages. Expect client-to-server `ui-event`, `ui-snapshot`, and `ui-cancel-task`, plus server-to-client `ui-command` and `ui-task`.
+- The RTVI protocol version moves to `1.3.0`. If your client/server pins protocol behavior, upgrade both ends together.
+- Default UI command payloads now cover actions such as toast, navigate, scroll, highlight, focus, click, set input value, and select text.
+
 ## Context updates
 
 Docs highlight a “send text” style call for appending user text to the conversation, with options like:
@@ -42,3 +48,5 @@ The docs mention callbacks/events such as:
 - Bot output (including whether it was spoken)
 - Function call started/in-progress/stopped
 - Media/device events and audio level events
+
+When using the UI Agent Protocol additions, expect a parallel event path for UI state snapshots and task cancellation in addition to the older transcript/function-call events.

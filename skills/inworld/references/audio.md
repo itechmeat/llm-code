@@ -44,6 +44,11 @@ en, ar, zh, nl, fr, de, he, hi, it, ja, ko, pl, pt, ru, es
 
 **Best Practice:** Match voice language to text language for best quality.
 
+`TTS-2` notes:
+
+- Cross-lingual synthesis lets you reuse one voice across multiple languages, but quality is best when you also provide the `language` hint explicitly.
+- Voice localization is the preferred path when you want the same voice identity to sound native in a target language instead of merely reading cross-lingually.
+
 ## Built-in Voices
 
 Available in TTS Playground. For custom voices, use voice cloning (min 5 seconds audio).

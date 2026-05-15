@@ -117,6 +117,16 @@ async def my_tool(ctx: RunContext[MyDeps]) -> str:
 - Internal output tools now skip tool hooks; do not rely on hook side effects for framework-managed output tools.
 - For single-`BaseModel` tools, validated hook arguments are consistently passed as a `dict` shape instead of an ambiguous model/object form.
 
+## PrepareTools migration (v1.96.x)
+
+Tool preparation is moving toward explicit capabilities rather than constructor sugar.
+
+- `Agent(..., prepare_tools=...)` is now the deprecated path.
+- `Agent(..., prepare_output_tools=...)` is also deprecated in favor of capability-based composition.
+- Prefer `PrepareTools(...)` and `PrepareOutputTools(...)` capabilities so tool filtering/modification participates in the same ordering/wrapping model as the rest of your agent stack.
+
+This matters most when tool preparation interacts with other capabilities, because the capability path makes ordering explicit instead of burying it in constructor kwargs.
+
 ## Tool Retries
 
 ````python

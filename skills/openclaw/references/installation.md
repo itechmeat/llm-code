@@ -32,6 +32,13 @@ Use this reference only when OpenClaw is not installed yet or when migrating env
 - Re-run onboarding/configuration when environment changes.
 - Use service install/repair commands for daemon lifecycle alignment.
 
+## Install-surface update (v2026.5.12)
+
+- Recent releases externalize several provider/channel dependency cones from the core install, including WhatsApp, Slack, Amazon Bedrock, and Anthropic Vertex.
+- Treat upgrades as "install only what you use" rather than assuming the core runtime still ships every optional provider/channel path by default.
+- After upgrade, re-check plugin/provider availability before blaming auth or routing. Missing optional packages can now be an expected cause, not a broken install.
+- Plugin install/update flows were hardened and pnpm 11 is supported, so prefer current package-manager paths instead of freezing on older pnpm behavior.
+
 ## Discord voice dependency note (v2026.2.22)
 
 - Discord voice now treats `@discordjs/opus` as an optional dependency.

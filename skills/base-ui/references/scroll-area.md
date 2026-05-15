@@ -8,6 +8,10 @@ description: A high-quality, unstyled React scroll area that provides a native s
 
 A high-quality, unstyled React scroll area that provides a native scroll container with custom scrollbars.
 
+## v1.4.1 notes
+
+- Highlight clearing on pointer leave is more reliable when interactive items are clipped by a scroll container. If you embed menus, listboxes, or other highlighted items inside scrollable regions, retest hover exit behavior before carrying old workarounds forward.
+
 ## Demo
 
 #### Tailwind

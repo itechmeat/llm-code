@@ -15,6 +15,16 @@ UI event stream integrations enable streaming agent events to frontend applicati
 
 Both inherit from `UIAdapter` abstract class.
 
+## Event stream migration note (v1.96.x)
+
+`event_stream_handler=` on `Agent(...)` is now part of the V2 deprecation path. Prefer wrapping streamed events with the `ProcessEventStream` capability so event-stream processing follows the same capability-based composition model as tool preparation and hooks.
+
+Also note the event-class migration direction:
+
+- Use `ToolCallEvent` / `ToolResultEvent` when you want one handler for both function and output tools.
+- Use `OutputToolCallEvent` / `OutputToolResultEvent` when you specifically care about output tools.
+- Do not assume `FunctionToolCallEvent` / `FunctionToolResultEvent` will keep covering output tool calls in v2.
+
 ---
 
 ## AG-UI (Agent-User Interaction)

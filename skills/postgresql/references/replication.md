@@ -140,6 +140,12 @@ max_logical_replication_workers = 4
 max_sync_workers_per_subscription = 2
 ```
 
+`18.4` patch notes relevant to replication/operations:
+
+- Several logical replication commands and helper paths were hardened around quoting/injection handling.
+- Idle or stuck `slotsync` worker behavior was improved so it is less likely to block standby promotion or produce excessive log noise.
+- `pg_stat_replication` lag reporting got fixes for premature `NULL` results; re-check dashboards if you added workarounds for the older behavior.
+
 ## Quick Reference
 
 ### Streaming Replication Setup
@@ -206,15 +212,15 @@ pg_ctl promote -D $PGDATA
 
 ## Parameter Context
 
-| Parameter | Requires |
-|-----------|----------|
-| `wal_level` | Restart |
-| `max_wal_senders` | Restart |
-| `max_replication_slots` | Restart |
-| `synchronous_commit` | Reload |
-| `synchronous_standby_names` | Reload |
-| `primary_conninfo` | Reload |
-| `hot_standby` | Restart |
+| Parameter                   | Requires |
+| --------------------------- | -------- |
+| `wal_level`                 | Restart  |
+| `max_wal_senders`           | Restart  |
+| `max_replication_slots`     | Restart  |
+| `synchronous_commit`        | Reload   |
+| `synchronous_standby_names` | Reload   |
+| `primary_conninfo`          | Reload   |
+| `hot_standby`               | Restart  |
 
 ## See Also
 

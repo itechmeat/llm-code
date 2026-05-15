@@ -2,8 +2,8 @@
 name: pipecat
 description: "Pipecat realtime voice/multimodal bots. Covers pipelines/frames, transports, RTVI, Pipecat Cloud deploy. Use when building real-time voice bots (STT/LLM/TTS pipelines), multimodal AI agents, WebRTC/WebSocket transports, or deploying to Pipecat Cloud. Keywords: pipecat, pipecat-ai, RTVI, WebRTC, voice bot."
 metadata:
-  version: "1.0.0"
-  release_date: "2026-04-14"
+  version: "1.2.0"
+  release_date: "2026-05-14"
 ---
 
 # Pipecat
@@ -91,7 +91,7 @@ It composes streaming speech/LLM/TTS services into a low-latency pipeline, conne
 - Do not keep VAD/turn-detection logic on transport params; current releases route that control through `LLMUserAggregator` strategies.
 - Do not assume `OpenAIResponsesLLMService` is HTTP-based anymore; WebSocket is now the default implementation.
 
-## Release Highlights (0.0.109 -> 1.0.0)
+## Release Highlights (0.0.109 -> 1.2.0)
 
 ### Runtime and service additions
 
@@ -105,6 +105,13 @@ It composes streaming speech/LLM/TTS services into a low-latency pipeline, conne
 - Function calling now supports grouped parallel tool batches, async tool completion after interruption, and streaming intermediate tool results.
 - Context editing now has `LLMMessagesTransformFrame`, and the framework standardizes on universal `LLMContext` / `LLMContextAggregatorPair`.
 - OpenAI tool schemas can now include provider-specific `custom_tools`.
+- `1.2.0` adds `add_tool_change_messages` for LLM aggregators, widens `tool_resources` into deprecated `app_resources`, and extends async-tool compatibility across more realtime providers.
+
+### Turn-taking and client protocol
+
+- `1.2.0` adds explicit inference/finalization turn hooks (`on_user_turn_inference_triggered`, `LLMTurnCompletionUserTurnStopStrategy`, `FilterIncompleteUserTurnStrategies`) for smarter end-of-turn gating.
+- RTVI grows first-class UI Agent Protocol support with `ui-event`, `ui-snapshot`, `ui-cancel-task`, `ui-command`, and `ui-task`, bumping the protocol to `1.3.0`.
+- The development runner and runner arguments now carry a stable `session_id`, which is useful for per-session tracing across local and cloud-like flows.
 
 ### Breaking migrations
 

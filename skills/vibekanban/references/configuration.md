@@ -25,6 +25,12 @@ Global settings, agent profiles, task tags, and keyboard shortcuts.
 
 **Gemini**: DEFAULT (standard), FLASH (fast mode)
 
+### Executor refresh (v0.1.44)
+
+- The `0.1.44` line refreshes the Codex executor surface and bumps the pinned Claude Code CLI version again.
+- If you override executor base commands or depend on specific CLI flags, re-test those overrides after upgrade instead of assuming the old executor contract still applies.
+- Model lists in the selector are now sorted alphabetically, so setup/review flows may feel slightly different even when the underlying config is unchanged.
+
 ## Workspace Executor Config (v0.1.15)
 
 - Workspace create flow now uses `executor_config` more consistently.

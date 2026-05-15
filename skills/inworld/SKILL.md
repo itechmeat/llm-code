@@ -2,8 +2,8 @@
 name: inworld
 description: "Inworld TTS API. Covers voice cloning, audio markups, timestamps. Use when integrating Inworld text-to-speech, cloning voices, adding audio markups (SSML-like), or aligning viseme timestamps. Keywords: Inworld, text-to-speech, TTS, voice cloning, visemes."
 metadata:
-  version: "1.5"
-  release_date: "2026-01-21"
+  version: "2"
+  release_date: "2026-05-05"
 ---
 
 # Inworld AI
@@ -29,10 +29,11 @@ Text-to-Speech platform with voice cloning, audio markups, and timestamp alignme
 
 ## Models
 
-| Model        | ID                     | Latency | Price        |
-| ------------ | ---------------------- | ------- | ------------ |
-| TTS 1.5 Max  | `inworld-tts-1.5-max`  | ~200ms  | $10/1M chars |
-| TTS 1.5 Mini | `inworld-tts-1.5-mini` | ~120ms  | $5/1M chars  |
+| Model        | ID                     | Latency | Price       |
+| ------------ | ---------------------- | ------- | ----------- |
+| TTS-2        | `inworld-tts-2`        | latest  | see pricing |
+| TTS 1.5 Max  | `inworld-tts-1.5-max`  | legacy  | legacy      |
+| TTS 1.5 Mini | `inworld-tts-1.5-mini` | legacy  | legacy      |
 
 ## Minimal Example
 
@@ -54,6 +55,16 @@ audio = base64.b64decode(response.json()['audioContent'])
 - **Audio markups** — `[happy]`, `[laughing]`, `[sigh]` (English only)
 - **Timestamps** — word, phoneme, viseme timing for lip sync
 - **Streaming** — `/voice:stream` endpoint
+- **TTS-2 steering** — natural-language bracketed directions such as `[say excitedly]` or `[whisper in a hushed style]`
+- **Delivery mode** — `STABLE`, `BALANCED`, `CREATIVE` trade consistency for emotional range
+- **Cross-lingual synthesis** — reuse one voice across multiple languages; voice localization improves native-sounding output
+
+## Release Highlights (TTS-2)
+
+- `Realtime TTS-2` becomes the new primary model line via `modelId="inworld-tts-2"`.
+- Steering moves beyond the older fixed emotion tags: free-form bracketed directions can control style, pitch, speed, intensity, and non-verbals.
+- Multilingual coverage expands with production quality across 15 languages and broader experimental coverage beyond that.
+- `deliveryMode` adds a stability-vs-creativity knob, and specifying `language` matters more for cross-lingual output quality.
 
 ## Prohibitions
 

@@ -2,8 +2,8 @@
 name: seaweedfs
 description: "SeaweedFS distributed storage. Covers filer, S3 API, replication, cloud tiers, and operations. Use when deploying SeaweedFS, configuring filer stores, exposing S3-compatible endpoints, or planning backup and security controls. Keywords: SeaweedFS, weed, filer, S3, object storage."
 metadata:
-  version: "4.20"
-  release_date: "2026-04-13"
+  version: "4.25"
+  release_date: "2026-05-14"
 ---
 
 # SeaweedFS
@@ -45,6 +45,12 @@ Prefer production guidance from multi-component setups over `weed mini` shortcut
 - The filer layer adds directories, metadata stores, and higher-level protocols.
 - S3, WebDAV, FUSE, and other interfaces are front doors on top of the same storage services.
 - Production deployments should document topology, credentials, persistence, monitoring, and recovery paths explicitly.
+
+## Release Highlights (4.25)
+
+- **Security/admin path**: `4.24`-`4.25` tightens admin auth on destructive/admin endpoints and fixes Admin UI behavior under `security.toml` by attaching admin-signed auth on filer IAM gRPC calls.
+- **Erasure coding / multi-disk ops**: the release line fixes several EC planner/recovery cases across multi-disk and cross-server layouts, including stale-shard cleanup and safer source-volume deletion.
+- **S3/IAM hardening**: IAM users without policies are now denied instead of implicitly over-permitted, while OIDC/web-identity and audit surfaces continue to mature.
 
 ## Release Highlights (4.20)
 

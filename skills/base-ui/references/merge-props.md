@@ -13,6 +13,11 @@ It behaves like `Object.assign` (rightmost wins) with a few special cases, so co
 
 ## How merging works
 
+## v1.4.1 notes
+
+- Multi-argument event handler forwarding was fixed in `mergeProps`. If a Base UI component passes extra callback details after the event, merged handlers now receive the full argument list more reliably.
+- Keep merged handlers side-effect-safe and avoid assuming the event is the only parameter when wrapping advanced components.
+
 - For most keys (everything except `className`, `style`, and event handlers), the value from the rightmost object wins:
   ```ts title="returns { id: 'b', dir: 'ltr' }"
   mergeProps({ id: "a", dir: "ltr" }, { id: "b" });
@@ -248,7 +253,7 @@ const merged = mergeProps(
       props.onClick?.(event);
       // Your logic here
     },
-  })
+  }),
 );
 ```
 

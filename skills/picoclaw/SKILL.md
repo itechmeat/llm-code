@@ -2,8 +2,8 @@
 name: picoclaw
 description: "PicoClaw Go AI assistant. Covers CLI ops, config.json, channels, auth, skills, gateway. Use when running the PicoClaw CLI, configuring models/tools/gateway in config.json, or operating channels and authentication. Keywords: picoclaw, onboard, gateway, model_list."
 metadata:
-  version: "v0.2.6"
-  release_date: "2026-04-08"
+  version: "v0.2.8"
+  release_date: "2026-04-30"
 ---
 
 # PicoClaw
@@ -101,6 +101,12 @@ Use when you need to:
 - Do not commit real API keys or OAuth tokens into a repo; keep them in `~/.picoclaw/` only.
 - Be cautious enabling the exec tool; keep deny patterns enabled unless you fully trust the environment.
 - Exposing gateway to `0.0.0.0` makes health endpoints reachable from the network; do that only intentionally.
+
+## Release Highlights (v0.2.8)
+
+- **MCP operations**: PicoClaw now exposes first-class MCP management commands (`show`, `add`, `list`, `remove`, `test`, `edit`) and surfaces init/lifecycle failures more clearly.
+- **Custom endpoints + tools**: CLI/config flows add better support for custom OpenAI-compatible endpoints and a cross-platform serial hardware tool.
+- **Chat/web feedback**: tool-call visibility, animated tool feedback, restart prompts, and reasoning visibility are more consistent across Pico web/chat surfaces and channels.
 
 ## Release Highlights (v0.2.6)
 

@@ -5,6 +5,30 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-05-15]
+
+### Changed
+
+- **postgresql** — Updated the skill for `18.4` with a concise security/robustness patch note and refreshed logical-replication operational guidance.
+- **inworld** — Updated the skill for the `TTS-2` line with natural-language steering, `deliveryMode`, cross-lingual/localization guidance, and refreshed model references.
+- **qdrant** — Updated the skill for `1.18.0` with TurboQuant and in-place named-vector guidance, low-memory/strict-memory operations notes, stronger internal-auth coverage, and hardened snapshot restore recommendations.
+- **fastapi** — Updated the skill for `0.136.1` with Starlette `1.0.0` compatibility notes and refreshed Pydantic v2 guidance.
+- **zvec** — Updated the skill for `0.4.0` with Flutter/iOS installation guidance, larger `topK` and stricter query-parameter notes, and indexing guidance around the SQ8 recall fix.
+- **k8s-cluster-api** — Updated the skill for `1.13.2` with current Kubernetes support ranges, explicit API-removal status for `v1alpha3`/`v1alpha4`, topology-driven `rolloutAfter`, KCP remediation guidance, and beta queue/rate-limiting defaults.
+- **pipecat** — Updated the skill for `1.2.0` with RTVI UI Agent Protocol coverage, new user-turn completion strategy guidance, runner `session_id` tracing notes, and current function-calling/runtime-resource caveats.
+- **vitest** — Updated the skill for `4.1.6` with coverage instrumenter guidance, browser screenshot-path notes for multi-project suites, and a concurrency scheduling caveat for `sequence.concurrent`.
+- **mantine-dev** — Updated the skill for `9.2.1` with a11y and submenu behavior notes, refreshed form/theme caveats, Dropzone browser-compat guidance, and schedule rendering fixes.
+- **pydantic-ai** — Updated the skill for `1.96.1` with V2-preparation guidance around capability-based tool preparation and event-stream handling, plus refreshed migration notes for streamed tool events.
+- **beads** — Updated the skill for `1.0.4` with new workflow flags (`-C`, `--reason-file`), remote/bootstrap guidance, safer export/config defaults, and stronger Linear sync coverage.
+- **vibekanban** — Updated the skill for `0.1.44` with Codex/Claude executor refresh notes, the legacy project-route sunset, and execution-log reliability guidance for early streaming.
+- **openclaw** — Updated the skill for `v2026.5.12` with leaner-install dependency guidance, Telegram resilience notes, gateway/UI hardening updates, and operational guidance for plugin/package externalization and ACP fallbacks.
+- **picoclaw** — Updated the skill for `v0.2.8` with MCP management commands, custom OpenAI-compatible endpoint guidance, the cross-platform serial tool, and clearer gateway/channel restart and tool-feedback notes.
+- **seaweedfs** — Updated the skill for `4.25` with admin-auth and `security.toml`/Admin UI guidance, EC multi-disk recovery notes from the `4.24`-`4.25` line, and safer replication/remote-tier operational caveats.
+- **bun** — Updated the skill for `1.3.14` with `Bun.Image` coverage, refreshed file/image safety notes, and the `1.3.13` dependency-aware test-filtering guidance for local verification workflows.
+- **base-ui** — Updated the skill for `1.4.1` with patch-line notes for `mergeProps` multi-argument handler forwarding, `display: contents` tabbability, popup sizing on rapid hover, and clipped-item highlight clearing in scroll containers.
+- **turso** — Updated the skill for `0.6.0` with current CLI installation paths, npm/`npx turso` coverage, Python SQLAlchemy guidance, JS/serverless timeout and interactive-transaction notes, and the broader SQL surface relevant to agent workloads.
+- **telegram** — Updated the skill for aiogram `3.28.2` / Bot API `10.0` with guest-mode routing, poll media and live-photo coverage, managed/business-bot access settings, reaction-management methods, and the `3.28.x` poll-option media validation notes.
+
 ## [2026-04-19]
 
 ### Changed

@@ -2,8 +2,8 @@
 name: vitest
 description: "Vitest testing framework: Vite-powered tests, Jest-compatible API, mocking, snapshots, coverage, browser mode, and TypeScript support. Use when writing or configuring tests with Vitest, setting up mocking/snapshots, configuring coverage, or running browser-mode tests. Keywords: Vitest, testing, Vite, Jest, mocking, coverage."
 metadata:
-  version: "4.1.4"
-  release_date: "2026-04-09"
+  version: "4.1.6"
+  release_date: "2026-05-11"
 ---
 
 # Vitest
@@ -32,7 +32,7 @@ Next generation testing framework powered by Vite.
 
 Install: `npm install -D vitest`. Requires Vite >=v6.0.0, Node >=v20.0.0.
 
-## Release Highlights (4.1.0 -> 4.1.4)
+## Release Highlights (4.1.0 -> 4.1.6)
 
 - New control-flow hooks: `aroundEach` and `aroundAll`.
 - Test metadata expands with tags, `meta`, and improved `test.extend` type inference.
@@ -40,6 +40,8 @@ Install: `npm install -D vitest`. Requires Vite >=v6.0.0, Node >=v20.0.0.
 - Browser mode grows Playwright persistent contexts, `userEvent.wheel`, and stronger trace/artifact handling.
 - Mocking/timers add disposable `doMock()`, `mockThrow` / `mockThrowOnce`, and `setTickMode`.
 - `4.1.4` adds experimental ARIA snapshots, `filterMeta` for the JSON reporter, and exposes `assertion` as a public experimental field.
+- `4.1.5` adds coverage `instrumenter` support and improves reporter/UI behavior around large snapshots and HTML output.
+- `4.1.6` tightens browser screenshot path resolution and fixes `sequence.concurrent` handling for concurrent test scheduling.
 
 ## Quick Start
 

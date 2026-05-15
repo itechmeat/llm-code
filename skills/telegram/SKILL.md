@@ -2,8 +2,8 @@
 name: telegram
 description: "Telegram Bot development playbook: bot fundamentals, aiogram 3 patterns (handlers/middlewares/FSM), webhooks, keyboard UX, inline mode, Mini Apps, payments (Stars/subscriptions), authentication. Use when building or modifying Telegram bots, setting up webhook infrastructure, implementing inline keyboards/callback queries, integrating Telegram payments or Stars, or working with aiogram 3 handlers and FSM. Keywords: Telegram, aiogram, Bot API, webhook, handlers, middlewares, FSM, inline keyboard, reply keyboard, callback_query, inline mode, Mini Apps, Web Apps, payments, Telegram Stars, Login Widget."
 metadata:
-  version: "3.27.0"
-  release_date: "2026-04-03"
+  version: "3.28.2"
+  release_date: "2026-05-10"
 ---
 
 # Telegram (Skill Router)
@@ -42,9 +42,10 @@ Router skill: pick the reference that matches your task.
 - [ ] Callback data validated, not trusted blindly
 - [ ] Handlers are idempotent or have de-duplication
 
-## Release Note (3.27.0 / Bot API 9.6)
+## Release Note (3.28.x / Bot API 10.0)
 
-- aiogram `3.27.0` adds Bot API `9.6` support, which mainly affects managed bots, richer poll flows, and a few framework-level fixes around `CommandStart` and formatting helpers.
+- aiogram `3.28.x` adds Bot API `10.0` support, bringing guest-mode updates, richer poll/media flows, live photos, reaction-management methods, and managed/business-bot access settings.
+- The `3.28.1+` patch line also fixes `InputPollOption.media` validation, so poll/media integrations should assume the newer schema and the patched aiogram serializer behavior.
 
 ## Links
 

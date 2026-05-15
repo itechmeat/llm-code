@@ -18,6 +18,7 @@
 - Text support is broad; media/reactions capabilities vary by connector.
 - Multi-channel operation is expected; keep channel-specific routing explicit.
 - Maintain channel troubleshooting playbooks per connector family.
+- In the `v2026.5.12` line, some provider/channel dependency cones moved out of the core runtime. If Slack, WhatsApp, Bedrock, or Anthropic Vertex stops appearing after upgrade, validate optional package/plugin presence before debugging config.
 
 ### Discord thread-bound sessions (v2026.3.1)
 
@@ -73,6 +74,7 @@ Config shape (from Discord channel docs):
 - Begin with one stable primary provider before introducing alternates.
 - Add local providers only after resource and latency constraints are validated.
 - Treat provider credentials as secrets and rotate through your secret-management process.
+- Codex/OpenAI paths were tightened in the May 2026 line: media-tool auth profiles, MCP server projection, and runtime fallback behavior are more explicit, so keep those integrations fully configured instead of relying on accidental fallback.
 
 ## Provider/runtime updates (v2026.4.15)
 
@@ -88,6 +90,11 @@ Config shape (from Discord channel docs):
 - Treat DM policy and group policy as independent controls and test both paths.
 - If non-mention group behavior is required, align Telegram privacy mode/admin state accordingly.
 - Use pairing approvals and channel status probes during onboarding validation.
+
+May 2026 operational update:
+
+- Telegram polling/reply delivery is more resilient via isolated polling, durable local spooling, safer group-media handling, and better HTML/Markdown preservation.
+- If you previously added local retry/formatting workarounds, re-test after upgrade before keeping them.
 
 ### Telegram DM topics (v2026.3.1)
 

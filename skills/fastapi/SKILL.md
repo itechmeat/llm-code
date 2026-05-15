@@ -2,8 +2,8 @@
 name: fastapi
 description: "FastAPI Python framework. Covers REST APIs, validation, dependencies, security. Use when building Python web APIs with FastAPI, configuring Pydantic models, implementing dependency injection, or setting up OAuth2/JWT authentication. Keywords: FastAPI, Pydantic, async, OAuth2, JWT, REST API."
 metadata:
-  version: "0.136.0"
-  release_date: "2026-04-16"
+  version: "0.136.1"
+  release_date: "2026-04-23"
 ---
 
 # FastAPI
@@ -56,11 +56,12 @@ This skill provides comprehensive guidance for building APIs with FastAPI.
 
 Requires Python 3.10+. Install: `pip install "fastapi[standard]"` (full with uvicorn) or `pip install fastapi` (minimal). Add `python-multipart` for forms/files.
 
-## Release Highlights (0.133.0 → 0.135.1)
+## Release Highlights (0.133.0 → 0.136.1)
 
 - **0.134.0:** streaming JSON Lines and streaming binary data support using `yield`.
 - **0.135.0:** first-class Server-Sent Events (SSE) support (`EventSourceResponse`).
 - **0.135.1:** fix around `TaskGroup` usage in request async exit stack (stability fix).
+- **0.136.1:** FastAPI updates its Pydantic v2 code to avoid deprecations and bumps Starlette to `1.0.0`.
 
 ## Quick Start
 

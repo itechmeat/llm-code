@@ -47,11 +47,14 @@ Sources:
 - Use `volume.check.disk`, `volume.fsck`, `fs.meta.cat`, and `fs.verify` when diagnosing missing chunks or filer-to-volume inconsistencies.
 - Recent shell updates add group-management commands and make `s3.user.provision` idempotent for existing users by attaching policy instead of failing the whole flow.
 - When scripting `weed shell`, prompt suppression on piped input reduces brittle non-interactive automation.
+- The `4.24`-`4.25` line is operationally important for erasure coding on multi-disk servers: the planner now treats `(server, disk_id)` distinctly, stale shards are pruned more safely, and same-server multi-disk EC reads/recovery are fixed.
+- Revalidate admin scripts after `4.24`: several volume/admin RPCs and destructive operations now require admin auth.
 
 ### Gotchas / prohibitions
 
 - Do not run invasive volume operations without a lock.
 - Do not skip the diagnostic commands when chunk loss symptoms appear; the shell gives the actual repair workflow.
+- Do not treat `4.23` as a safe stop on multi-disk EC deployments; upstream explicitly calls out the `4.24` / `4.25` line as the safe upgrade path there.
 
 ### How to apply in a real repo
 

@@ -86,6 +86,12 @@ Use these for process/container probes only; for authenticated deeper checks, us
 - The backing `models.authStatus` gateway method strips credentials and caches results briefly (60s) for operator visibility without exposing secrets.
 - Use this card during incident triage before re-running onboarding flows or manually rotating tokens.
 
+## Gateway and web updates (v2026.5.12)
+
+- Control UI/WebChat now has persisted auto-scroll modes, so operators can choose "follow streaming", near-bottom behavior, or manual new-message handling.
+- Gateway/browser/sandbox/transcript paths received another security/provenance hardening pass; after upgrade, re-test browser-origin expectations, sandbox assumptions, and paired-device trust instead of carrying old exceptions forward.
+- If reply delivery or UI continuity changed after upgrade, inspect the new UI mode and the hardened auth/provenance path before assuming model/provider instability.
+
 ## Tailscale modes and policy
 
 - `serve`: recommended tailnet HTTPS proxy while gateway stays loopback-bound.

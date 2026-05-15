@@ -36,6 +36,8 @@ bd sync --no-push
 
 `1.0.x` adds non-interactive init/bootstrap flows for CI and improves bootstrap recovery in fresh clones and shared-server scenarios.
 
+The `1.0.4` line also adds a more direct remote bootstrap path (`bd init --remote`) plus cleaner external-server directory override behavior, which is useful when the Beads store is not colocated with the working tree.
+
 ## Sync Modes
 
 Beads supports different sync modes depending on your backend and workflow.
@@ -102,6 +104,13 @@ bd backup status
 
 Set `BD_BACKUP_ENABLED=false` when automation must suppress backup commits.
 
+Recent export defaults changed in a safer direction:
+
+- `bd export` excludes memories by default.
+- `bd export` excludes ephemeral wisps by default.
+
+If you rely on older "everything goes into export" assumptions for migration or audit tooling, re-test those flows and opt back in intentionally where needed.
+
 ## Upgrades & Migrations
 
 For upgrades, prefer inspecting first:
@@ -126,6 +135,8 @@ For automation, prefer structured/JSON-aware error handling when integration com
 
 `bd doctor` also has stronger server-mode behavior, including cold-start Dolt detection and committed runtime/sensitive-file detection.
 
+Recent config safety tightened further: secret keys are refused in git-tracked `config.yaml`, so treat secrets as out-of-repo state instead of assuming the CLI will happily persist them into tracked config.
+
 ### GitLab Sync
 
 ```bash
@@ -149,6 +160,15 @@ Use this when your coordination loop lives in GitHub Issues instead of GitLab, L
 ```bash
 bd linear sync --project-id=<id>
 ```
+
+Recent `1.0.4` Linear upgrades matter operationally:
+
+- OAuth client-credentials support for headless/service setups
+- Ambient staleness signaling for auto-fresh data
+- Idempotency markers to prevent duplicate issue creation
+- Per-workspace concurrency locks on sync
+- Batch create/update flows for much faster bulk sync
+- Type mappings for `decision`, `spike`, `story`, and `milestone`
 
 ### Jira Import
 

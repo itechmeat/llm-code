@@ -34,6 +34,10 @@ def test_read_main():
 - Client calls are synchronous (no `await`)
 - TestClient is from Starlette, re-exported by FastAPI
 
+`0.136.1` note:
+
+- FastAPI now rides on Starlette `1.0.0`. If tests rely on Starlette internals or older TestClient behavior beyond the FastAPI re-exported API, re-test those assumptions after upgrading.
+
 ## Project Structure
 
 ```

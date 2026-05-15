@@ -12,12 +12,14 @@ Source: https://qdrant.tech/documentation/concepts/snapshots/
 ## Collection snapshots: create / list / delete / download
 
 Core endpoints:
+
 - Create: `POST /collections/{collection_name}/snapshots` (synchronous; generates a `.snapshot` file in `snapshots_path`).
 - List: `GET /collections/{collection_name}/snapshots`
 - Delete: `DELETE /collections/{collection_name}/snapshots/{snapshot_name}`
 - Download: `GET /collections/{collection_name}/snapshots/{snapshot_name}` (REST-only per docs).
 
 Practical implications:
+
 - Treat snapshot creation as an **IO-heavy operation**; plan disk space and timing.
 - In a cluster, coordinate per-node snapshot creation if you need a consistent point-in-time capture.
 
@@ -30,18 +32,25 @@ Practical implications:
 
 Qdrant supports three restoration paths:
 
-1) **Recover from URL or local file** (`PUT /collections/{collection_name}/snapshots/recover`)
+1. **Recover from URL or local file** (`PUT /collections/{collection_name}/snapshots/recover`)
+
 - `location` can be:
   - an HTTP(S) URL reachable from the restoring node, or
   - a `file:///...` URI to a local snapshot file.
 - If the target collection does not exist, Qdrant will create it.
 - Cloud note: restoring from a URL is not supported if outbound traffic is blocked; use file URI or upload.
 
-2) **Recover from uploaded snapshot** (`POST /collections/{collection_name}/snapshots/upload?priority=...`)
+`1.18.0` security note:
+
+- Operators can now disable snapshot restore from URL entirely. Use that in locked-down/self-hosted environments where restore inputs should come only from local files or explicit uploads.
+
+2. **Recover from uploaded snapshot** (`POST /collections/{collection_name}/snapshots/upload?priority=...`)
+
 - Upload snapshot bytes as multipart; recommended for migrations.
 - Consider setting `priority=snapshot` for migration use-cases.
 
-3) **Recover during start-up** (Qdrant CLI flags)
+3. **Recover during start-up** (Qdrant CLI flags)
+
 - Single-node only (not multi-node, not Cloud).
 - Start Qdrant with repeated `--snapshot <path>:<target_collection>` pairs.
 - The target collection must be **absent**, otherwise Qdrant exits with an error.
@@ -56,6 +65,7 @@ When restoring onto a non-empty node, conflicts are resolved by `priority`:
 - `no_sync`: restore without extra synchronization (advanced; easy to break the cluster).
 
 Important gotcha:
+
 - To recover a **new collection** from a snapshot, you typically need `priority=snapshot`.
   - With the default `replica` priority, the docs note you can end up with an **empty collection** if the system prefers the “existing” (empty) state.
 
@@ -66,24 +76,29 @@ Important gotcha:
 - They can be created/downloaded in Cloud, but Cloud cannot be restored from a full storage snapshot because that requires the CLI.
 
 Endpoints:
+
 - Create: `POST /snapshots`
 - List: `GET /snapshots`
 - Delete: `DELETE /snapshots/{snapshot_name}`
 - Download: `GET /snapshots/{snapshot_name}` (REST-only per docs)
 
 Restore:
+
 - CLI at startup: `./qdrant --storage-snapshot /path/to/full.snapshot`
 
 ## Snapshot storage configuration (paths, temp, S3)
 
 Local filesystem defaults:
+
 - Default snapshot dir: `./snapshots` (or `/qdrant/snapshots` inside the Docker image).
 
 Config knobs:
+
 - `storage.snapshots_path` (env: `QDRANT__STORAGE__SNAPSHOTS_PATH`)
 - `storage.temp_path` (optional separate temp dir for snapshot creation; useful if the storage disk is slow or space-constrained)
 
 S3 support (S3-compatible):
+
 - Configure `storage.snapshots_config` with `snapshots_storage: s3` and `s3_config` (bucket/region/access_key/secret_key/endpoint_url).
 
 ## Operational guidelines
@@ -91,3 +106,4 @@ S3 support (S3-compatible):
 - For multi-tenant setups (one collection per tenant), snapshots are naturally scoped per collection.
 - Choose between collection-level snapshot (per-collection backup/restore) vs full storage snapshot (single-node only).
 - For self-hosted clusters, plan per-node snapshot creation/restore behavior.
+- In clustered recovery, `1.18.0` prefers faster snapshot-based shard transfers when WAL delta replay is insufficient; that improves recovery speed, but disk headroom on the receiver still matters because the receiver clears shard data first to avoid out-of-disk crashes.

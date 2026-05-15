@@ -105,6 +105,10 @@ export default defineConfig({
 - `userEvent.wheel` is available for wheel/scroll interactions.
 - Failure screenshots and trace-oriented artifacts are handled more explicitly.
 
+`4.1.6` note:
+
+- Screenshot path resolution receives project references in `ToMatchScreenshotResolvePath`, which matters in multi-project browser suites that store snapshots per project/browser.
+
 ### Mixed Node + Browser Projects
 
 ```ts

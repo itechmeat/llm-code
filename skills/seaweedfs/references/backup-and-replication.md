@@ -20,12 +20,14 @@ Sources:
 - Choose mirrored mode when deletes should propagate and path structure should stay the same.
 - Choose incremental mode when point-in-time style daily snapshots are more valuable than delete mirroring.
 - Consider cloud object storage as a practical backup sink because the page highlights low-ingest-cost economics.
+- For EC-heavy clusters, treat the `4.24`-`4.25` line as replication-safety work too: shard planning/recovery is safer, stale partial shards are pruned more carefully, and source-volume deletion is gated on verifying a healthy shard set.
 
 ### Gotchas / prohibitions
 
 - Do not treat backup as restore-ready without separately validating recovery.
 - Do not choose incremental mode if you expect deletions to be reflected in the backup.
 - Do not run backup without a stable `replication.toml` shared across failover backup workers.
+- Do not assume volume balancing should move remote-tiered volumes; the `4.24` line explicitly fixes that behavior.
 
 ### How to apply in a real repo
 

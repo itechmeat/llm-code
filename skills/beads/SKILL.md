@@ -2,8 +2,8 @@
 name: beads
 description: "Beads (bd) Dolt-backed issue tracker for agent task memory. Covers CLI ops, molecules, Dolt sync, Linear/Jira/GitLab. Use when tracking tasks and dependencies with the Beads CLI, syncing issues via Dolt, or integrating with Linear/Jira/GitLab. Keywords: bd, beads, Dolt, issue tracker."
 metadata:
-  version: "1.0.2"
-  release_date: "2026-04-15"
+  version: "1.0.4"
+  release_date: "2026-05-09"
 ---
 
 # Beads (bd)
@@ -183,6 +183,13 @@ bd list --json                   # Standard JSON output
 ### MCP Plugin
 
 Beads includes Claude Code MCP plugin for direct integration.
+
+## Release Highlights (1.0.3–1.0.4)
+
+- **Workflow/config ergonomics**: `bd -C` changes working directory before running, `bd close` gains `--reason-file`, and setup/bootstrap flows gain better remote/server config handling.
+- **Linear sync**: OAuth client-credentials, idempotency markers, stale-data signaling, per-workspace sync locks, richer type mappings, and batch create/update make larger sync loops safer and faster.
+- **Security/export defaults**: Beads now refuses to write secret keys into git-tracked config, and exports exclude memories and ephemeral wisps by default unless you opt back in.
+- **Dependencies/data paths**: JSONL bulk dependency add and several hook/bootstrap/init fixes reduce friction in automated and shared-server environments.
 
 ## Release Highlights (1.0.0–1.0.2)
 

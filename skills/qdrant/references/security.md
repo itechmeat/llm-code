@@ -11,8 +11,12 @@ This note summarizes the **Security guide** with an emphasis on actionable, prod
 ## Network model & threat surfaces
 
 - Qdrant exposes REST and gRPC APIs and can also run in distributed mode.
-- In distributed mode, there is an **internal cluster port** (not meant for public exposure). The guide highlights that **internal channels are not protected by API keys/bearer tokens**, so network isolation is mandatory.
-- Practical implication: treat the cluster network as a trusted private network segment.
+- In distributed mode, there is an **internal cluster port** (not meant for public exposure).
+- Practical implication: treat the cluster network as a trusted private network segment even when auth is enabled.
+
+`1.18.0` note:
+
+- Internal gRPC endpoints now enforce API key/JWT authentication as well. That closes an older trust gap, but it also means internal callers and sidecars must be validated during upgrades instead of assuming private networking alone is enough.
 
 ## Authentication options
 
@@ -66,6 +70,7 @@ Use this when you need to rotate credentials without a coordinated “all client
 - Always keep internal cluster traffic private (never expose the internal cluster port publicly).
 - If using API keys/JWT, do not run without TLS unless you have a trusted, private network boundary.
 - Prefer least privilege (read-only key or collection-scoped JWT) for read-heavy workloads.
+- If you do not need remote snapshot restore, disable restore-from-URL in hardened environments to reduce the remote-input attack surface.
 
 ## Audit access logging (v1.17.0)
 

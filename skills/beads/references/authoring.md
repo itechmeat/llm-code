@@ -167,5 +167,6 @@ Beads now treats `spike`, `story`, and `milestone` as first-class issue types.
 - Use `story` for user-visible slices of behavior.
 - Use `spike` for bounded investigation where uncertainty reduction is the deliverable.
 - Use `milestone` for tracking larger delivery checkpoints without forcing an epic/task misuse.
+- Newer sync integrations map these built-in types more completely into external trackers such as Linear and GitHub, so prefer the built-in names when external tracker fidelity matters.
 
 Custom statuses and custom types also moved to normalized tables in the `1.0.x` line. Prefer built-in types when they fit; use custom types only when the workflow semantics are truly different.

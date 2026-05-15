@@ -2,13 +2,20 @@
 name: mantine-dev
 description: "Mantine UI library for React: 100+ components, hooks, forms, theming, dark mode, CSS modules, and Vite/TypeScript setup. Use when building React applications with Mantine components, configuring theming/dark mode, or working with Mantine hooks and forms. Keywords: Mantine, React, UI components, CSS modules, theming."
 metadata:
-  version: "9.0.2"
-  release_date: "2026-04-13"
+  version: "9.2.1"
+  release_date: "2026-05-14"
 ---
 
 # Mantine UI Library
 
 Mantine is a fully-featured React components library with TypeScript support. It provides 100+ hooks and components with native dark mode, CSS-in-JS via CSS modules, and excellent accessibility.
+
+## v9.2.1 Highlights
+
+- Accessibility fixes landed across selection controls and sliders: `Checkbox`, `Radio`, and `Switch` now wire error ids into `aria-describedby`, while `Slider` and `RangeSlider` support `aria-valuetext`.
+- Overlay/input behavior was refined with submenu safe polygon support, duplicate modal-id fixes, PinInput keyboard fixes, and ScrollArea/TreeSelect interaction fixes.
+- Forms and theming were hardened: `@mantine/form` handlers are more stable, default validators no longer force async results unexpectedly, and `mergeMantineTheme` no longer mutates `DEFAULT_THEME.headings`.
+- `@mantine/schedule` continues to mature with better multi-day overlap rendering and corrected positioning for `intervalMinutes={60}`.
 
 ## v9.0 Breaking Changes
 

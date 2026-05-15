@@ -19,6 +19,24 @@ Place at **beginning** of text. Use only ONE per request:
 
 **Split multiple emotions into separate API calls.**
 
+## TTS-2 Natural Language Steering
+
+`TTS-2` expands voice control beyond the older fixed markup set. You can use bracketed natural-language instructions such as:
+
+```text
+[say excitedly] We finally shipped it.
+[whisper in a hushed style] Keep your voice down.
+[speak as if barely holding back rage] I said stop.
+```
+
+Use this when you need broader control over articulation, volume, pitch, pacing, vocal texture, or non-verbal delivery than the old fixed emotion tags provide.
+
+`deliveryMode` guidance:
+
+- `STABLE` for consistent production narration.
+- `BALANCED` for a middle ground.
+- `CREATIVE` when you want more expressive range and can tolerate more variation.
+
 ### Non-Verbal Sounds
 
 Can be used anywhere in text:

@@ -12,6 +12,10 @@ The `useRender` hook lets you build custom components that provide a `render` pr
 
 `render` supports lazy elements (v1.2.0).
 
+## v1.4.1 notes
+
+- Tabbability with `display: contents` was fixed in the `1.4.1` line. If your custom `render` wrappers flatten DOM structure, re-test keyboard navigation instead of assuming old workarounds are still needed.
+
 ## v1.4.0 notes
 
 - Warning messages around incorrect `render` prop usage are more accurate, which helps when debugging wrapper components.

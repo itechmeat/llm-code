@@ -86,6 +86,9 @@ Operational notes:
 - If the gateway is supervised (launchd/systemd), prefer `openclaw gateway restart` after updates.
 - After upgrading to v2026.3.11+, run `openclaw doctor --fix` to migrate legacy cron storage and legacy cron notify/webhook metadata before trusting scheduled delivery.
 - For `v2026.3.13-1`, remember that the `-1` suffix is only a GitHub release/tag recovery marker; runtime versioning still tracks `2026.3.13`.
+- After upgrading to `v2026.5.12`, explicitly verify optional provider/channel/plugin presence because several dependency cones are now externalized from the core install.
+- Plugin install/update handling is safer in the May 2026 line and supports pnpm 11, so prefer the current install path over preserving old package-manager workarounds.
+- ACP can now use configured fallback runtimes before output is emitted; if a primary backend is flaky, validate `acp.fallbacks` before treating the whole ACP path as down.
 
 ## Automatic updates (Gateway core auto-updater)
 

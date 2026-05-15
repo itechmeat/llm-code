@@ -60,6 +60,7 @@ Notes:
 - The `model` field format is typically `[protocol/]model-id`.
   - Example: `cerebras/llama-3.3-70b`.
   - If no prefix is specified, PicoClaw treats it as `openai/`.
+- Recent releases add cleaner support for custom OpenAI-compatible endpoints in CLI/config flows. Prefer explicit `api_base` + auth settings per `model_list` entry instead of hiding provider differences behind one shared legacy provider block.
 - Multiple entries can share the same `model_name` for round-robin load balancing.
 - If you keep legacy `providers`, PicoClaw may auto-convert internally for backward compatibility.
 - `custom_headers` can inject per-model HTTP headers and may override built-in headers; use it for provider-specific routing hints only when `api_base`/auth settings are not enough.
@@ -81,6 +82,8 @@ See: `tools.md`.
 Recent builds also expose exec `allow_remote` support through web-facing settings. If you manage PicoClaw from the web UI/launcher, make sure remote-exec policy matches your CLI config instead of assuming the UI is read-only.
 
 As of v0.2.3, cron command execution is also gated by exec settings. If a scheduled command stops running after upgrade, inspect `tools.exec` policy before debugging cron syntax.
+
+Recent web config flows also track whether a change requires restart and surface save/restart prompts instead of silently writing config that will not be applied until later.
 
 ### `gateway`
 

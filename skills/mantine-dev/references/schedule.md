@@ -2,6 +2,11 @@
 
 `@mantine/schedule` is new in Mantine 9.0. It provides calendar scheduling components with multiple view levels, drag-and-drop event management, and extensive customization.
 
+## Patch notes (v9.2.1)
+
+- `MonthView` improves multi-day event overlap rendering when a day is already visually saturated.
+- Event positioning with `intervalMinutes={60}` was corrected; if you added manual offsets or custom CSS to compensate, re-test before keeping them.
+
 ## Installation
 
 ```bash

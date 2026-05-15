@@ -2,6 +2,14 @@
 
 `@mantine/core` provides 120+ components. This reference covers key patterns.
 
+## Patch notes (v9.2.1)
+
+- `Checkbox`, `Radio`, and `Switch` now pass the generated error id into `aria-describedby`, which matters if you depend on Mantine's built-in error text for screen-reader context.
+- `Slider` and `RangeSlider` support `aria-valuetext`; use it when the numeric value needs a spoken label different from the raw number.
+- `Menu` adds safe polygon support for submenus, reducing accidental submenu closure on diagonal pointer movement.
+- `Table` fixes sticky-header border rendering, `PinInput` stops blocking common numeric-input keyboard shortcuts, and `Highlight` supports accent-insensitive matching.
+- `Dropzone` now defaults `useFsAccessApi` to `false` for broader browser compatibility; enable it explicitly only when you need the File System Access API behavior and your target browsers support it.
+
 ## New in v9.0
 
 ### FloatingWindow

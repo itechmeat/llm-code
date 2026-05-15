@@ -13,6 +13,11 @@ bd bootstrap --non-interactive
 
 Use `--role` to make the workspace intent explicit for agent automation.
 
+Recent `1.0.4` setup/workflow additions:
+
+- `bd init --remote` helps bootstrap against a remote-backed setup path more directly.
+- `bd -C <dir> ...` changes directory before command execution, which is useful in automation that orchestrates multiple repos/workspaces from one parent shell.
+
 ## Daily Loop
 
 ```bash
@@ -125,6 +130,9 @@ bd update bd-xyz --persistent
 # Close with reason (recommended)
 bd close bd-xyz --reason "Implemented and tested"
 
+# Close with a longer reason from file
+bd close bd-xyz --reason-file ./close-reason.md
+
 # Close and immediately claim the next ready task
 bd close bd-xyz --reason "Implemented and tested" --claim-next
 
@@ -152,6 +160,8 @@ bd dep tree bd-xyz
 ```
 
 `1.0.x` also adds batch dependency listing for multiple issue IDs, which is useful when an agent is triaging several candidates at once.
+
+Recent `1.0.4` automation paths also add JSONL bulk dependency add, which is useful when importing or repairing a larger dependency graph from generated/project data instead of issuing one `bd dep add` per edge.
 
 ## Labels
 

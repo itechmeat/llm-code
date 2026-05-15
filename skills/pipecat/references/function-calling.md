@@ -44,6 +44,12 @@ For async handlers that continue after interruption (`cancel_on_interruption=Fal
 
 When you allow a function to outlive the current turn, Pipecat injects the eventual result back as a `developer` message and triggers another LLM inference.
 
+`1.2.0` notes:
+
+- `LLMContextAggregatorPair(..., add_tool_change_messages=True)` appends a developer-role message whenever the available standard tools change mid-conversation. Use it when tool availability is dynamic and the model tends to hallucinate removed or re-added tools.
+- `tool_resources` has been broadened to `app_resources`. New code should read `params.app_resources`, `PipelineTask.app_resources`, and `self.pipeline_task.app_resources`; the old `tool_resources` aliases still work but are deprecated.
+- Async tool continuation after interruption is restored/expanded across more realtime services, but streamed intermediate results are still not universally supported. Re-test `cancel_on_interruption=False` separately for each realtime provider you depend on.
+
 ## Advanced control: chaining calls
 
 Docs mention result properties such as:
@@ -65,3 +71,4 @@ If you skip LLM execution, you must explicitly trigger the next step when approp
 - Set per-function `timeout_secs` for slow or third-party tools instead of relaxing the global timeout for everything.
 - Decide whether user interruptions should cancel long-running tools.
 - Log tool call ids for tracing and debugging.
+- If tools appear/disappear dynamically, enable `add_tool_change_messages` instead of relying on prompt-only reminders.

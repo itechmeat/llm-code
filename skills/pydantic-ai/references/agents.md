@@ -33,6 +33,22 @@ agent = Agent('openai:gpt-4o', capabilities=[
 
 Built-in capabilities: `WebSearch`, `WebFetch`, `MCP`, `ImageGeneration`, `Thinking`, `Hooks`.
 
+### V2 migration note (v1.96.x)
+
+The latest release line starts deprecating several constructor-level shortcuts on `Agent`:
+
+- `prepare_tools=`
+- `prepare_output_tools=`
+- `event_stream_handler=`
+
+Treat those as migration shims and prefer capability-based composition instead:
+
+- `PrepareTools(...)`
+- `PrepareOutputTools(...)`
+- `ProcessEventStream(...)`
+
+This keeps tool preparation and stream processing aligned with the general capability ordering/composition model instead of hiding wrapper behavior in constructor kwargs.
+
 ### Capability ordering (v1.80.0+)
 
 When multiple capabilities wrap the same agent flow, ordering is now part of the public design surface.

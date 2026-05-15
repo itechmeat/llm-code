@@ -2,8 +2,8 @@
 name: qdrant
 description: "Qdrant vector database: collections, points, payload filtering, indexing, quantization, snapshots, and Docker/Kubernetes deployment. Use when managing Qdrant collections, performing vector searches with payload filters, configuring HNSW indexes or quantization, or deploying Qdrant clusters. Keywords: Qdrant, vector database, HNSW, quantization, semantic search."
 metadata:
-  version: "1.17.1"
-  release_date: "2026-03-27"
+  version: "1.18.0"
+  release_date: "2026-05-11"
 ---
 
 # Qdrant (Skill Router)
@@ -12,17 +12,23 @@ This file is intentionally **introductory**.
 
 It acts as a **router**: based on your situation, open the right note under `references/`.
 
-## Release Highlights (1.16.3 → 1.17.0)
+## Release Highlights (1.16.3 → 1.18.0)
 
 - **Monitoring + ops:** new APIs for optimization progress/stages and cluster-wide telemetry, plus a dedicated HTTP port option for `/metrics`.
 - **Security:** audit access logging and secondary API key support (rotation).
 - **Retrieval:** relevance feedback and Weighted RRF for hybrid ranking.
 - **Write semantics:** `update_mode` for upserts (`upsert` / `update` / `insert`).
+- **1.18.0:** TurboQuant adds an aggressive vector-compression path, collections can add/delete named vectors in place, and operators get low-memory/strict-memory knobs plus deeper memory reporting.
 
 ## Breaking / Upgrade Notes (1.17.0)
 
 - **gRPC clients:** response format for vector fields changed in gRPC. Upgrade official Qdrant client libraries and validate any custom gRPC integrations.
 - **Storage upgrades:** RocksDB is removed in favor of gridstore. If you are on v1.15.x, do not upgrade directly to v1.17.x — upgrade one minor version at a time.
+
+## Additional Upgrade Notes (1.18.0)
+
+- Internal gRPC endpoints now enforce API key/JWT authentication when auth is enabled; validate internal service-to-service traffic before upgrade if you previously relied on private-network-only trust.
+- Snapshot restore from URL can now be disabled by config, which is relevant for hardened/self-hosted environments.
 
 ## Start here (fast)
 

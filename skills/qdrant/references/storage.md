@@ -104,6 +104,12 @@ Operational implication:
 - Keep filter-critical payload fields indexed; avoid "disk payload + unindexed filters".
 - Bulk ingestion workflows should align `memmap_threshold` and indexing thresholds.
 
+`1.18.0` notes:
+
+- Low-memory mode can force more components to open on disk during startup, which is useful for recovering oversized nodes without crashing on boot.
+- Strict mode can now reject updates when resident memory crosses a configured ceiling (`max_resident_memory_percent`). Use it as a safety brake, not as a substitute for capacity planning.
+- Qdrant now exposes deeper memory reporting, which makes storage-component breakdowns easier to inspect during capacity incidents.
+
 ## Upgrade note (v1.17.0)
 
 Qdrant v1.17.x removes RocksDB support in favor of gridstore. If you are upgrading from older minor versions (notably v1.15.x), avoid jumping directly to v1.17.x.

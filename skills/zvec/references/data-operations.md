@@ -106,6 +106,8 @@ collection.delete_by_filter(filter="publish_year < 1900")
 
 - Single-vector: pass one `VectorQuery`.
 - Multi-vector: pass a list of `VectorQuery` and fuse/rerank.
+- `0.4.0` relaxes the upper bound on `topk`, which helps larger recall windows; still keep it intentional because downstream reranking and serialization cost scale with result count.
+- `0.4.0` also tightens `query_params` type validation. If you were passing loosely typed user input through directly, validate/coerce it before calling into Zvec.
 
 ```python
 import zvec

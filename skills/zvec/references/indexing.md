@@ -49,6 +49,8 @@ Avoid it on ARM hosts; the current upstream docs mark it unsupported there.
 - Keep one clear reason for each vector index choice; vector indexes cannot be dropped later without redesigning the collection.
 - After heavy ingestion, run `collection.optimize()` so the configured vector index catches up with buffered writes.
 - For memory-sensitive production deployments on supported x86_64 servers, `HNSW-RaBitQ` is the new first thing to evaluate before overprovisioning RAM.
+- `0.4.0` fixes an SQ8 quantizer recall regression caused by incorrect int8 rounding metadata handling. Re-benchmark quantized indexes before keeping older compensating thresholds or fallback logic.
+- Sparse vector indices are now sorted before reaching the core engine, so custom pipelines should not rely on preserving caller-provided sparse-index order as implicit behavior.
 
 ## Links
 

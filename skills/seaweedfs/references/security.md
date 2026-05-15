@@ -20,6 +20,8 @@ Sources:
 - Use filer JWT keys when filer HTTP must be protected and S3 still needs to proxy through it.
 - Keep short JWT lifetimes in mind; volume-file tokens are intentionally brief and file-id-scoped.
 - Disable unnecessary HTTP surfaces or directory metadata exposure if public access is not intended.
+- Recent `4.24`-`4.25` releases tightened admin auth on destructive/admin endpoints and filer IAM gRPC calls; treat older unauthenticated admin automation as suspect until revalidated.
+- If `security.toml` is enabled, explicitly test Admin UI and filer IAM paths together, because the `4.25` line fixed an auth propagation issue there.
 
 ### Gotchas / prohibitions
 
@@ -41,12 +43,14 @@ Sources:
 - Keep the same relevant JWT config synchronized across all services that must mint or validate those tokens.
 - Use the guard whitelist and CORS settings deliberately; they are not substitutes for real auth, but they narrow exposure.
 - Treat the filer signing key as security-sensitive beyond filer auth because it also participates in STS fallback behavior.
+- Recent IAM/S3 updates also harden the default posture: users with no policies are denied, OIDC/web-identity support is broader, and auditability/revocation options increased. Reflect that in runbooks instead of assuming older permissive behavior.
 
 ### Gotchas / prohibitions
 
 - Do not leave JWT keys empty when you intend the associated protections to be active.
 - Do not forget to distribute the same security config to all participating services that validate a given token type.
 - Do not store plaintext secrets in committed config when env var overrides are available.
+- Do not assume old admin endpoints remain callable without admin auth; `4.24` tightened several destructive and diagnostic paths.
 
 ### How to apply in a real repo
 

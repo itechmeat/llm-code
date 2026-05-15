@@ -16,6 +16,8 @@ General pattern:
 
 Recent channel updates add voice-audio transcription echo behavior, so supported channels can reply with the recognized transcription of a voice message instead of treating voice as opaque input.
 
+Recent `v0.2.7`-`v0.2.8` changes also unify animated tool feedback across chat channels and Pico web/chat surfaces. If you built channel-specific workarounds for inconsistent tool-call visibility, re-test before keeping them.
+
 ## WhatsApp
 
 Config keys (from upstream `config.example.json`):
@@ -61,6 +63,8 @@ Setup notes:
 - Invite the bot to your server with send/read permissions.
 
 Discord channel behavior was updated to reply more cleanly when voice transcription echo is enabled.
+
+Newer builds also support richer `tool_calls`/tool-feedback rendering in chat messages, which matters if your moderation or UX expectations depended on the older, less structured output.
 
 ## Slack
 

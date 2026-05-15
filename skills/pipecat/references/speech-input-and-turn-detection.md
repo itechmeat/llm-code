@@ -45,6 +45,12 @@ Docs mention:
 - **Smart Turn (default)**: a turn analyzer model that decides when the user is done (better conversational feel).
 - **Speech timeout**: simpler strategy that triggers end after a silence timeout.
 
+`1.2.0` adds a cleaner separation between “start inference now” and “finalize the turn now”:
+
+- `on_user_turn_inference_triggered` fires as soon as a strategy decides the LLM can start thinking.
+- `LLMTurnCompletionUserTurnStopStrategy` waits for `UserTurnInferenceCompletedFrame` before emitting the final stop event, with a timeout safety net.
+- `FilterIncompleteUserTurnStrategies()` is the new high-level preset when you want tentative stop detection filtered through an LLM completion check.
+
 ## Runtime STT updates (0.0.105)
 
 - Runtime `STTUpdateSettingsFrame` updates now reconnect correctly for a wider set of STT/TTS services instead of only mutating local state.
@@ -72,3 +78,4 @@ In `1.0.0`, interruptions are effectively always allowed at the pipeline level. 
 - Prefer Smart Turn when you want fewer awkward cutoffs / long waits.
 - If your environment is noisy, adjust `start_secs` and `min_volume` conservatively and re-test.
 - If you are upgrading, migrate configuration before tuning thresholds; otherwise you may be changing knobs that no longer exist.
+- For half-finished utterances or barge-in heavy UX, prefer `FilterIncompleteUserTurnStrategies` over legacy `filter_incomplete_user_turns` flags.

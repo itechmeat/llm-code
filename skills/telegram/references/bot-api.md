@@ -8,7 +8,15 @@ The Bot API is an HTTP-based interface for building Telegram bots. It provides:
 - JSON responses
 - Webhook or long polling for updates
 
-**Bot API 9.6** is supported in aiogram v3.27.0.
+**Bot API 10.0** is supported in aiogram v3.28.x.
+
+## Bot API 10.0 highlights
+
+- Guest mode: new guest query/message payloads let bots reply in some chats even without membership.
+- Polls: media in poll questions/options/explanations, `members_only`, `country_codes`, and one-option poll flows.
+- Media: live photos are now sendable/editable and can appear in paid media and media groups.
+- Chat management: reaction-deletion methods and `can_react_to_messages` permissions.
+- Managed/business bots: access-settings methods plus broader bot-to-bot and business-account flows.
 
 ## Bot API 9.6 highlights
 
@@ -65,6 +73,7 @@ await client.post(
 | `sendVenue`              | Send venue                |
 | `sendContact`            | Send contact              |
 | `sendPoll`               | Send poll                 |
+| `sendLivePhoto`          | Send live photo           |
 | `sendDice`               | Send dice/emoji animation |
 | `editMessageText`        | Edit message text         |
 | `editMessageReplyMarkup` | Edit inline keyboard      |
@@ -74,32 +83,36 @@ await client.post(
 
 ### Chats
 
-| Method                  | Description          |
-| ----------------------- | -------------------- |
-| `getChat`               | Get chat info        |
-| `getChatMember`         | Get member info      |
-| `getChatMemberCount`    | Get member count     |
-| `getChatAdministrators` | List admins          |
-| `banChatMember`         | Ban user             |
-| `unbanChatMember`       | Unban user           |
-| `restrictChatMember`    | Restrict permissions |
-| `promoteChatMember`     | Promote to admin     |
-| `setChatTitle`          | Set chat title       |
-| `setChatDescription`    | Set description      |
-| `pinChatMessage`        | Pin message          |
-| `leaveChat`             | Leave chat           |
+| Method                      | Description          |
+| --------------------------- | -------------------- |
+| `getChat`                   | Get chat info        |
+| `getChatMember`             | Get member info      |
+| `getChatMemberCount`        | Get member count     |
+| `getChatAdministrators`     | List admins          |
+| `deleteAllMessageReactions` | Delete all reactions |
+| `deleteMessageReaction`     | Delete one reaction  |
+| `banChatMember`             | Ban user             |
+| `unbanChatMember`           | Unban user           |
+| `restrictChatMember`        | Restrict permissions |
+| `promoteChatMember`         | Promote to admin     |
+| `setChatTitle`              | Set chat title       |
+| `setChatDescription`        | Set description      |
+| `pinChatMessage`            | Pin message          |
+| `leaveChat`                 | Leave chat           |
 
 ### Bot Info
 
-| Method                   | Description               |
-| ------------------------ | ------------------------- |
-| `getMe`                  | Get bot info              |
-| `setMyCommands`          | Set bot commands          |
-| `getMyCommands`          | Get bot commands          |
-| `setMyDescription`       | Set bot description       |
-| `setMyShortDescription`  | Set short description     |
-| `getManagedBotToken`     | Get token for managed bot |
-| `replaceManagedBotToken` | Rotate managed bot token  |
+| Method                        | Description                        |
+| ----------------------------- | ---------------------------------- |
+| `getMe`                       | Get bot info                       |
+| `setMyCommands`               | Set bot commands                   |
+| `getMyCommands`               | Get bot commands                   |
+| `setMyDescription`            | Set bot description                |
+| `setMyShortDescription`       | Set short description              |
+| `getManagedBotToken`          | Get token for managed bot          |
+| `replaceManagedBotToken`      | Rotate managed bot token           |
+| `getManagedBotAccessSettings` | Read managed-bot access settings   |
+| `setManagedBotAccessSettings` | Update managed-bot access settings |
 
 ### Mini Apps / prepared buttons
 
@@ -113,6 +126,12 @@ await client.post(
 | ------------------- | -------------------- |
 | `answerInlineQuery` | Answer inline query  |
 | `answerWebAppQuery` | Answer web app query |
+
+### Guest queries
+
+| Method             | Description               |
+| ------------------ | ------------------------- |
+| `answerGuestQuery` | Answer a guest-mode query |
 
 ### Callbacks
 
@@ -150,6 +169,7 @@ class Update:
     chat_member: ChatMemberUpdated | None
     chat_join_request: ChatJoinRequest | None
     managed_bot: ManagedBotUpdated | None
+    guest_message: Message | None
 ```
 
 ## Common Types
@@ -167,6 +187,8 @@ class Message:
     reply_to_message: Message | None
     # ... many more fields
 ```
+
+Bot API 10.0 adds guest-mode caller metadata (`guest_query_id`, `guest_bot_caller_user`, `guest_bot_caller_chat`) and `live_photo`; Bot API 9.6 also added `reply_to_poll_option_id` for reply flows anchored to a poll option.
 
 ### Chat
 
@@ -189,9 +211,10 @@ class User:
     username: str | None
     language_code: str | None
     can_manage_bots: bool | None
+    supports_guest_queries: bool | None
 ```
 
-### Poll (Bot API 9.6)
+### Poll (Bot API 9.6-10.0)
 
 ```python
 class Poll:
@@ -202,9 +225,13 @@ class Poll:
     correct_option_ids: list[int] | None
     allows_revoting: bool | None
     description: str | None
+    media: PollMedia | None
+    explanation_media: PollMedia | None
+    members_only: bool | None
+    country_codes: list[str] | None
 ```
 
-Use `correct_option_ids` instead of the old single-answer mental model, and do not key business logic only by option position when persistent option IDs are available.
+Use `correct_option_ids` instead of the old single-answer mental model, do not key business logic only by option position when persistent option IDs are available, and update validators/serializers for media-bearing poll options on aiogram `3.28.1+`.
 
 ### Contact
 
