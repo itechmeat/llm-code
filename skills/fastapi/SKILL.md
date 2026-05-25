@@ -2,8 +2,8 @@
 name: fastapi
 description: "FastAPI Python framework. Covers REST APIs, validation, dependencies, security. Use when building Python web APIs with FastAPI, configuring Pydantic models, implementing dependency injection, or setting up OAuth2/JWT authentication. Keywords: FastAPI, Pydantic, async, OAuth2, JWT, REST API."
 metadata:
-  version: "0.136.1"
-  release_date: "2026-04-23"
+  version: "0.136.3"
+  release_date: "2026-05-23"
 ---
 
 # FastAPI
@@ -62,6 +62,11 @@ Requires Python 3.10+. Install: `pip install "fastapi[standard]"` (full with uvi
 - **0.135.0:** first-class Server-Sent Events (SSE) support (`EventSourceResponse`).
 - **0.135.1:** fix around `TaskGroup` usage in request async exit stack (stability fix).
 - **0.136.1:** FastAPI updates its Pydantic v2 code to avoid deprecations and bumps Starlette to `1.0.0`.
+
+## Patch Notes (0.136.2 → 0.136.3)
+
+- SSE responses now validate event fields more strictly, so malformed `ServerSentEvent` payloads fail earlier instead of quietly streaming invalid frames.
+- Header parameters no longer accept underscore-named incoming headers when `convert_underscores=True` (the default). If a client truly sends underscore headers, declare `Header(convert_underscores=False)` and verify that your proxy chain allows them.
 
 ## Quick Start
 

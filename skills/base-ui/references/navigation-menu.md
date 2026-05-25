@@ -14,6 +14,10 @@ A high-quality, unstyled React navigation menu component that displays a collect
 - Pointer-event blocking, reverse `Shift+Tab` submenu re-entry, nested inline hover handoff, and reopen width transitions were fixed.
 - Remove any local workarounds for invalid `aria-orientation`; the component no longer emits that attribute incorrectly.
 
+## v1.5.0 notes
+
+- RTL behavior is corrected again in the `1.5.0` line. Keep `DirectionProvider` plus DOM `dir="rtl"`, but retest submenu motion and positioning before preserving old RTL patches.
+
 ## Demo
 
 ### Tailwind

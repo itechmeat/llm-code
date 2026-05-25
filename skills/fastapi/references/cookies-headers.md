@@ -73,6 +73,11 @@ async def read_items(
 
 ⚠️ Warning: Some proxies/servers disallow headers with underscores.
 
+`0.136.3` note:
+
+- With the default `Header()` behavior (`convert_underscores=True`), FastAPI now rejects incoming underscore-named headers instead of silently accepting them through the hyphen-conversion path.
+- If a legacy client really sends `X_Custom_Header`, opt into `Header(convert_underscores=False)` explicitly and verify every proxy/load balancer in front of FastAPI preserves underscore headers.
+
 ### Duplicate Headers
 
 For headers that can appear multiple times:

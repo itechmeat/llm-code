@@ -33,6 +33,7 @@ Actionable notes from the Rolldown integration guide.
 ## Plugin author notes
 
 - Detect `rolldown-vite` via `this.meta.rolldownVersion` or `vite.rolldownVersion`.
+- Vite `8.0.14` bumps Rolldown to `1.0.2`; re-check any workaround that targeted pre-`1.0.2` Rolldown quirks before keeping it in build guidance.
 - If you use `transformWithEsbuild`, add `esbuild` as a dependency or switch to `transformWithOxc`.
 - Set `moduleType: 'js'` when transforming non-JS content.
 - If you catch build errors programmatically, expect `BundleError` with a nested `.errors` array instead of assuming a single raw plugin exception.

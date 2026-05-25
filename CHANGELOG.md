@@ -5,6 +5,18 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-05-25]
+
+### Changed
+
+- **base-ui** — Updated the skill for `1.5.0` with the `OTPField` `normalizeValue()` rename, controlled popup-open state fixes, RTL notes for navigation/popover/scroll surfaces, form validation scheduling guidance, and `Drawer.Viewport` style forwarding.
+- **seaweedfs** — Updated the skill for `4.28` with EC recovery and multi-disk planning notes, zero-sized volume scrub guidance, Redis3/SQL filer-store reliability updates, richer S3 audit requester logging, and follower-master ping handling.
+- **openclaw** — Updated the skill for `v2026.5.22` with meeting-notes plugin coverage, gateway lazy-load/readiness notes, image-quality controls, Signal/Telegram config additions, plugin SDK migration notes, and xAI/Grok auth reuse guidance.
+- **pydantic-ai** — Updated the skill for `1.102.0` with MCPToolset migration guidance, the Google/Google Cloud provider split and renamed model ids, plus recent runtime migration notes for streaming and retries.
+- **vite** — Updated the skill for `8.0.14` with Rolldown `1.0.2` guidance, a `transformIndexHtml` trailing-slash note, and optimizer guidance for Oxc JSX options during dependency scanning.
+- **fastapi** — Updated the skill for `0.136.3` with stricter SSE event validation guidance and the new underscore-header rejection behavior when `convert_underscores=True`.
+- **qdrant** — Updated the skill for `1.18.1` with patch-line guidance for filter correctness, empty-vector validation, TurboQuant memory baselines, and snapshot-upload authorization checks.
+
 ## [2026-05-15]
 
 ### Changed

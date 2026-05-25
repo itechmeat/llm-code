@@ -23,6 +23,7 @@ Actionable notes from the dependency pre-bundling guide.
 
 - Use `optimizeDeps.include` / `exclude` for imports not visible in source.
 - Use `optimizeDeps.esbuildOptions` for special handling.
+- In `8.0.14`, dependency scanning passes Oxc JSX options through its transform path. If a linked dependency relies on non-default JSX parsing/runtime settings, keep optimizer and app-level JSX expectations aligned before debugging scan-only failures.
 
 ## Caching
 

@@ -2,8 +2,8 @@
 name: seaweedfs
 description: "SeaweedFS distributed storage. Covers filer, S3 API, replication, cloud tiers, and operations. Use when deploying SeaweedFS, configuring filer stores, exposing S3-compatible endpoints, or planning backup and security controls. Keywords: SeaweedFS, weed, filer, S3, object storage."
 metadata:
-  version: "4.25"
-  release_date: "2026-05-14"
+  version: "4.28"
+  release_date: "2026-05-22"
 ---
 
 # SeaweedFS
@@ -51,6 +51,14 @@ Prefer production guidance from multi-component setups over `weed mini` shortcut
 - **Security/admin path**: `4.24`-`4.25` tightens admin auth on destructive/admin endpoints and fixes Admin UI behavior under `security.toml` by attaching admin-signed auth on filer IAM gRPC calls.
 - **Erasure coding / multi-disk ops**: the release line fixes several EC planner/recovery cases across multi-disk and cross-server layouts, including stale-shard cleanup and safer source-volume deletion.
 - **S3/IAM hardening**: IAM users without policies are now denied instead of implicitly over-permitted, while OIDC/web-identity and audit surfaces continue to mature.
+
+## Release Highlights (4.26 -> 4.28)
+
+- **Erasure coding / multi-disk ops**: EC planning now packs shards across disks more reliably, includes `disk_id` in execution planning, and can rebuild lost `.ecx` / `.vif` metadata from local shards during recovery.
+- **Integrity checks**: scrubbing/fsck paths now account for zero-sized volumes instead of silently skipping them, which matters for sparse or recently created topologies.
+- **Filer backend reliability**: Redis3 avoids a skiplist-end panic path, and SQL-based filer stores no longer force-disable idle connection pooling.
+- **S3 audit trail**: requester identity is populated more consistently for GET/HEAD/IAM operations, improving compliance and incident triage.
+- **HA heartbeat path**: masters now accept volume-server ping targets on follower replicas, which improves failover visibility in multi-master deployments.
 
 ## Release Highlights (4.20)
 

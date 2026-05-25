@@ -13,6 +13,10 @@ A high-quality, unstyled React form component with consolidated error handling.
 - Hidden inputs used by Base UI controls now expose a `form` prop, which helps when the control lives outside the visual `<form>` element but still needs to submit into it.
 - Hidden inputs also support `suppressHydrationWarning`, which is useful when SSR markup and client state can differ briefly during hydration.
 
+## v1.5.0 notes
+
+- Validation-sensitive form flows avoid older `flushSync` behavior in the `1.5.0` line. Remove timing hacks only after retesting real submit and error-render paths.
+
 ## Demo
 
 ### Tailwind

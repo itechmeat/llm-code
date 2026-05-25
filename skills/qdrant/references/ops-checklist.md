@@ -35,6 +35,10 @@ Operational guidance for Qdrant: monitoring, performance tuning, and common issu
 
 - `memory_allocated_bytes`, `memory_resident_bytes`
 
+`1.18.1` note:
+
+- TurboQuant heap-memory reporting was corrected in `1.18.1`. If you are comparing memory after enabling TurboQuant, prefer baselines gathered on `1.18.1+` instead of older patch releases.
+
 **Process**:
 
 - `process_open_fds`, `process_threads`
@@ -90,6 +94,12 @@ Operational guidance for Qdrant: monitoring, performance tuning, and common issu
 - [ ] Adjust HNSW params (m, ef_construct, on_disk)
 - [ ] Use named vectors for multi-modal
 - [ ] Run optimizer after bulk inserts
+
+### Patch-line validation after upgrading to 1.18.1
+
+- Re-run tests for indexed numeric range filters, especially if upstream callers sometimes serialize integers as floats.
+- Re-check any negative-match filtering that can emit an empty `except` list.
+- Refresh TurboQuant memory dashboards/alerts after the upgrade so old under-reported baselines do not hide regressions.
 
 ---
 

@@ -16,19 +16,35 @@ Vercel AI adapter integrates tool approval flows, enabling safer gated execution
 
 Connect agents to external tools and services via standardized protocol.
 
+Recent migration note (`1.97.0+`): prefer `MCPToolset` for new client integrations. `FastMCPToolset` and the older `MCPServer*` wrappers are now legacy migration surfaces.
+
 ### Installation
 
 ```bash
 pip install "pydantic-ai-slim[mcp]"
 ```
 
-### MCP Server Types
+### Legacy MCP server wrappers
 
 | Type                      | Transport             | Use Case         |
 | ------------------------- | --------------------- | ---------------- |
 | `MCPServerStreamableHTTP` | HTTP                  | Remote servers   |
 | `MCPServerSSE`            | HTTP SSE (deprecated) | Legacy servers   |
 | `MCPServerStdio`          | stdio                 | Local subprocess |
+
+Use these only when you are maintaining older code. For new code, start with `MCPToolset`.
+
+### Recommended client API (`MCPToolset`)
+
+```python
+from pydantic_ai import Agent
+from pydantic_ai.mcp import MCPToolset
+
+remote = MCPToolset(url='http://localhost:8000/mcp')
+local = MCPToolset(command='python', args=['mcp_server.py'], timeout=10)
+
+agent = Agent('openai:gpt-4o', toolsets=[remote, local])
+```
 
 ### HTTP Client (Streamable)
 
@@ -83,8 +99,8 @@ agent = Agent('openai:gpt-4o', toolsets=servers)
 ### Tool Prefixes (Avoid Conflicts)
 
 ```python
-weather = MCPServerSSE('http://localhost:3001/sse', tool_prefix='weather')
-calc = MCPServerSSE('http://localhost:3002/sse', tool_prefix='calc')
+weather = MCPToolset(url='http://localhost:3001/mcp', tool_prefix='weather')
+calc = MCPToolset(url='http://localhost:3002/mcp', tool_prefix='calc')
 
 # Tools: weather_get_data, calc_get_data
 agent = Agent('openai:gpt-4o', toolsets=[weather, calc])
@@ -156,21 +172,10 @@ async def poet(ctx: Context, theme: str) -> str:
 
 ---
 
-## FastMCP Toolset
+## Background MCP work (`1.101.0+`)
 
-Alternative MCP client using FastMCP library.
-
-```bash
-pip install "pydantic-ai-slim[fastmcp]"
-```
-
-```python
-from pydantic_ai import Agent
-from pydantic_ai.mcp import FastMCPToolset
-
-toolset = FastMCPToolset('http://localhost:8000/mcp')
-agent = Agent('openai:gpt-4o', toolsets=[toolset])
-```
+- MCP integrations can now run background tasks. Use this when a server needs to continue work after the main model turn has already returned.
+- Pair background work with explicit lifecycle/logging so queued tasks are observable instead of silently detached.
 
 ---
 

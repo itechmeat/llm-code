@@ -49,6 +49,10 @@ Qdrant supports three restoration paths:
 - Upload snapshot bytes as multipart; recommended for migrations.
 - Consider setting `priority=snapshot` for migration use-cases.
 
+`1.18.1` auth note:
+
+- Treat snapshot upload like any other privileged restore path. The `1.18.1` patch line fixes an authorization gap here, so hardened environments should verify upload/restore endpoints require the expected auth before and after upgrade.
+
 3. **Recover during start-up** (Qdrant CLI flags)
 
 - Single-node only (not multi-node, not Cloud).

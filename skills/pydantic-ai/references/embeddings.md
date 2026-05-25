@@ -25,7 +25,7 @@ async def main():
 | Provider              | Install Group           | Model Example                            |
 | --------------------- | ----------------------- | ---------------------------------------- |
 | OpenAI                | `openai`                | `openai:text-embedding-3-small`          |
-| Google                | `google`                | `google-gla:gemini-embedding-001`        |
+| Google                | `google`                | `google:gemini-embedding-001`            |
 | Cohere                | `cohere`                | `cohere:embed-v4.0`                      |
 | VoyageAI              | `voyageai`              | `voyageai:voyage-3.5`                    |
 | Bedrock               | `bedrock`               | `bedrock:amazon.titan-embed-text-v1`     |
@@ -57,10 +57,10 @@ export GOOGLE_API_KEY='your-key'
 from pydantic_ai import Embedder
 
 # Gemini API
-embedder = Embedder('google-gla:gemini-embedding-001')
+embedder = Embedder('google:gemini-embedding-001')
 
 # Vertex AI
-embedder = Embedder('google-vertex:gemini-embedding-001')
+embedder = Embedder('google-cloud:gemini-embedding-001')
 ```
 
 ### Cohere
@@ -170,7 +170,7 @@ result = await embedder.embed_query(
 from pydantic_ai.embeddings.google import GoogleEmbeddingSettings
 
 embedder = Embedder(
-    'google-gla:gemini-embedding-001',
+    'google:gemini-embedding-001',
     settings=GoogleEmbeddingSettings(
         dimensions=768,
         google_task_type='SEMANTIC_SIMILARITY',

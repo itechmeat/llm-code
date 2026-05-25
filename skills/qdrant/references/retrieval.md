@@ -1,6 +1,7 @@
 # Retrieval (Search, Filtering, Explore, Hybrid Queries)
 
 Sources:
+
 - https://qdrant.tech/documentation/concepts/search/
 - https://qdrant.tech/documentation/concepts/filtering/
 - https://qdrant.tech/documentation/concepts/explore/
@@ -17,6 +18,7 @@ This note consolidates the practical parts of Qdrant retrieval.
 ## Search-time knobs (recall vs latency)
 
 Common parameters that matter operationally:
+
 - `hnsw_ef`: higher often improves recall but increases latency.
 - `exact`: disables ANN (can be very slow; full scan).
 - `indexed_only`: can protect latency during indexing but may return partial results.
@@ -29,11 +31,13 @@ Common parameters that matter operationally:
 ## Filtering model (boolean logic)
 
 Filters are composed with:
+
 - `must` (AND)
 - `should` (OR)
 - `must_not` (NOT)
 
 Field conditions include:
+
 - equality / IN / NOT IN (keyword/int/bool)
 - numeric ranges
 - datetime ranges (RFC 3339)
@@ -46,29 +50,40 @@ Field conditions include:
 
 If you filter arrays of objects and need multiple conditions to apply to the **same element**, use nested filtering patterns; otherwise you may accidentally match across different array elements.
 
+### 1.18.1 filter correctness notes
+
+- Indexed integer range filters now handle float inputs correctly in the patch line. If your caller may send `3.0` for an integer field, upgrade before assuming pre-index and post-index behavior will match.
+- `{ match: { except: [] } }` on payload-indexed fields no longer collapses to zero results. Treat an empty `except` list as a no-op filter rather than a negation.
+- Empty query vectors should be rejected before request dispatch. `1.18.1` removes a panic path, but a client-side length check is still the safer contract.
+
 ## Explore (recommendation / discovery)
 
 Use Explore when you need:
+
 - recommendations from multiple positives and/or negatives
 - discovery / context constrained search
 - dataset exploration (e.g., outliers)
 
 Operational notes:
+
 - performance often scales with number of examples
 - accuracy may require increasing `ef` for constrained discovery/context searches
 
 ## Hybrid and multi-stage retrieval
 
 Qdrant supports multi-stage retrieval via `prefetch`:
+
 - prefetch generates candidate sets
 - the main query re-scores/ranks candidates
 
 Important gotcha:
+
 - `offset` applies only to the main query; ensure prefetch limits are large enough.
 
 ### Fusion patterns
 
 When combining multiple channels (dense + sparse, or multiple embeddings):
+
 - RRF (rank fusion) is a common default.
 - Distribution-based score fusion (DBSF) can help when score scales differ.
 

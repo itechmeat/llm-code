@@ -2,8 +2,8 @@
 name: base-ui
 description: "Base UI unstyled React components. Covers forms, menus, overlays, composition. Use when building accessible, unstyled React UI components with @base-ui/react, composing with render props, or implementing custom-styled form controls, menus, and overlays. Keywords: @base-ui/react, render props, unstyled components."
 metadata:
-  version: "1.4.1"
-  release_date: "2026-04-20"
+  version: "1.5.0"
+  release_date: "2026-05-18"
 ---
 
 # Base UI (React)
@@ -63,6 +63,14 @@ Base UI provides unstyled, composable React components. This skill focuses on as
 - `mergeProps` now forwards multi-argument event handlers correctly, which matters for wrapped callbacks that receive extra details/state alongside the event.
 - Tabbability with `display: contents` was fixed; retest custom wrappers and render-prop compositions that flatten DOM structure.
 - Popup sizing on rapid trigger hover was fixed, and clipped-item highlight clearing inside scroll containers is more reliable.
+
+## v1.5.0 highlights
+
+- `OTPField` replaces `sanitizeValue()` with `normalizeValue()` and improves keyboard shortcut plus validation-composition behavior.
+- Popup-based components now respect controlled `open` state more consistently, which affects `Popover`, `Menu`, `PreviewCard`, and related overlays.
+- `Form`, `Field`, and `OTPField` avoid older `flushSync`-style validation timing patterns; retest any local validation scheduling workarounds before keeping them.
+- RTL behavior is corrected across `NavigationMenu`, `Popover`, and `ScrollArea`.
+- `Drawer.Viewport` now forwards `style`, which is useful for custom viewport sizing and animated layout constraints.
 
 ## v1.4.0 highlights
 

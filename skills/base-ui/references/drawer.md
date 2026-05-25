@@ -49,6 +49,10 @@ Prefer `Popover` when the UI must stay anchored to a trigger and behave like a p
 - Nested swipe-cancel and interrupted swipe-dismiss cleanup were fixed, so retest any local drawer gesture workarounds before keeping them.
 - Base UI now warns when a drawer popup is missing `Viewport`; keep the full anatomy intact for swipe/stack correctness.
 
+## v1.5.0 notes
+
+- `Drawer.Viewport` now forwards `style`. Prefer that over wrapper div hacks when you need inline max-height, sizing, or animated viewport constraints.
+
 ## Accessibility checklist
 
 - Provide a visible title or an equivalent accessible label.

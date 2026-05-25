@@ -14,6 +14,10 @@ Actionable notes from the plugin API guide.
 - `configureServer` / `configurePreviewServer` for middleware.
 - `transformIndexHtml` for HTML transforms (use `order: 'pre' | 'post'`).
 
+`8.0.14` note:
+
+- If your plugin rewrites assets or injects tags in `transformIndexHtml`, re-test directory-style routes with trailing slashes. The patch line fixes path handling there, so old plugin workarounds may now be unnecessary or wrong.
+
 ## HMR hooks
 
 - `handleHotUpdate` — legacy hook, deprecated in favor of `hotUpdate`.

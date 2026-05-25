@@ -12,6 +12,11 @@ A high-quality, unstyled React popover component that displays an accessible pop
 
 - Popup sizing was fixed for rapid trigger-hover transitions. If you previously added manual re-measure hacks for hover-driven overlays, retest before keeping them.
 
+## v1.5.0 notes
+
+- Controlled `open` state is respected more consistently for popup-open detection. Re-test any styling or side effects keyed off `data-[popup-open]` before keeping older synchronization workarounds.
+- RTL positioning is corrected in the `1.5.0` line.
+
 ## v1.3.0 notes
 
 - Modal popovers with an internal `Popover.Close` now trap focus more reliably, including cases with visually hidden close buttons.

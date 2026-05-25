@@ -12,6 +12,10 @@ A high-quality, unstyled React scroll area that provides a native scroll contain
 
 - Highlight clearing on pointer leave is more reliable when interactive items are clipped by a scroll container. If you embed menus, listboxes, or other highlighted items inside scrollable regions, retest hover exit behavior before carrying old workarounds forward.
 
+## v1.5.0 notes
+
+- RTL behavior is corrected in the `1.5.0` line. Re-test custom scrollbar placement and direction-sensitive CSS before preserving earlier fixes.
+
 ## Demo
 
 #### Tailwind

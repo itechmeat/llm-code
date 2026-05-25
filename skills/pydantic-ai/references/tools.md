@@ -574,8 +574,8 @@ agent = Agent('openai:gpt-4o', toolsets=[external], output_type=[str, DeferredTo
 
 | Toolset            | Description               |
 | ------------------ | ------------------------- |
-| `MCPServer*`       | MCP protocol servers      |
-| `FastMCPToolset`   | FastMCP client            |
+| `MCPToolset`       | Recommended MCP client    |
+| `MCPServer*`       | Legacy MCP wrappers       |
 | `LangChainToolset` | LangChain community tools |
 | `ACIToolset`       | ACI.dev tool library      |
 

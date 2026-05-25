@@ -41,6 +41,11 @@ Sources:
 
 - Postgres-backed filer deployments using PgBouncer should revalidate simple-protocol compatibility after upgrading to 4.20, because the upstream fix moved to the `pgx v5` API path for that mode.
 
+## Patch notes (4.28)
+
+- SQL-backed filer stores in the `4.28` line no longer force-disable idle connection pooling; re-check pool sizing and connection-lifetime assumptions if you previously worked around excessive reconnect churn.
+- Redis3-backed deployments also gain a crash fix for inconsistent skiplist ends, so clusters using `redis3` for very large directories should prefer `4.28+` before treating unexplained filer panics as environmental only.
+
 ## Filer Cassandra Setup
 
 ### What this page is about

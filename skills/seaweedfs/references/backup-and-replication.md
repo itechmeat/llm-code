@@ -21,6 +21,7 @@ Sources:
 - Choose incremental mode when point-in-time style daily snapshots are more valuable than delete mirroring.
 - Consider cloud object storage as a practical backup sink because the page highlights low-ingest-cost economics.
 - For EC-heavy clusters, treat the `4.24`-`4.25` line as replication-safety work too: shard planning/recovery is safer, stale partial shards are pruned more carefully, and source-volume deletion is gated on verifying a healthy shard set.
+- For the `4.26`-`4.28` line, include EC metadata recovery in DR drills: SeaweedFS can now rebuild lost `.ecx` / `.vif` metadata from local shards, but you should still validate the recovery path before counting it as a full substitute for backups.
 
 ### Gotchas / prohibitions
 

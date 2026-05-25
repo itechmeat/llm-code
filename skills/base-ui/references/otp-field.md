@@ -25,7 +25,13 @@ import { OTPFieldPreview as OTPField } from "@base-ui/react/otp-field";
 - Always provide an accessible name via a native `<label>` or `Field` composition.
 - Use `validationType="numeric"` for standard verification codes; switch to `alphanumeric` only when the backend really expects mixed characters.
 - Use `onValueComplete` for side effects like verification requests, and `autoSubmit` only when the owning form can safely submit as soon as the value is complete.
-- For custom sanitization rules, set `validationType="none"` and provide `sanitizeValue`.
+- For custom input cleanup rules, set `validationType="none"` and provide `normalizeValue`.
+
+## v1.5.0 notes
+
+- `sanitizeValue()` was renamed to `normalizeValue()`.
+- Keyboard shortcuts such as Ctrl/Cmd editing behave more reliably.
+- Prefer one normalization path plus explicit validation instead of layering custom sanitizers.
 
 ## Operational notes
 

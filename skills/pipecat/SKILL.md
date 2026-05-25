@@ -2,8 +2,8 @@
 name: pipecat
 description: "Pipecat realtime voice/multimodal bots. Covers pipelines/frames, transports, RTVI, Pipecat Cloud deploy. Use when building real-time voice bots (STT/LLM/TTS pipelines), multimodal AI agents, WebRTC/WebSocket transports, or deploying to Pipecat Cloud. Keywords: pipecat, pipecat-ai, RTVI, WebRTC, voice bot."
 metadata:
-  version: "1.2.0"
-  release_date: "2026-05-14"
+  version: "1.2.1"
+  release_date: "2026-05-15"
 ---
 
 # Pipecat

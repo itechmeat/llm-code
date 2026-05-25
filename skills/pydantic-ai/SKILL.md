@@ -2,8 +2,8 @@
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Use when building Python AI agents with Pydantic AI, configuring model providers, implementing typed tools/dependencies, running evals, or integrating MCP servers. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
 metadata:
-  version: "1.96.1"
-  release_date: "2026-05-14"
+  version: "1.102.0"
+  release_date: "2026-05-22"
 ---
 
 # Pydantic AI
@@ -43,6 +43,14 @@ See `references/installation.md` for full/slim install options and optional depe
 - **V2 preparation**: `Agent(..., prepare_tools=..., prepare_output_tools=..., event_stream_handler=...)` is now the deprecated path; capability-based migration is the new direction.
 - **Capability migration**: use `PrepareTools`, `PrepareOutputTools`, and `ProcessEventStream` capabilities instead of wiring those behaviors through constructor sugar.
 - **OpenAI fixes**: the latest patch line also tightens `OpenAIResponsesModel` system-prompt-role handling and image-generation request shaping.
+
+## Release Highlights (1.97.0 -> 1.102.0)
+
+- **MCP migration**: prefer `MCPToolset` for new MCP integrations. `FastMCPToolset` and the older `MCPServer*` client surface are now on the deprecation path.
+- **Google provider split**: `GoogleProvider` and `GoogleCloudProvider` are now distinct, and model ids move from `google-gla:` / `google-vertex:` to `google:` / `google-cloud:`.
+- **Streaming migration**: move from `stream_responses()` to `stream_response()`; the newer API yields `ModelResponse` objects directly.
+- **Retry configuration**: prefer `Agent(retries=...)` or `AgentRetries(...)` over older constructor-level retry knobs.
+- **New runtime tools**: `ctx.enqueue()` and MCP background tasks make it easier to queue follow-up work without forcing it into the current response turn.
 
 ## Release Highlights (1.75.0 -> 1.84.1)
 
@@ -197,10 +205,10 @@ agent = Agent(fallback)
 ### MCP Integration
 
 ```python
-from pydantic_ai.mcp import MCPServerStdio
+from pydantic_ai.mcp import MCPToolset
 
-server = MCPServerStdio('python', args=['mcp_server.py'])
-agent = Agent('openai:gpt-4o', toolsets=[server])
+toolset = MCPToolset(command='python', args=['mcp_server.py'])
+agent = Agent('openai:gpt-4o', toolsets=[toolset])
 ```
 
 ### Testing with TestModel

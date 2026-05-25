@@ -129,6 +129,7 @@ Operational notes:
 - `ServerSentEvent.data` is JSON-encoded; use `raw_data` for raw text payloads.
 - Clients can resume after disconnect using `Last-Event-ID`.
 - For proxy behavior: consider keep-alive pings, `Cache-Control: no-cache`, and disabling buffering (e.g. `X-Accel-Buffering: no` for Nginx).
+- `0.136.2+` validates SSE fields more strictly. Prefer building events with `ServerSentEvent(...)` instead of hand-assembling ad hoc payload dicts, and test any optional `event`, `id`, or `retry` fields you generate dynamically.
 
 ````
 

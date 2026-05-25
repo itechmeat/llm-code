@@ -2,8 +2,8 @@
 name: vite
 description: "Vite next-gen frontend tooling: dev server, HMR, build, config, plugins, Environment API, Rolldown. Use when setting up or running a Vite project, configuring vite.config.*, authoring plugins, working with HMR or JS API, or managing environment variables and modes. Keywords: vite.config, bundler, Vite, HMR, Rolldown."
 metadata:
-  version: "8.0.13"
-  release_date: "2026-05-14"
+  version: "8.0.14"
+  release_date: "2026-05-21"
 ---
 
 # Vite
@@ -65,6 +65,12 @@ metadata:
 - Vite stops resolving `browser` vs `module` via format sniffing and follows configured `resolve.mainFields` more strictly.
 - JS API `build()` now throws `BundleError` with nested `.errors` when multiple Rolldown-level errors are present.
 - Rolldown transition becomes more explicit: `build.rollupOptions` / `worker.rollupOptions` are deprecated in favor of `*.rolldownOptions`.
+
+## Patch Notes (8.0.14)
+
+- Rolldown moves to `1.0.2`; if you maintain plugin or build guidance, validate it against the current Rolldown behavior instead of assuming early `8.0.x` patch semantics.
+- `transformIndexHtml` handles trailing-slash paths more reliably, which matters for plugins and static deploy setups that rewrite or inject HTML on directory-style URLs.
+- Dependency scanning now passes Oxc JSX options through the optimizer path, so JSX-heavy linked dependencies should behave closer to the main transform pipeline.
 
 ## Prohibitions
 

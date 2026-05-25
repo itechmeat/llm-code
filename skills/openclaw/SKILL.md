@@ -2,8 +2,8 @@
 name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Use when deploying, configuring, or operating an OpenClaw instance, managing gateway routing, setting up channels, or working with the multi-agent tool governance system. Keywords: OpenClaw, gateway, tools, channels, agents."
 metadata:
-  version: "v2026.5.12"
-  release_date: "2026-05-14"
+  version: "v2026.5.22"
+  release_date: "2026-05-24"
 ---
 
 # OpenClaw (Operator Playbook)
@@ -88,6 +88,16 @@ If OpenClaw is not installed, use `references/installation.md`.
 - **Codex/OpenAI/media**: auth-profile-backed media tools, MCP server projection, context-engine thread rotation, and runtime fallback behavior were tightened.
 - **Ops/security/UI**: plugin install/update flows, pnpm 11 handling, gateway/browser/sandbox/node-pairing hardening, and Control UI/WebChat reply delivery all received a significant polish pass.
 - **ACP fallbacks**: ACP turns can try configured backup runtime backends before emitting output, which matters for graceful degraded operation.
+
+## Release Updates (v2026.5.22)
+
+- **Meeting notes plugin**: a source-only external meeting-notes path lands with auto-start capture config, manual transcript import, read-only `openclaw meeting-notes` CLI access, and Discord voice as the first live source.
+- **Gateway readiness**: startup now lazy-loads idle plugin work, core handler trees, and the embedded ACPX runtime, so health/ready checks no longer wait on unused subsystems.
+- **Plugin metadata caching**: immutable plugin metadata snapshots are reused across startup/config/secret readers, which reduces repeated manifest and file-stat churn during operations.
+- **Channel/runtime tuning**: channel catalog reads are reused, Signal gets `configPath`, Telegram gains wildcard topic defaults, and backup archives use local-time names.
+- **Media quality control**: model-aware image compression now follows `agents.defaults.imageQuality`, so operators can choose token-efficient, balanced, or high-detail handling explicitly.
+- **Plugin SDK migration**: row-level session workflow helpers are added and `loadSessionStore` is deprecated; plugin maintenance should move away from whole-store session access.
+- **Provider auth reuse**: xAI OAuth auth profiles can now back Grok `web_search`, and provider-side media operations have clearer default timeout behavior.
 
 ## Release Updates (v2026.4.15)
 

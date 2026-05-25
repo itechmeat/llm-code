@@ -4,20 +4,20 @@ Pydantic AI is model-agnostic with 30+ providers.
 
 ## Built-in Providers
 
-| Provider     | Model Class                            | Example                            |
-| ------------ | -------------------------------------- | ---------------------------------- |
-| OpenAI       | `OpenAIChatModel`                      | `openai:gpt-4o`                    |
-| Anthropic    | `AnthropicModel`                       | `anthropic:claude-sonnet-4-5`      |
-| Google       | `GoogleModel`                          | `google-gla:gemini-2.5-flash`      |
-| Vertex AI    | `GoogleModel` + `GoogleVertexProvider` | `vertexai:gemini-pro`              |
-| xAI          | `XaiModel`                             | `xai:grok-4-1-fast-non-reasoning`  |
-| Groq         | `GroqModel`                            | `groq:llama-3.3-70b`               |
-| Mistral      | `MistralModel`                         | `mistral:mistral-large`            |
-| Bedrock      | `BedrockModel`                         | `bedrock:anthropic.claude-v2`      |
-| Cohere       | `CohereModel`                          | `cohere:command-r-plus`            |
-| OpenRouter   | `OpenRouterModel`                      | `openrouter:google/gemini-2.5-pro` |
-| SambaNova    | `SambaNovaModel`                       | `sambanova:...`                    |
-| Hugging Face | `HuggingFaceModel`                     | `huggingface:meta-llama/...`       |
+| Provider     | Model Class                           | Example                            |
+| ------------ | ------------------------------------- | ---------------------------------- |
+| OpenAI       | `OpenAIChatModel`                     | `openai:gpt-4o`                    |
+| Anthropic    | `AnthropicModel`                      | `anthropic:claude-sonnet-4-5`      |
+| Google       | `GoogleModel` + `GoogleProvider`      | `google:gemini-2.5-flash`          |
+| Google Cloud | `GoogleModel` + `GoogleCloudProvider` | `google-cloud:gemini-2.5-pro`      |
+| xAI          | `XaiModel`                            | `xai:grok-4-1-fast-non-reasoning`  |
+| Groq         | `GroqModel`                           | `groq:llama-3.3-70b`               |
+| Mistral      | `MistralModel`                        | `mistral:mistral-large`            |
+| Bedrock      | `BedrockModel`                        | `bedrock:anthropic.claude-v2`      |
+| Cohere       | `CohereModel`                         | `cohere:command-r-plus`            |
+| OpenRouter   | `OpenRouterModel`                     | `openrouter:google/gemini-2.5-pro` |
+| SambaNova    | `SambaNovaModel`                      | `sambanova:...`                    |
+| Hugging Face | `HuggingFaceModel`                    | `huggingface:meta-llama/...`       |
 
 ## Recent model-surface updates (1.80.0+)
 
@@ -119,7 +119,7 @@ from pydantic_ai import Agent
 # Simple string identifier
 agent = Agent('openai:gpt-4o')
 agent = Agent('anthropic:claude-sonnet-4-5')
-agent = Agent('google-gla:gemini-2.5-flash')
+agent = Agent('google:gemini-2.5-flash')
 agent = Agent('xai:grok-4-1-fast-non-reasoning')
 
 # Gateway prefix (if using AI gateway)
@@ -660,28 +660,34 @@ print(f'Cache read: {usage.cache_read_tokens}')
 
 ## Google Provider Details
 
+`1.97.0+` migration:
+
+- `google-gla:` becomes `google:`.
+- `google-vertex:` becomes `google-cloud:`.
+- `GoogleProvider(vertexai=True, ...)` is replaced by the separate `GoogleCloudProvider(...)` class.
+
 ### Configuration
 
 ```python
 # Generative Language API
 export GOOGLE_API_KEY='your-api-key'
 
-# By name (GLA = Generative Language API)
-agent = Agent('google-gla:gemini-2.5-pro')
-agent = Agent('google-gla:gemini-3.1-pro-preview')  # v1.63.0
+# By name
+agent = Agent('google:gemini-2.5-pro')
+agent = Agent('google:gemini-3.1-pro-preview')  # v1.63.0
 
-# Vertex AI
-agent = Agent('google-vertex:gemini-2.5-pro')
+# Google Cloud / Vertex AI
+agent = Agent('google-cloud:gemini-2.5-pro')
 ```
 
 ### Vertex AI Authentication
 
 ```python
 from pydantic_ai.models.google import GoogleModel
-from pydantic_ai.providers.google import GoogleProvider
+from pydantic_ai.providers.google import GoogleProvider, GoogleCloudProvider
 
 # Application Default Credentials (recommended in GCP)
-provider = GoogleProvider(vertexai=True)
+provider = GoogleCloudProvider()
 
 # Service Account
 from google.oauth2 import service_account
@@ -689,17 +695,17 @@ credentials = service_account.Credentials.from_service_account_file(
     'path/to/service-account.json',
     scopes=['https://www.googleapis.com/auth/cloud-platform'],
 )
-provider = GoogleProvider(credentials=credentials, project='your-project-id')
+provider = GoogleCloudProvider(credentials=credentials, project='your-project-id')
 
 # Custom location/project
-provider = GoogleProvider(vertexai=True, location='asia-east1', project='your-gcp-project-id')
+provider = GoogleCloudProvider(location='asia-east1', project='your-gcp-project-id')
 ```
 
 ### Model Garden (Non-Gemini Models)
 
 ```python
 # Access Llama, etc. from Model Garden
-provider = GoogleProvider(project='your-project-id', location='us-central1')
+provider = GoogleCloudProvider(project='your-project-id', location='us-central1')
 model = GoogleModel('meta/llama-3.3-70b-instruct-maas', provider=provider)
 ```
 
@@ -753,9 +759,9 @@ Enable logprobs via `GoogleModelSettings.google_logprobs` and `google_top_logpro
 ```python
 from pydantic_ai import Agent
 from pydantic_ai.models.google import GoogleModel, GoogleModelSettings
-from pydantic_ai.providers.google import GoogleProvider
+from pydantic_ai.providers.google import GoogleCloudProvider
 
-provider = GoogleProvider(vertexai=True, location='europe-west1')
+provider = GoogleCloudProvider(location='europe-west1')
 settings = GoogleModelSettings(google_logprobs=True, google_top_logprobs=2)
 model = GoogleModel('gemini-2.5-flash', provider=provider, settings=settings)
 

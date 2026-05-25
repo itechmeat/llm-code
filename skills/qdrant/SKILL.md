@@ -1,10 +1,10 @@
 ---
+
 name: qdrant
 description: "Qdrant vector database: collections, points, payload filtering, indexing, quantization, snapshots, and Docker/Kubernetes deployment. Use when managing Qdrant collections, performing vector searches with payload filters, configuring HNSW indexes or quantization, or deploying Qdrant clusters. Keywords: Qdrant, vector database, HNSW, quantization, semantic search."
 metadata:
-  version: "1.18.0"
-  release_date: "2026-05-11"
----
+version: "1.18.1"
+release_date: "2026-05-22"
 
 # Qdrant (Skill Router)
 
@@ -19,6 +19,13 @@ It acts as a **router**: based on your situation, open the right note under `ref
 - **Retrieval:** relevance feedback and Weighted RRF for hybrid ranking.
 - **Write semantics:** `update_mode` for upserts (`upsert` / `update` / `insert`).
 - **1.18.0:** TurboQuant adds an aggressive vector-compression path, collections can add/delete named vectors in place, and operators get low-memory/strict-memory knobs plus deeper memory reporting.
+
+## Patch Notes (1.18.1)
+
+- Filter behavior is corrected for indexed integer range filters that receive float values and for `{match: {except: []}}` on payload-indexed fields.
+- Empty vector requests no longer trigger a panic path; treat them as invalid input and validate caller-side before sending them to Qdrant.
+- TurboQuant heap-memory reporting is more accurate, so operators should trust current metrics over older baselines when checking compression impact.
+- Snapshot upload authorization is tightened; do not assume restore/upload endpoints are safe without the same auth review you apply to the main API surface.
 
 ## Breaking / Upgrade Notes (1.17.0)
 
