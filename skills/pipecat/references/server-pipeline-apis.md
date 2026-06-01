@@ -1,8 +1,10 @@
-# Server APIs: pipeline/task/params
+# Server APIs: pipeline/worker/params
 
 This reference summarizes the Server API pages for operating pipelines.
 
-## PipelineParams (task-wide knobs)
+## WorkerParams / PipelineParams (worker-wide knobs)
+
+`1.3.0` renames `PipelineTaskParams` toward `WorkerParams`; older docs and examples may still say `PipelineParams` / task params. Treat the old names as migration aliases that emit deprecation warnings.
 
 Highlights from the reference:
 
@@ -25,9 +27,9 @@ Highlights from the reference:
 
 - `allow_interruptions`: deprecated (use user turn strategies / `enable_interruptions` on start strategies instead).
 
-## PipelineTask (execution + lifecycle)
+## PipelineWorker (execution + lifecycle)
 
-The Server API describes `PipelineTask` as the center of execution:
+The Server API describes `PipelineWorker` (previously `PipelineTask`) as the center of execution:
 
 - Queue work:
   - `queue_frame()` / `queue_frames()`

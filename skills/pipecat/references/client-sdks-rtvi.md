@@ -20,6 +20,12 @@ A typical pattern in client SDKs:
 - The RTVI protocol version moves to `1.3.0`. If your client/server pins protocol behavior, upgrade both ends together.
 - Default UI command payloads now cover actions such as toast, navigate, scroll, highlight, focus, click, set input value, and select text.
 
+`1.3.0` note:
+
+- `UIWorker` (`pipecat.workers.ui`) observes the client's accessibility snapshots, routes client UI events to `@ui_event` handlers, drives UI commands such as scroll/highlight/click/input selection, and can answer screen-grounded questions.
+- The UI worker protocol vocabulary changed from `task`/`agent` to `job`/`worker`: `ui-task` -> `ui-job-group`, `ui-cancel-task` -> `ui-cancel-job-group`, `task_id` -> `job_id`, `agents` -> `workers`, and React/JS APIs such as `cancelUITask` / `useUITasks` become `cancelUIJobGroup` / `useUIJobGroups`.
+- Use `ReplyToolMixin`, `respond_to_job(..., tts_speak=True)`, and `ui_job_group(...)` when a voice agent delegates UI-grounded work and wants cancellable progress cards in the client.
+
 ## Context updates
 
 Docs highlight a “send text” style call for appending user text to the conversation, with options like:

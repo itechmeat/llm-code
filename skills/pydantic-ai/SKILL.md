@@ -2,8 +2,8 @@
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Use when building Python AI agents with Pydantic AI, configuring model providers, implementing typed tools/dependencies, running evals, or integrating MCP servers. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
 metadata:
-  version: "1.102.0"
-  release_date: "2026-05-22"
+  version: "1.104.0"
+  release_date: "2026-05-28"
 ---
 
 # Pydantic AI
@@ -51,6 +51,13 @@ See `references/installation.md` for full/slim install options and optional depe
 - **Streaming migration**: move from `stream_responses()` to `stream_response()`; the newer API yields `ModelResponse` objects directly.
 - **Retry configuration**: prefer `Agent(retries=...)` or `AgentRetries(...)` over older constructor-level retry knobs.
 - **New runtime tools**: `ctx.enqueue()` and MCP background tasks make it easier to queue follow-up work without forcing it into the current response turn.
+
+## Release Highlights (1.103.0 -> 1.104.0)
+
+- **MCP prompts**: maintained `McpServer` integrations can now list and fetch prompts with `list_prompts` and `get_prompt`; still prefer `MCPToolset` for new client code unless legacy wrappers are required.
+- **UI adapters**: `VercelAIAdapter` round-trips message timestamps through `UIMessage.metadata`, and `UIAdapter.sanitize_messages` strips client-submitted `force_download` from `FileUrl` parts.
+- **Provider/model updates**: Claude Opus 4.8 is supported, `OpenRouterModel` can use `anthropic_eager_input_streaming`, and hybrid OpenRouter/xAI/Bedrock routes now forward `thinking=False` consistently.
+- **Bedrock/toolset fixes**: Bedrock maps malformed model/tool output to `FinishReason.error`, recognizes adaptive thinking, preserves single-tool `tool_choice` cache behavior, and toolset prepare callbacks warn when they accidentally return `None`.
 
 ## Release Highlights (1.75.0 -> 1.84.1)
 
@@ -153,7 +160,7 @@ result = agent.run_sync('What is my name?', deps=Deps(user_id=123))
 | Provider  | Models                                |
 | --------- | ------------------------------------- |
 | OpenAI    | GPT-4o, GPT-4, o1, o3                 |
-| Anthropic | Claude Opus 4.6, Claude 4, Claude 3.5 |
+| Anthropic | Claude Opus 4.8, Claude 4, Claude 3.5 |
 | Google    | Gemini 2.0, Gemini 1.5                |
 | xAI       | Grok-4 (native SDK)                   |
 | Groq      | Llama, Mixtral                        |

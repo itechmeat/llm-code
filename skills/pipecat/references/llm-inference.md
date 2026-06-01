@@ -61,6 +61,13 @@ Use these to implement user feedback and recovery (retry/backoff/fallback) as ne
 - `run_inference` now accepts a one-shot `system_instruction` override.
 - If you set both constructor-level `system_instruction` and a system message in context, the constructor value takes precedence and Pipecat logs a warning.
 
+## LLM service updates (1.3.0)
+
+- `LLMService.append_system_instruction(...)` appends durable system text that is included on every inference and survives context resets. Prefer it when a worker needs persistent task guidance without rewriting the whole context.
+- `InceptionLLMService` supports Inception Mercury 2 diffusion reasoning with `reasoning_effort` and `realtime` settings.
+- `OpenRouterLLMService` now defaults to `openai/gpt-4.1` and converts `developer` messages to `user` by default for broader model compatibility. Set `llm.supports_developer_role = True` or subclass when the target model actually supports the developer role.
+- `InworldRealtimeLLMService` defaults STT to `inworld/inworld-stt-1`; verify any explicit STT override before removing old defaults.
+
 ## Practical checklist
 
 - Keep completion streaming enabled if you want low perceived latency.

@@ -2,8 +2,8 @@
 name: picoclaw
 description: "PicoClaw Go AI assistant. Covers CLI ops, config.json, channels, auth, skills, gateway. Use when running the PicoClaw CLI, configuring models/tools/gateway in config.json, or operating channels and authentication. Keywords: picoclaw, onboard, gateway, model_list."
 metadata:
-  version: "v0.2.8"
-  release_date: "2026-04-30"
+  version: "v0.2.9"
+  release_date: "2026-05-29"
 ---
 
 # PicoClaw
@@ -107,6 +107,13 @@ Use when you need to:
 - **MCP operations**: PicoClaw now exposes first-class MCP management commands (`show`, `add`, `list`, `remove`, `test`, `edit`) and surfaces init/lifecycle failures more clearly.
 - **Custom endpoints + tools**: CLI/config flows add better support for custom OpenAI-compatible endpoints and a cross-platform serial hardware tool.
 - **Chat/web feedback**: tool-call visibility, animated tool feedback, restart prompts, and reasoning visibility are more consistent across Pico web/chat surfaces and channels.
+
+## Release Highlights (v0.2.9)
+
+- **MCP and config UI**: the config web UI adds an MCP section, MCP streamable HTTP support is fixed, Gemini MCP schema sanitization is hardened, and v3 config format sync docs/flows were refreshed.
+- **Tool feedback and edit UX**: `tool_feedback` defaults add `pretty_print` and `disable_escape_html`, parent-session tool feedback cleanup is fixed, and edit-file diff previews improve review before applying generated edits.
+- **Channels and voice**: Slack webhook channel support lands, Telegram media groups/SVG media handling improves, queued voice follow-ups and voice media store reload behavior are fixed, and `stop` command / MQTT channel handling are tightened.
+- **Provider/runtime fixes**: Bedrock streaming, DeepSeek vision unsupported errors, DeepSeek/Mimo reasoning replay, network-error retry, and factory reset flows were improved.
 
 ## Release Highlights (v0.2.6)
 

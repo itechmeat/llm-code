@@ -18,6 +18,8 @@ Connect agents to external tools and services via standardized protocol.
 
 Recent migration note (`1.97.0+`): prefer `MCPToolset` for new client integrations. `FastMCPToolset` and the older `MCPServer*` wrappers are now legacy migration surfaces.
 
+Patch note (`1.103.0+`): maintained `McpServer` integrations can call `list_prompts` and `get_prompt`. Use this for legacy MCP server wrappers that expose prompt catalogs, but keep new client code on `MCPToolset` unless a migration constraint requires direct `McpServer` access.
+
 ### Installation
 
 ```bash

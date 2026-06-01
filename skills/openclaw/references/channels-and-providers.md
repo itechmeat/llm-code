@@ -76,6 +76,13 @@ Config shape (from Discord channel docs):
 - Treat provider credentials as secrets and rotate through your secret-management process.
 - Codex/OpenAI paths were tightened in the May 2026 line: media-tool auth profiles, MCP server projection, and runtime fallback behavior are more explicit, so keep those integrations fully configured instead of relying on accidental fallback.
 
+## Provider/runtime updates (v2026.5.27-v2026.5.28)
+
+- OpenAI-compatible embedding providers are now core, including local and hosted OpenAI-style endpoints. Prefer the core path over memory-plugin-specific embedding registration, which is kept as deprecated compatibility.
+- DeepInfra model browsing now loads the full credential-aware catalog and preserves configured API-key catalogs; re-test onboarding model pickers before maintaining local catalog patches.
+- New or refreshed provider/media surfaces include Pixverse video generation with API region selection, Claude Opus 4.8, Fal Krea image schemas, NVIDIA featured model catalogs, MiniMax streaming music responses, provider-backed voice model catalogs, encrypted PDF extraction, and GitHub Copilot agent runtime support.
+- VLLM thinking params, bare direct Anthropic model ids, OpenAI-compatible cache retention, OpenAI Responses replay tool ids, and provider retry-after fallback handling were tightened. Keep explicit provider/model pins in config when avoiding automatic catalog drift.
+
 ## Provider/runtime updates (v2026.4.15)
 
 - Anthropic defaults and `opus` aliases now point bundled image-understanding flows at Claude Opus 4.7.
@@ -95,6 +102,12 @@ May 2026 operational update:
 
 - Telegram polling/reply delivery is more resilient via isolated polling, durable local spooling, safer group-media handling, and better HTML/Markdown preservation.
 - If you previously added local retry/formatting workarounds, re-test after upgrade before keeping them.
+
+Late May 2026 delivery update:
+
+- Telegram `sendMessage` actions use durable outbound delivery and preserve SecretRef prompt config. Validate long-running Telegram workflows before keeping custom resend queues.
+- Slack delivered final replies survive late cleanup, iMessage approval polling continues after denied reactions, Matrix mention previews/finals remain mention-inert, and Discord recovered tool warnings stay out of successful replies.
+- WhatsApp resolves auth roots from the active profile, while Teams service URLs are trust-checked. Re-test multi-profile channel installs after rotating profiles or channel secrets.
 
 ### Telegram DM topics (v2026.3.1)
 

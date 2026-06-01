@@ -2,8 +2,8 @@
 name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Use when deploying, configuring, or operating an OpenClaw instance, managing gateway routing, setting up channels, or working with the multi-agent tool governance system. Keywords: OpenClaw, gateway, tools, channels, agents."
 metadata:
-  version: "v2026.5.22"
-  release_date: "2026-05-24"
+  version: "v2026.5.28"
+  release_date: "2026-05-30"
 ---
 
 # OpenClaw (Operator Playbook)
@@ -98,6 +98,14 @@ If OpenClaw is not installed, use `references/installation.md`.
 - **Media quality control**: model-aware image compression now follows `agents.defaults.imageQuality`, so operators can choose token-efficient, balanced, or high-detail handling explicitly.
 - **Plugin SDK migration**: row-level session workflow helpers are added and `loadSessionStore` is deprecated; plugin maintenance should move away from whole-store session access.
 - **Provider auth reuse**: xAI OAuth auth profiles can now back Grok `web_search`, and provider-side media operations have clearer default timeout behavior.
+
+## Release Updates (v2026.5.27-v2026.5.28)
+
+- **Runtime recovery**: Codex/app-server and subagent paths preserve workspace/cwd separation, route workspace memory through tools, keep native hook relay generations alive across restarts, release session locks on timeout abort, and avoid stale restart continuations.
+- **Security and input boundaries**: group prompt metadata stays out of system prompts, repeated-dot hostnames normalize, unsafe command wrappers and Node env overrides are rejected, no-auth Tailscale exposure is blocked, Teams service URLs are trusted explicitly, and malformed numeric, browser, cron, media, schema, and Telegram callback inputs fail earlier.
+- **Channels and mobile surfaces**: Telegram delivery is more durable, Slack final replies survive late cleanup, Matrix/iMessage/Discord/WhatsApp/Teams paths preserve identity and approval context more carefully, and iOS/WebChat/Talk surfaces keep more state across reconnects.
+- **Provider/media coverage**: OpenAI-compatible embeddings are core, Pixverse video, DeepInfra catalog loading, Claude Opus 4.8, Fal Krea schemas, NVIDIA catalogs, MiniMax streaming music, provider voice catalogs, encrypted PDF extraction, GitHub Copilot runtime, and Codex Supervisor plugin coverage landed.
+- **Plugin and work coordination**: ClawHub display/trust surfaces, reply payload sending hooks, install-on-demand GitHub Copilot/Tokenjuice plugins, and Workboard coordination tools expand plugin/operator workflows while preserving stricter catalog and cache behavior.
 
 ## Release Updates (v2026.4.15)
 

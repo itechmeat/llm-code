@@ -117,3 +117,11 @@ Sources:
 ## Patch-level audit note (4.28)
 
 - `4.28` populates requester identity more consistently for GET/HEAD and IAM-related S3 operations. If you depend on SeaweedFS audit logs for investigations or compliance, refresh dashboards/parsers after upgrade so they ingest the richer requester field instead of assuming only write-path attribution.
+
+## Patch-level S3 notes (4.29 -> 4.30)
+
+- `4.29` routes more S3 object mutations to the owning filer through filer-side `ObjectTransaction` and `ObjectTransactionBatch` flows, including versioned puts, copy/delete-marker handling, multipart completion, object-lock writes, and metadata-only self-copy. Expect less pressure on distributed locks, but retest multi-filer object-write concurrency before removing downstream serialization.
+- Bucket configuration writes now use field-level filer patches, and object-lock paths gained extended-attribute guard clauses. Revalidate bucket/object-lock automation that previously rewrote whole config documents.
+- IAM/OIDC trust-policy examples now use the `oidc:` condition prefix. Keep local examples aligned so web-identity role assumption tests match upstream semantics.
+- `4.30` rejects `..` in S3/Iceberg URL path variables, validates ownership-control rules, honors `MetadataDirective=REPLACE` for system metadata on `CopyObject`, and authenticates JWT unsigned-streaming uploads. Treat this as both a compatibility and security regression-test target.
+- Anonymous unsigned-streaming `PutObject` is allowed only through the intended unauthenticated path; do not confuse that with a recommendation to expose unsigned uploads on production gateways.

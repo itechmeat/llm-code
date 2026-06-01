@@ -4,7 +4,14 @@
 
 - A **Pipeline** is a sequence of **processors**.
 - Each processor consumes and emits **frames**.
-- A **PipelineTask** runs the pipeline (often under a **PipelineRunner**), and you can attach observers.
+- A **PipelineWorker** runs the pipeline (previously `PipelineTask`, often under a **WorkerRunner**), and you can attach observers.
+
+## Workers and multi-agent pipelines (1.3.0)
+
+- `PipelineTask`, `PipelineTaskParams`, and `pipecat.pipeline.task` are renamed toward `PipelineWorker`, `WorkerParams`, and `pipecat.pipeline.worker`. Old names still resolve but emit `DeprecationWarning`; migrate imports before they become removals.
+- `PipelineRunner` is renamed to `WorkerRunner` under `pipecat.workers.runner`. Register workers with `WorkerRunner.add_workers()` before `run()` instead of passing a worker directly to `run()`.
+- `FrameProcessor.pipeline_task` is deprecated; use `FrameProcessor.pipeline_worker`.
+- The new `pipecat.workers` framework lets `PipelineWorker` peers exchange typed messages, dispatch `@job` work, and coordinate handoffs, debates, sidecars, hardware controllers, UI workers, and distributed workers over Redis or PGMQ.
 
 ## Typical voice processing flow
 
@@ -72,8 +79,8 @@ Use a parallel/branching pattern when multiple processors need the same upstream
 
 ## Execution building blocks
 
-- **PipelineTask**: wraps a pipeline plus execution params (sample rates, metrics flags) and observers.
-- **PipelineRunner**: runs the task and can optionally handle OS signals for graceful shutdown.
+- **PipelineWorker**: wraps a pipeline plus execution params (sample rates, metrics flags) and observers. Older docs may call this `PipelineTask`.
+- **WorkerRunner**: runs workers and can optionally handle OS signals for graceful shutdown. Older docs may call this `PipelineRunner`.
 - **Observers**: monitor protocol events and custom metrics (useful for debugging and production visibility).
 
 For exact parameter names (metrics, heartbeats, idle timeout), see: `references/server-pipeline-apis.md`.

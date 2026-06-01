@@ -40,15 +40,21 @@ for result in search.results:
 
 ## Parameters
 
-| Parameter                | Type        | Default  | Description                            |
-| ------------------------ | ----------- | -------- | -------------------------------------- |
-| `query`                  | string/list | required | Search query (up to 5 for multi-query) |
-| `max_results`            | int         | 10       | Results per query (1-20)               |
-| `max_tokens_per_page`    | int         | 2048     | Content extraction per page            |
-| `max_tokens`             | int         | 25000    | Total content budget (max 1M)          |
-| `country`                | string      | -        | ISO 3166-1 alpha-2 code                |
-| `search_domain_filter`   | list        | -        | Domain allow/denylist (max 20)         |
-| `search_language_filter` | list        | -        | ISO 639-1 codes (max 10)               |
+| Parameter                | Type        | Default  | Description                                                   |
+| ------------------------ | ----------- | -------- | ------------------------------------------------------------- |
+| `query`                  | string/list | required | Search query (up to 5 for multi-query)                        |
+| `max_results`            | int         | 10       | Results per query (1-20)                                      |
+| `max_tokens_per_page`    | int         | 2048     | Content extraction per page                                   |
+| `max_tokens`             | int         | 25000    | Total content budget (max 1M)                                 |
+| `country`                | string      | -        | ISO 3166-1 alpha-2 code                                       |
+| `search_type`            | string      | -        | Route specialized searches, e.g. People Search when supported |
+| `search_domain_filter`   | list        | -        | Domain allow/denylist (max 20)                                |
+| `search_language_filter` | list        | -        | ISO 639-1 codes (max 10)                                      |
+
+## SDK search notes (0.34.0 -> 0.35.1)
+
+- `search_type` was added for People Search routing. Use it only when the API account/model surface supports that specialized search path.
+- Do not pass `search_context_size` to `client.search.create()`. It was exposed prematurely in `0.35.0` and removed in `0.35.1`; use chat completions `web_search_options.search_context_size` for context-size control.
 
 ## Regional Search
 

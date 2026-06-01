@@ -2,8 +2,8 @@
 name: perplexity
 description: "Perplexity API for web-grounded AI and search. Covers Sonar models, chat/search APIs, streaming, structured outputs, filters, and attachments. Keywords: Perplexity, Sonar, search API, grounded LLM."
 metadata:
-  version: "0.34.0"
-  release_date: "2026-05-13"
+  version: "0.36.0"
+  release_date: "2026-05-30"
 ---
 
 # Perplexity API
@@ -79,6 +79,14 @@ search = client.search.create(
 for result in search.results:
     print(f"{result.title}: {result.url}")
 ```
+
+## Release Highlights (0.34.1 -> 0.36.0)
+
+- **Streaming**: `responses.create` now yields named SSE events and discriminates the `ResponseStreamEvent` union, which matters for typed stream consumers.
+- **Search API**: `search_context_size` was briefly exposed on `search.create` and then removed in `0.35.1`; keep search-context sizing on chat/web-search options, not the raw Search API.
+- **Background responses**: the SDK adds background-task support and `responses.retrieve`, so long-running response workflows can be polled instead of only streamed inline.
+- **Reasoning effort**: `xhigh` is available where the API supports reasoning-effort controls.
+- **Sandbox tool**: `0.36.0` adds the Responses API sandbox built-in tool; gate it like other executable/tooling surfaces.
 
 ## Model Selection Guide
 
@@ -343,7 +351,9 @@ Perplexity supports OpenAI Chat Completions format. Use OpenAI client by pointin
 
 ## Links
 
-- [API Portal](https://www.perplexity.ai/settings/api)
 - [Documentation](https://docs.perplexity.ai/)
+- [Releases](https://github.com/perplexityai/perplexity-py/releases)
+- [GitHub](https://github.com/perplexityai/perplexity-py)
 - [Python SDK (PyPI)](https://pypi.org/project/perplexityai/)
 - [TypeScript SDK (npm)](https://www.npmjs.com/package/@perplexityai/perplexity)
+- [API Portal](https://www.perplexity.ai/settings/api)

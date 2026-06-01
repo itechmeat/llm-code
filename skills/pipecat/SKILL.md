@@ -2,8 +2,8 @@
 name: pipecat
 description: "Pipecat realtime voice/multimodal bots. Covers pipelines/frames, transports, RTVI, Pipecat Cloud deploy. Use when building real-time voice bots (STT/LLM/TTS pipelines), multimodal AI agents, WebRTC/WebSocket transports, or deploying to Pipecat Cloud. Keywords: pipecat, pipecat-ai, RTVI, WebRTC, voice bot."
 metadata:
-  version: "1.2.1"
-  release_date: "2026-05-15"
+  version: "1.3.0"
+  release_date: "2026-05-28"
 ---
 
 # Pipecat
@@ -118,6 +118,14 @@ It composes streaming speech/LLM/TTS services into a low-latency pipeline, conne
 - Deprecated service-specific context classes, transport params, RTVI shims, frame aliases, and interruption/VAD helpers were removed across the stack.
 - Turn detection and mute behavior moved toward `LLMUserAggregator` strategies instead of transport-level configuration.
 - Some legacy providers and helpers were removed entirely (`OpenPipeLLMService`, `TTSService.say()`, `FrameProcessor.wait_for_task()`, older beta/alias modules).
+
+## Release Highlights (1.3.0)
+
+- **Workers and multi-agent pipelines**: `PipelineTask` / `PipelineRunner` are renamed toward `PipelineWorker` / `WorkerRunner`, and `pipecat.workers` makes pipelines peers on a typed-message bus for `@job` dispatch, handoffs, sidecars, UI workers, and distributed Redis/PGMQ patterns.
+- **UIWorker and RTVI UI protocol**: `UIWorker` can observe client accessibility snapshots and drive UI commands over RTVI; the UI worker vocabulary moves from `task`/`agent` to `job`/`worker` (`ui-task` -> `ui-job-group`, `cancelUITask` -> `cancelUIJobGroup`).
+- **Development runner**: one runner can serve WebRTC, Daily, telephony, and plain WebSocket clients; `/start` accepts a `transport` field, `/ws-client` supports protobuf WebSocket clients, `/status` reports enabled transports, and the Daily redirect moved to `/daily`.
+- **Service surface**: adds Vonage Video Connector transport, Inception Mercury 2 LLM service, Cartesia turn-based STT, Rime `coda` TTS defaults, Soniox endpoint-delay settings, `LLMService.append_system_instruction()`, and `STTService.supports_ttfs`.
+- **Operational migration notes**: optional service/transport extras now raise `ImportError`, `transformers` is no longer a base dependency, Rime defaults to `coda`, OpenRouter defaults to `openai/gpt-4.1` and maps `developer` messages to `user` unless explicitly supported.
 
 ## Links
 

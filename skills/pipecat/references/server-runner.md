@@ -29,6 +29,14 @@ Docs show a single entry point you run with transport selection flags:
 - Daily rooms: `-t daily`
 - Telephony: `-t twilio|telnyx|plivo|exotel` (requires a public proxy hostname)
 
+`1.3.0` runner update:
+
+- Omitting `-t` now enables all supported transports instead of defaulting to WebRTC only.
+- `POST /start` accepts a `transport` field to select WebRTC, Daily, telephony, or plain WebSocket per request.
+- Plain WebSocket clients can connect through `/ws-client`, which is useful for browser apps using protobuf framing or non-telephony WebSocket clients.
+- `GET /status` reports which transports the running instance accepts and helps client bootstraps choose the correct path.
+- The Daily browser redirect route moved from `GET /` to `GET /daily`.
+
 The runner also documents extra switches for direct Daily testing and dial-in webhook handling.
 
 ## Runner arguments (what your bot receives)

@@ -2,8 +2,8 @@
 name: seaweedfs
 description: "SeaweedFS distributed storage. Covers filer, S3 API, replication, cloud tiers, and operations. Use when deploying SeaweedFS, configuring filer stores, exposing S3-compatible endpoints, or planning backup and security controls. Keywords: SeaweedFS, weed, filer, S3, object storage."
 metadata:
-  version: "4.28"
-  release_date: "2026-05-22"
+  version: "4.30"
+  release_date: "2026-05-30"
 ---
 
 # SeaweedFS
@@ -60,6 +60,14 @@ Prefer production guidance from multi-component setups over `weed mini` shortcut
 - **S3 audit trail**: requester identity is populated more consistently for GET/HEAD/IAM operations, improving compliance and incident triage.
 - **HA heartbeat path**: masters now accept volume-server ping targets on follower replicas, which improves failover visibility in multi-master deployments.
 
+## Release Highlights (4.29 -> 4.30)
+
+- **S3 write/auth path**: object writes move toward filer-side owner routing and `ObjectTransaction` batches, reducing distributed-lock pressure; `4.30` also tightens path traversal rejection, ownership-control validation, `MetadataDirective=REPLACE`, and JWT handling for unsigned-streaming uploads.
+- **FUSE and filer coordination**: POSIX advisory locks are now routed through filer ownership under `-dlm`, with session leases, keepalive, ring-change cooling, and writeback-cache crash fixes for cross-mount write workloads.
+- **Erasure coding and volume repair**: EC placement uses the shared `ecbalancer.Place` path and placement snapshots, while `4.30` improves credible-replica selection, empty-stub cleanup, `.vif` preservation, writable-volume notification after vacuum, and shell safety around stuck read-only volumes and merge verification.
+- **Operations surfaces**: admin exposes Prometheus metrics, and S3/IAM/volume/filer/master processes add `/healthz` and `/readyz` probes for orchestration checks.
+- **Filer, sync, and remote sinks**: Redis2 now applies `keyPrefix` in KV methods, Postgres filer writes default to `ON CONFLICT` upsert, dropped filers are pruned from discovery, and sync/remote-storage paths preserve chunk size, manifest, offset, and MIME metadata more reliably.
+
 ## Release Highlights (4.20)
 
 - **S3/IAM**: embedded IAM flows gained `ListUserPolicies`, group inline policy actions, safer user-policy round trips, and bucket-scoped cleanup on `DeleteBucket`.
@@ -81,5 +89,4 @@ Prefer production guidance from multi-component setups over `weed mini` shortcut
 - [Documentation](https://github.com/seaweedfs/seaweedfs/wiki/Getting-Started)
 - [Releases](https://github.com/seaweedfs/seaweedfs/releases)
 - [GitHub](https://github.com/seaweedfs/seaweedfs)
-- [Docker Hub](https://hub.docker.com/r/chrislusf/seaweedfs)
 - [Docker Hub](https://hub.docker.com/r/chrislusf/seaweedfs)

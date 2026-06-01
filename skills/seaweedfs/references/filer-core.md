@@ -71,10 +71,22 @@ Sources:
 - Mount mutation paths now avoid some redundant filer RPCs, and writeback cache mode pre-allocates file IDs to reduce write amplification under sustained change.
 - If you saw metadata flush problems for files unlinked while still open, re-test before keeping downstream workarounds.
 
+## Mount/FUSE reliability notes (4.29)
+
+- `4.29` adds filer-managed POSIX advisory lock primitives behind `weed mount -dlm`, including owner routing, session leases, keepalive reassertion, ring-change cooling, and fail-closed warm-up behavior. Use this release line when multiple FUSE mounts coordinate writes to the same namespace.
+- Writeback-cache users should retest concurrent append and attribute paths; the release fixes a `SetAttr` / `GetAttr` crash around concurrent chunk append.
+- Treat lock behavior as an integration surface: test cross-mount locks, filer owner restarts, and ring changes before relying on the new DLM path for application correctness.
+
 ## Filer reliability notes (4.20)
 
 - Graceful shutdown no longer risks the same corruption path as earlier 4.17-era builds, so shutdown/restart drills are worth revalidating after upgrade.
 - Filer no longer aborts entry deletion just because hard-link cleanup failed, and redundant disk reads that caused memory/CPU regressions were removed.
+
+## Filer reliability notes (4.29 -> 4.30)
+
+- `4.29` serializes same-path mutations with a per-path lock and adds filer-side object transactions for atomic multi-entry object writes. Prefer this upstream write path over custom app-side locking when coordinating S3-style mutations.
+- `4.30` prunes filers dropped from master discovery, adds jitter to retry backoff in `wdclient` / daily tasks, and returns immediately on the first distributed-operation error. Update runbooks that assumed stale filer endpoints would linger until process restart.
+- Redis2 filer stores now apply `keyPrefix` in KV methods, and Postgres filer writes default to `ON CONFLICT` upsert so a conflict does not abort the whole transaction. Re-test migrations or custom SQL assumptions after upgrade.
 
 ## File Operations Quick Reference
 

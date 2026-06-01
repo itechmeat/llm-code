@@ -61,6 +61,10 @@ for chunk in stream:
         print(chunk.choices[0].delta.content, end="", flush=True)
 ```
 
+### Responses API streaming note (v0.34.1+)
+
+The Python SDK now yields named SSE events for `responses.create` and discriminates the `ResponseStreamEvent` union. If your app branches on event types, prefer the named event/type fields over brittle string parsing of raw chunks.
+
 **TypeScript:**
 
 ```typescript
@@ -164,6 +168,17 @@ requests = client.async_.chat.completions.list(
 for req in requests.data:
     print(f"ID: {req.id}, Status: {req.status}")
 ```
+
+## Responses API background tasks (v0.35.0+)
+
+The SDK adds background-task support and `responses.retrieve`. Use this for long-running responses when you need a request id and polling/retrieval flow instead of holding a streaming connection open.
+
+Operational notes:
+
+- Persist the response id immediately so retries can retrieve the same job.
+- Keep timeouts and cancellation policy explicit; background execution should not become an unbounded queue.
+- `xhigh` reasoning effort is available where the API/model supports reasoning controls.
+- `0.36.0` adds the Responses API sandbox built-in tool. Treat sandbox use as a tool-execution surface: gate it by product policy, log invocations, and do not expose it implicitly to untrusted user prompts.
 
 ## Concurrent Operations
 

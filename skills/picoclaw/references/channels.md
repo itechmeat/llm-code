@@ -81,6 +81,14 @@ Setup notes:
 
 Recent builds also improved Slack reply behavior when audio transcription echo is involved.
 
+`v0.2.9` adds a Slack webhook channel path. Use it when outbound webhook delivery is enough; keep Socket Mode when inbound Slack conversations and app-level event handling are required.
+
+## Late v0.2.9 channel notes
+
+- Telegram media groups and SVG media handling were fixed. Re-test bots that receive grouped attachments or generated SVG/media replies.
+- The `stop` command and queued voice follow-ups were tightened, which matters for voice-heavy channels where users need to cancel or interrupt pending work.
+- MQTT channel stopping was fixed; if MQTT shutdown used to hang, retest before keeping wrapper-side cleanup scripts.
+
 ## Teams Webhook (output-only, v0.2.6)
 
 Config surface comes from the upstream `teams_webhook` channel type:

@@ -132,6 +132,8 @@ const [user, setUser] = useLocalStorage({
 
 ## Input/Debounce
 
+Patch note (`9.2.2`): `use-mask` fixes undo keyboard shortcuts and cursor jumping during paste/cut. Re-test masked phone/date/card inputs after upgrade before keeping custom cursor-preservation patches.
+
 ### useDebouncedValue
 
 ```tsx

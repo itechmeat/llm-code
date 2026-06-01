@@ -11,9 +11,9 @@ pip install tavily-python
 ### Synchronous Client
 
 ```python
-from tavily import TavilyClient
+from tavily import TavilyClient, TavilyKeylessLimitError
 
-# From environment variable TAVILY_API_KEY
+# From environment variable TAVILY_API_KEY, or keyless mode in 0.7.25+
 client = TavilyClient()
 
 # Explicit key
@@ -28,6 +28,23 @@ client = TavilyClient(
     }
 )
 ```
+
+### Keyless Mode
+
+In `tavily-python` 0.7.25+, `TavilyClient()` with no `api_key` can run against Tavily's public keyless API for quick trials. Treat this as an exploration mode, not production configuration.
+
+```python
+from tavily import TavilyClient, TavilyKeylessLimitError
+
+client = TavilyClient()
+
+try:
+    response = client.search("Who is Leo Messi?")
+except TavilyKeylessLimitError as exc:
+    print(exc.retry_after_seconds)
+```
+
+Keyless mode supports `search()` and `extract()` only. `crawl()`, `map()`, `research()`, and higher limits require a real API key.
 
 ### Async Client
 
@@ -334,6 +351,7 @@ results = client.search(
 from tavily import TavilyClient
 from tavily.errors import (
     InvalidAPIKeyError,
+    TavilyKeylessLimitError,
     UsageLimitExceededError,
     MissingAPIKeyError
 )
@@ -344,6 +362,8 @@ except InvalidAPIKeyError:
     print("Invalid API key")
 except UsageLimitExceededError:
     print("Credit limit reached")
+except TavilyKeylessLimitError as exc:
+    print(f"Keyless limit reached; retry after {exc.retry_after_seconds}s")
 except MissingAPIKeyError:
     print("No API key provided")
 except Exception as e:

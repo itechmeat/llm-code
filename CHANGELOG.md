@@ -5,6 +5,19 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-05-31]
+
+### Changed
+
+- **picoclaw** — Updated the skill for `v0.2.9` with MCP/config UI notes, streamable HTTP and Gemini schema fixes, tool-feedback defaults, Slack/Telegram/voice channel updates, and recovery/runtime troubleshooting guidance.
+- **mantine-dev** — Updated the skill for `9.2.2` with component patch notes for Pill/Input/Select/Menu overlays, Modal/Drawer/Spotlight typing, Tiptap teardown safety, and `use-mask` cursor/undo fixes.
+- **perplexity** — Updated the skill for `0.36.0` with Responses API background/retrieve guidance, sandbox built-in tool notes, Search API `search_context_size` rollback guidance, and streaming event handling updates.
+- **pipecat** — Updated the skill for `1.3.0` with multi-worker and UIWorker guidance, RTVI job-group migration notes, development-runner transport changes, and current STT/TTS/LLM service updates.
+- **pydantic-ai** — Updated the skill for `1.104.0` with MCP prompt APIs, Vercel UI timestamp handling, Claude Opus 4.8 and OpenRouter streaming notes, plus Bedrock/toolset/UI hardening updates.
+- **openclaw** — Updated the skill for `v2026.5.28` with Codex/runtime recovery guidance, stricter security/input boundaries, channel delivery notes, provider/media coverage, and plugin/work-coordination updates.
+- **seaweedfs** — Updated the skill for `4.30` with S3 object-transaction/auth hardening notes, FUSE POSIX lock guidance, EC placement and shell-repair updates, health/readiness probes, and filer/sync reliability guidance.
+- **tavily** — Updated the skill for `0.7.25` with Python SDK keyless-mode guidance, including supported endpoints and `TavilyKeylessLimitError` handling.
+
 ## [2026-05-25]
 
 ### Changed

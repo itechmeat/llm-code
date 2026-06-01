@@ -92,6 +92,13 @@ Use these for process/container probes only; for authenticated deeper checks, us
 - Gateway/browser/sandbox/transcript paths received another security/provenance hardening pass; after upgrade, re-test browser-origin expectations, sandbox assumptions, and paired-device trust instead of carrying old exceptions forward.
 - If reply delivery or UI continuity changed after upgrade, inspect the new UI mode and the hardened auth/provenance path before assuming model/provider instability.
 
+## Gateway and runtime updates (v2026.5.27-v2026.5.28)
+
+- No-auth Tailscale exposure is rejected; keep remote gateway exposure on authenticated Serve/Funnel or tunnel paths instead of relying on tailnet reachability alone.
+- Browser tokens expire after auth rotation, stale restart continuations are avoided, probe client closes drain cleanly, and retry-after/rate-limit cooldown fallbacks are preserved. Treat post-rotation reconnect tests as part of upgrade validation.
+- Browser and Gateway inputs now reject invalid tab indexes, excessive viewport resizes, explicit zero CDP ports, malformed geolocation values, unsafe screenshot/permission timeouts, explicit zero Gateway ports, and loose response-body limits. Update automation harnesses that used placeholder zero/NaN values.
+- Runtime-config message actions resolve against the active runtime config, and session active-run buffers are cleared after completion. If messages land in the wrong context after upgrade, inspect runtime-config selection before changing channel policy.
+
 ## Tailscale modes and policy
 
 - `serve`: recommended tailnet HTTPS proxy while gateway stays loopback-bound.
@@ -123,6 +130,7 @@ Use these for process/container probes only; for authenticated deeper checks, us
 - For direct HTTPS deployments, you can enable HSTS via `gateway.http.securityHeaders.strictTransportSecurity`.
 - Enforce strict file permissions for config/state and enable sensitive-data redaction in logs.
 - Browser-originated WebSocket connections must pass origin validation even behind `trusted-proxy`; never rely on forwarded headers as a substitute for allowed-origin policy.
+- Repeated-dot hostnames normalize before policy checks, and untrusted Microsoft Teams service URLs are blocked. Keep DNS/service-url allowlists canonical rather than matching raw inbound strings.
 
 ## Auth and media hardening notes (v2026.4.15)
 

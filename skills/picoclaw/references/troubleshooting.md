@@ -37,6 +37,12 @@ If something is blocked unexpectedly, adjust `tools.exec.custom_deny_patterns` o
 
 See also: `tools.md`.
 
+## Provider/tool schema issues after v0.2.9
+
+- If Gemini-backed MCP tools fail schema validation, update first and re-run `picoclaw mcp test`; the release line includes Gemini MCP schema sanitization fixes.
+- DeepSeek vision unsupported errors are clearer. Treat them as capability mismatch signals and switch model/tool routing instead of retrying the same vision request.
+- For DeepSeek/Mimo reasoning-history replay issues, verify the current release before adding custom transcript rewriting.
+
 ## WeCom callback validation fails
 
 - Ensure the webhook port is reachable from WeCom.

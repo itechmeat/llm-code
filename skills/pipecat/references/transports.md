@@ -40,6 +40,7 @@ You do not have to put `transport.output()` as the final processor. Placing proc
 The Learn guide also calls out additional transports you may encounter:
 
 - LiveKit-based WebRTC transports
+- Vonage Video Connector transport for real-time Vonage WebRTC sessions
 - FastAPI-oriented websocket transports for telephony/webhooks
 - Video/avatar generation transports (e.g., HeyGen, Tavus)
 
@@ -94,3 +95,4 @@ The Learn guide shows a practical pattern:
 
 - Prefer **WebRTC** for client applications: better resilience, built-in audio processing, and quality telemetry.
 - Prefer **WebSocket** for telephony and server-to-server; expect to implement more reconnection/timestamping/observability yourself.
+- In `1.3.0`, the development runner can expose a plain WebSocket `/ws-client` endpoint alongside WebRTC/Daily/telephony. Use it for non-telephony clients, but keep production readiness checks and auth around the custom runner surface.

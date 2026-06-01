@@ -60,6 +60,13 @@ Docs mention:
 
 These changes matter when you tune speech sensitivity live or need the agent to resume speaking cleanly after a false-positive VAD event.
 
+## STT and turn updates (1.3.0)
+
+- `CartesiaTurnsSTTService` supports Cartesia Streaming ASR v2 turn-based WebSocket sessions and maps `turn.start`, `turn.update`, `turn.end`, eager-end, and resume events into Pipecat speech/turn frames.
+- `SonioxSTTService.Settings.max_endpoint_delay_ms` controls the maximum endpointing delay before a turn finalizes, and Soniox settings updates now reconnect gracefully instead of hard disconnecting.
+- `STTService.supports_ttfs` lets turn-based STT services opt out of TTFS latency semantics; when false, `STTMetadataFrame` uses `ttfs_p99_latency=0.0` without noisy warnings.
+- Smart Turn v3 no longer imports `transformers` at module import time; cold start and memory footprint are much lower, and `transformers` is no longer part of the base install.
+
 ## Interruptions
 
 When interruptions are enabled (docs say default enabled), starting a user turn can:

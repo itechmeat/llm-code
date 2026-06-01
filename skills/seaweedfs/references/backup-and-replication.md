@@ -22,6 +22,7 @@ Sources:
 - Consider cloud object storage as a practical backup sink because the page highlights low-ingest-cost economics.
 - For EC-heavy clusters, treat the `4.24`-`4.25` line as replication-safety work too: shard planning/recovery is safer, stale partial shards are pruned more carefully, and source-volume deletion is gated on verifying a healthy shard set.
 - For the `4.26`-`4.28` line, include EC metadata recovery in DR drills: SeaweedFS can now rebuild lost `.ecx` / `.vif` metadata from local shards, but you should still validate the recovery path before counting it as a full substitute for backups.
+- For the `4.29`-`4.30` line, include filer-sync and remote-sink metadata correctness in DR checks: chunk-size validation prevents zero-byte propagation, manifest chunks resolve against the source filer, filtered-event markers keep `sync_offset` fresh, and S3/GCS remote sinks forward MIME type as `ContentType`.
 
 ### Gotchas / prohibitions
 
@@ -29,6 +30,7 @@ Sources:
 - Do not choose incremental mode if you expect deletions to be reflected in the backup.
 - Do not run backup without a stable `replication.toml` shared across failover backup workers.
 - Do not assume volume balancing should move remote-tiered volumes; the `4.24` line explicitly fixes that behavior.
+- Do not accept a green sync process as proof of a good restore; verify object content type, manifest expansion, and zero-byte edge cases after upgrading through `4.30`.
 
 ### How to apply in a real repo
 

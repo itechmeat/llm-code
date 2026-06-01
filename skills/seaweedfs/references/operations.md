@@ -20,6 +20,8 @@ Sources:
 - Use dedicated metrics ports per process when exposing scrape endpoints directly.
 - Reuse the upstream Grafana dashboard as a starting point instead of building panels from scratch.
 - Master and volume processes now export `start_time_seconds`, which is useful for restart detection and rollout dashboards.
+- `4.29` exposes Admin Server Prometheus metrics; scrape it separately from master/volume/filer metrics when the admin worker participates in EC placement or vacuum workflows.
+- `4.30` adds `/healthz` and `/readyz` probes across S3, IAM, volume, filer, and master services. Prefer readiness probes for traffic admission and health probes for restart decisions in orchestrated deployments.
 
 ### Gotchas / prohibitions
 
@@ -49,6 +51,8 @@ Sources:
 - When scripting `weed shell`, prompt suppression on piped input reduces brittle non-interactive automation.
 - The `4.24`-`4.25` line is operationally important for erasure coding on multi-disk servers: the planner now treats `(server, disk_id)` distinctly, stale shards are pruned more safely, and same-server multi-disk EC reads/recovery are fixed.
 - The `4.26`-`4.28` line extends that EC story: execution plans now keep explicit `disk_id` attribution, lost `.ecx` / `.vif` metadata can be reconstructed from local shards, and zero-sized volumes are no longer skipped by scrub/fsck workflows.
+- The `4.29`-`4.30` line moves EC encode/repair to shared `ecbalancer.Place` placement and snapshots placement once per detection cycle, which matters for large topologies that previously timed out. It also improves credible-replica metrics, removes empty stub replicas before distributing EC shards, preserves `.vif` metadata when a coexisting regular volume is deleted, and re-notifies writable volumes after worker vacuum.
+- `volume.fsck` no longer halts purge on a stuck read-only volume, and `volume.merge` verifies output before overwriting replicas. Keep those checks in repair runbooks instead of bypassing shell safety.
 - Revalidate admin scripts after `4.24`: several volume/admin RPCs and destructive operations now require admin auth.
 
 ### Gotchas / prohibitions

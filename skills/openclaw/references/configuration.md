@@ -41,6 +41,7 @@ Example shape:
 - Environment variables can come from the process, a local `.env`, or `~/.openclaw/.env`.
 - Do not hardcode channel tokens or provider secrets when an env-based path is available.
 - After changing secret sources, rerun validation and health checks before testing channels.
+- Late-May 2026 releases ignore workspace dotenv provider credentials and migrate legacy non-canonical `api_key` auth profiles to canonical form. Keep provider credentials in the intended OpenClaw auth/profile source instead of relying on workspace-local dotenv leakage.
 
 ## Hot-reload vs restart boundaries
 
@@ -86,3 +87,9 @@ These files are part of the agent context surface. Keep them short, current, and
 - Start from least privilege and open up only the tools you need.
 - `tools.deny` is a practical way to block high-risk surfaces such as browser automation or canvas while the deployment is still being proven.
 - Revisit tool policy after channel trust, allowlists, and routing rules are stable.
+
+## Config parsing hardening (v2026.5.27-v2026.5.28)
+
+- Partial numeric parsing is rejected for gateway timeouts, model limits, directory limits, message options, webhook values, cron epochs, media content lengths, sandbox stat fields, and duration values. Use exact typed values in generated config.
+- Empty config path segments, noncanonical schema array refs, unsafe Telegram callback pages, and invalid Teams attachment-fetch DNS targets fail earlier. Treat these as config bugs to fix at source instead of retrying the same generated payload.
+- Explicit agent runtime pins are preserved during Codex model migration, and provider auth health labels are clearer. Keep runtime pins intentional when migrating Codex/GitHub Copilot/OpenAI profiles.

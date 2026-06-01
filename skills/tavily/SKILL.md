@@ -2,8 +2,8 @@
 name: tavily
 description: "Tavily AI search API for LLM applications: web search, content extraction, site crawling, mapping, and research. Use when integrating real-time web search into LLM apps, extracting content from URLs, crawling sites, or building RAG pipelines with web data. Keywords: Tavily, AI search, RAG, web search API, LLM search, extract, crawl, map, research, tavily-python."
 metadata:
-  version: "0.7.24"
-  release_date: "2026-04-27"
+  version: "0.7.25"
+  release_date: "2026-05-29"
 ---
 
 # Tavily
@@ -13,6 +13,8 @@ AI-optimized search engine for building LLM applications with real-time web data
 ## Links
 
 - [Documentation](https://docs.tavily.com/)
+- [Releases](https://pypi.org/project/tavily-python/#history)
+- [GitHub](https://github.com/tavily-ai/tavily-python)
 - [PyPI](https://pypi.org/project/tavily-python/)
 
 ## Quick Navigation
@@ -210,14 +212,13 @@ response = client.research(
 3. **Filter domains** to improve relevance
 4. **Use Extract** when you know specific URLs
 5. **Use Research** for complex, multi-step queries
+6. **Use Python keyless mode only for trials**; it supports `search()` and `extract()` only and remains rate-limited
 
 ## Prohibitions
 
 - Do not expose API keys in client-side code
 - Do not exceed rate limits (implement backoff)
 - Do not scrape sites that block Tavily crawler
-
-## Links
 
 - [API Playground](https://app.tavily.com/playground)
 - [Documentation](https://docs.tavily.com)

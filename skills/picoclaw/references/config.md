@@ -85,6 +85,8 @@ As of v0.2.3, cron command execution is also gated by exec settings. If a schedu
 
 Recent web config flows also track whether a change requires restart and surface save/restart prompts instead of silently writing config that will not be applied until later.
 
+`v0.2.9` adds MCP configuration coverage to the web UI and refreshes v3 config-format sync behavior. Treat web-edited MCP/server settings the same as manual config edits: save, note whether restart is required, then run a targeted status/test command.
+
 ### `gateway`
 
 - `host`, `port` control the health server bind address.
@@ -129,6 +131,10 @@ If `voice.model_name` is unset, PicoClaw falls back to Groq when a Groq API key 
 ### Workspace file hot-reload
 
 `AGENT.md`, `SOUL.md`, `USER.md`, and `memory/MEMORY.md` are auto-detected via mtime tracking. No gateway restart needed after editing these files.
+
+## Recovery operations (v0.2.9)
+
+- Factory reset support was added. Treat it as destructive recovery: export or back up config/workspace state first, then re-run onboarding/status checks.
 
 ## Minimal config change checklist
 

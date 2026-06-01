@@ -89,6 +89,7 @@ Operational notes:
 - After upgrading to `v2026.5.12`, explicitly verify optional provider/channel/plugin presence because several dependency cones are now externalized from the core install.
 - Plugin install/update handling is safer in the May 2026 line and supports pnpm 11, so prefer the current install path over preserving old package-manager workarounds.
 - ACP can now use configured fallback runtimes before output is emitted; if a primary backend is flaky, validate `acp.fallbacks` before treating the whole ACP path as down.
+- After upgrading to `v2026.5.27` or `v2026.5.28`, re-run `doctor`, channel probes, provider auth checks, and any custom browser/Codex harnesses. The release line intentionally rejects malformed numeric/version options, workspace dotenv provider credentials, unsafe browser inputs, and stale restart continuations earlier.
 
 ## Automatic updates (Gateway core auto-updater)
 
@@ -140,6 +141,7 @@ openclaw health
 - Keep remote gateway calls authenticated and timeout-bounded.
 - Avoid Bun runtime for gateway in channel-critical environments.
 - Child commands launched from OpenClaw now carry `OPENCLAW_CLI`; use that marker in wrapper scripts when you need different behavior for CLI-spawned subprocesses.
+- Side-effecting command wrappers and unsafe Node runtime environment overrides are blocked in the late-May release line. Move required behavior into explicit config or approved wrapper paths rather than relying on inherited process state.
 
 ## CLI output hygiene (security)
 
@@ -181,6 +183,7 @@ openclaw health
 - Startup failure: check gateway mode, auth for bind mode, and port conflicts.
 - Channel flow failure: validate API scopes, policy gates, and pairing approvals.
 - Node/browser tool failures: isolate permissions, approvals, foreground constraints, and runtime dependencies.
+- Codex/app-server failures: check runtime model resolution, app-server helper startup, native hook relay generation, and session-lock cleanup before deleting shared runtime state.
 
 ## Patch-level triage additions (v2026.3.13-1)
 

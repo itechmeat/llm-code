@@ -64,3 +64,8 @@ The key is detected from:
 - The web surface now gives clearer save/restart prompts and tracks which config changes require a restart before they take effect.
 - Tool/model/channel/web-search restart requirements are surfaced more explicitly, which reduces the risk of “saved but not applied” operator confusion.
 - Frontend file downloads and thought/tool-visibility toggles are more capable, so operator expectations around what the web UI can inspect/control should be updated.
+
+## v0.2.9 operational notes
+
+- Runtime events planning and factory reset flows were added; use them for controlled recovery rather than deleting state by hand.
+- Network-error retry and voice-media-store reload fixes reduce transient channel failures, but still keep gateway debug logs around reconnect/reload incidents.

@@ -21,9 +21,15 @@ Pydantic AI is model-agnostic with 30+ providers.
 
 ## Recent model-surface updates (1.80.0+)
 
-- Anthropic support now includes Claude Opus 4.7.
+- Anthropic support now includes Claude Opus 4.8.
 - Pydantic AI added a native `OllamaModel` subclass and corrected Ollama capability flags, which is especially relevant for structured output on Ollama Cloud.
 - OpenAI compaction gained a stateful mode in the `1.84.x` line.
+
+## Provider reliability updates (1.103.0 -> 1.104.0)
+
+- `OpenRouterModel` supports `anthropic_eager_input_streaming`; enable it only when the target route expects Anthropic-style eager streaming semantics.
+- Hybrid OpenRouter/xAI/Bedrock routes now forward `thinking=False` consistently, matching direct-route behavior instead of silently dropping the setting.
+- Bedrock maps `malformed_model_output` and `malformed_tool_use` to `FinishReason.error`, recognizes `type='adaptive'` in thinking detection, and preserves cache behavior for single-tool `tool_choice` requests.
 
 ## xAI (Grok)
 

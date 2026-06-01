@@ -61,6 +61,14 @@ Useful for:
 
 The guide shows a settings-update frame to change TTS parameters mid-conversation.
 
+Recent service notes (`1.3.0` line):
+
+- Rime `RimeTTSService` / `RimeHttpTTSService` default to the `coda` model instead of `arcana`; set `model="arcana"` explicitly to preserve old behavior.
+- Rime `coda` ignores `temperature`, `top_p`, and `repetition_penalty`, while `timeScaleFactor` controls playback speed for `arcana` and `coda`.
+- Gradium defaults to voice `_6Aslh2DxfmnRLmP`.
+- Azure TTS completion now waits for the word-boundary queue so the final word is observed before `TTSStoppedFrame`.
+- Skipped TTS frames keep their order until previous spoken frames finish, and `TTSTextFrame.raw_text` preserves original LLM text structure when word timestamps are enabled.
+
 Recent service notes (`1.0.0` line):
 
 - `MistralTTSService` adds SSE-based streaming TTS with automatic resampling.

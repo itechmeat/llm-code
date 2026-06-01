@@ -127,6 +127,8 @@ Tool preparation is moving toward explicit capabilities rather than constructor 
 
 This matters most when tool preparation interacts with other capabilities, because the capability path makes ordering explicit instead of burying it in constructor kwargs.
 
+As of `1.103.0`, toolset prepare callbacks warn when they return `None`. Treat that warning as a likely bug in custom filtering/modification code; return the intended tool list or explicit empty result instead of falling through accidentally.
+
 ## Tool Retries
 
 ````python

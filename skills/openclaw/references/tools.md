@@ -68,6 +68,14 @@ v2026.3.2 adds PDF output support and quality controls for diff artifacts.
 - `--dangerously-force-unsafe-install` as break-glass override for built-in dangerous-code false positives.
 - Gateway-backed skill dependency installs blocked on dangerous-code `critical` findings unless override is set.
 
+## Plugin and coordination updates (v2026.5.27-v2026.5.28)
+
+- ClawHub package/catalog listings now surface plugin display metadata, skill verification, and trust signals. Treat those as operator hints, not as a replacement for install policy and provenance review.
+- The Plugin SDK exposes plugin approval action metadata and a reply payload sending hook for plugins that must deliver channel-owned replies. Avoid custom channel-send workarounds when the hook can preserve delivery ownership.
+- GitHub Copilot and Tokenjuice are externalized as official install-on-demand plugins with npm and ClawHub metadata. Verify optional plugin presence after upgrading lean installs.
+- Workboard adds agent coordination tools for tracking and handing off active agent work. Gate these like other session/agent-control tools because they affect live coordination state.
+- MCP structured content now surfaces in agent tool results, and malformed tool-argument repair is stricter for smart-quoted edit arrays and exact escaped arguments.
+
 ## Loop guards and tool identity (v2026.4.15)
 
 - The unknown-tool stream guard is now enabled by default. Keep `tools.loopDetection.unknownToolThreshold` explicit only when you need to raise or lower the tolerance.
@@ -98,6 +106,7 @@ v2026.3.2 adds PDF output support and quality controls for diff artifacts.
 - Use messaging profile for chat workflows; coding profile only where command execution is needed.
 - Restrict selected providers to minimal tools when model behavior is less predictable.
 - For browser automation: verify `status` before `snapshot/act` to reduce flaky sequences.
+- For browser automation after `v2026.5.28`: avoid placeholder or non-finite viewport, tab, timeout, geolocation, and cookie values; the Browser tool rejects malformed inputs earlier.
 - For web search: provider `"kimi"` is supported (Moonshot); expect a two-step tool flow where results are echoed before final synthesis.
 - For long-running shell tasks: use `exec(background=true)` + `process.poll` instead of blocking calls.
 

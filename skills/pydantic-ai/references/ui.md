@@ -160,6 +160,12 @@ Native support for Vercel AI SDK frontend applications.
 
 Tool approval integration is supported in Vercel adapter workflows.
 
+### Update note (v1.103.0)
+
+`VercelAIAdapter` round-trips message timestamps through `UIMessage.metadata`, which helps frontend clients preserve chronological ordering across reloads and server-side transforms.
+
+`UIAdapter.sanitize_messages` strips client-submitted `force_download` from `FileUrl` parts. Treat download behavior as server-controlled policy, not a client-provided trust signal.
+
 ### Update note (v1.60.0)
 
 AG-UI parent message linking was fixed for back-to-back built-in tool calls.

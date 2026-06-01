@@ -26,6 +26,13 @@ Operational notes:
 - MCP init failures are surfaced to command handlers more clearly in the newer release line, so a failed test/init is now a meaningful signal rather than silent flakiness.
 - Local stdio command paths are normalized and home-directory paths are expanded, which reduces config drift across machines.
 
+## MCP/tool feedback updates (v0.2.9)
+
+- The config web UI has an MCP section, so operators can inspect or edit MCP-related settings without leaving the web flow.
+- MCP streamable HTTP support and Gemini MCP schema sanitization were fixed; re-run `picoclaw mcp test` after upgrade before blaming server-side MCP schemas.
+- `tool_feedback` defaults now include `pretty_print` and `disable_escape_html`. Review any UI/channel code that assumed raw escaped HTML or compact JSON output.
+- Edit-file diff preview support improves generated-edit review. Prefer previewing changes before enabling tools that can modify files.
+
 ## Web tools
 
 Supported switches (from project docs):

@@ -19,6 +19,12 @@ Provider/feature extras (pattern used throughout the docs):
 - `pip install "pipecat-ai[runner]"` (runner utilities)
 - You can combine extras if needed (keep them explicit).
 
+`1.3.0` packaging notes:
+
+- `transformers` is no longer a base dependency. Install the relevant extras (`local-smart-turn`, `moondream`, or other service extras) only when those features are used.
+- Services/transports imported without their optional dependency now raise `ImportError` with the original `ModuleNotFoundError` as `__cause__`; wrap optional imports with `except ImportError` instead of broad `except Exception`.
+- The `deepgram` extra allows `deepgram-sdk>=6.1.1,<8`, and the `websockets-base` extra no longer caps the upper bound beyond `websockets>=13.1`.
+
 ## CLI: `pipecat-ai-cli`
 
 Recommended for scaffolding/ops (`pipecat init`, `pipecat tail`, `pipecat cloud ...`).
