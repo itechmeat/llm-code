@@ -2,8 +2,8 @@
 name: zvec
 description: "Zvec in-process vector database. Covers collections, indexing, embeddings, reranking, and persistence. Use when embedding Zvec into applications or tuning retrieval/storage behavior. Keywords: Zvec, HNSW-RaBitQ, vector database, ANN."
 metadata:
-  version: "0.4.0"
-  release_date: "2026-05-09"
+  version: "0.5.0"
+  release_date: "2026-06-12"
 ---
 
 # Zvec
@@ -55,6 +55,14 @@ Zvec is a lightweight, in-process vector database meant to be embedded into appl
 - Do not assume a client/server deployment model: Zvec is in-process.
 - Do not add project-specific paths, secrets, or environment assumptions.
 - Do not choose `HNSW-RaBitQ` on unsupported hardware; current docs limit it to `x86_64` with `AVX2` or better.
+
+## Release Highlights (0.5.0)
+
+- **Full-text search (FTS)**: attach an FTS index to any string field via `create_index()` / `drop_index()` and query it with natural-language or structured expressions, alongside vector indexes.
+- **Hybrid retrieval**: the `MultiQuery` API combines dense vectors, sparse vectors, scalar filters, and text in one query with consistent reranking across Python, Go, Rust, and C++.
+- **DiskANN index**: keeps the bulk of the index on disk instead of RAM, cutting memory use for billion-scale datasets on memory-constrained hosts.
+- **Output field selection**: `fetch()` accepts an `output_fields` parameter to control which fields are returned.
+- **New SDKs and tooling**: official Go SDK (cgo, prebuilt Linux/macOS/Windows libs), Rust SDK (RAII, builder APIs), and Zvec Studio (`pip install zvec-studio`) for visual data browsing and query testing.
 
 ## Release Highlights (0.3.0 -> 0.4.0)
 

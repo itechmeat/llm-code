@@ -2,13 +2,20 @@
 name: mantine-dev
 description: "Mantine UI library for React: 100+ components, hooks, forms, theming, dark mode, CSS modules, and Vite/TypeScript setup. Use when building React applications with Mantine components, configuring theming/dark mode, or working with Mantine hooks and forms. Keywords: Mantine, React, UI components, CSS modules, theming."
 metadata:
-  version: "9.2.2"
-  release_date: "2026-05-27"
+  version: "9.3.1"
+  release_date: "2026-06-08"
 ---
 
 # Mantine UI Library
 
 Mantine is a fully-featured React components library with TypeScript support. It provides 100+ hooks and components with native dark mode, CSS-in-JS via CSS modules, and excellent accessibility.
+
+## v9.3 Highlights
+
+- New `Splitter` component (with `use-splitter` hook): declarative resizable split-pane layout with horizontal/vertical orientation, collapsible panes, and keyboard navigation. `Splitter.Pane` must be a direct child of `Splitter`.
+- New component props: `Pagination` gains `layout="responsive"` (CSS container queries), `Text`/`Blockquote` gain `textWrap`, `CodeHighlight` gains `withLineNumbers`, `OverflowList` gains `collapseFrom` ("start"/"end"), `Textarea` gains `bottomSection` (character counters), and the Combobox family (`Select`, `MultiSelect`, `Autocomplete`, `TagsInput`) supports `floatingHeight="viewport"`.
+- `DateInput` gains `presets` for quick value selection; `Menu.Sub` supports controlled open state.
+- `9.3.1` patch fixes: notification DOM cleanup on close, `Collapse` `keepMounted`, `SegmentedControl` indicator radius, `PinInput` placeholder centering, `Tree` arrow-key navigation skipping hidden nodes, `MaskInput` with uncontrolled `use-form`, and stable `use-id` under an `Activity` wrapper.
 
 ## v9.2.2 Highlights
 

@@ -2,8 +2,8 @@
 name: seaweedfs
 description: "SeaweedFS distributed storage. Covers filer, S3 API, replication, cloud tiers, and operations. Use when deploying SeaweedFS, configuring filer stores, exposing S3-compatible endpoints, or planning backup and security controls. Keywords: SeaweedFS, weed, filer, S3, object storage."
 metadata:
-  version: "4.30"
-  release_date: "2026-05-30"
+  version: "4.33"
+  release_date: "2026-06-11"
 ---
 
 # SeaweedFS
@@ -59,6 +59,15 @@ Prefer production guidance from multi-component setups over `weed mini` shortcut
 - **Filer backend reliability**: Redis3 avoids a skiplist-end panic path, and SQL-based filer stores no longer force-disable idle connection pooling.
 - **S3 audit trail**: requester identity is populated more consistently for GET/HEAD/IAM operations, improving compliance and incident triage.
 - **HA heartbeat path**: masters now accept volume-server ping targets on follower replicas, which improves failover visibility in multi-master deployments.
+
+## Release Highlights (4.31 -> 4.33)
+
+- **S3 versioning/IAM**: atomic versioned `PutObject` commits, proper `NoSuchVersion` errors, latest-pointer repair and recovery, suspended-versioning delete handling, managed IAM policy versions, and bucket read-only quota enforcement; `4.33` also fixes HTTP-date conditionals, checksum trailer headers, and empty v4 signed header names.
+- **Erasure coding integrity**: per-shard checksum sidecars for bitrot detection (`4.31`), even shard spreading across machines with co-located servers treated as a single fault domain and pre-deletion shard-landing verification (`4.32`), and guards preventing EC shards from different encode runs mixing or leaving phantom `.dat` on restart (`4.33`).
+- **Volume server**: fixes `maxVolumeCount` dead zone on auto-sized disks, keeps volumes writable after deletion-tail compaction, resolves EC data-shard count from `.vif` on reboot (`4.31`), and adds `CheckDisk` disk-health detection (`4.32`).
+- **Filer scalability**: bounded BFS-metadata memory and byte-lexicographic S3 list order (`4.31`), streamed metadata-subscription log files (`4.32`), and object-size distribution metrics, mount-reconnect OOM fixes, per-chunk replay, a bounded flush queue, and Elasticsearch 8 (`elastic8`) support (`4.33`).
+- **Admin/worker**: lane-aware scheduler pruning, `-dataDir` defaulting for persisted state and in-flight task reload on startup (`4.32`), plus full cluster volume list JSON export (`4.33`).
+- **Rust volume server**: bounded request body / stored-content expansion to prevent OOM under load (`4.31`); stops EC-shard-deletion phantom `.dat` on restart (`4.33`).
 
 ## Release Highlights (4.29 -> 4.30)
 

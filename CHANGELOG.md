@@ -5,6 +5,20 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-06-13]
+
+### Changed
+
+- **mantine-dev** — Updated the skill for `9.3.1` with the new `Splitter` component and `use-splitter` hook, plus new props (`Pagination` responsive layout, `Text`/`Blockquote` `textWrap`, `CodeHighlight` `withLineNumbers`, `OverflowList` `collapseFrom`, `Textarea` `bottomSection`, Combobox `floatingHeight="viewport"`, `DateInput` `presets`) and 9.3.1 patch fixes.
+- **perplexity** — Updated the skill for `0.38.0` with the `0.38.0` sandbox `files` subresource and the `0.37.0` reintroduction of `search_context_size` for the Search API and `web_search` tool.
+- **pydantic-ai** — Updated the skill for `1.107.0` with Claude Fable 5 / Mythos 5 and Grok 4.3 model support, deferred loading of instructions/tools/settings/hooks, `known_model_names()`, OpenRouter `CachePoint` caching, `XaiProvider` config options, and the `VercelAIAdapter` `UploadedFile` security fix.
+- **openclaw** — Updated the skill for `v2026.6.6` with tighter security boundaries (fail-closed exec approval, MCP stdio/Codex HTTP), Telegram topic routing and iMessage restart/streaming, Kimi K2.7 Code and Claude Fable 5 support, existing-session CDP browser support, trusted plugin publishing, and Control UI startup performance.
+- **seaweedfs** — Updated the skill for `4.33` with S3 versioning/IAM atomicity and quota enforcement, EC bitrot checksum sidecars and fault-domain shard spreading, volume-server `.vif`/compaction fixes, filer scalability (streamed metadata logs, Elasticsearch 8), and Rust volume-server OOM bounds.
+- **tavily** — Updated the skill for `0.7.26` with the optional `org_id` client parameter that sets the `X-Tavily-Orgid` request header.
+- **vite** — Updated the skill for `8.0.16` with the Rolldown `1.0.3` bump, HTTP `408` on dev-server request timeout, `launch-editor-middleware` UNC/Windows alternate-path rejection, and `/@fs/` HTML-proxy and virtual-module glob fixes.
+- **qdrant** — Updated the skill for `1.18.2` with the REST auth whitelist-bypass and malformed-snapshot heap-read security fixes, plus shard WAL recovery slow-op logging and ID-tracker cache clearing.
+- **zvec** — Updated the skill for `0.5.0` with full-text search (FTS) indexes, `MultiQuery` hybrid retrieval, the DiskANN on-disk index, `fetch()` `output_fields`, and the new Go/Rust SDKs and Zvec Studio.
+
 ## [2026-05-31]
 
 ### Changed

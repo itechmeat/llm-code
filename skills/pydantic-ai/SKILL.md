@@ -2,8 +2,8 @@
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Use when building Python AI agents with Pydantic AI, configuring model providers, implementing typed tools/dependencies, running evals, or integrating MCP servers. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
 metadata:
-  version: "1.104.0"
-  release_date: "2026-05-28"
+  version: "1.107.0"
+  release_date: "2026-06-10"
 ---
 
 # Pydantic AI
@@ -51,6 +51,16 @@ See `references/installation.md` for full/slim install options and optional depe
 - **Streaming migration**: move from `stream_responses()` to `stream_response()`; the newer API yields `ModelResponse` objects directly.
 - **Retry configuration**: prefer `Agent(retries=...)` or `AgentRetries(...)` over older constructor-level retry knobs.
 - **New runtime tools**: `ctx.enqueue()` and MCP background tasks make it easier to queue follow-up work without forcing it into the current response turn.
+
+## Release Highlights (1.105.0 -> 1.107.0)
+
+- **New models**: Claude Fable 5 and Claude Mythos 5 are supported (1.107.0), alongside Grok 4.3 `reasoning_effort` and updated xAI model names (1.105.0).
+- **Deferred loading**: instructions, tools, model settings, and hooks can now be loaded on demand instead of eagerly at agent construction (1.105.0).
+- **Model introspection**: `known_model_names()` enumerates `KnownModelName` members (1.107.0).
+- **OpenRouter caching**: `CachePoint` and prompt caching are implemented for OpenRouter (1.107.0).
+- **xAI config**: `XaiProvider` gains `api_host` and `timeout`, plus `seed` parameter mapping (1.106.0).
+- **Security**: `VercelAIAdapter` `UploadedFile` handling was hardened against a confused-deputy file-read vulnerability (GHSA-h7p7-w5gc-xj3w, 1.106.0).
+- **Fixes**: incomplete streamed responses when `event_stream_handler` doesn't consume the stream, `from_data_uri` on non-base64 data URIs, Temporal `gateway/` model construction, `GoogleModelSettings.google_cached_content` request shaping, Anthropic Bedrock `message=None` start events, and `AnthropicModel.count_tokens` with native tools.
 
 ## Release Highlights (1.103.0 -> 1.104.0)
 

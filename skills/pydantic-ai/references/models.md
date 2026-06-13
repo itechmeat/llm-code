@@ -31,6 +31,14 @@ Pydantic AI is model-agnostic with 30+ providers.
 - Hybrid OpenRouter/xAI/Bedrock routes now forward `thinking=False` consistently, matching direct-route behavior instead of silently dropping the setting.
 - Bedrock maps `malformed_model_output` and `malformed_tool_use` to `FinishReason.error`, recognizes `type='adaptive'` in thinking detection, and preserves cache behavior for single-tool `tool_choice` requests.
 
+## Model-surface updates (1.105.0 -> 1.107.0)
+
+- Anthropic support adds Claude Fable 5 and Claude Mythos 5 (1.107.0).
+- xAI adds Grok 4.3 `reasoning_effort` support with updated model names (1.105.0), plus `seed` mapping and `api_host`/`timeout` on `XaiProvider` (1.106.0).
+- `OpenRouterModel` implements `CachePoint` and prompt caching (1.107.0).
+- `known_model_names()` enumerates the `KnownModelName` members at runtime (1.107.0).
+- Anthropic Bedrock stream handling tolerates `message=None` start events, and `AnthropicModel.count_tokens` is corrected when native tools are present (1.107.0).
+
 ## xAI (Grok)
 
 Native xAI SDK provider (replaces deprecated `GrokProvider`):

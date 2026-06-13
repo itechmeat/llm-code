@@ -6,6 +6,12 @@
 npm install @mantine/hooks
 ```
 
+## New in v9.3
+
+### use-splitter
+
+Powers the `Splitter` component: drag-based resizing of split panes with keyboard navigation. Use the hook directly when you need a custom resizable layout outside the `Splitter` component wrapper.
+
 ## New in v9.0
 
 ### useCollapse / useHorizontalCollapse

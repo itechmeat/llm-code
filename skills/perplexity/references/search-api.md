@@ -51,10 +51,10 @@ for result in search.results:
 | `search_domain_filter`   | list        | -        | Domain allow/denylist (max 20)                                |
 | `search_language_filter` | list        | -        | ISO 639-1 codes (max 10)                                      |
 
-## SDK search notes (0.34.0 -> 0.35.1)
+## SDK search notes (0.34.0 -> 0.37.0)
 
 - `search_type` was added for People Search routing. Use it only when the API account/model surface supports that specialized search path.
-- Do not pass `search_context_size` to `client.search.create()`. It was exposed prematurely in `0.35.0` and removed in `0.35.1`; use chat completions `web_search_options.search_context_size` for context-size control.
+- `search_context_size` was exposed prematurely in `0.35.0`, removed in `0.35.1`, and reintroduced in `0.37.0` for both the Search API and the `web_search` tool. It now controls how much search context is retrieved; pass it on `client.search.create()` again, or keep using chat completions `web_search_options.search_context_size`.
 
 ## Regional Search
 

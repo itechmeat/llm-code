@@ -2,8 +2,8 @@
 name: vite
 description: "Vite next-gen frontend tooling: dev server, HMR, build, config, plugins, Environment API, Rolldown. Use when setting up or running a Vite project, configuring vite.config.*, authoring plugins, working with HMR or JS API, or managing environment variables and modes. Keywords: vite.config, bundler, Vite, HMR, Rolldown."
 metadata:
-  version: "8.0.14"
-  release_date: "2026-05-21"
+  version: "8.0.16"
+  release_date: "2026-06-01"
 ---
 
 # Vite
@@ -66,9 +66,12 @@ metadata:
 - JS API `build()` now throws `BundleError` with nested `.errors` when multiple Rolldown-level errors are present.
 - Rolldown transition becomes more explicit: `build.rollupOptions` / `worker.rollupOptions` are deprecated in favor of `*.rolldownOptions`.
 
-## Patch Notes (8.0.14)
+## Patch Notes (8.0.14 -> 8.0.16)
 
-- Rolldown moves to `1.0.2`; if you maintain plugin or build guidance, validate it against the current Rolldown behavior instead of assuming early `8.0.x` patch semantics.
+- Rolldown moves to `1.0.3` (was `1.0.2` in `8.0.14`); if you maintain plugin or build guidance, validate it against the current Rolldown behavior instead of assuming early `8.0.x` patch semantics.
+- Dev server now sends HTTP `408` on request timeout instead of hanging the connection (`8.0.15`).
+- `launch-editor-middleware` rejects UNC paths and Windows alternate paths, closing a local path-traversal vector (`8.0.16`); relevant if you expose the dev server beyond localhost.
+- `8.0.15` fixes: `/@fs/` HTML-proxy cache-key mismatch, relative-glob-in-virtual-module errors when no files match, closing the Rolldown bundle when `write()` rejects, and `onWarn` for `viteResolvePlugin` in JS plugin containers.
 - `transformIndexHtml` handles trailing-slash paths more reliably, which matters for plugins and static deploy setups that rewrite or inject HTML on directory-style URLs.
 - Dependency scanning now passes Oxc JSX options through the optimizer path, so JSX-heavy linked dependencies should behave closer to the main transform pipeline.
 

@@ -179,6 +179,7 @@ Operational notes:
 - Keep timeouts and cancellation policy explicit; background execution should not become an unbounded queue.
 - `xhigh` reasoning effort is available where the API/model supports reasoning controls.
 - `0.36.0` adds the Responses API sandbox built-in tool. Treat sandbox use as a tool-execution surface: gate it by product policy, log invocations, and do not expose it implicitly to untrusted user prompts.
+- `0.38.0` adds a `files` subresource for retrieving files produced inside the sandbox. Treat retrieved files as untrusted tool output: validate type/size and avoid passing them back into the model or filesystem unchecked.
 
 ## Concurrent Operations
 

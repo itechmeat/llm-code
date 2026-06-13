@@ -46,6 +46,14 @@ except TavilyKeylessLimitError as exc:
 
 Keyless mode supports `search()` and `extract()` only. `crawl()`, `map()`, `research()`, and higher limits require a real API key.
 
+### Organization header
+
+In `tavily-python` 0.7.26+, pass an optional `org_id` to attribute requests to a specific organization. It is sent as the `X-Tavily-Orgid` header.
+
+```python
+client = TavilyClient(api_key="tvly-YOUR_API_KEY", org_id="org-123")
+```
+
 ### Async Client
 
 ```python

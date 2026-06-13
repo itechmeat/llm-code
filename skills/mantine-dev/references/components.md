@@ -2,6 +2,33 @@
 
 `@mantine/core` provides 120+ components. This reference covers key patterns.
 
+## New in v9.3
+
+### Splitter
+
+Resizable split-pane layout built on the `use-splitter` hook. `Splitter.Pane` must be a direct child of `Splitter`; nest `Splitter` for complex layouts.
+
+```tsx
+import { Splitter } from "@mantine/core";
+
+<Splitter h={200}>
+  <Splitter.Pane defaultSize={50} min={20}>First pane</Splitter.Pane>
+  <Splitter.Pane defaultSize={50} min={20}>Second pane</Splitter.Pane>
+</Splitter>;
+```
+
+`Splitter` props: `orientation` ("horizontal" default / "vertical"), `sizes` + `onSizeChange` (controlled), `splitterRef` (imperative API), `lineSize`, `withHandle`, `redistribute`. `Splitter.Pane` props: `defaultSize`, `min`, `collapsible`, plus standard style props.
+
+### New props on existing components
+
+- `Pagination` `layout="responsive"` uses CSS container queries to adapt to available width.
+- `Text` and `Blockquote` gain `textWrap` to control line length.
+- `CodeHighlight` gains `withLineNumbers`.
+- `OverflowList` gains `collapseFrom` ("start" / "end") to control collapse direction.
+- `Textarea` gains `bottomSection` for character counters and supplementary info.
+- Combobox family (`Select`, `MultiSelect`, `Autocomplete`, `TagsInput`) supports `floatingHeight="viewport"`.
+- `DateInput` gains `presets` for quick value selection; `Menu.Sub` supports controlled open state.
+
 ## Patch notes (v9.2.1 -> v9.2.2)
 
 - `Checkbox`, `Radio`, and `Switch` now pass the generated error id into `aria-describedby`, which matters if you depend on Mantine's built-in error text for screen-reader context.

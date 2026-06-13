@@ -8,6 +8,8 @@ Zvec vector indexes control the trade-off between recall, latency, and memory. C
 - `HNSW` — the general-purpose ANN choice when you want low latency with good recall.
 - `HNSW-RaBitQ` — new in `0.3.0`; combines HNSW graph traversal with RaBitQ quantization to reduce memory while keeping strong recall.
 - `IVF` — another approximate strategy supported by Zvec when you want a different latency/memory profile than HNSW.
+- `DiskANN` — new in `0.5.0`; keeps the bulk of the index on disk instead of RAM, drastically cutting memory use for billion-scale datasets on memory-constrained hosts.
+- `FTS` — new in `0.5.0`; a full-text index attached to a string field (via `create_index()`), queried with natural-language or structured expressions for hybrid retrieval.
 
 ## When HNSW-RaBitQ is the right tool
 

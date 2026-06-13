@@ -2,8 +2,8 @@
 name: openclaw
 description: "OpenClaw local AI assistant stack. Covers architecture, tools, gateway operations, channels, and onboarding. Use when deploying, configuring, or operating an OpenClaw instance, managing gateway routing, setting up channels, or working with the multi-agent tool governance system. Keywords: OpenClaw, gateway, tools, channels, agents."
 metadata:
-  version: "v2026.5.28"
-  release_date: "2026-05-30"
+  version: "v2026.6.6"
+  release_date: "2026-06-12"
 ---
 
 # OpenClaw (Operator Playbook)
@@ -98,6 +98,15 @@ If OpenClaw is not installed, use `references/installation.md`.
 - **Media quality control**: model-aware image compression now follows `agents.defaults.imageQuality`, so operators can choose token-efficient, balanced, or high-detail handling explicitly.
 - **Plugin SDK migration**: row-level session workflow helpers are added and `loadSessionStore` is deprecated; plugin maintenance should move away from whole-store session access.
 - **Provider auth reuse**: xAI OAuth auth profiles can now back Grok `web_search`, and provider-side media operations have clearer default timeout behavior.
+
+## Release Updates (v2026.5.29-v2026.6.6)
+
+- **Security**: boundaries tightened across transcripts, sandbox binds, host env inheritance, MCP stdio, and Codex HTTP access; exec-approval timeouts now fail closed; Feishu no longer leaks prompt-preface runtime context into replies; WebSocket payload handling hardened; Skill Workshop symlink writes validated before metadata commits.
+- **Channels**: Telegram routes account-scoped topics correctly, streams text across tool calls, extends `/compact` to generic ingress, and excludes unauthorized DM text from cache/prompt; iMessage gains always-on inbound restart, durable echo markers, block streaming, idle approval discovery, and startup diagnostics.
+- **Providers/models**: Kimi K2.7 Code with tool-call ID repair and reasoning replay fixes, Claude Fable 5 adaptive thinking, more robust Mistral schema handling, Fireworks manifest-sourced catalog params, repaired Anthropic thinking replay, and Vertex/ADC catalog recovery.
+- **MCP/browser**: existing-session Chrome DevTools Protocol support, WebSocket discovery validation, streamable HTTP loopback transport, safer browser-output boundaries, and MCP tool-result coercion of `resource_link`/`resource`/`audio`/malformed images at the materialize boundary.
+- **Plugins**: npm publishing moved to trusted paths with ClawHub publishing split, plugin version drift reported to operators, managed installs keep trusted integrity pins, and prerelease fallback integrity checks avoid stale carryforward.
+- **UI/performance**: cached model metadata and removed startup catalog wait cut Control UI latency, lazy slash-command loading, first-event tracing with slow-reply diagnostics, accessibility fixes, and explicit user intent required before opening chat sessions.
 
 ## Release Updates (v2026.5.27-v2026.5.28)
 

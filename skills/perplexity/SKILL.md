@@ -2,8 +2,8 @@
 name: perplexity
 description: "Perplexity API for web-grounded AI and search. Covers Sonar models, chat/search APIs, streaming, structured outputs, filters, and attachments. Keywords: Perplexity, Sonar, search API, grounded LLM."
 metadata:
-  version: "0.36.0"
-  release_date: "2026-05-30"
+  version: "0.38.0"
+  release_date: "2026-06-08"
 ---
 
 # Perplexity API
@@ -80,13 +80,13 @@ for result in search.results:
     print(f"{result.title}: {result.url}")
 ```
 
-## Release Highlights (0.34.1 -> 0.36.0)
+## Release Highlights (0.34.1 -> 0.38.0)
 
 - **Streaming**: `responses.create` now yields named SSE events and discriminates the `ResponseStreamEvent` union, which matters for typed stream consumers.
-- **Search API**: `search_context_size` was briefly exposed on `search.create` and then removed in `0.35.1`; keep search-context sizing on chat/web-search options, not the raw Search API.
+- **Search context**: `search_context_size` was briefly exposed on `search.create`, removed in `0.35.1`, then reintroduced in `0.37.0` for both the Search API and the `web_search` tool to control retrieved context size.
 - **Background responses**: the SDK adds background-task support and `responses.retrieve`, so long-running response workflows can be polled instead of only streamed inline.
 - **Reasoning effort**: `xhigh` is available where the API supports reasoning-effort controls.
-- **Sandbox tool**: `0.36.0` adds the Responses API sandbox built-in tool; gate it like other executable/tooling surfaces.
+- **Sandbox tool**: `0.36.0` adds the Responses API sandbox built-in tool; `0.38.0` adds a `files` subresource for retrieving sandbox-produced files. Gate both like other executable/tooling surfaces.
 
 ## Model Selection Guide
 

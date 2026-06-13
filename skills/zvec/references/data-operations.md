@@ -145,12 +145,16 @@ result = collection.query(
 print(result)
 ```
 
+## Hybrid retrieval (`MultiQuery`, 0.5.0+)
+
+`MultiQuery` combines dense vectors, sparse vectors, scalar filters, and full-text (FTS) search in a single query with consistent reranking across the Python, Go, Rust, and C++ bindings. Attach an FTS index to a string field via `create_index()` first, then include a text clause alongside vector clauses. Use it when a single request must blend semantic and keyword relevance.
+
 ## Fetch
 
-Direct lookup by ID(s); missing IDs are omitted.
+Direct lookup by ID(s); missing IDs are omitted. Pass `output_fields` (0.5.0+) to control which fields come back.
 
 ```python
-result = collection.fetch(ids=["book_1", "book_2", "book_3"])
+result = collection.fetch(ids=["book_1", "book_2", "book_3"], output_fields=["title", "author"])
 print(result)
 ```
 

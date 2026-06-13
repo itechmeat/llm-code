@@ -13,22 +13,22 @@ Quick reference for tracking tool versions across skills. Use this file to check
 
 | Skill                               | Skill Version | Release Date | Releases                                                                      | Documentation                                                         |
 | ----------------------------------- | ------------- | ------------ | ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **zvec**                            | 0.5.0         | 2026-06-12   | [Releases](https://github.com/alibaba/zvec/releases)                          | [Docs](https://zvec.org/en/docs/)                                     |
+| **qdrant**                          | 1.18.2        | 2026-06-04   | [Releases](https://github.com/qdrant/qdrant/releases)                         | [Docs](https://qdrant.tech/documentation/)                            |
+| **vite**                            | 8.0.16        | 2026-06-01   | [Releases](https://github.com/vitejs/vite/releases)                           | [Docs](https://vite.dev/guide/)                                       |
+| **vitest**                          | 4.1.8         | 2026-06-01   | [Releases](https://github.com/vitest-dev/vitest/releases)                     | [Docs](https://vitest.dev/guide/)                                     |
+| **tavily**                          | 0.7.26        | 2026-06-10   | [PyPI](https://pypi.org/project/tavily-python/#history)                       | [Docs](https://docs.tavily.com/)                                      |
+| **seaweedfs**                       | 4.33          | 2026-06-11   | [Releases](https://github.com/seaweedfs/seaweedfs/releases)                   | [Docs](https://github.com/seaweedfs/seaweedfs/wiki/Getting-Started)   |
+| **openclaw**                        | v2026.6.6     | 2026-06-12   | [Releases](https://github.com/openclaw/openclaw/releases)                     | [Docs](https://docs.openclaw.ai/)                                     |
+| **pydantic-ai**                     | 1.107.0       | 2026-06-10   | [Releases](https://github.com/pydantic/pydantic-ai/releases)                  | [Docs](https://ai.pydantic.dev/)                                      |
+| **perplexity**                      | 0.38.0        | 2026-06-08   | [Releases](https://github.com/perplexityai/perplexity-py/releases)            | [Docs](https://docs.perplexity.ai/)                                   |
+| **mantine-dev**                     | 9.3.1         | 2026-06-08   | [Releases](https://github.com/mantinedev/mantine/releases)                    | [Docs](https://mantine.dev/getting-started/)                          |
 | **picoclaw**                        | v0.2.9        | 2026-05-29   | [Releases](https://github.com/sipeed/picoclaw/releases)                       | [Docs](https://github.com/sipeed/picoclaw/tree/main/docs)             |
-| **mantine-dev**                     | 9.2.2         | 2026-05-27   | [Releases](https://github.com/mantinedev/mantine/releases)                    | [Docs](https://mantine.dev/getting-started/)                          |
-| **perplexity**                      | 0.36.0        | 2026-05-30   | [Releases](https://github.com/perplexityai/perplexity-py/releases)            | [Docs](https://docs.perplexity.ai/)                                   |
 | **pipecat**                         | 1.3.0         | 2026-05-28   | [Changelog](https://github.com/pipecat-ai/pipecat/blob/main/CHANGELOG.md)     | [Docs](https://docs.pipecat.ai/getting-started/introduction)          |
-| **pydantic-ai**                     | 1.104.0       | 2026-05-28   | [Releases](https://github.com/pydantic/pydantic-ai/releases)                  | [Docs](https://ai.pydantic.dev/)                                      |
-| **openclaw**                        | v2026.5.28    | 2026-05-30   | [Releases](https://github.com/openclaw/openclaw/releases)                     | [Docs](https://docs.openclaw.ai/)                                     |
-| **seaweedfs**                       | 4.30          | 2026-05-30   | [Releases](https://github.com/seaweedfs/seaweedfs/releases)                   | [Docs](https://github.com/seaweedfs/seaweedfs/wiki/Getting-Started)   |
-| **tavily**                          | 0.7.25        | 2026-05-29   | [PyPI](https://pypi.org/project/tavily-python/#history)                       | [Docs](https://docs.tavily.com/)                                      |
 | **base-ui**                         | 1.5.0         | 2026-05-18   | [Releases](https://github.com/mui/base-ui/releases)                           | [Docs](https://base-ui.com/)                                          |
-| **vitest**                          | 4.1.7         | 2026-05-20   | [Releases](https://github.com/vitest-dev/vitest/releases)                     | [Docs](https://vitest.dev/guide/)                                     |
-| **vite**                            | 8.0.14        | 2026-05-21   | [Releases](https://github.com/vitejs/vite/releases)                           | [Docs](https://vite.dev/guide/)                                       |
 | **fastapi**                         | 0.136.3       | 2026-05-23   | [Releases](https://github.com/fastapi/fastapi/releases)                       | [Docs](https://fastapi.tiangolo.com/)                                 |
-| **qdrant**                          | 1.18.1        | 2026-05-22   | [Releases](https://github.com/qdrant/qdrant/releases)                         | [Docs](https://qdrant.tech/documentation/)                            |
 | **postgresql**                      | 18.4          | 2026-05-14   | [Releases](https://www.postgresql.org/about/newsarchive/pgsql/)               | [Docs](https://www.postgresql.org/docs/current/)                      |
 | **inworld**                         | 2             | 2026-05-05   | [Changelog](https://docs.inworld.ai/docs/release-notes/tts)                   | [Docs](https://docs.inworld.ai/)                                      |
-| **zvec**                            | 0.4.0         | 2026-05-09   | [Releases](https://github.com/alibaba/zvec/releases)                          | [Docs](https://zvec.org/en/docs/)                                     |
 | **k8s-cluster-api**                 | 1.13.2        | 2026-05-13   | [Releases](https://github.com/kubernetes-sigs/cluster-api/releases)           | [Docs](https://cluster-api.sigs.k8s.io/)                              |
 | **beads**                           | 1.0.4         | 2026-05-09   | [Releases](https://github.com/gastownhall/beads/releases)                     | [Docs](https://github.com/gastownhall/beads/tree/main/docs)           |
 | **vibekanban**                      | 0.1.44        | 2026-04-24   | [Releases](https://github.com/BloopAI/vibe-kanban/releases)                   | [Docs](https://www.vibekanban.com/docs)                               |
@@ -70,4 +70,4 @@ When updating a skill:
 
 ---
 
-Last reviewed: 2026-01-30
+Last reviewed: 2026-06-13
