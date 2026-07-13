@@ -59,6 +59,18 @@ This is only useful for non-model CLI commands (`doctor`, `skills list --json`,
   `execCommand`; use CDP `Input.insertText` (agent-browser `keyboard inserttext`)
   after focusing it. Submit by clicking the button whose `aria-label`/`title` is
   `Send`, or the app shortcut. New task is the `Cmd+N` shortcut.
+- **The submit button flips to `Queue message` while a turn is running.** So the
+  `Send` label is present only when idle; a follow-up sent mid-turn is queued via
+  the `Queue message` button. Absence of a `Send` button is a reliable "turn is
+  running" signal, alongside a `Stop` button and a `Working for <duration>` label.
+- **Autonomy is a combobox** with `aria-label` containing `Switch mode`. Its
+  options are `Ask before changes`, `Edit automatically`, `Plan mode`, and
+  `Full access` (run with fewer confirmations). Open it, then click the option
+  whose `role` is `option`/`menuitem`. Below Full access, tool calls raise a
+  numbered permission popup (`Always allow in this project` / `Do not ask again`);
+  activating those menu items with a synthetic `.click()` is unreliable (the
+  choice frequently does not commit and the popup returns), so prefer Full access
+  for unattended runs rather than clicking every popup.
 - **Screenshots via CDP are black** when the window is occluded or unfocused.
   Rely on DOM text and the DB, not images.
 - Each agent-browser CLI call is a separate process and the tracked target can
@@ -98,6 +110,39 @@ Key tables in `~/.zcode/cli/db/db.sqlite`:
 - Approval pause: in `build`/`plan` mode a tool call parks for approval. Detect
   it via `tool_usage.approval_status` (best-effort) or the in-app approve UI.
   This is not completion.
+
+## Background subagents
+
+For a large task ZCode spawns its own parallel worker agents. Each runs in a
+separate DB session id prefixed `sess_subagent_agent_*`, whose `context` carries
+`parentSessionId` pointing back at the top-level session, plus `agentType` (e.g.
+`general-purpose`). Their tool calls and `model.request.*` events appear under the
+subagent session, not the parent. This is normal orchestration by ZCode - not a
+second user task - so scope error/progress scans to the parent session OR its
+`parentSessionId` children, and never treat these as a concurrency violation.
+
+## Model request failures (backend / plan)
+
+When the plan backend rejects a request, ZCode logs `model.request.failed` and
+`model.network.failed`, then `turn.failed`, in the JSONL event log. The useful
+fields live in `context`: `statusCode` (HTTP), `retryable`, `reason`, `requestId`,
+`baseURL` (`.../zcode-plan/anthropic`), and the deepest `error.cause.message`
+(e.g. `Method Not Allowed`). Observed classes:
+
+- `statusCode: 405`, `retryable: false` - the plan endpoint refuses every request
+  after previously succeeding. Seen when the plan session/captcha expires or a
+  usage limit trips (it surfaces as 405, not always 429). Retrying does not clear
+  it; the app just re-fails and goes quiet. Fix path: relaunch the app to
+  re-establish the plan session, else escalate to the user (re-login / captcha /
+  plan limit).
+- `403` with `code 3007 captcha verify failed` - captcha gate; only the app
+  webview can solve it (this is the whole reason for driving the app).
+- `429` / `503` / transport errors - usually `retryable:true`; a bounded retry or
+  a short wait clears them.
+
+The orchestrator detects these by tailing the newest log file for the three
+`*.failed` events rather than polling the model; `retryable:false` means stop and
+report, do not loop.
 
 ## Ground truth for changes
 
