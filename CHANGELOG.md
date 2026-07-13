@@ -5,6 +5,12 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-07-13]
+
+### Added
+
+- **zcode-subagent** - Orchestrate the ZCode (z.ai) desktop app as a coding subagent: dispatch a prompt over CDP, detect completion, and read a token-cheap result digest from the local session DB, no API key required.
+
 ## [2026-06-13]
 
 ### Changed

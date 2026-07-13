@@ -13,6 +13,7 @@ Quick reference for tracking tool versions across skills. Use this file to check
 
 | Skill                               | Skill Version | Release Date | Releases                                                                      | Documentation                                                         |
 | ----------------------------------- | ------------- | ------------ | ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **zcode-subagent**                  | 3.3.4         | 2026-07-13   | [Site](https://zcode.z.ai)                                                    | [Docs](https://zcode.z.ai/en/docs/welcome)                            |
 | **zvec**                            | 0.5.0         | 2026-06-12   | [Releases](https://github.com/alibaba/zvec/releases)                          | [Docs](https://zvec.org/en/docs/)                                     |
 | **qdrant**                          | 1.18.2        | 2026-06-04   | [Releases](https://github.com/qdrant/qdrant/releases)                         | [Docs](https://qdrant.tech/documentation/)                            |
 | **vite**                            | 8.0.16        | 2026-06-01   | [Releases](https://github.com/vitejs/vite/releases)                           | [Docs](https://vite.dev/guide/)                                       |

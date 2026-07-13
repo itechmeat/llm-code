@@ -68,6 +68,7 @@ Each skill follows the [agentskills.io](https://agentskills.io) specification.
 | [vibekanban](skills/vibekanban/)                         | Vibe Kanban AI agent orchestration            |
 | [vite](skills/vite/)                                     | Vite build tool                               |
 | [vitest](skills/vitest/)                                 | Vitest testing framework                      |
+| [zcode-subagent](skills/zcode-subagent/)                 | Call ZCode (z.ai) as a coding subagent        |
 | [zvec](skills/zvec/)                                     | SQLite for vectors                            |
 
 ## Creating New Skills
