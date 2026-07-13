@@ -1,6 +1,6 @@
 ---
 name: zcode-subagent
-description: "Let the current agent delegate a coding task to the ZCode (z.ai / GLM) desktop app as a subagent: dispatch a prompt, detect completion, and read a token-cheap result digest, no API key needed. Use when orchestrating ZCode, calling ZCode as a subagent from another agent, running ZCode without an API key, or programmatically sending prompts to the ZCode app. Keywords: ZCode, z.ai, GLM, subagent, delegation, CDP, orchestration."
+description: "Offload a coding task to the ZCode (z.ai / GLM, 1M context) desktop app as an independent subagent: the work runs on ZCode's quota, not the caller's tokens, and needs no API key. Use when the current agent wants another agent to do coding, to run a task in parallel, or to conserve its own context. Keywords: ZCode, z.ai, GLM, subagent, delegate, offload."
 metadata:
   version: "3.3.4"
   release_date: "2026-07-13"
