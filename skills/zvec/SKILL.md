@@ -2,8 +2,8 @@
 name: zvec
 description: "Zvec in-process vector database. Covers collections, indexing, embeddings, reranking, and persistence. Use when embedding Zvec into applications or tuning retrieval/storage behavior. Keywords: Zvec, HNSW-RaBitQ, vector database, ANN."
 metadata:
-  version: "0.5.0"
-  release_date: "2026-06-12"
+  version: "0.5.1"
+  release_date: "2026-06-24"
 ---
 
 # Zvec
@@ -55,6 +55,14 @@ Zvec is a lightweight, in-process vector database meant to be embedded into appl
 - Do not assume a client/server deployment model: Zvec is in-process.
 - Do not add project-specific paths, secrets, or environment assumptions.
 - Do not choose `HNSW-RaBitQ` on unsupported hardware; current docs limit it to `x86_64` with `AVX2` or better.
+
+## Release Highlights (0.5.1)
+
+- **External vector source**: ingest and query from external vector sources for more flexible data pipelines without first copying everything into the collection.
+- **Zero-copy query path**: `VectorViewClause` establishes a zero-copy vector query path with unified query validation, lowering per-query memory overhead.
+- **Search prefetch tuning**: pass prefetch settings (`PO`, `PL`) directly through search parameters for finer performance control.
+- **Index/storage controls**: `is_dirty` is exposed on the core `Index` interface, and copy-on-write MMAP options (with a corrected `MMAP_POPULATE` placement) are configurable.
+- **C API FTS sub-queries**: full-text search now works inside sub-queries via the C API.
 
 ## Release Highlights (0.5.0)
 

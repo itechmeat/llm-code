@@ -2,13 +2,19 @@
 name: mantine-dev
 description: "Mantine UI library for React: 100+ components, hooks, forms, theming, dark mode, CSS modules, and Vite/TypeScript setup. Use when building React applications with Mantine components, configuring theming/dark mode, or working with Mantine hooks and forms. Keywords: Mantine, React, UI components, CSS modules, theming."
 metadata:
-  version: "9.3.1"
-  release_date: "2026-06-08"
+  version: "9.4.1"
+  release_date: "2026-06-28"
 ---
 
 # Mantine UI Library
 
 Mantine is a fully-featured React components library with TypeScript support. It provides 100+ hooks and components with native dark mode, CSS-in-JS via CSS modules, and excellent accessibility.
+
+## v9.4 Highlights
+
+- New components: `ComboboxPopover` (low-level popover built on the Combobox engine), `DataList` (key/value description lists), `EmptyState` (empty/placeholder screens), and `Menubar` (desktop-style application menu bar).
+- `@mantine/schedule` gains `ResourcesDayView` and `ResourcesWeekView` for resource-grouped scheduling layouts.
+- `9.4.1` patch fixes: `@mantine/form` compatibility with the React compiler, Heatmap rendering, and assorted component fixes.
 
 ## v9.3 Highlights
 

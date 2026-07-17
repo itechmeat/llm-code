@@ -2,8 +2,8 @@
 name: vite
 description: "Vite next-gen frontend tooling: dev server, HMR, build, config, plugins, Environment API, Rolldown. Use when setting up or running a Vite project, configuring vite.config.*, authoring plugins, working with HMR or JS API, or managing environment variables and modes. Keywords: vite.config, bundler, Vite, HMR, Rolldown."
 metadata:
-  version: "8.0.16"
-  release_date: "2026-06-01"
+  version: "8.1.5"
+  release_date: "2026-07-16"
 ---
 
 # Vite
@@ -65,6 +65,14 @@ metadata:
 - Vite stops resolving `browser` vs `module` via format sniffing and follows configured `resolve.mainFields` more strictly.
 - JS API `build()` now throws `BundleError` with nested `.errors` when multiple Rolldown-level errors are present.
 - Rolldown transition becomes more explicit: `build.rollupOptions` / `worker.rollupOptions` are deprecated in favor of `*.rolldownOptions`.
+
+## Release Highlights (8.1.0 -> 8.1.5)
+
+- **WASM ESM integration**: direct `.wasm` imports work as ES modules natively.
+- **Zero-config build caching**: integration with Vite Task enables build caching without manual setup.
+- **`server.hmr` renamed to `server.ws`**: WebSocket options move under `server.ws`; update configs that set HMR transport options.
+- **New options**: `html.additionalAssetSources` for custom asset sources during HTML transform, `import.meta.glob` `caseSensitive`, multiple hosts via `__VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS`, and an extended default `server.fs.deny` list.
+- **8.1.1 -> 8.1.5**: stability only (stack-trace handling, dependency bumps, module-resolution edge cases).
 
 ## Patch Notes (8.0.14 -> 8.0.16)
 

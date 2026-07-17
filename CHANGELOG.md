@@ -5,6 +5,23 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-07-18]
+
+### Changed
+
+- **pydantic-ai** - Updated the skill for `2.12.0` with the V2 stable capabilities-first harness, provider-valid `message_history` with repaired tool-call pairing, Moonshot `kimi-k3` / OpenAI background mode / Anthropic `pause_turn` support, and Gemini 2 embedding conditioning.
+- **telegram** - Updated the skill for `3.30.0` with aiogram Bot API 10.2 (and 10.1) support and the 3.29.1 nested-union validation slowdown fix.
+- **vite** - Updated the skill for `8.1.5` with WASM ESM imports, zero-config build caching, the `server.hmr` to `server.ws` rename, and `html.additionalAssetSources` / `import.meta.glob` `caseSensitive` options.
+- **fastapi** - Updated the skill for `0.139.2` with `app.frontend()` static serving (dependencies and cookie auth), `include_router()` instance preservation, and thread-safe route building.
+- **turso** - Updated the skill for `0.7.0` with SQL-standard scalar functions and PG aliases, sequences, MVCC-safe `AUTOINCREMENT`, window and `WITHIN GROUP` aggregates, custom collations, and .NET NativeAOT plus EF Core provider.
+- **seaweedfs** - Updated the skill for `4.39` with Iceberg / S3 Tables, S3 SigV4 and compliance fixes, EC scrub parity with CRC checksums, volume-server crash safety, and FUSE and observability improvements.
+- **pipecat** - Updated the skill for `1.5.0` with Pipecat Flows folded into core, the behavioral eval framework, and Together AI STT/TTS plus NVIDIA per-sentence synthesis with TTFA metrics.
+- **beads** - Updated the skill for `1.1.0` with schema-change-detecting migrations and read-only enforcement, pull-merge sync repair, archiving compaction, and `bd metrics` and `--init-if-missing`.
+- **mantine-dev** - Updated the skill for `9.4.1` with the new `ComboboxPopover`, `DataList`, `EmptyState`, and `Menubar` components, `@mantine/schedule` resource day/week views, and 9.4.1 fixes.
+- **zvec** - Updated the skill for `0.5.1` with external vector sources, the `VectorViewClause` zero-copy query path, search prefetch (`PO`/`PL`) tuning, index `is_dirty` and MMAP options, and C API FTS sub-queries.
+- **base-ui** - Updated the skill for `1.6.0` with the `OTPFieldPreview` to `OTPField` namespace rename and broad component behavioral fixes.
+- **qdrant** - Updated the skill for `1.18.3` (resharding shard-key query fix) and repaired the malformed `SKILL.md` frontmatter.
+
 ## [2026-07-13]
 
 ### Added

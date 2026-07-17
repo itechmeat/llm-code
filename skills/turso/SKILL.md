@@ -2,8 +2,8 @@
 name: turso
 description: "Turso SQLite database. Covers encryption, sync, agent patterns. Use when working with Turso/libSQL embedded databases, configuring encryption-at-rest, setting up sync replication, or building agent-friendly database patterns. Keywords: Turso, libSQL, embedded, SQLite, encryption, sync."
 metadata:
-  version: "0.6.0"
-  release_date: "2026-05-14"
+  version: "0.7.0"
+  release_date: "2026-07-13"
 ---
 
 # Turso Database
@@ -93,7 +93,14 @@ const db = await connect({
 
 ## Version
 
-Based on product version: 0.6.0
+Based on product version: 0.7.0
+
+## Release Note (0.7.0)
+
+- **SQL surface**: SQL-standard scalar functions with PostgreSQL-compatible aliases, PostgreSQL-style sequences, MVCC-safe `AUTOINCREMENT`, window-function work (`row_number()` on VDBE aggregate machinery, `FILTER` in window clauses), and `WITHIN GROUP` ordered-set aggregates.
+- **MVCC/durability**: passive checkpoint for MVCC, portable logical-log metadata for Turso sync, and Aristo WAL verification.
+- **Collations**: core custom collation support and locale-backed collations.
+- **.NET / platforms**: NativeAOT static linking, remote transactions and batches, a Turso EF Core SQLite provider, NuGet native targets, and Windows ARM64 CLI releases.
 
 ## Release Note (0.6.0)
 

@@ -2,8 +2,8 @@
 name: k8s-cluster-api
 description: "Kubernetes Cluster API v1.12. Covers clusterctl CLI, ClusterClass, GitOps integration. Scripts for health checks, backup, migration, linting. Templates: clusters, DR, Prometheus. Use when provisioning, upgrading, or operating Kubernetes clusters with CAPI, or running clusterctl and ClusterClass workflows. Keywords: CAPI, clusterctl, kubeadm, cluster lifecycle."
 metadata:
-  version: "1.13.2"
-  release_date: "2026-05-13"
+  version: "1.13.4"
+  release_date: "2026-07-15"
 ---
 
 # Kubernetes Cluster API

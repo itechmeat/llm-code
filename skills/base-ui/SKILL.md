@@ -2,8 +2,8 @@
 name: base-ui
 description: "Base UI unstyled React components. Covers forms, menus, overlays, composition. Use when building accessible, unstyled React UI components with @base-ui/react, composing with render props, or implementing custom-styled form controls, menus, and overlays. Keywords: @base-ui/react, render props, unstyled components."
 metadata:
-  version: "1.5.0"
-  release_date: "2026-05-18"
+  version: "1.6.0"
+  release_date: "2026-06-18"
 ---
 
 # Base UI (React)
@@ -63,6 +63,11 @@ Base UI provides unstyled, composable React components. This skill focuses on as
 - `mergeProps` now forwards multi-argument event handlers correctly, which matters for wrapped callbacks that receive extra details/state alongside the event.
 - Tabbability with `display: contents` was fixed; retest custom wrappers and render-prop compositions that flatten DOM structure.
 - Popup sizing on rapid trigger hover was fixed, and clipped-item highlight clearing inside scroll containers is more reliable.
+
+## v1.6.0 highlights
+
+- `OTPFieldPreview` namespace is renamed to `OTPField`; update imports that referenced the preview namespace.
+- Broad behavioral bug fixes across Accordion, Alert Dialog, Autocomplete, Avatar, Checkbox, Dialog, Drawer, Field, Menu, Number Field, OTP Field, and other components.
 
 ## v1.5.0 highlights
 

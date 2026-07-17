@@ -2,8 +2,8 @@
 name: pipecat
 description: "Pipecat realtime voice/multimodal bots. Covers pipelines/frames, transports, RTVI, Pipecat Cloud deploy. Use when building real-time voice bots (STT/LLM/TTS pipelines), multimodal AI agents, WebRTC/WebSocket transports, or deploying to Pipecat Cloud. Keywords: pipecat, pipecat-ai, RTVI, WebRTC, voice bot."
 metadata:
-  version: "1.3.0"
-  release_date: "2026-05-28"
+  version: "1.5.0"
+  release_date: "2026-07-04"
 ---
 
 # Pipecat
@@ -118,6 +118,12 @@ It composes streaming speech/LLM/TTS services into a low-latency pipeline, conne
 - Deprecated service-specific context classes, transport params, RTVI shims, frame aliases, and interruption/VAD helpers were removed across the stack.
 - Turn detection and mute behavior moved toward `LLMUserAggregator` strategies instead of transport-level configuration.
 - Some legacy providers and helpers were removed entirely (`OpenPipeLLMService`, `TTSService.say()`, `FrameProcessor.wait_for_task()`, older beta/alias modules).
+
+## Release Highlights (1.4.0 -> 1.5.0)
+
+- **Pipecat Flows in core (`1.5.0`)**: Pipecat Flows is integrated into the main package, so structured conversation flows no longer require a separate install.
+- **Behavioral eval framework (`1.4.0`)**: a testing framework for evaluating bot behavior, plus `on_user_turn_message_added` event handlers and realtime LLM-service metadata frames.
+- **New services (`1.5.0`)**: Together AI STT/TTS services and NVIDIA per-sentence synthesis, with TTFA (time-to-first-audio) metrics for latency tracking.
 
 ## Release Highlights (1.3.0)
 

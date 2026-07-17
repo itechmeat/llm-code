@@ -1,10 +1,10 @@
 ---
-
 name: qdrant
 description: "Qdrant vector database: collections, points, payload filtering, indexing, quantization, snapshots, and Docker/Kubernetes deployment. Use when managing Qdrant collections, performing vector searches with payload filters, configuring HNSW indexes or quantization, or deploying Qdrant clusters. Keywords: Qdrant, vector database, HNSW, quantization, semantic search."
 metadata:
-version: "1.18.2"
-release_date: "2026-06-04"
+  version: "1.18.3"
+  release_date: "2026-07-17"
+---
 
 # Qdrant (Skill Router)
 

@@ -2,8 +2,8 @@
 name: fastapi
 description: "FastAPI Python framework. Covers REST APIs, validation, dependencies, security. Use when building Python web APIs with FastAPI, configuring Pydantic models, implementing dependency injection, or setting up OAuth2/JWT authentication. Keywords: FastAPI, Pydantic, async, OAuth2, JWT, REST API."
 metadata:
-  version: "0.136.3"
-  release_date: "2026-05-23"
+  version: "0.139.2"
+  release_date: "2026-07-16"
 ---
 
 # FastAPI
@@ -55,6 +55,12 @@ This skill provides comprehensive guidance for building APIs with FastAPI.
 ## Installation
 
 Requires Python 3.10+. Install: `pip install "fastapi[standard]"` (full with uvicorn) or `pip install fastapi` (minimal). Add `python-multipart` for forms/files.
+
+## Release Highlights (0.137.0 -> 0.139.2)
+
+- **Frontend serving (`0.138.0`)**: `app.frontend("/", directory="dist")` serves a built static frontend directly from the FastAPI app. `0.139.0` adds dependencies support in `app.frontend()`, enabling automatic cookie authentication for frontends, and `0.139.1` fixes fallback for dotted paths like `/users/john.doe`.
+- **Router internals (`0.137.0`)**: `include_router()` now preserves `APIRouter`/`APIRoute` instances instead of cloning routes, so routes added after inclusion are reflected automatically and memory use drops. Custom `APIRouter`/`APIRoute` subclasses gain `.matches()`/`.handle()` (alpha) for advanced routing.
+- **Thread safety (`0.139.2`)**: route building is refactored to be thread-safe, mainly relevant for tests running across parallel threads.
 
 ## Release Highlights (0.133.0 → 0.136.1)
 

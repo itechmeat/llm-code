@@ -2,8 +2,8 @@
 name: telegram
 description: "Telegram Bot development playbook: bot fundamentals, aiogram 3 patterns (handlers/middlewares/FSM), webhooks, keyboard UX, inline mode, Mini Apps, payments (Stars/subscriptions), authentication. Use when building or modifying Telegram bots, setting up webhook infrastructure, implementing inline keyboards/callback queries, integrating Telegram payments or Stars, or working with aiogram 3 handlers and FSM. Keywords: Telegram, aiogram, Bot API, webhook, handlers, middlewares, FSM, inline keyboard, reply keyboard, callback_query, inline mode, Mini Apps, Web Apps, payments, Telegram Stars, Login Widget."
 metadata:
-  version: "3.28.2"
-  release_date: "2026-05-10"
+  version: "3.30.0"
+  release_date: "2026-07-17"
 ---
 
 # Telegram (Skill Router)
@@ -41,6 +41,11 @@ Router skill: pick the reference that matches your task.
 - [ ] Keyboards: max 2 buttons per row, mobile-first
 - [ ] Callback data validated, not trusted blindly
 - [ ] Handlers are idempotent or have de-duplication
+
+## Release Note (3.29.x - 3.30.x / Bot API 10.1 - 10.2)
+
+- aiogram `3.30.0` adds full **Bot API 10.2** support, and `3.29.0` added **Bot API 10.1**. Assume the newer method/type schema when targeting recent aiogram.
+- `3.29.1` fixes a severe (exponential) slowdown when validating nested unions, so heavy handler/filter models parse far faster on the patched line.
 
 ## Release Note (3.28.x / Bot API 10.0)
 

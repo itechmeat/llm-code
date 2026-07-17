@@ -2,8 +2,8 @@
 name: pgvector
 description: "pgvector Postgres extension. Covers vector types, distance operators, indexing (HNSW/IVFFlat), and client library usage. Use when storing vectors in PostgreSQL, running nearest-neighbor searches, or configuring HNSW/IVFFlat indexes. Keywords: pgvector, PostgreSQL, vector search, HNSW, IVFFlat."
 metadata:
-  version: "0.8.2"
-  release_date: "2026-02-25"
+  version: "0.8.5"
+  release_date: "2026-07-08"
 ---
 
 # pgvector

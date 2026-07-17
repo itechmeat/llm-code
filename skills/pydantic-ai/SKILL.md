@@ -2,8 +2,8 @@
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Use when building Python AI agents with Pydantic AI, configuring model providers, implementing typed tools/dependencies, running evals, or integrating MCP servers. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
 metadata:
-  version: "1.107.0"
-  release_date: "2026-06-10"
+  version: "2.12.0"
+  release_date: "2026-07-16"
 ---
 
 # Pydantic AI
@@ -37,6 +37,14 @@ Python agent framework for building production-grade GenAI applications with the
 ## Installation
 
 See `references/installation.md` for full/slim install options and optional dependency groups. Requires Python 3.10+.
+
+## Release Highlights (2.0.0 -> 2.12.0)
+
+- **V2 stable (`2.0.0`)**: harness-first design with **capabilities** as the core primitive, a single composable unit bundling an agent's tools, hooks, instructions, and model settings. Migrating from V1 requires the official upgrade guide; the capability-based paths deprecated across the 1.9x line are now the default.
+- **Message history & processing**: `message_history` is provider-valid with repaired tool-call pairing, `HistoryProcessor` is exported, and deferred tool-call events plus `EnqueuedMessagesEvent` are available (`2.10.0` to `2.12.0`).
+- **New models/providers**: Moonshot AI `kimi-k3`, OpenAI background mode, and Anthropic `stop_reason=pause_turn` support; standardized reasoning-effort handling across Groq, DeepSeek, and Cerebras.
+- **Embeddings & tokens**: Gemini 2 text-prefix conditioning for embeddings and output audio-token accumulation in usage tracking.
+- **Fixes**: `ToolReturnPart` serialization uses field aliases, Anthropic/Bedrock native output schema handling, and actionable hints on usage-limit and tool-retry errors.
 
 ## Release Highlights (1.96.1)
 

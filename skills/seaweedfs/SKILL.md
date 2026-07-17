@@ -2,8 +2,8 @@
 name: seaweedfs
 description: "SeaweedFS distributed storage. Covers filer, S3 API, replication, cloud tiers, and operations. Use when deploying SeaweedFS, configuring filer stores, exposing S3-compatible endpoints, or planning backup and security controls. Keywords: SeaweedFS, weed, filer, S3, object storage."
 metadata:
-  version: "4.33"
-  release_date: "2026-06-11"
+  version: "4.39"
+  release_date: "2026-07-10"
 ---
 
 # SeaweedFS
@@ -59,6 +59,17 @@ Prefer production guidance from multi-component setups over `weed mini` shortcut
 - **Filer backend reliability**: Redis3 avoids a skiplist-end panic path, and SQL-based filer stores no longer force-disable idle connection pooling.
 - **S3 audit trail**: requester identity is populated more consistently for GET/HEAD/IAM operations, improving compliance and incident triage.
 - **HA heartbeat path**: masters now accept volume-server ping targets on follower replicas, which improves failover visibility in multi-master deployments.
+
+## Release Highlights (4.34 -> 4.39)
+
+- **S3 correctness/compliance**: preserved multipart-copy checksums, account-less identities get distinct owners instead of admin, SigV4 query-value sorting, Range-offset validation, tag-value equals-sign preservation, and static config-file hot reload (`4.34`-`4.36`).
+- **Iceberg / S3 Tables**: namespace property updates, table registration, multi-table transaction commits, view support, table rename, and caller-scoped S3 Tables authorization (`4.36`).
+- **IAM/STS**: AssumeRole authorized by the role trust policy, STS session-policy explicit-deny enforcement, and OIDC groups/roles surfaced for resource-policy ABAC (`4.36`).
+- **Volume-server crash safety**: never delete recoverable EC shards on startup, crash-safe compaction commit with a durable `.cpc` marker, and phantom-volume detection for deleted-but-open descriptors (`4.34`-`4.35`).
+- **Erasure coding correctness (Rust parity)**: EC scrub improvements, EC storage/read-path fixes, and Rust volume-server scrub parity, plus S3 CRC checksumming support (`4.38`).
+- **FUSE mounts**: write-pattern detection for concurrent writeback tolerance windows and cached supplementary group IDs for faster non-root access (`4.35`).
+- **Performance/observability**: performance CI with profiling and throughput benchmarks, Rust volume-server streaming optimizations, native sparkline trends and per-bucket S3 metrics in the admin dashboard, and large cold `GetObject` returning `503` instead of hanging (`4.34`-`4.37`).
+- **Ops**: async buffered writes in EC-shard copy, volume-tiering and filer-metadata optimizations, S3 quota measurement by logical size, and mount-failover enhancements (`4.39`).
 
 ## Release Highlights (4.31 -> 4.33)
 
