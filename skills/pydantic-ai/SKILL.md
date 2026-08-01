@@ -2,8 +2,8 @@
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Use when building Python AI agents with Pydantic AI, configuring model providers, implementing typed tools/dependencies, running evals, or integrating MCP servers. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
 metadata:
-  version: "2.12.0"
-  release_date: "2026-07-16"
+  version: "2.22.0"
+  release_date: "2026-08-01"
 ---
 
 # Pydantic AI
@@ -37,6 +37,14 @@ Python agent framework for building production-grade GenAI applications with the
 ## Installation
 
 See `references/installation.md` for full/slim install options and optional dependency groups. Requires Python 3.10+.
+
+## Release Highlights (2.13.0 -> 2.22.0)
+
+- **Durability capabilities replace wrapper agents**: `TemporalDurability`, `DBOSDurability`, and `PrefectDurability` (`2.14.0`) attach to a regular `Agent` via `capabilities=[...]`, replacing the deprecated `TemporalAgent` / `DBOSAgent` / `PrefectAgent` wrapper classes (removed in v3). Existing wrapper-based workflows keep replaying correctly after switching. See `integrations.md` for the updated Temporal/DBOS/Prefect examples.
+- **New models/providers**: Claude Opus 5 (`2.20.0`), `gemini-3.6-flash`/`gemini-3.5-flash-lite` (`2.16.0`), Mistral `reasoning_effort` (`2.14.0`) and `mistral_prompt_cache_key` (`2.16.0`), OpenAI explicit prompt caching for `gpt-5.6` (`2.15.0`), `BedrockMantleProvider` (`2.18.0`), and the `AdvisorTool` builtin tool for Anthropic/OpenRouter (`2.18.0`).
+- **Usage & limits**: `cache_hit_ratio` on `RequestUsage`/`RunUsage` (`2.13.0`), `ToolFailed` for model-visible failures that don't consume a retry (`2.16.0`), optional `run_id=` on runs (`2.16.0`), tool-retry budget overrides at `run`/`iter`/`override` time (`2.15.0`), and `per_request_input_tokens_limit` on `UsageLimits` (`2.21.0`).
+- **Error handling & instrumentation**: `ModelHTTPError` now carries `headers` and a parsed `retry_after` from every provider SDK (`2.19.0`); `RaiseContentFilterError` capability and `include_model_request_parameters` instrumentation setting (`2.13.0`); per-message OTel serialization is cached to avoid `O(n^2)` cost (`2.17.0`).
+- **Dependencies**: the `fastmcp` optional group now constrains `fastmcp<4` (`2.19.0`).
 
 ## Release Highlights (2.0.0 -> 2.12.0)
 
@@ -178,7 +186,7 @@ result = agent.run_sync('What is my name?', deps=Deps(user_id=123))
 | Provider  | Models                                |
 | --------- | ------------------------------------- |
 | OpenAI    | GPT-4o, GPT-4, o1, o3                 |
-| Anthropic | Claude Opus 4.8, Claude 4, Claude 3.5 |
+| Anthropic | Claude Opus 5, Claude Opus 4.8, Claude 4, Claude 3.5 |
 | Google    | Gemini 2.0, Gemini 1.5                |
 | xAI       | Grok-4 (native SDK)                   |
 | Groq      | Llama, Mixtral                        |

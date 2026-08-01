@@ -61,6 +61,12 @@ Useful for:
 
 The guide shows a settings-update frame to change TTS parameters mid-conversation.
 
+Recent service notes (`1.6.0` line):
+
+- **`DeepgramFluxTTSService`** (new): websocket TTS service for Deepgram's Flux TTS (early access) at `wss://api.deepgram.com/v2/speak`. LLM tokens stream straight to the server as they arrive (`TextAggregationMode.TOKEN` is the default for this service; pass `text_aggregation_mode=TextAggregationMode.SENTENCE` to aggregate sentences instead), and each bot response is synthesized as a discrete turn with prosody carried across turns on a single connection. Flux has no way to cancel the active turn yet, so interruptions reconnect the websocket. See `examples/voice/voice-deepgram-flux.py` (all-Flux STT + TTS bot).
+- **ElevenLabs default model changed**: `ElevenLabsTTSService` and `ElevenLabsHttpTTSService` now default to `eleven_flash_v2_5` instead of `eleven_turbo_v2_5`, since ElevenLabs deprecated `eleven_turbo_v2_5`. Only affects callers that don't explicitly set `model`; pass `model="eleven_turbo_v2_5"` explicitly if you still need the old default.
+- **`PronunciationDictionaryLocator` deprecated**: the `pronunciation_dictionary_locators` parameter on `ElevenLabsTTSService` / `ElevenLabsHttpTTSService` is deprecated because dictionary substitutions can rewrite spoken words in ways that break alignment-based word-completion tracking (used to attribute spoken text back to conversation context). Use the `text_transforms` parameter with `replace_text` (added in `1.5.0`) instead — those transforms run client-side and are tracked correctly. Removal is planned for `2.0.0`.
+
 Recent service notes (`1.3.0` line):
 
 - Rime `RimeTTSService` / `RimeHttpTTSService` default to the `coda` model instead of `arcana`; set `model="arcana"` explicitly to preserve old behavior.

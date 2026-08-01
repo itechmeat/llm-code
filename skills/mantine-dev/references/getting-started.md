@@ -21,8 +21,7 @@ yarn dev
 - TypeScript configured
 - Storybook setup
 - Vitest with React Testing Library
-- ESLint with `eslint-config-mantine`
-- Prettier configured
+- Oxlint + Oxfmt with `oxc-config-mantine` (replaced ESLint/Prettier in the official template)
 
 ## Manual Setup
 

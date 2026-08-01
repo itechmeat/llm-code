@@ -48,7 +48,7 @@ turso org jwks save clerk https://your-app.clerk.accounts.dev/.well-known/jwks.j
 ### 3. Use in Application
 
 ```javascript
-import { createClient } from "@tursodatabase/serverless";
+import { createClient } from "@tursodatabase/serverless/compat";
 
 const db = createClient({
   url: "https://<db>.turso.io",
@@ -57,6 +57,27 @@ const db = createClient({
 
 const result = await db.execute("SELECT * FROM users");
 ```
+
+**Note:** `execute()` lives on the `/compat` libsql-compatibility layer shown above. It does not exist on the driver's native-mirroring surface (`connect()` from `@tursodatabase/serverless`), which was aligned with `@tursodatabase/database` and now only exposes `run`/`get`/`all`/`iterate`/`exec`/`batch`/`transaction(Async)` — `Connection.execute()` was removed from that surface. If your code called `connect()` directly and used `.execute()`, switch to `run`/`get`/`all` or move to the `/compat` `createClient()` shown here.
+
+### Custom Request Headers
+
+Per-query headers can be attached without a new client instance, via the trailing query-options argument (accepted by `run`/`get`/`all`/`iterate` on the native `connect()` surface):
+
+```javascript
+import { connect } from "@tursodatabase/serverless";
+
+const conn = connect({
+  url: "https://<db>.turso.io",
+  authToken: await getAuthToken(),
+});
+
+await conn.all("SELECT * FROM users", {
+  requestHeaders: { "X-Turso-Request-Identity": requestId },
+});
+```
+
+Per-query headers merge over any connection-level `requestHeaders` and apply only to that call's HTTP request(s). To stamp every request in a transaction, including `BEGIN`/`COMMIT`, set the header at the connection level or use an atomic `batch()` call, which sends the whole transaction as one HTTP request.
 
 ## CLI Token Management
 

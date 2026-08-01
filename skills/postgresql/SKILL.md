@@ -2,8 +2,8 @@
 name: postgresql
 description: "PostgreSQL best practices: multi-tenancy with RLS, schema design, Alembic migrations, async SQLAlchemy, and query optimization. Use when designing multi-tenant tables with Row-Level Security, debugging tenant isolation, creating/changing Alembic migrations, or optimizing PostgreSQL queries. Keywords: PostgreSQL, RLS, Alembic, SQLAlchemy, multi-tenancy."
 metadata:
-  version: "18.4"
-  release_date: "2026-05-14"
+  version: "19beta2"
+  release_date: "2026-07-16"
 ---
 
 # PostgreSQL
@@ -61,7 +61,16 @@ USING (tenant_id = current_setting('app.current_tenant_id', true)::uuid);
 4. Add verification (tests) for isolation
 5. Provide a real downgrade (no stubs)
 
-## Patch Notes (18.4)
+## Version Notes
+
+### PostgreSQL 19 (beta)
+
+- 19 is at **Beta 2 (2026-07-16)**; GA is expected September/October 2026 and details may still change. Latest stable line is `18.4`.
+- Headline changes: `REPACK` / `REPACK CONCURRENTLY` replacing `VACUUM FULL` and `CLUSTER`, parallel autovacuum with a scoring system, logical replication of sequences, SQL/PGQ property graphs, `GROUP BY ALL`, `FOR PORTION OF`, and online checksum enable/disable.
+- 18 incompatible changes to plan for, including forced `standard_conforming_strings`, RADIUS removal, `jit` off by default, `default_toast_compression` switching to `lz4`, and `max_locks_per_transaction` defaulting to 128 with changed sizing.
+- Full detail and the upgrade checklist: [postgresql-19.md](references/postgresql-19.md)
+
+### PostgreSQL 18.4
 
 - `18.4` is a security/robustness patch release; no dump/restore is required for existing `18.x` clusters.
 - The patch line hardens startup packet parsing, backup tools (`pg_basebackup`, `pg_rewind`, `pg_verifybackup`), and several logical replication code paths.
@@ -95,6 +104,10 @@ Pre-flight before destructive actions:
 3. Ask for final confirmation, then execute
 
 ## References
+
+### Versions
+
+- [postgresql-19.md](references/postgresql-19.md) — PostgreSQL 19 (beta): new features by area, full incompatible-changes list, upgrade checklist
 
 ### Schema & Design
 

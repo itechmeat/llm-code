@@ -2,8 +2,8 @@
 name: zvec
 description: "Zvec in-process vector database. Covers collections, indexing, embeddings, reranking, and persistence. Use when embedding Zvec into applications or tuning retrieval/storage behavior. Keywords: Zvec, HNSW-RaBitQ, vector database, ANN."
 metadata:
-  version: "0.5.1"
-  release_date: "2026-06-24"
+  version: "0.6.0"
+  release_date: "2026-07-20"
 ---
 
 # Zvec
@@ -55,6 +55,17 @@ Zvec is a lightweight, in-process vector database meant to be embedded into appl
 - Do not assume a client/server deployment model: Zvec is in-process.
 - Do not add project-specific paths, secrets, or environment assumptions.
 - Do not choose `HNSW-RaBitQ` on unsupported hardware; current docs limit it to `x86_64` with `AVX2` or better.
+
+## Release Highlights (0.6.0)
+
+- **Pluggable Turbo quantizer**: the Turbo module now exposes a Quantizer abstraction with a uniform interface, decoupling quantization logic from index builders/searchers so future quantizers (int8 uniform, int8 record, PQ, RaBitQ, and more) can plug in without touching index code. Ships with a first `Fp32Quantizer` implementation and scalar FP32 distance kernels.
+- **Random rotation for INT8/INT4 quantization**: an optional random orthogonal rotation (`enable_rotate`) spreads variance evenly across dimensions before quantizing, cutting quantization error. On the cohere-1m benchmark this took HNSW INT8 recall from 0.9285 to 0.9397, Flat INT8 from 0.9695 to 0.9881, and HNSW INT4 recall from 0.2114 to 0.7117 — a large jump that makes INT4 viable in more scenarios.
+- **Group-by search**: query results can now be deduplicated/grouped so you get the top-K per group instead of top-K globally, across Flat, HNSW, HNSW-RaBitQ, and sparse indexes (with `fetch_vector`, `is_linear`, and `bf_pks` query modes), exposed through the Python API.
+- **Zero-copy Python vector queries**: the Python query path now points `VectorViewClause` directly at the source numpy buffer instead of memcpy-ing through `serialize_vector`, removing redundant copies for dense vector queries.
+- **Richer FTS tokenization**: the standard tokenizer now implements Unicode 17 UAX #29 word-boundary rules (Lucene-style handling for alphanumeric, ideographic, hiragana/katakana/hangul, Southeast Asian scripts, and emoji), backed by utf8proc 2.11.3 for Unicode-aware lowercasing and a new ASCII-folding filter. A Snowball-based stemmer token filter (34+ languages, set via `stemmer_lang`) reduces words to their root form.
+- **Complete DiskANN C API**: the C API now covers DiskANN end to end — index param getters/setters, query param CRUD, and query wiring for vector queries, group-by queries, and sub-queries — matching the existing HNSW/FTS C API patterns.
+- **Faster FTS conjunction/phrase queries**: block-max skip plus score early-exit in the conjunction iterator skip non-competitive 128-doc blocks outright; benchmarked on a 500k-doc dataset this made AND queries 22-38% faster and phrase queries 33% faster.
+- **Stability fixes**: assorted fixes to FTS correctness (segment stats on reopen, zero-match filter semantics, compaction doc-id gaps), index race conditions in DiskANN/HNSW/IVF, SQL engine group-by parameter handling, and collection LOCK-file behavior for read-only collections.
 
 ## Release Highlights (0.5.1)
 

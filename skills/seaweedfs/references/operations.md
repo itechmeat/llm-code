@@ -22,6 +22,7 @@ Sources:
 - Master and volume processes now export `start_time_seconds`, which is useful for restart detection and rollout dashboards.
 - `4.29` exposes Admin Server Prometheus metrics; scrape it separately from master/volume/filer metrics when the admin worker participates in EC placement or vacuum workflows.
 - `4.30` adds `/healthz` and `/readyz` probes across S3, IAM, volume, filer, and master services. Prefer readiness probes for traffic admission and health probes for restart decisions in orchestrated deployments.
+- `4.40` fixes master used-size statistics to cover all collections instead of undercounting a subset; rebuild or re-baseline capacity dashboards that trusted the old figure, since prior totals could read lower than actual usage.
 
 ### Gotchas / prohibitions
 
@@ -46,7 +47,7 @@ Sources:
 - Use `lock` and `unlock` around volume-changing operations so concurrent cluster activity does not interfere with repairs.
 - Rely on `volume.fix.replication`, `volume.vacuum`, `volume.balance`, `ec.*`, `fs.meta.*`, `remote.*`, and `s3.*` commands as the canonical operational toolkit.
 - Use dry-run or preview-style flags such as `-n` before performing replication repair when possible.
-- Use `volume.check.disk`, `volume.fsck`, `fs.meta.cat`, and `fs.verify` when diagnosing missing chunks or filer-to-volume inconsistencies.
+- Use `volume.check.disk`, `volume.fsck`, `fs.meta.cat`, and `fs.verify` when diagnosing missing chunks or filer-to-volume inconsistencies. The Rust volume server now verifies that a `.dat` file ends at the last indexed needle, catching truncated or corrupted data files during that check (`4.40`).
 - Recent shell updates add group-management commands and make `s3.user.provision` idempotent for existing users by attaching policy instead of failing the whole flow.
 - When scripting `weed shell`, prompt suppression on piped input reduces brittle non-interactive automation.
 - The `4.24`-`4.25` line is operationally important for erasure coding on multi-disk servers: the planner now treats `(server, disk_id)` distinctly, stale shards are pruned more safely, and same-server multi-disk EC reads/recovery are fixed.
@@ -54,6 +55,7 @@ Sources:
 - The `4.29`-`4.30` line moves EC encode/repair to shared `ecbalancer.Place` placement and snapshots placement once per detection cycle, which matters for large topologies that previously timed out. It also improves credible-replica metrics, removes empty stub replicas before distributing EC shards, preserves `.vif` metadata when a coexisting regular volume is deleted, and re-notifies writable volumes after worker vacuum.
 - `volume.fsck` no longer halts purge on a stuck read-only volume, and `volume.merge` verifies output before overwriting replicas. Keep those checks in repair runbooks instead of bypassing shell safety.
 - Revalidate admin scripts after `4.24`: several volume/admin RPCs and destructive operations now require admin auth.
+- The `4.40` line adds `ec.check.replication` for verifying EC shard replication counts across the cluster, stops `ec.encode` from rebalancing against a topology snapshot that predates its own newly created shards, and removes stale `.ecsum` checksum sidecar files when a shard is destroyed, with Go and Rust cleanup now aligned. It also makes `volume.tier.upload` preserve existing volume replicas instead of leaving them orphaned after tiering, adds `-resurrectMissingNeedles` to `volume.check.disk` for restoring missing needles on replicas that were never vacuumed, and surfaces the current cluster lock holder in `weed shell` plus S3 servers in `cluster.ps` output, which helps diagnose a maintenance job stuck waiting on a lock.
 
 ### Gotchas / prohibitions
 

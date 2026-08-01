@@ -29,6 +29,7 @@ Actionable notes from the build guide.
 
 - Provide multiple HTML entries via `build.rollupOptions.input`.
 - The resolved HTML file path determines output structure.
+- For non-HTML entries, prefer setting the top-level `input` config option instead: it is shared with dev, `build.lib.entry`, `build.ssr`, and `optimizeDeps.entries`, so the entry is declared once. `build.rollupOptions.input` still overrides it for the build only. See config.md.
 
 ## Library mode
 

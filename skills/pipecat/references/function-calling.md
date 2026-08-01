@@ -59,6 +59,14 @@ Docs mention result properties such as:
 
 If you skip LLM execution, you must explicitly trigger the next step when appropriate (otherwise the conversation may stall).
 
+## Pipecat Flows: NO_RESPONSE (1.6.0)
+
+Pipecat Flows (integrated into the main package since `1.5.0`) adds `NO_RESPONSE`: a consolidated function can return `(result, NO_RESPONSE)` to finish the function call without transitioning to a new node and without running the LLM. Use it when a function should quietly update state and let the next user utterance (or another explicit trigger) produce the next response, instead of forcing an immediate LLM turn. The upstream `multi_worker_handoff` Flows example switched to `NO_RESPONSE` for exactly this reason: without it, the newly-deactivated worker was repeating the assistant's reply after handing control back to the router.
+
+## Eval scenarios: `absent: true` (1.6.0)
+
+Eval scenario expectations gain `absent: true`: the expectation passes only when no event of the given type arrives within the `within_ms` budget, and fails as soon as one does. Use it for duplicate-output regressions, e.g. asserting a bot responds exactly once after a multi-worker handoff.
+
 ## Migration notes for 1.0.0
 
 - Single-argument function call support was removed; tools must expose named parameters.

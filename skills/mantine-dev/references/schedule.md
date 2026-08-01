@@ -62,6 +62,25 @@ Monthly calendar with event dots and configurable week start.
 
 Touch-optimized month view for mobile UIs.
 
+### ResourcesDayView / ResourcesWeekView
+
+Day/week grid with a resource column per row (rooms, staff, equipment), each showing its own events:
+
+```tsx
+import { ResourcesDayView } from "@mantine/schedule";
+
+<ResourcesDayView
+  date={date}
+  onDateChange={setDate}
+  resources={resources}
+  events={events}
+  intervalMinutes={120}
+  startScrollTime="08:00:00"
+/>;
+```
+
+New in v9.5: `intervalMinutes` on `ResourcesDayView`/`ResourcesWeekView` now also accepts whole numbers of hours (e.g. `120`, `240`) for multi-hour slot columns, in addition to the values that divide evenly into an hour (`15`, `30`, `60`).
+
 ## Event Data Shape
 
 ```ts
@@ -80,3 +99,4 @@ interface ScheduleEventData {
 - `withEventsDragAndDrop` — enable drag to reschedule
 - `onEventDrop` — callback with `{ eventId, newStart, newEnd }`
 - `startTime` / `endTime` — visible time range (DayView/WeekView)
+- `intervalMinutes` — slot length in minutes; `ResourcesDayView`/`ResourcesWeekView` accept whole hours (e.g. `120`, `240`) for multi-hour columns since v9.5

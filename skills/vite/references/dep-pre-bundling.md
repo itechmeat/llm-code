@@ -28,4 +28,5 @@ Actionable notes from the dependency pre-bundling guide.
 ## Caching
 
 - Cache in `node_modules/.vite` is invalidated by lockfile, patches, config, or `NODE_ENV`.
+- Recognized lockfile formats for cache invalidation include npm, yarn, pnpm, bun, and, as of `8.2.0`, Aube's `aube-lock.yaml` and nub's `nub.lock`.
 - Browser cache is aggressive; disable cache + restart with `--force` when debugging deps.

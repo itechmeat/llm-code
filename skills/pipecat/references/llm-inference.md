@@ -61,6 +61,29 @@ Use these to implement user feedback and recovery (retry/backoff/fallback) as ne
 - `run_inference` now accepts a one-shot `system_instruction` override.
 - If you set both constructor-level `system_instruction` and a system message in context, the constructor value takes precedence and Pipecat logs a warning.
 
+## Reasoning support (1.6.0)
+
+`OpenAIResponsesLLMService` and `OpenAIResponsesHttpLLMService` gain `reasoning` configuration:
+
+- Set `settings.reasoning` to a `ReasoningConfig(effort=..., summary=...)` to control reasoning depth and optionally request a summary of the model's thinking.
+- Summaries surface the same way as Anthropic/Gemini thinking: as thought frames and the `on_assistant_thought` event.
+- Only reasoning-capable models support it (the gpt-5.x series and the o-series); the default model, `gpt-4.1`, does not reason. If you set `reasoning` on a model that does not support it, the service logs a clear error up front instead of surfacing a raw API failure.
+- The model's encrypted reasoning is captured and sent back automatically on subsequent turns, preserving reasoning context across the conversation and across tool-call turns.
+- When `reasoning` is not configured, mainline gpt models from gpt-5 onward default to `effort="none"` (disabled) to keep real-time voice latency low, mirroring how Gemini disables thinking by default; other models keep their provider default.
+- See `examples/thinking/thinking-openai-responses.py` (plus the `-http` and `-functions-` variants).
+
+## New LLM services (1.6.0)
+
+- **`CrusoeLLMService`**: OpenAI-compatible LLM service for Crusoe Cloud's Managed Inference API.
+- **`BasetenLLMService`**: OpenAI-compatible LLM service for Baseten's Model APIs and dedicated deployments. Defaults to Baseten's serverless Model APIs endpoint (open-weights models such as GLM, Kimi, DeepSeek, Nemotron, gpt-oss); for a dedicated deployment, pass its `/sync/v1` URL as `base_url` and set `settings.model` to the served model name.
+
+## Audio token usage in `LLMTokenUsage` (1.6.0)
+
+- `LLMTokenUsage` gains optional `input_audio_tokens`, `output_audio_tokens`, and `cache_read_input_audio_tokens` fields for cost attribution with realtime models.
+- `OpenAIRealtimeLLMService` (including Azure realtime) populates them from the Realtime API's `response.done` usage details.
+- `GeminiLiveLLMService` populates them from the AUDIO entries in `usage_metadata`'s per-modality breakdowns; absent modalities report as unset rather than zero, and text tokens are never derived from totals.
+- Values flow through usage debug logs, RTVI client metrics (only present when populated), and OTel span attributes (`gen_ai.usage.audio.input_tokens`, `gen_ai.usage.audio.output_tokens`, `gen_ai.usage.audio.cache_read.input_tokens`). See `references/server-pipeline-apis.md` for the wider OTel attribute changes in `1.6.0`.
+
 ## LLM service updates (1.3.0)
 
 - `LLMService.append_system_instruction(...)` appends durable system text that is included on every inference and survives context resets. Prefer it when a worker needs persistent task guidance without rewriting the whole context.

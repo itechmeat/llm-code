@@ -757,6 +757,20 @@ Native tools executed by model providers (not by Pydantic AI).
 | `MemoryTool`          | Persistent memory     | Anthropic                                 |
 | `MCPServerTool`       | Remote MCP servers    | OpenAI Responses, Anthropic               |
 | `FileSearchTool`      | Vector search (RAG)   | OpenAI Responses, Google                  |
+| `AdvisorTool`         | Provider-side advisor/guidance tool | Anthropic, OpenRouter (v2.18.0) |
+
+### AdvisorTool Example (v2.18.0)
+
+```python
+from pydantic_ai import Agent, AdvisorTool
+
+agent = Agent(
+    'anthropic:claude-sonnet-4-5',
+    builtin_tools=[AdvisorTool()],
+)
+
+result = agent.run_sync('Review this plan and flag any risks.')
+```
 
 ### Web Search Example
 

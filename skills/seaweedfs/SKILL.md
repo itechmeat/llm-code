@@ -2,8 +2,8 @@
 name: seaweedfs
 description: "SeaweedFS distributed storage. Covers filer, S3 API, replication, cloud tiers, and operations. Use when deploying SeaweedFS, configuring filer stores, exposing S3-compatible endpoints, or planning backup and security controls. Keywords: SeaweedFS, weed, filer, S3, object storage."
 metadata:
-  version: "4.39"
-  release_date: "2026-07-10"
+  version: "4.40"
+  release_date: "2026-07-20"
 ---
 
 # SeaweedFS
@@ -45,6 +45,15 @@ Prefer production guidance from multi-component setups over `weed mini` shortcut
 - The filer layer adds directories, metadata stores, and higher-level protocols.
 - S3, WebDAV, FUSE, and other interfaces are front doors on top of the same storage services.
 - Production deployments should document topology, credentials, persistence, monitoring, and recovery paths explicitly.
+
+## Release Highlights (4.40)
+
+- **S3 correctness**: `CopyObject` on a missing source now returns `NoSuchKey`/`NoSuchBucket` instead of a misleading error, invalid tagging on `CopyObject` returns `InvalidTag`, `PutObjectAcl` and object-tagging writes for nested keys target the correct object, and raw semicolons in query strings are accepted.
+- **IAM/OIDC hardening**: role trust policy is now enforced on direct OIDC bearer-token requests, not only on formal `AssumeRoleWithWebIdentity` flows.
+- **Filer/TUS security**: TUS resumable-upload session authorization is hardened so `HEAD`/`PATCH`/`DELETE` are restricted to the session's own target path, closing a cross-prefix access gap; `filer.backup` no longer silently loses data on a transient not-found error; log-buffer flushing is optimized with generated vtproto marshalers.
+- **Erasure coding**: new `ec.check.replication` shell command, `ec.encode` no longer rebalances against a topology snapshot that predates its own new shards, and stale `.ecsum` checksum sidecars are removed on shard destroy (Go/Rust aligned).
+- **Shell/admin**: `volume.tier.upload` preserves existing replicas, `volume.check.disk` gains `-resurrectMissingNeedles`, `weed shell` shows the current cluster lock holder, and `cluster.ps` lists S3 servers.
+- **Core**: master used-size statistics cover all collections, the Rust volume server verifies `.dat` integrity against the last indexed needle, and mount surfaces `ENOSPC` instead of waiting indefinitely.
 
 ## Release Highlights (4.25)
 

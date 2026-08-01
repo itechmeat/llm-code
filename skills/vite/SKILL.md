@@ -2,8 +2,8 @@
 name: vite
 description: "Vite next-gen frontend tooling: dev server, HMR, build, config, plugins, Environment API, Rolldown. Use when setting up or running a Vite project, configuring vite.config.*, authoring plugins, working with HMR or JS API, or managing environment variables and modes. Keywords: vite.config, bundler, Vite, HMR, Rolldown."
 metadata:
-  version: "8.1.5"
-  release_date: "2026-07-16"
+  version: "8.2.0"
+  release_date: "2026-07-30"
 ---
 
 # Vite
@@ -54,6 +54,7 @@ metadata:
 - Use HMR APIs for fine-grained updates when plugin or framework needs it.
 - Use `optimizeDeps.include/exclude` when deps aren't discovered on startup.
 - Use `build.rollupOptions.input` for multi-page apps.
+- Use the top-level `input` option to declare the entry once for apps without `index.html`; it feeds `build.rolldownOptions.input`, `build.lib.entry`, `build.ssr`, and `optimizeDeps.entries` by default.
 - Enable deprecation warnings: `future: { removeSsrLoadModule: 'warn' }`.
 - Use `hotUpdate` hook instead of `handleHotUpdate` for environment-aware HMR.
 - Use `this.environment` instead of `options.ssr` in plugin hooks.
@@ -73,6 +74,15 @@ metadata:
 - **`server.hmr` renamed to `server.ws`**: WebSocket options move under `server.ws`; update configs that set HMR transport options.
 - **New options**: `html.additionalAssetSources` for custom asset sources during HTML transform, `import.meta.glob` `caseSensitive`, multiple hosts via `__VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS`, and an extended default `server.fs.deny` list.
 - **8.1.1 -> 8.1.5**: stability only (stack-trace handling, dependency bumps, module-resolution edge cases).
+
+## Release Highlights (8.2.0)
+
+- **New top-level `input` option**: `input: string | string[] | { [entryAlias: string]: string }` resolves relative to the project root and becomes the default value for `build.rolldownOptions.input`, `build.lib.entry`, `build.ssr` (when set to `true`), and `optimizeDeps.entries` whenever those are left unset; useful for apps that skip `index.html` and would otherwise repeat the same entry path in several options. The resolved `input` paths are also added to `server.fs.allow`, matching how imported modules are already allowed.
+- **Bundled dev mode (`experimental.bundledDev`)**: a boundary-less edit now triggers exactly one reload; the client tells the server to rebuild first and only then issues `full-reload`, so the "bundling in progress" fallback page no longer flashes between an edit and the reload. Worker files (`new Worker(new URL(...))`, `?worker` imports) are now correctly re-emitted through HMR instead of going stale after an edit.
+- **Native loader / native-config compatibility**: warnings about features unsupported by `configLoader: 'native'` now include a column alongside the line number, and virtual modules are excluded from the native-config compatibility check so plugin-generated virtual files no longer trigger false positives.
+- **Type-safe PostCSS config**: Vite exports `PostcssUserConfig` (re-exported from `postcss-load-config`'s `Config` type) so `postcss.config.js`/`.ts` can be typed directly.
+- **Network URL labeling**: dev server network URLs now resolve and print the OS network-interface name (e.g. `eth0`, `wlan0`) even when `server.host` is an explicit address, not only when Vite auto-detects every interface.
+- **Rolldown and optimizer updates**: Rolldown bumps to `~1.2.0`, bringing client-side HMR handling into `experimental.bundledDev`; the dependency optimizer's lockfile-hash cache now also recognizes `aube-lock.yaml` (Aube) and `nub.lock` (nub), so those package managers correctly invalidate `node_modules/.vite` on dependency changes.
 
 ## Patch Notes (8.0.14 -> 8.0.16)
 

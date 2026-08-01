@@ -2,13 +2,23 @@
 name: mantine-dev
 description: "Mantine UI library for React: 100+ components, hooks, forms, theming, dark mode, CSS modules, and Vite/TypeScript setup. Use when building React applications with Mantine components, configuring theming/dark mode, or working with Mantine hooks and forms. Keywords: Mantine, React, UI components, CSS modules, theming."
 metadata:
-  version: "9.4.1"
-  release_date: "2026-06-28"
+  version: "9.5.0"
+  release_date: "2026-07-27"
 ---
 
 # Mantine UI Library
 
 Mantine is a fully-featured React components library with TypeScript support. It provides 100+ hooks and components with native dark mode, CSS-in-JS via CSS modules, and excellent accessibility.
+
+## v9.5 Highlights
+
+- New `Cascader` component: select a value from hierarchical data by drilling down through cascading columns, with `changeOnSelect`, hover-to-expand, search, and a flat-list layout for mobile.
+- `@mantine/charts` gains `SunburstChart` (hierarchical data as concentric rings) and `BulletChart` (a value against a target and qualitative ranges); the area/bar/line/composite charts add `withBrush` for a draggable range-selector, and every chart component now ships `accessibilityLayer` (arrow-key navigation, Enter for tooltips) enabled by default.
+- Calendar-based date components gain `withNativeLevelSelect`, replacing the calendar header's level button with native `<select>` elements, paired with `yearsSelectRange`.
+- `Timeline.Item` gains `opposite` (content on the other side of the line, switching to a centered two-sided layout) and `alternate` (flips sides per item); `FloatingWindow` gains a `ResizeHandle` compound component with a `dimensions` prop and keyboard resizing; `Modal`/`Drawer` gain `keepMountedMode` (`'activity'` or `'display-none'`); `Accordion` gains `disableCollapse` to keep one item always open.
+- `@mantine/schedule` `ResourcesDayView`/`ResourcesWeekView` accept `intervalMinutes` greater than 60 for multi-hour slot columns.
+- `9.5.0` fixes an `autoClose` timer leak in the notifications container.
+- The official Vite template replaced ESLint/Prettier/`eslint-config-mantine` with `oxlint`/`oxfmt` via the new `oxc-config-mantine` package (internal tooling migration); `eslint-config-mantine` remains available for projects that keep ESLint.
 
 ## v9.4 Highlights
 
@@ -46,7 +56,7 @@ This skill focuses on:
 - **Vite** + **TypeScript** setup (not Next.js or CRA)
 - CSS modules with PostCSS preset
 - Vitest for testing
-- ESLint with eslint-config-mantine
+- Oxlint/Oxfmt (`oxc-config-mantine`) for linting and formatting, matching the current official Vite template; ESLint (`eslint-config-mantine`) remains a supported alternative
 
 ## Installation
 
@@ -151,7 +161,7 @@ Many components support `component` prop to render as different elements.
 ### Development
 
 - [testing.md](references/testing.md) — Vitest setup, custom render, mocking
-- [eslint.md](references/eslint.md) — eslint-config-mantine setup
+- [eslint.md](references/eslint.md) — Oxlint/Oxfmt (oxc-config-mantine) setup, plus legacy eslint-config-mantine option
 
 ## Links
 

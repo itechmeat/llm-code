@@ -13,6 +13,7 @@ Actionable notes from the troubleshooting guide.
 - Self-signed certs in Chrome break caching; use trusted cert.
 - 431 errors: reduce header size or increase `--max-http-header-size`.
 - Dev containers: set `server.host: '0.0.0.0'` so forwarded ports are reachable (using `127.0.0.1` limits access to the container's localhost only).
+- Printed `Network:` URLs are labeled with the resolved OS network-interface name (e.g. `eth0`, `wlan0`); this now also applies when `server.host` is set to one explicit address, not only when Vite lists every detected interface. Useful for telling which physical/virtual interface a printed URL belongs to on multi-homed hosts.
 
 ## HMR issues
 

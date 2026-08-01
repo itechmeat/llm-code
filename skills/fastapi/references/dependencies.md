@@ -232,6 +232,10 @@ async def check_query(fixed_content_included: Annotated[bool, Depends(checker)])
 
 Instance with `__call__` allows storing state between requests.
 
+## Internals Note (0.140.x)
+
+`0.140.0` – `0.140.7` refactored how FastAPI resolves dependency trees internally: instead of repeatedly flattening the full tree for OpenAPI generation, request-parameter resolution, and body-field handling, it now avoids redundant work, which lowers memory use in applications with many endpoints and shared dependencies. The internal `lru_cache` limit used for dependency resolution was also raised to fit larger applications. This is an internal optimization only — the `Depends()`/`use_cache` API and behavior described above are unchanged.
+
 ## Use Cases
 
 - Database sessions

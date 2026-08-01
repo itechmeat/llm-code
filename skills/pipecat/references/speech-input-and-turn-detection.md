@@ -67,6 +67,10 @@ These changes matter when you tune speech sensitivity live or need the agent to 
 - `STTService.supports_ttfs` lets turn-based STT services opt out of TTFS latency semantics; when false, `STTMetadataFrame` uses `ttfs_p99_latency=0.0` without noisy warnings.
 - Smart Turn v3 no longer imports `transformers` at module import time; cold start and memory footprint are much lower, and `transformers` is no longer part of the base install.
 
+## Strategy reset() deprecated (1.6.0)
+
+`reset()` on `BaseUserTurnStartStrategy` and `BaseUserTurnStopStrategy` is deprecated. Reset logic should move to the new `handle_user_turn_started()` / `handle_user_turn_stopped()` lifecycle callbacks. For backward compatibility, the base classes' default `handle_user_turn_started()` / `handle_user_turn_stopped()` still call `reset()`, so existing custom strategies keep working, but overriding `reset()` now emits a `DeprecationWarning` when the class is defined. Planned removal is `2.0.0`; migrate custom turn strategies to the lifecycle callbacks rather than adding new logic to `reset()`.
+
 ## Interruptions
 
 When interruptions are enabled (docs say default enabled), starting a user turn can:

@@ -71,6 +71,10 @@ Sources:
 - Mount mutation paths now avoid some redundant filer RPCs, and writeback cache mode pre-allocates file IDs to reduce write amplification under sustained change.
 - If you saw metadata flush problems for files unlinked while still open, re-test before keeping downstream workarounds.
 
+## Mount/FUSE reliability notes (4.40)
+
+- `weed mount` now surfaces `ENOSPC` to the FUSE layer instead of waiting indefinitely when the underlying volume space is exhausted. Treat a stalled write on a mount as a possible disk-full condition and check cluster capacity before assuming it is a hang or bug.
+
 ## Mount/FUSE reliability notes (4.29)
 
 - `4.29` adds filer-managed POSIX advisory lock primitives behind `weed mount -dlm`, including owner routing, session leases, keepalive reassertion, ring-change cooling, and fail-closed warm-up behavior. Use this release line when multiple FUSE mounts coordinate writes to the same namespace.
@@ -81,6 +85,10 @@ Sources:
 
 - Graceful shutdown no longer risks the same corruption path as earlier 4.17-era builds, so shutdown/restart drills are worth revalidating after upgrade.
 - Filer no longer aborts entry deletion just because hard-link cleanup failed, and redundant disk reads that caused memory/CPU regressions were removed.
+
+## Filer reliability notes (4.40)
+
+- Log-buffer flush copies now route through the shared slab pool, and the metadata log path uses generated vtproto marshalers instead of standard protobuf marshal/unmarshal. Expect lower allocation overhead and CPU cost on filers with heavy metadata-log churn; no config change is required to benefit.
 
 ## Filer reliability notes (4.29 -> 4.30)
 
@@ -230,6 +238,7 @@ Sources:
 - Do not expose TUS paths without the same auth and path-governance review applied to normal filer uploads.
 - Do not assume multi-file concatenation support exists.
 - Do not forget to test resume behavior through proxies and load balancers if uploads span long durations.
+- Do not assume pre-`4.40` TUS sessions were prefix-isolated: `4.40` scopes `HEAD`/`PATCH`/`DELETE` to the session's own target path and hardens authorization against cross-prefix access to other sessions' paths. See `references/security.md` for the broader security note.
 
 ### How to apply in a real repo
 

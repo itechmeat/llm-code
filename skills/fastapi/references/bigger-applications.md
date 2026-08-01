@@ -161,5 +161,6 @@ app.include_router(api_router, prefix="/api/latest")
 - `APIRouter` = mini `FastAPI` class with same parameters
 - `prefix` must not end with `/`
 - Router dependencies execute before decorator dependencies
-- Path operations are "cloned" (not mounted) to include in OpenAPI schema
+- Since `0.137.0`, `include_router()` preserves the original `APIRouter`/`APIRoute` instances instead of cloning them, so routes added to a router after it was included are still picked up, and memory use is lower
+- `0.140.8+` fixes a related bug where the declared stream item type of a `yield`-based endpoint was lost when its router was added via `include_router()`
 - Performance: including routers happens at startup (microseconds)

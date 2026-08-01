@@ -17,6 +17,7 @@ Provider/feature extras (pattern used throughout the docs):
 
 - `pip install "pipecat-ai[openai]"`
 - `pip install "pipecat-ai[runner]"` (runner utilities)
+- `pip install "pipecat-ai[moq]"` (`1.6.0`; Media over QUIC transport, `MOQTransport`)
 - You can combine extras if needed (keep them explicit).
 
 `1.3.0` packaging notes:

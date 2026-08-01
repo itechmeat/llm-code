@@ -125,3 +125,11 @@ Sources:
 - IAM/OIDC trust-policy examples now use the `oidc:` condition prefix. Keep local examples aligned so web-identity role assumption tests match upstream semantics.
 - `4.30` rejects `..` in S3/Iceberg URL path variables, validates ownership-control rules, honors `MetadataDirective=REPLACE` for system metadata on `CopyObject`, and authenticates JWT unsigned-streaming uploads. Treat this as both a compatibility and security regression-test target.
 - Anonymous unsigned-streaming `PutObject` is allowed only through the intended unauthenticated path; do not confuse that with a recommendation to expose unsigned uploads on production gateways.
+
+## Patch-level S3 notes (4.40)
+
+- Role trust policy is now enforced on direct OIDC bearer-token requests, not only on requests that went through a formal `AssumeRoleWithWebIdentity` STS call. Treat any client that authenticates by passing an OIDC bearer token straight to the S3 API as newly subject to trust-policy checks, and re-test that flow after upgrading.
+- `CopyObject` against a missing source object now returns the standard `NoSuchKey` or `NoSuchBucket` error instead of a misleading one; update error-handling logic that special-cased the old behavior.
+- Invalid tagging supplied on `CopyObject` now returns `InvalidTag` instead of the unrelated `InvalidCopySource`, giving clients an accurate signal to fix the tag set rather than the copy source.
+- `PutObjectAcl` and object-tagging requests for nested keys (paths containing `/`) now write back to the correct object; previously these could silently update the wrong object when the key had a directory-like prefix.
+- Raw, non-percent-encoded semicolons in query strings are now accepted, improving compatibility with clients or proxies that pass semicolons through unescaped.

@@ -2,8 +2,8 @@
 name: fastapi
 description: "FastAPI Python framework. Covers REST APIs, validation, dependencies, security. Use when building Python web APIs with FastAPI, configuring Pydantic models, implementing dependency injection, or setting up OAuth2/JWT authentication. Keywords: FastAPI, Pydantic, async, OAuth2, JWT, REST API."
 metadata:
-  version: "0.139.2"
-  release_date: "2026-07-16"
+  version: "0.141.1"
+  release_date: "2026-07-29"
 ---
 
 # FastAPI
@@ -55,6 +55,14 @@ This skill provides comprehensive guidance for building APIs with FastAPI.
 ## Installation
 
 Requires Python 3.10+. Install: `pip install "fastapi[standard]"` (full with uvicorn) or `pip install fastapi` (minimal). Add `python-multipart` for forms/files.
+
+## Release Highlights (0.139.2 -> 0.141.1)
+
+- **Frontend dev experience (`0.141.0`)**: `check_dir` on `app.frontend()` now defaults to `"auto"`, which skips the frontend-directory existence check (with a warning) when `FASTAPI_ENV=development` and enforces it otherwise. `fastapi dev` sets `FASTAPI_ENV=development` automatically unless already set, so running the dev server before the frontend is built no longer raises an error.
+- **Frontend fixes (`0.141.1`)**: background tasks and response headers produced by dependencies used on frontend routes (dependency support was added in `0.139.0`) are now applied correctly instead of being silently dropped. `FASTAPI_ENV` is documented in the FastAPI CLI guide.
+- **Dependency-injection memory refactor (`0.140.0` – `0.140.7`)**: internal dependency trees are no longer repeatedly flattened for OpenAPI generation, request-parameter resolution, and body-field handling, reducing memory use in large applications; the internal `lru_cache` limit for dependency resolution was also raised to fit bigger apps. This is an internal optimization with no required code changes.
+- **Streaming fixes (`0.140.8` – `0.140.13`)**: `include_router()` no longer loses the declared stream item type from a nested router's `yield`-based endpoints; `response_model_*` params (e.g. `response_model_exclude`) are now honored on plain (non-generator) endpoints that `return` an `Iterable[Model]`, not only on `yield`-based ones; `status_code` set on SSE/JSONL streaming endpoints is now honored instead of always returning 200; a dedicated API reference page for `fastapi.sse` was added.
+- **`jsonable_encoder` fix (`0.140.9`)**: `exclude_defaults` now propagates into dict keys and values, not only into top-level model fields.
 
 ## Release Highlights (0.137.0 -> 0.139.2)
 

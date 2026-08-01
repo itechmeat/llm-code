@@ -2,6 +2,81 @@
 
 `@mantine/core` provides 120+ components. This reference covers key patterns.
 
+## New in v9.5
+
+### Cascader
+
+Hierarchical selection component: pick a value by drilling down through cascading columns instead of a single flat list. Each `data` entry is a `CascaderOption` with a unique `value`, optional `label`, and optional `children`.
+
+```tsx
+import { Cascader } from "@mantine/core";
+
+const data = [
+  {
+    value: "asia",
+    label: "Asia",
+    children: [{ value: "jp", label: "Japan", children: [{ value: "tokyo", label: "Tokyo" }] }],
+  },
+];
+
+<Cascader data={data} placeholder="Pick location" searchable />;
+```
+
+Key props: `changeOnSelect` (allow selecting a non-leaf level), `searchable` (filters options and renders matches as a flat list), `withColumns={false}` (flat list layout instead of cascading columns — useful for mobile, often paired with `useMatches`), `expandTrigger="hover"`, `allowDeselect`. Full keyboard navigation ships by default: arrows move between options, Enter expands a parent or picks a leaf, Escape closes the dropdown.
+
+### Charts: SunburstChart and BulletChart
+
+`SunburstChart` (`@mantine/charts`) renders hierarchical data as concentric rings — a treemap plotted in polar coordinates. Each node needs `name` and `color`, plus either a `value` (leaf) or `children`.
+
+`BulletChart` compares one measured `value` against a `target` and a set of qualitative `ranges` (`{ value, color, label? }`) — useful for KPI-vs-threshold displays.
+
+```tsx
+import { BulletChart } from "@mantine/charts";
+
+<BulletChart
+  value={230000}
+  target={150000}
+  ranges={[
+    { value: 150000, color: "red.8" },
+    { value: 225000, color: "yellow.8" },
+    { value: 300000, color: "teal.8" },
+  ]}
+  valueFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+/>;
+```
+
+`AreaChart`, `BarChart`, `LineChart`, and `CompositeChart` gain `withBrush`, which renders a draggable range-selector (a recharts Brush) below the chart, tunable via `brushProps`. Every chart component — those four plus `ScatterChart`, `BubbleChart`, `PieChart`, `DonutChart`, `RadarChart`, `RadialBarChart`, and `FunnelChart` — now ships `accessibilityLayer` (`true` by default), enabling arrow-key navigation between data points and Enter to toggle tooltips; set it to `false` when the chart sits inside a widget that already owns keyboard handling.
+
+### Timeline
+
+Vertical list of connected events with an active step index:
+
+```tsx
+import { Timeline, Text } from "@mantine/core";
+
+<Timeline active={1}>
+  <Timeline.Item title="New branch" opposite={<Text size="sm">2 hours ago</Text>}>
+    <Text>You created branch fix-notifications</Text>
+  </Timeline.Item>
+  <Timeline.Item title="Commits" opposite={<Text size="sm">52 minutes ago</Text>} alternate>
+    <Text>You pushed 23 commits</Text>
+  </Timeline.Item>
+</Timeline>;
+```
+
+New in v9.5: `Timeline.Item` accepts `opposite` to render content on the other side of the line — once any item sets it, the whole timeline switches to a centered, two-sided layout — and `alternate` to flip the content/opposite sides on an individual item.
+
+### New props on existing components
+
+- `FloatingWindow` gains a `ResizeHandle` compound component (`<FloatingWindow.ResizeHandle />`) for drag-resizing; pair it with a `dimensions` prop (`initialWidth`/`initialHeight`, `minWidth`/`minHeight`, `maxWidth`/`maxHeight`). It is keyboard-accessible: arrow keys resize in 10px steps, Home/End jump to the min/max size.
+- `Modal` and `Drawer` gain `keepMountedMode` (`'activity'` default or `'display-none'`), which controls how a `keepMounted` modal/drawer is hidden instead of unmounted — `'activity'` wraps it in React 19's `Activity` component, `'display-none'` applies `display: none` styles.
+- `Accordion` gains `disableCollapse` — in single (non-`multiple`) mode, clicking the open item's control again becomes a no-op, so one item always stays open; pair with `defaultValue` to guarantee an initial open item. It has no effect when `multiple` is set.
+- Calendar-based date components (`DatePicker`, `DatePickerInput`, `DateInput`, and similar) gain `withNativeLevelSelect`, which swaps the calendar header's level button for native `<select>` elements (month + year at the month level, year at the year level); pair it with `yearsSelectRange` to bound the year options.
+
+## Patch notes (9.4.1 -> 9.5.0)
+
+- Fixed an `autoClose` timer leak in the notifications container; if you added a workaround for notifications not clearing their close timers, it can be removed.
+
 ## New in v9.3
 
 ### Splitter

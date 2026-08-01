@@ -46,6 +46,8 @@ fastapi dev main.py
 
 Server runs at `http://127.0.0.1:8000`
 
+`fastapi dev` sets the `FASTAPI_ENV` environment variable to `development` before importing your app, unless it is already set; `fastapi run` leaves it unchanged. Conventional values are `development` and `production` (documented in the FastAPI CLI guide as of `0.141.1`); app startup code can branch on it, and `app.frontend(check_dir="auto")` uses it to relax its directory check in dev.
+
 ## Auto-Generated Documentation
 
 | URL             | Documentation            |

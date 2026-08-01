@@ -373,14 +373,49 @@ try:
     result = agent.run_sync(
         'Query',
         usage_limits=UsageLimits(
-            response_tokens_limit=100,  # max response tokens
-            request_limit=5,            # max model turns
-            tool_calls_limit=10,        # max tool executions
+            response_tokens_limit=100,          # max response tokens
+            request_limit=5,                    # max model turns
+            tool_calls_limit=10,                # max tool executions
+            per_request_input_tokens_limit=8000,  # max input tokens on any single request (v2.21.0)
         )
     )
 except UsageLimitExceeded as e:
     print(f"Limit exceeded: {e}")
 ```
+
+`per_request_input_tokens_limit` catches runaway single-request context (e.g. an unbounded history processor or tool result) before it reaches the model, rather than only capping totals across the whole run.
+
+### Tool-Retry Budget Overrides (v2.15.0)
+
+The tool-retry budget can be overridden per call instead of only via the agent's/tool's static `retries=`:
+
+```python
+result = await agent.run('Query', tool_retries=5)
+
+async with agent.iter('Query', tool_retries=5) as agent_run:
+    ...
+
+with agent.override(tool_retries=5):
+    result = await agent.run('Query')
+```
+
+### ToolFailed (v2.16.0)
+
+Raise `ToolFailed` inside a tool for a failure the model should see as final — unlike `ModelRetry`, it does not consume a retry and does not prompt the model to try again with different arguments:
+
+```python
+from pydantic_ai import ToolFailed
+
+@agent.tool_plain
+def charge_card(amount: float) -> str:
+    if amount > 10_000:
+        raise ToolFailed('Amount exceeds the per-transaction limit; ask the user to split the charge.')
+    return 'Charged'
+```
+
+### run_id (v2.16.0)
+
+Pass an optional `run_id=` to `agent.run()`/`agent.run_sync()` (and to the durable-execution wrappers and UI adapters) to correlate a run with your own tracing/logging identifiers; it is also available on `RunContext.run_id`.
 
 ## Model Settings
 
@@ -452,6 +487,8 @@ with capture_run_messages() as messages:
         print(f"Error: {e}")
         print(f"Messages: {messages}")
 ```
+
+See [models.md](models.md#exception-handling) for `ModelHTTPError` (which now carries response `headers` and a parsed `retry_after`) and the `RaiseContentFilterError` capability.
 
 ## Agent Constructor Parameters
 
@@ -726,7 +763,7 @@ async def delegate(ctx: RunContext[SharedDeps], task: str) -> str:
 | Code exec    | Sandboxed containers     |
 | Context mgmt | History processors       |
 | Approval     | ApprovalRequiredToolset  |
-| Durability   | Temporal, DBOS, Prefect  |
+| Durability   | `TemporalDurability`, `DBOSDurability`, `PrefectDurability` capabilities |
 
 ---
 

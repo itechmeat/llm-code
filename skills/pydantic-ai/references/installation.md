@@ -41,7 +41,7 @@ pip install "pydantic-ai-slim[openai,anthropic,logfire]"
 | `logfire`               | Pydantic Logfire           |
 | `evals`                 | Pydantic Evals             |
 | `mcp`                   | MCP protocol               |
-| `fastmcp`               | FastMCP                    |
+| `fastmcp`               | FastMCP (`fastmcp<4`, v2.19.0+) |
 | `a2a`                   | Agent-to-Agent             |
 | `tavily`                | Tavily search              |
 | `duckduckgo`            | DuckDuckGo search          |

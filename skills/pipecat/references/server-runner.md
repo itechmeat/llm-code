@@ -39,6 +39,10 @@ Docs show a single entry point you run with transport selection flags:
 
 The runner also documents extra switches for direct Daily testing and dial-in webhook handling.
 
+`1.6.0` adds MoQ transport flags: `--moq-serve` and `--moq-bind` configure the bot's built-in MoQ server, and `--moq-tls-generate` / `--moq-tls-cert` / `--moq-tls-key` control the TLS material QUIC requires for local dev. See `references/transports.md` for what `MOQTransport` provides.
+
+The development runner also now prints a bordered startup banner on launch, flagging it as development-only and linking to the deployment docs — a reminder not to run it as-is in production.
+
 ## Runner arguments (what your bot receives)
 
 The runner passes transport-specific data to the bot entry point, e.g.:

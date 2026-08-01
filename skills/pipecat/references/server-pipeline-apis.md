@@ -86,6 +86,16 @@ Common patterns:
 - redundancy/failover paths
 - cross-branch communication via producer/consumer style processors
 
+## OTel GenAI span attribute renames (breaking, 1.6.0)
+
+Tracing span attributes were updated to the current OpenTelemetry GenAI semantic conventions. Update any dashboards or saved queries that filter on the old names:
+
+- `gen_ai.provider.name` values changed: `azure.ai.openai` (was `az.ai.openai`) for `AzureLLMService`, `x_ai` (was `xai`) for `GrokLLMService`, `mistral_ai` (was `mistral`) for `MistralLLMService`.
+- Reasoning token usage moved from `gen_ai.usage.reasoning_tokens` to `gen_ai.usage.reasoning.output_tokens`.
+- OpenAI Realtime `llm_response` spans: the non-standard `tokens.prompt` / `tokens.completion` / `tokens.total` are now `gen_ai.usage.input_tokens` / `gen_ai.usage.output_tokens`, plus new cached/audio breakdown attributes (`gen_ai.usage.audio.input_tokens`, `gen_ai.usage.audio.output_tokens`, `gen_ai.usage.audio.cache_read.input_tokens`).
+- Gemini Live `llm_response` spans: the same non-standard `tokens.*` attributes were removed in favor of the standard `gen_ai.usage.input_tokens` / `gen_ai.usage.output_tokens` attributes already present on the spans; Gemini Live spans also now include cached and reasoning token counts.
+- See `references/llm-inference.md` for the corresponding `LLMTokenUsage` audio-token fields that feed these span attributes.
+
 ## Practical checklist
 
 - Turn on metrics/usage metrics early in development to spot latency regressions.

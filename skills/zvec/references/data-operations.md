@@ -122,6 +122,14 @@ result = collection.query(
 )
 ```
 
+### Group-by search (0.6.0+)
+
+Instead of ranking globally, `query()` can group results by a scalar field and return the top-K matches per group (also called group-by deduplication). This is useful when a single source document is split into many chunks/vectors and you want the best result per document rather than several near-duplicate chunks from the same document dominating the top-K. Group-by works across `Flat`, `HNSW`, `HNSW-RaBitQ`, and sparse indexes, and is compatible with the `fetch_vector`, `is_linear`, and `bf_pks` query modes.
+
+### Zero-copy Python vector queries (0.6.0+)
+
+Dense vector queries from Python no longer memcpy the input through `serialize_vector`; `VectorViewClause` now points directly at the source numpy buffer. This mainly matters for large vectors or high query-rate workloads — no application code changes are needed to benefit, and it builds on the zero-copy query path introduced in `0.5.1`.
+
 Multi-vector + weighted reranker example:
 
 ```python

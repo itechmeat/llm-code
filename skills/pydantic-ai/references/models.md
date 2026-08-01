@@ -39,6 +39,17 @@ Pydantic AI is model-agnostic with 30+ providers.
 - `known_model_names()` enumerates the `KnownModelName` members at runtime (1.107.0).
 - Anthropic Bedrock stream handling tolerates `message=None` start events, and `AnthropicModel.count_tokens` is corrected when native tools are present (1.107.0).
 
+## Model-surface updates (2.13.0 -> 2.22.0)
+
+- **New models**: Claude Opus 5 (`claude-opus-5`, v2.20.0); `gemini-3.6-flash` and `gemini-3.5-flash-lite` (v2.16.0).
+- **Mistral**: `reasoning_effort` support via thinking settings (v2.14.0), and a `mistral_prompt_cache_key` setting alongside SDK-level `parallel_tool_calls` (v2.16.0).
+- **OpenAI**: explicit prompt caching for `gpt-5.6` (v2.15.0), and Responses API `reasoning.context` (default `all_turns`) for the `gpt-5.4`/`gpt-5.5`/`gpt-5.6` families (v2.20.0).
+- **Bedrock**: new `BedrockMantleProvider`, plus normalized response-scoped tool-call IDs (v2.18.0).
+- **Google**: Model Armor support via `GoogleModelSettings` (v2.16.0), `us`/`eu` multi-region locations on `GoogleCloudProvider` (v2.18.0), and Gemini models default to the `VALIDATED` tool mode where supported (v2.22.0).
+- **AdvisorTool**: new built-in tool support for Anthropic and OpenRouter (v2.18.0) — see [tools.md](tools.md#built-in-tools).
+- **Usage**: `cache_hit_ratio` property on `RequestUsage`/`RunUsage` (v2.13.0); both usage classes now accept arbitrary extra fields for upcoming `genai-prices` data, preserved across serialization and OTel export (v2.17.0/v2.20.0).
+- **KnownModelName**: refreshed from gateway probes, including stable Google image model IDs (v2.21.0).
+
 ## xAI (Grok)
 
 Native xAI SDK provider (replaces deprecated `GrokProvider`):
@@ -305,6 +316,32 @@ try:
 except* ModelAPIError as exc_group:
     for exc in exc_group.exceptions:
         print(f"Model failed: {exc}")
+```
+
+### ModelHTTPError Headers (v2.19.0)
+
+`ModelHTTPError` now carries the response `headers` and a parsed `retry_after` (populated consistently from every provider SDK), so retry logic can read it directly instead of re-parsing raw response headers:
+
+```python
+from pydantic_ai import ModelHTTPError
+
+try:
+    result = agent.run_sync('Query')
+except ModelHTTPError as e:
+    if e.retry_after is not None:
+        print(f"Rate limited, retry after {e.retry_after}s")
+    print(e.headers.get('x-request-id'))
+```
+
+### RaiseContentFilterError Capability (v2.13.0)
+
+Add `RaiseContentFilterError` to have non-empty content-filter/moderation responses raise instead of silently returning filtered text:
+
+```python
+from pydantic_ai import Agent
+from pydantic_ai.capabilities import RaiseContentFilterError
+
+agent = Agent('openai:gpt-4o', capabilities=[RaiseContentFilterError()])
 ```
 
 ## Key Concepts
@@ -666,6 +703,7 @@ result = agent.run_sync([
 usage = result.usage()
 print(f'Cache write: {usage.cache_write_tokens}')
 print(f'Cache read: {usage.cache_read_tokens}')
+print(f'Cache hit ratio: {usage.cache_hit_ratio}')  # v2.13.0: cache_read / (cache_read + input) tokens
 ```
 
 **Note:** When using `AsyncAnthropicBedrock`, TTL is automatically omitted (Bedrock doesn't support explicit TTL).

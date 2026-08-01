@@ -86,6 +86,8 @@ Notes:
 
 - JSON Lines is not the same as a JSON array; clients must parse line-by-line.
 - If you omit the return type annotation, FastAPI falls back to `jsonable_encoder` for serialization.
+- `0.140.11+` fixes `response_model_*` params (e.g. `response_model_exclude`, `response_model_include`) being ignored when the endpoint `return`s an `Iterable[Model]` instead of using `yield`; both styles now honor them consistently.
+- `0.140.13+` fixes `status_code` being ignored on JSONL streaming endpoints; a value set in the decorator (or via the `Response` parameter) is now applied instead of always returning 200.
 
 ### Stream bytes / binary data
 
@@ -130,6 +132,8 @@ Operational notes:
 - Clients can resume after disconnect using `Last-Event-ID`.
 - For proxy behavior: consider keep-alive pings, `Cache-Control: no-cache`, and disabling buffering (e.g. `X-Accel-Buffering: no` for Nginx).
 - `0.136.2+` validates SSE fields more strictly. Prefer building events with `ServerSentEvent(...)` instead of hand-assembling ad hoc payload dicts, and test any optional `event`, `id`, or `retry` fields you generate dynamically.
+- `0.140.12+` fixes line splitting in the SSE wire encoding to comply with the spec, and `0.140.13+` fixes `status_code` being ignored on SSE streaming endpoints (a value set in the decorator or via the `Response` parameter is now applied instead of always returning 200).
+- `0.140.13+` also adds a dedicated API reference page for `fastapi.sse`, covering `EventSourceResponse` and `ServerSentEvent` in detail.
 
 ````
 

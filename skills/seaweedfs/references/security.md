@@ -22,12 +22,15 @@ Sources:
 - Disable unnecessary HTTP surfaces or directory metadata exposure if public access is not intended.
 - Recent `4.24`-`4.25` releases tightened admin auth on destructive/admin endpoints and filer IAM gRPC calls; treat older unauthenticated admin automation as suspect until revalidated.
 - If `security.toml` is enabled, explicitly test Admin UI and filer IAM paths together, because the `4.25` line fixed an auth propagation issue there.
+- `4.40` closes an OIDC bypass: role trust policy is now enforced even when a bearer token is presented directly to the S3 API instead of going through a full `AssumeRoleWithWebIdentity` call. Revalidate any integration that previously relied on direct bearer-token requests, since a request that should have been denied by trust policy could pass before this fix.
+- `4.40` also hardens TUS resumable-upload session authorization on filer: `HEAD`/`PATCH`/`DELETE` are now restricted to the session's own target path, closing a cross-prefix access gap where one session could reach another session's upload path. Revalidate multi-tenant or multi-session TUS deployments after upgrading.
 
 ### Gotchas / prohibitions
 
 - Do not enable HTTPS on filer or volume without also enabling the matching client-side HTTPS config.
 - Do not expose filer UI or directory metadata casually on public endpoints.
 - Do not assume unknown file ids alone are an adequate security boundary once services are internet-facing.
+- Do not assume pre-`4.40` OIDC bearer-token requests were trust-policy-checked, or that TUS sessions were prefix-isolated; both gaps are closed only from `4.40` onward.
 
 ## Security Configuration
 

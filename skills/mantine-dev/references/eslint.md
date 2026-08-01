@@ -1,4 +1,50 @@
-# ESLint Configuration Reference
+# Linting & Formatting Reference
+
+As of the 9.5.0 tooling migration, the official Mantine Vite template lints and formats with `oxlint`/`oxfmt` via the shared `oxc-config-mantine` package instead of ESLint/Prettier. `eslint-config-mantine` still exists and is documented below as a supported alternative for projects that prefer to stay on ESLint.
+
+## Oxlint + Oxfmt (current template default)
+
+```bash
+npm install -D oxlint oxfmt oxc-config-mantine
+```
+
+`oxlint.config.mjs`:
+
+```js
+import { defineConfig } from "oxlint";
+import { oxlint } from "oxc-config-mantine";
+
+export default defineConfig({
+  ...oxlint,
+  ignorePatterns: ["**/*.{mjs,cjs,js,d.ts,d.mts}", "dist", "storybook-static"],
+});
+```
+
+`oxfmt.config.mjs`:
+
+```js
+import { defineConfig } from "oxfmt";
+import { oxfmt } from "oxc-config-mantine";
+
+export default defineConfig(oxfmt);
+```
+
+`package.json` scripts:
+
+```json
+{
+  "scripts": {
+    "lint": "npm run oxlint && npm run stylelint",
+    "oxlint": "oxlint -c oxlint.config.mjs .",
+    "format:test": "oxfmt -c oxfmt.config.mjs --check \"**/*.{ts,tsx}\"",
+    "format:write": "oxfmt -c oxfmt.config.mjs --write \"**/*.{ts,tsx}\""
+  }
+}
+```
+
+`oxc-config-mantine` covers the same TypeScript, React, accessibility (jsx-a11y), and import-order rules that `eslint-config-mantine` provided, enforced through `oxlint` (a Rust-based linter) instead of ESLint, with `oxfmt` handling formatting in place of Prettier. Stylelint is unaffected and still covers CSS.
+
+## ESLint (`eslint-config-mantine`) — legacy alternative
 
 `eslint-config-mantine` provides ESLint rules and configurations used in Mantine projects.
 
@@ -266,4 +312,4 @@ items.map((item) => <Item key={item.id}>{item.name}</Item>);
 
 ## Template Configuration
 
-The [Mantine Vite template](https://github.com/mantinedev/vite-template) includes a complete ESLint + Prettier + Stylelint setup that you can use as reference.
+The [Mantine Vite template](https://github.com/mantinedev/vite-template) now ships the Oxlint + Oxfmt + Stylelint setup described above by default. This ESLint + Prettier + Stylelint configuration remains a documented, supported alternative for projects that prefer to keep using ESLint.

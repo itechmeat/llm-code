@@ -113,6 +113,8 @@ response_model_exclude_defaults=True
 response_model_exclude_none=True
 ```
 
+`0.140.11+`: these params are honored on plain (non-generator) endpoints that `return` an `Iterable[Model]`, not only on endpoints that `yield` items (see `references/responses-advanced.md` for the streaming variant).
+
 ## Union Types (Multiple Response Types)
 
 ```python

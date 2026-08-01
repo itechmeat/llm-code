@@ -37,6 +37,13 @@ You do not have to put `transport.output()` as the final processor. Placing proc
 - **GeminiLiveWebsocketTransport**
   - WebSocket transport to Gemini Live / multimodal realtime (API key + generation config).
 
+- **MOQTransport (`1.6.0`)**
+  - Media over QUIC (MoQ) transport: bidirectional, low-latency audio + RTVI over QUIC instead of WebRTC/WebSocket.
+  - Install with `pip install "pipecat-ai[moq]"`.
+  - By default the bot runs as its own MoQ server (`serve=True`) and accepts the browser's direct connection, so local dev does not need a separate `moq-relay` process; dialing an external relay in client mode is wired up but not yet enabled.
+  - Audio rides a single Opus track; RTVI messages (including the transcript) ride a compressed, ordered JSON stream track, putting MoQ on par with the Daily and WebSocket transports for RTVI support.
+  - See `examples/transports/transports-moq.py`.
+
 The Learn guide also calls out additional transports you may encounter:
 
 - LiveKit-based WebRTC transports

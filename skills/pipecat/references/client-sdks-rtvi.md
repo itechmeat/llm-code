@@ -26,6 +26,13 @@ A typical pattern in client SDKs:
 - The UI worker protocol vocabulary changed from `task`/`agent` to `job`/`worker`: `ui-task` -> `ui-job-group`, `ui-cancel-task` -> `ui-cancel-job-group`, `task_id` -> `job_id`, `agents` -> `workers`, and React/JS APIs such as `cancelUITask` / `useUITasks` become `cancelUIJobGroup` / `useUIJobGroups`.
 - Use `ReplyToolMixin`, `respond_to_job(..., tts_speak=True)`, and `ui_job_group(...)` when a voice agent delegates UI-grounded work and wants cancellable progress cards in the client.
 
+## DTMF message shape (breaking, 1.6.0)
+
+- The RTVI `dtmf` client message now carries `buttons`, a list of keypad entries, so one message can press a whole key sequence: `{"type": "dtmf", "data": {"buttons": ["1", "2", "#"]}}`.
+- The previous single-key `button` field is no longer accepted.
+- `RTVI.PROTOCOL_VERSION` moves to `2.1.0`. If your client/server pins protocol behavior, upgrade both ends together.
+- Server-side, `RTVIProcessor` pushes one `InputDTMFFrame` per key in order, so downstream DTMF handling (e.g. a `DTMFAggregator`) behaves the same as before once the client sends the new `buttons` shape.
+
 ## Context updates
 
 Docs highlight a “send text” style call for appending user text to the conversation, with options like:

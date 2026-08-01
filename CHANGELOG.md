@@ -5,6 +5,24 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-08-01]
+
+### Changed
+
+- **postgresql** - Updated the skill for `19beta2` with a new `references/postgresql-19.md` covering PostgreSQL 19 beta: SQL/PGQ, `REPACK`, parallel autovacuum with scoring GUCs, logical replication of sequences, new monitoring views, and the full list of breaking changes with an upgrade checklist.
+- **pydantic-ai** - Updated the skill for `2.22.0` with `TemporalDurability`/`DBOSDurability`/`PrefectDurability` capabilities replacing deprecated wrapper agents, new models (Claude Opus 5, gemini-3.6-flash), usage limits (`per_request_input_tokens_limit`, `ToolFailed`, retry budgets), and `ModelHTTPError` headers/`retry_after`.
+- **vite** - Updated the skill for `8.2.0` with the new top-level `input` config option, bundled-dev single-reload and worker HMR behavior, type-safe PostCSS config exports, and the Rolldown `~1.2.0` bump.
+- **fastapi** - Updated the skill for `0.141.1` with `app.frontend(check_dir="auto")` and `FASTAPI_ENV` behavior, the dependency-injection memory refactor, and SSE/JSONL streaming fixes (`status_code`, `response_model_*`, `include_router()` stream types).
+- **turso** - Updated the skill for `0.7.2` with `transactionAsync()` replacing deprecated `transaction()`, `Connection.execute()` removal from the serverless surface, MVCC sync auto-detection with WAL-to-MVCC conversion, and unified `turso://`/`libsql://` URL schemes.
+- **seaweedfs** - Updated the skill for `4.40` with OIDC bearer trust-policy enforcement, TUS session-authorization hardening, S3 CopyObject/tagging error corrections, the `ec.check.replication` shell command, and filer backup data-loss fixes.
+- **pipecat** - Updated the skill for `1.6.0` with the `MOQTransport` (Media over QUIC), reasoning support in OpenAI Responses services, Flows `NO_RESPONSE`, new Crusoe/Baseten/Deepgram Flux services, and the breaking RTVI `dtmf` and OTel GenAI attribute changes.
+- **mantine-dev** - Updated the skill for `9.5.0` with the new `Cascader`, `SunburstChart`, and `BulletChart` components, chart `withBrush`/`accessibilityLayer`, `Modal`/`Drawer` `keepMountedMode`, and the Vite template migration to Oxlint/Oxfmt.
+- **zvec** - Updated the skill for `0.6.0` with the pluggable Quantizer abstraction and random-rotation recall gains, group-by search, zero-copy Python vector queries, the UAX #29 tokenizer with Snowball stemmers, and the complete DiskANN C API.
+- **deps-dev** - Updated the skill for the 2026-06-09 v3 proto additions: `isDeprecated`/`deprecatedReason` version flags, PyPI-only `projectStatus`, and resolved NuGet/Maven requirement fields in `GetRequirements`.
+- **pgvector** - Bumped tracked version to `0.8.6` (bugfix-only upstream release).
+- **beads** - Bumped tracked version to `1.1.2` (schema encoding-drift fix only).
+- **tavily** - Bumped tracked version to `0.7.27` (per-request `project_id` override only).
+
 ## [2026-07-18]
 
 ### Changed
