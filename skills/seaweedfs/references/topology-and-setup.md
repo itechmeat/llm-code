@@ -86,3 +86,12 @@ Sources:
 - Make network advertisement, rack/datacenter labels, and volume sizing mandatory config inputs in templates.
 - Treat filer store selection and shared metadata design as an architecture review item, not a post-deploy tweak.
 - Put manual balancing and replication repair into scheduled ops procedures rather than assuming background self-healing.
+
+## Master and topology notes (4.41 -> 4.45)
+
+- **Heartbeat digest protocol (`4.42`)**: volume heartbeats now carry a digest that the master verifies, and volume servers send only the volumes that changed instead of the full list, keeping the master current through collection churn. This is a protocol change between volume servers and masters: upgrade volume servers and masters together within the `4.42`+ line, and expect significantly less heartbeat traffic on large clusters.
+- **Hot-path removals (`4.42`)**: a long series of allocation/copy removals keeps the volume map out of topology hot paths, streams volume listings, preallocates per-disk snapshots, and ages `wdclient` vid-map entries by generation. Expect lower master memory churn under large volume counts.
+- **Volume registration fidelity (`4.42`)**: `disk_id` is preserved when volumes move between disks or register from incremental heartbeats, a volume is marked crowded only when it can take writes, and volume size is tracked only where writes can land.
+- **Statistics (`4.41`/`4.42`)**: the master counts EC volumes in statistics used size (`4.41`) and clamps deleted-vs-total subtractions in volume stats (`4.42`); re-baseline capacity dashboards after upgrade.
+- **Raft safety (`4.41`/`4.44`/`4.45`)**: `seaweedfs/raft` v1.2.0 fixes a snapshot race (`4.41`); `4.44` lets the leader admit a master that starts with no raft state, and `4.45` never re-seeds a raft cluster over committed state under `-raftBootstrap`, and stops a dead `KeepConnected` handler from closing its successor's channel.
+- **S3 registration (`4.41`)**: the S3 gateway registers its advertised IP with the master, so S3 endpoints appear correctly in `cluster.ps` and topology listings.

@@ -20,6 +20,25 @@ bun install               # Runs postinstall
 bun add react             # Runs postinstall for react
 ```
 
+### Running Scripts in Parallel (v1.4)
+
+```bash
+bun run --parallel dev:api dev:web   # Concurrent scripts, prefixed output
+bun run --parallel "build:*"         # Glob-match multiple scripts
+bun run --parallel --filter=pkg-a    # Per-workspace
+bun run --parallel --no-exit-on-error   # Keep going after a failure
+```
+
+Other `bun run`/process flags:
+
+```bash
+bun run --no-orphans        # Exit when the parent process dies (SIGKILLs descendants)
+bun run --no-env-file       # Skip automatic .env loading
+bun run --cpu-prof-md app.ts # CPU profile as a Markdown report
+bun run --heap-prof-md app.ts # Heap profile as a Markdown report
+BUN_CPU_PROFILE=1 bun app.ts # Flag-less profiling for any process
+```
+
 ---
 
 ## Watch Mode
@@ -98,6 +117,16 @@ Keep these rules in mind:
 - `bun test` still discovers files by naming conventions such as `*.test.ts`, `*_test.ts`, `*.spec.ts`, and `*_spec.ts`.
 - Positional filters remain simple path substring matches, not glob patterns.
 - For exact files, prefer `bun test ./path/to/file.test.ts` so Bun treats the argument as a path rather than a fuzzy filter.
+
+### Test runner additions (v1.4)
+
+- `--parallel[=N]`: run test files across worker processes. Coverage and JUnit reports are merged, and `--bail` stops all workers. Implies `--isolate` (disable with `--no-isolate`).
+- `--isolate`: fresh global object per test file; closes leaked servers, cancels timers, and kills leftover subprocesses between files.
+- `--shard=M/N`: deterministic CI splitting with Jest/Vitest-compatible indexing.
+- `--timings=<path>` / `--update-timings`: balance workers and shards by measured duration (longest-processing-time-first).
+- `--changed[=ref]`: run only tests whose files appear in the git diff; works with `--watch`.
+- `test({ retry: n })` and `--retry <N>`: retry flaky tests; `--repeats` mode repeats each test.
+- `jest.useFakeTimers()`: fake `setTimeout`, `setInterval`, and `Date`; works with `@testing-library/react`'s `waitFor`.
 
 ---
 

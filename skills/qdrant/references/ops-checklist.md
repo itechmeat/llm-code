@@ -39,6 +39,11 @@ Operational guidance for Qdrant: monitoring, performance tuning, and common issu
 
 - TurboQuant heap-memory reporting was corrected in `1.18.1`. If you are comparing memory after enabling TurboQuant, prefer baselines gathered on `1.18.1+` instead of older patch releases.
 
+`1.19.x` metrics notes:
+
+- `cpu_cores_used` is exposed in `/metrics` (the effective, cgroup-bounded CPU core count), which is more accurate than the raw host core count for containerized deployments.
+- Memory reporting on Linux uses `cachestat` for faster page-cache accounting.
+
 **Process**:
 
 - `process_open_fds`, `process_threads`
@@ -94,6 +99,11 @@ Operational guidance for Qdrant: monitoring, performance tuning, and common issu
 - [ ] Adjust HNSW params (m, ef_construct, on_disk)
 - [ ] Use named vectors for multi-modal
 - [ ] Run optimizer after bulk inserts
+
+### Resource quotas and memory strategy (1.19.0)
+
+- Prefer the global quota API over the deprecated strict-mode `max_resident_memory_percent` ceiling for capping cluster resource usage.
+- Fine-tune memory by component with `"memory": "cold" / "cached" / "pinned"` rather than applying coarse global knobs, and benchmark latency when moving components to `cold`/`cached`.
 
 ### Patch-line validation after upgrading to 1.18.1
 

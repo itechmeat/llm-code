@@ -45,6 +45,12 @@ response = requests.post(
 )
 ```
 
+## Model Notes (August 2026)
+
+- Instant voice cloning works on `inworld-tts-2-flash` and `inworld-tts-2`; use the flash model for step-and-repeat voices and the standard model for steering or higher expressiveness.
+- Professional Voice Cloning is exclusive to `inworld-tts-2`.
+- Cross-lingual synthesis and Voice Localization let one cloned voice be reused across languages with more native-sounding output; match the text language when synthesizing.
+
 ## Limitations
 
 - Instant cloning may not perform well for:

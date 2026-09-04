@@ -2,8 +2,8 @@
 name: vite
 description: "Vite next-gen frontend tooling: dev server, HMR, build, config, plugins, Environment API, Rolldown. Use when setting up or running a Vite project, configuring vite.config.*, authoring plugins, working with HMR or JS API, or managing environment variables and modes. Keywords: vite.config, bundler, Vite, HMR, Rolldown."
 metadata:
-  version: "8.2.0"
-  release_date: "2026-07-30"
+  version: "8.2.2"
+  release_date: "2026-08-20"
 ---
 
 # Vite

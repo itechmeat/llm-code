@@ -123,6 +123,23 @@ bd migrate --to-dolt
 
 Recent releases also merge user-level config under project config instead of discarding it.
 
+### Schema version mismatch after v1.2.1 (recovery note)
+
+v1.2.0/v1.2.1 were published without release testing; **v1.2.2** re-releases the tested 1.1 line and supersedes them. If you ran the v1.2.1 binary even once, it migrated your local database schema from v53 to v65, and current binaries stop with:
+
+```
+schema version mismatch: database is at v65, binary knows up to v53 (12 migrations ahead)
+```
+
+The fix (about two minutes) is documented in `docs/RECOVERY-1.2.1.md`:
+
+- Recommended: roll the schema cursor back to v53 with one `dolt sql` command (works even for databases created by 1.2.1).
+- Need bd this minute: `BD_IGNORE_SCHEMA_SKEW=1 bd <command>` is a verified-safe stopgap for this schema range.
+- Upgrade every machine/clone to v1.2.2 **before** recovering — a leftover 1.2.1 binary silently re-migrates the database.
+- `go.mod` retracts v1.2.1, v1.2.0, and v1.1.1, so `go install ...@latest` resolves to v1.2.2.
+
+The 1.2.x-only features (work leases, events journal, sync federation, HTTP API server, provenance events) are not in v1.2.2; they return in a tested future release.
+
 ## External Integrations
 
 Integrations (GitLab/Linear/Jira/etc.) are separate from database sync: sync keeps

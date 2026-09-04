@@ -50,6 +50,13 @@ Field conditions include:
 
 If you filter arrays of objects and need multiple conditions to apply to the **same element**, use nested filtering patterns; otherwise you may accidentally match across different array elements.
 
+### 1.19.0 retrieval notes
+
+- Keyword indexes can match by prefix with `{"match": {"prefix": "..."}}`; enable prefix matching on the keyword index first.
+- Sparse search gains a per-query IDF corpus, which helps per-tenant or otherwise biased IDF statistics.
+- A slice filter condition enables sliced scroll and deterministic sampling over the collection.
+- Routing tokens give deterministic read routes where read affinity is configured.
+
 ### 1.18.1 filter correctness notes
 
 - Indexed integer range filters now handle float inputs correctly in the patch line. If your caller may send `3.0` for an integer field, upgrade before assuming pre-index and post-index behavior will match.

@@ -71,6 +71,15 @@ These changes matter when you tune speech sensitivity live or need the agent to 
 
 `reset()` on `BaseUserTurnStartStrategy` and `BaseUserTurnStopStrategy` is deprecated. Reset logic should move to the new `handle_user_turn_started()` / `handle_user_turn_stopped()` lifecycle callbacks. For backward compatibility, the base classes' default `handle_user_turn_started()` / `handle_user_turn_stopped()` still call `reset()`, so existing custom strategies keep working, but overriding `reset()` now emits a `DeprecationWarning` when the class is defined. Planned removal is `2.0.0`; migrate custom turn strategies to the lifecycle callbacks rather than adding new logic to `reset()`.
 
+## Proposed turn frames and external strategies (1.8.0)
+
+Since `1.8.0`, every in-repo service with built-in turn detection emits **proposal** frames (`ProposedUserStartedSpeakingFrame` / `ProposedUserStoppedSpeakingFrame`) instead of real turn frames, and `ExternalUserTurnStrategies` resolves those proposals into `UserStartedSpeakingFrame` / `UserStoppedSpeakingFrame`. Turn strategy configuration is now a single subclassable place that decides when turns start and stop.
+
+- Services affected: the AssemblyAI, Cartesia Ink-2, Deepgram Flux, Gladia, Sarvam, Soniox, Speechmatics, and OpenAI Realtime STT services, plus the OpenAI, xAI, and Inworld realtime LLM services.
+- Third-party services that still emit `UserStartedSpeakingFrame` / `UserStoppedSpeakingFrame` directly keep working unchanged; switching them to proposal frames hands interruption handling back to the pipeline.
+- `OpenAIRealtimeSTTService` (transcription-only) and `SarvamSTTService` recommend `ExternalUserTurnStrategies` when their server-side VAD is enabled.
+- See `examples/turn-management/turn-management-custom-external-turn-strategy.py` for a stop strategy that holds the turn open past the service's proposal so a trailing afterthought can reopen it.
+
 ## Interruptions
 
 When interruptions are enabled (docs say default enabled), starting a user turn can:

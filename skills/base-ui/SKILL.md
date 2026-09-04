@@ -2,8 +2,8 @@
 name: base-ui
 description: "Base UI unstyled React components. Covers forms, menus, overlays, composition. Use when building accessible, unstyled React UI components with @base-ui/react, composing with render props, or implementing custom-styled form controls, menus, and overlays. Keywords: @base-ui/react, render props, unstyled components."
 metadata:
-  version: "1.6.0"
-  release_date: "2026-06-18"
+  version: "1.8.0"
+  release_date: "2026-09-04"
 ---
 
 # Base UI (React)
@@ -57,6 +57,16 @@ Base UI provides unstyled, composable React components. This skill focuses on as
 
 - references/scroll-area.md
 - references/separator.md
+
+## v1.7.0 - v1.8.0 highlights
+
+- `Combobox` adds a `createItems` collection API for building the option collection programmatically.
+- `Avatar.Image` adds a `keepMounted` prop so the image subtree stays mounted (useful for avoiding remount flashes).
+- `Toast` accepts functional updates derived from the current toast, and the `render` prop is honored in `Toast.Title`, `Toast.Description`, and `Toast.Action`.
+- `Autocomplete` and `Combobox` emit `input-press` and `cancel-open` change event details; inline `Combobox` exposes an `expanded` state.
+- `Combobox.Item` and `Select.Item` inherit the disabled state from their root.
+- `Form` focuses the first invalid field in document order; `Field` publishes neutral validity while async validation is in flight.
+- Mostly accessibility fixes, popup/overlay behavior fixes, and bundle-size reductions across drawers, menus, tooltips, and scroll areas.
 
 ## v1.4.1 highlights
 

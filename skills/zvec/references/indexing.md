@@ -8,13 +8,24 @@ Zvec vector indexes control the trade-off between recall, latency, and memory. C
 - `HNSW` — the general-purpose ANN choice when you want low latency with good recall.
 - `HNSW-RaBitQ` — new in `0.3.0`; combines HNSW graph traversal with RaBitQ quantization to reduce memory while keeping strong recall.
 - `IVF` — another approximate strategy supported by Zvec when you want a different latency/memory profile than HNSW.
-- `DiskANN` — new in `0.5.0`; keeps the bulk of the index on disk instead of RAM, drastically cutting memory use for billion-scale datasets on memory-constrained hosts. As of `0.6.0` the C API covers DiskANN completely (index params, query params, vector/group-by/sub-query wiring), matching the HNSW/FTS C API, so C/C++ integrations no longer need workarounds for missing bindings.
+- `DiskANN` — new in `0.5.0`; keeps the bulk of the index on disk instead of RAM, drastically cutting memory use for billion-scale datasets on memory-constrained hosts. As of `0.6.0` the C API covers DiskANN completely (index params, query params, vector/group-by/sub-query wiring), matching the HNSW/FTS C API, so C/C++ integrations no longer need workarounds for missing bindings. As of `0.7.0` it also runs on Linux ARM64 and macOS ARM64 (Apple Silicon), auto-selecting the best I/O backend (`io_uring`, `libaio`, or `pread`) with safe fallback; on macOS it uses `F_NOCACHE` and disables read-ahead for DiskANN files.
 - `FTS` — new in `0.5.0`; a full-text index attached to a string field (via `create_index()`), queried with natural-language or structured expressions for hybrid retrieval.
 
 ## Turbo module and pluggable quantizers (0.6.0+)
 
 - Internally, quantization now lives behind a Quantizer abstraction in the Turbo module: index builders/searchers call a uniform interface instead of embedding quantization logic directly, so new quantizer implementations (int8 uniform, int8 record, PQ, RaBitQ, and more) can be added without touching index code. The first concrete implementation shipped is `Fp32Quantizer`, backed by scalar FP32 distance kernels. This is an internal architecture change; it does not add new Python-facing parameters by itself.
 - INT8/INT4 quantization gained an optional `enable_rotate` flag that applies a random orthogonal rotation to vectors before quantizing, spreading variance evenly across dimensions and reducing quantization error. On the upstream cohere-1m benchmark this raised HNSW INT8 recall from 0.9285 to 0.9397, Flat INT8 from 0.9695 to 0.9881, and — most notably — HNSW INT4 recall from 0.2114 to 0.7117. Enable rotation whenever you use INT8/INT4 quantization; the recall gain (especially for INT4) is large enough that there is little reason to leave it off.
+
+## Index and quantization additions (0.7.0+)
+
+- **IVF RaBitQ** — RaBitQ quantization now also applies to `IVF` indexes, extending it beyond HNSW for more dense-vector retrieval scenarios; C and Python bindings are included.
+- **Uniform uint7 / uint8 quantization** — exposed as new uniform quantizer options, giving more compression/recall trade-offs alongside INT8/INT4.
+- **Turbo preprocessor framework** — quantizers can run a preprocessor before quantization; Fast Hadamard Transform (FHT) rotation is implemented now, with OPQ rotation and dimensionality reduction planned.
+- **Turbo PQ-INT8 quantizer** — PQ-based INT8 quantization in the Turbo framework covering L2, Cosine, and Inner Product metrics for higher compression.
+- **Record quantizers in Turbo** — INT8/INT4 record quantization and FP16 quantizers migrated into the Turbo framework, with portable scalar distance kernels for non-SIMD targets; every quantization type now maps to exactly one explicit backend path.
+- **RaBitQ runtime SIMD dispatch** — HNSW-RaBitQ selects AVX2 or AVX512 implementations at runtime from the host CPU, removing any need to hard-code the instruction set at build time.
+- **Vamana two-pass graph build** — optional two-pass graph build path that improves graph quality on some datasets.
+- **HNSW build from original vectors** — the graph can be built from raw original vectors supplied by a provider while search still runs against the stored (lossy) vectors, improving graph quality when stored vectors are quantized/lossy.
 
 ## When HNSW-RaBitQ is the right tool
 
@@ -56,6 +67,7 @@ Avoid it on ARM hosts; the current upstream docs mark it unsupported there.
 - The standard tokenizer now implements Unicode 17 UAX #29 word-boundary rules (replacing the earlier general-category tokenizer), giving Lucene-style token selection for alphanumeric, numeric, ideographic, hiragana, katakana, hangul, Southeast Asian scripts, regional indicators, and common emoji sequences.
 - Text analysis is backed by utf8proc 2.11.3, adding Unicode-aware word boundary detection and codepoint-aware lowercasing, plus a new ASCII-folding token filter that maps accented/Unicode characters to their ASCII equivalents (useful for accent-insensitive matching).
 - A Snowball-based stemmer token filter reduces words to their root form and covers 34+ languages; select the language via `stemmer_lang` in the index's `extra_params`. A typical English filter chain is `["lowercase", "stemmer"]`, with `ascii_folding` added when diacritics need to be normalized.
+- An **ngram tokenizer** (`0.7.0+`) is available for character-level matching, useful for short text, code, or pinyin; configure it via the index's `extra_params`.
 - FTS conjunction (AND) and phrase queries got a block-max skip plus score early-exit optimization in the conjunction iterator: entire non-competitive 128-document blocks are skipped by checking block-max score upper bounds, and scoring short-circuits once the remaining upper bound cannot beat the current threshold. On a 500k-document benchmark this made AND queries 22-38% faster and phrase queries 33% faster, with no query-syntax changes required.
 
 ## Operator guidance

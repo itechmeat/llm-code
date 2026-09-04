@@ -27,6 +27,9 @@ Web search optimized for LLMs.
 | include_images             | bool        | false        | Include related images                                                                         |
 | include_image_descriptions | bool        | false        | Add descriptions to images                                                                     |
 | include_domains            | string[]    | []           | Filter to specific domains (max 300)                                                           |
+| include_domains_mode       | string      | -            | `"filter"` (restrict to listed domains only) or `"boost"` (prioritize but also search the rest of the web); requires `include_domains` |
+| language                   | string      | -            | Boost results in a language: ISO 639-1 code (`en`, `zh-cn`) or English name (`english`); write the query in that language |
+| filter_by_language         | bool        | false        | Strictly filter out results that don't match `language` instead of only boosting; requires `language` |
 | exclude_domains            | string[]    | []           | Exclude domains (max 150)                                                                      |
 | time_range                 | string      | -            | `"day"`, `"week"`, `"month"`, `"year"` (or `"d"`, `"w"`, `"m"`, `"y"`)                         |
 | start_date                 | string      | -            | `YYYY-MM-DD` format                                                                            |

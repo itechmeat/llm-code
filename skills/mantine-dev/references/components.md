@@ -2,6 +2,87 @@
 
 `@mantine/core` provides 120+ components. This reference covers key patterns.
 
+## New in v9.6
+
+### ActionBar
+
+Floating selection-action bar for bulk actions on selected items (typically table rows). Render it with `opened`, `onClose`, and content; `ActionBar.Divider` and `ActionBar.CloseButton` complete the compound:
+
+```tsx
+import { ActionBar, Button, Text } from "@mantine/core";
+
+<ActionBar opened={selection.length > 0} onClose={() => setSelection([])} shadow="md">
+  <Text size="sm">{selection.length} selected</Text>
+  <ActionBar.Divider />
+  <Button variant="default" size="compact-sm">Delete</Button>
+  <ActionBar.CloseButton />
+</ActionBar>;
+```
+
+Pair it with row-selection state (a `useState` array of ids) and checkbox cells in the table.
+
+### Notifications: custom rendering
+
+`notifications.show` accepts a `renderNotification` prop that completely replaces the default notification body while keeping the built-in enter, exit, and drag-dismiss animations. Combine it with `autoClose: false` for long-lived custom notifications.
+
+### @mantine/lightbox
+
+New package for a full-screen media lightbox. Import its styles, define `LightboxSlideData[]` slides, and control open state and index via props (`opened`, `onClose`, `slides`, `currentIndex`, `onIndexChange`, `transitionProps`). Ships with zoom (click/wheel/pinch, double-tap on mobile), a thumbnail strip, native video slides, custom slides, keyboard shortcuts (Escape, arrows, F/T/Z), and store-based opening from anywhere. All user-facing strings are localized through the `labels` prop.
+
+```tsx
+import "@mantine/lightbox/styles.css";
+import { Lightbox, LightboxSlideData } from "@mantine/lightbox";
+
+<Lightbox
+  opened={opened}
+  onClose={() => setOpened(false)}
+  slides={slides}
+  currentIndex={index}
+  onIndexChange={setIndex}
+/>;
+```
+
+### Charts: four new components
+
+- `GaugeChart` — radial gauge for KPI/status display, with threshold sections, a target marker, and configurable arc angles (`value`, `size`, `thickness`).
+- `WaffleChart` — part-to-whole grid of colored cells; a simpler, more compact alternative to pie/donut for percentages. Data is `WaffleChartCell[]` (`{ name, value, color }`).
+- `MatrixChart` — x/y heatmap with categorical axes, each cell colored by `value` (`MatrixChartCell[]` as `{ x, y, value }`).
+- `CandlestickChart` — OHLC candles (`open`/`high`/`low`/`close`) colored by direction, with custom colors, reference lines, axis/tooltip labels, and value formatting.
+
+### Charts: reference areas, dots, streamgraph, right axis
+
+- `AreaChart`, `BarChart`, `LineChart`, `CompositeChart`, and `ScatterChart` accept `referenceAreas` — a rectangular highlighted region bounded by `x1`/`x2` and/or `y1`/`y2` data values (omit one pair to span that axis), with a theme `color` and optional `label` (weekend bands, target ranges, threshold zones).
+- The same five charts accept `referenceDots` — individual marked points positioned by `x`/`y` coordinates, with a radius, theme `color`, and `label`, rendered on top of the series.
+- `AreaChart` gains `type="stream"` — a streamgraph (ThemeRiver) with a floating baseline; the y-axis is hidden by default because values are not meaningful to read off a floating baseline.
+- `ScatterChart` gains `withRightYAxis` (plus `rightYAxisProps` and `rightYAxisLabel`): bind a series to the right axis with `yAxisId: "right"` in the data; series without `yAxisId` stay on the left.
+- `referenceLines` in `AreaChart` are now rendered on top of the areas (consistent with the other charts).
+
+### RichTextEditor: table, details, invisible characters
+
+Install and register the matching Tiptap extensions, then add the controls to the toolbar:
+
+- `TableKit` → `TableInsert` (grid to pick table size), `TableDelete`, `TableColumnBefore/After/Delete`, `TableRowBefore/After/Delete`, `TableToggleHeaderRow/Column`, `TableMergeCells`, `TableSplitCell`. Table controls auto-disable when the cursor is outside a table.
+- `Details`/`DetailsSummary`/`DetailsContent` → `Details` toggles a collapsible details node around the current block. `Typography` now styles `details`/`summary` (border, padding, disclosure triangle) via zero-specificity `:where()` selectors.
+- `InvisibleCharacters` (Tiptap) → `InvisibleCharacters` toggles display of spaces and paragraph breaks, with an active state.
+
+Controls are used as `RichTextEditor.TableInsert`, `RichTextEditor.Details`, `RichTextEditor.InvisibleCharacters`, and so on.
+
+### Other new props
+
+- `Stepper` gains `labelPosition="bottom"` to place labels and descriptions below the step icon.
+- `Cascader` with `expandTrigger="hover"` keeps the open column while the pointer moves diagonally toward it; set `safeAreaPolygon={false}` to expand on every hover immediately, or pass Floating UI `safePolygon` options.
+- `ColorInput` gains `fullWidth`; `PasswordInput` gains `visibilityToggleFocusable` (the toggle enters the tab order); `FloatingWindow` gains `onSizeChange`, `onResizeStart`, and `onResizeEnd` (sizes reported by `onSizeChange` are already clamped by `dimensions` and viewport constraints).
+- `use-scroll-spy` `scrollHost` accepts a ref object in addition to a resolved `HTMLElement` — the hook reads `ref.current` once the element is mounted.
+
+### Dropzone: react-dropzone 20
+
+Behavior and type changes from the `react-dropzone` 20 upgrade:
+
+- `maxFiles` no longer rejects the whole batch — files up to the limit are accepted and the rest go to `onReject` (previously everything was rejected).
+- `FileWithPath` now has required `path` and `relativePath` properties; custom `getFilesFromEvent` aggregators that return plain `File` objects must set them or read them defensively.
+- `getFilesFromEvent` receives `DropEvent | FileSystemFileHandle[]` — the File System Access API path passes file handles to the aggregator, so update custom aggregator parameter types to accept both.
+- **Node.js 22 or later is required** (react-dropzone 20 requires it; Node 20 reached end of life in April 2026). This affects the development environment only, not browser support.
+
 ## New in v9.5
 
 ### Cascader

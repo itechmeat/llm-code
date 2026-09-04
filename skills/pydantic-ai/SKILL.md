@@ -2,8 +2,8 @@
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Use when building Python AI agents with Pydantic AI, configuring model providers, implementing typed tools/dependencies, running evals, or integrating MCP servers. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
 metadata:
-  version: "2.22.0"
-  release_date: "2026-08-01"
+  version: "2.39.0"
+  release_date: "2026-09-04"
 ---
 
 # Pydantic AI
@@ -37,6 +37,18 @@ Python agent framework for building production-grade GenAI applications with the
 ## Installation
 
 See `references/installation.md` for full/slim install options and optional dependency groups. Requires Python 3.10+.
+
+## Release Highlights (2.23.0 -> 2.39.0)
+
+- **Realtime speech-to-speech** (`2.28.0`): `Agent.realtime()` with browser WebRTC plus server sideband support; Azure AI Voice Live via the `azure_voice_live` setting (`2.29.0`); `RealtimeSession.send_audio()` accepts async iterables (`2.36.0`).
+- **Run cancellation** (`2.26.0`): `AgentRun.cancel()`, `RunContext.cancel()`, and `RunCancelled`; `stream_run_events()` returns a public `AgentRunEvents` handle with `cancel()` and run-state access.
+- **Deferred tool reveal** (`2.23.0`/`2.26.0`/`2.30.0`): `ToolAvailabilityDeltaPart` with native `tool_addition`/`additional_tools`; tools can stay hidden until revealed via tool search, `load_capability`, or `ToolReturn.tools`, on each provider's native deferral/addition channel; a deferred tool must be revealed before it can be called.
+- **Cost tracking** (`2.23.0`): `cost` on `RunUsage` and `cost_limit` on `UsageLimits`. **Context window** (`2.38.0`): `context_window` on `ModelProfile` and `context_window_used` on `RunContext`.
+- **Typed events** (`2.38.0`): application code and capabilities can emit typed `CustomEvent`/`CapabilityEvent` into the run event stream and subscribe with `@on_event`. **Durable execution** (`2.36.0`): `@durable_operation` for capabilities plus a public backend API for third-party durable execution engines.
+- **Providers and models**: Crusoe (`2.28.0`), Snowflake Cortex (`2.27.0`), and vLLM (`2.38.0`) providers; `gemini-3.7-flash` (`2.30.0`), `gemini-3.8-flash` (`2.38.0`), Claude Fable 5.1 / Mythos 5.1 (`2.38.0`), OpenAI `gpt-6-astra` (`2.39.0`), GLM-5.3 on `ZaiModel` (`2.34.0`), DeepSeek V4 Flash (`2.26.0`).
+- **MCP and HTTP clients**: `MCPToolset` supports FastMCP 4 and MCP SDK v2 alongside FastMCP 3 (`2.29.0`). Builds moved to `httpx2` clients; `pydantic-ai[anthropic]` requires `anthropic>=1.0.0` and a custom `AnthropicProvider` `http_client` must be an `httpx2.AsyncClient` (`2.32.0`/`2.33.0`).
+- **`clai` CLI** (`2.36.0`): `--mcp-config` support and tool-call streaming. **OpenRouter** (`2.30.0`/`2.32.0`): `openrouter:web_search` for web search and web-search sources in `provider_details["annotations"]`.
+- **Security (upgrade)**: `2.24.0` fixes unbounded memory in the local `web_fetch` tool / `FileUrl` media downloads (GHSA-v2xh-2vp8-57h8); `2.27.1` fixes a low-severity retry-prompt redaction leak when `include_content=False` (GHSA-3gh4-cghq-f8v4); `2.28.0` fixes a high-severity missing content-type check on the dev web chat UI so arbitrary cross-origin requests no longer run the agent (GHSA-h4xc-3qfq-jf93); `2.30.0` fixes DNS-rebinding via `Host`-header validation on the dev web chat UI, with an opt-in `allowed_hosts` for non-loopback deployments (GHSA-q2xc-rrxj-58x9).
 
 ## Release Highlights (2.13.0 -> 2.22.0)
 

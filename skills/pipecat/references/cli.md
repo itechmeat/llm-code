@@ -88,6 +88,15 @@ A generated project commonly includes:
 - Non-interactive (realtime):
   - `pipecat init --name rt-bot --bot-type web --transport smallwebrtc --mode realtime --realtime openai_realtime`
 
+### Context Hub (1.8.0)
+
+`pipecat context-hub` (alias `pipecat ch`) queries the Pipecat Context Hub — a local index of Pipecat APIs that coding agents consult so generated code cites APIs that actually exist. It ships in the `cli` extra (`uv tool install "pipecat-ai[cli]"`, costs about 195 MB on top of the extra), with `uvx pipecat-ai-context-hub` as the no-install fallback.
+
+- `pipecat init` on the coding-agent path registers the hub's MCP server with each coding agent CLI it finds (Cursor, VS Code, and Zed are configured by hand via `pipecat context-hub install`, which prints the config block to paste). It offers to build the local index (a few minutes, roughly 900 MB) only while none exists; `init quickstart` skips setup, and `--no-context-hub` opts out anywhere.
+- A freshness check prints a one-line stderr hint suggesting `pipecat context-hub refresh` when the index is stale or was built for a different `pipecat-ai` minor, so a coding agent citing a changed API is caught before the code runs. It stays silent when no index exists, ignores patch/dev segments, and can be switched off with `PIPECAT_HUB_CHECK=0`.
+
+Also in `1.8.0`/`1.8.1`: `pipecat eval run` on a directory now reads `.yml` scenario files in addition to `.yaml`.
+
 ## `pipecat tail`
 
 Tail is a terminal dashboard to monitor Pipecat sessions in real time (logs, conversation, metrics/usage, audio levels).

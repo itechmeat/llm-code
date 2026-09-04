@@ -2,8 +2,8 @@
 name: k8s-cluster-api
 description: "Kubernetes Cluster API v1.12. Covers clusterctl CLI, ClusterClass, GitOps integration. Scripts for health checks, backup, migration, linting. Templates: clusters, DR, Prometheus. Use when provisioning, upgrading, or operating Kubernetes clusters with CAPI, or running clusterctl and ClusterClass workflows. Keywords: CAPI, clusterctl, kubeadm, cluster lifecycle."
 metadata:
-  version: "1.13.4"
-  release_date: "2026-07-15"
+  version: "1.14.1"
+  release_date: "2026-09-04"
 ---
 
 # Kubernetes Cluster API
@@ -188,6 +188,15 @@ spec:
 - Do NOT mix provider versions without checking compatibility
 - Do NOT skip cluster upgrade steps (control plane before workers)
 - Do NOT ignore MachineHealthCheck alerts
+
+## Release Highlights (1.14.x)
+
+- Kubernetes compatibility moves to management clusters `v1.33.x -> v1.37.x` and workload clusters `v1.31.x -> v1.37.x` by the `1.14.1` line.
+- API types move into a dedicated Golang module: stronger compatibility guarantees and a much smaller, tightly controlled dependency tree that reduces CVE exposure from transitive dependencies.
+- Kubeadm control plane robustness: safe joining of worker nodes on older Kubernetes versions, improved forward etcd leadership during control plane machine deletion, and remediation of unhealthy machines during intermediate steps of chained upgrades.
+- Observability: the upgrade plan is surfaced in cluster status, aggregated machine versions are exposed in status, and runtime extension errors appear in cluster conditions.
+- Scale/performance: ClusterCache clients expose cache tuning options for a smaller memory footprint, and managedFields interning reduces stored state.
+- Deprecation warning: the `v1beta1` API is on track to be unserved in CAPI `v1.16` (migrate to `v1beta2`), and `Docker*` resources will be removed in `v1.15` (migrate to `Dev*` resources). An experimental `clusterctl convert` command is available.
 
 ## Release Highlights (1.13.x)
 

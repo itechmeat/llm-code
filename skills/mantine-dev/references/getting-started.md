@@ -25,6 +25,8 @@ yarn dev
 
 ## Manual Setup
 
+Requires **Node.js 22 or later** as of Mantine 9.6 (`react-dropzone` 20 depends on it; Node 20 reached end of life in April 2026). This is a development-environment requirement only — browser support is unchanged.
+
 ### 1. Create Vite Project
 
 ```bash
@@ -52,6 +54,7 @@ npm install @mantine/spotlight     # Command palette (Cmd+K)
 npm install @mantine/code-highlight # Code syntax highlighting
 npm install @mantine/carousel embla-carousel-react # Carousel
 npm install @mantine/tiptap @tiptap/react @tiptap/pm @tiptap/starter-kit # Rich text editor
+npm install @mantine/lightbox   # Full-screen media lightbox (v9.6)
 ```
 
 ### 3. Configure PostCSS
@@ -91,6 +94,7 @@ import '@mantine/dropzone/styles.css';
 import '@mantine/spotlight/styles.css';
 import '@mantine/carousel/styles.css';
 import '@mantine/tiptap/styles.css';
+import '@mantine/lightbox/styles.css';
 // Note: @mantine/form and @mantine/hooks have no styles
 ```
 

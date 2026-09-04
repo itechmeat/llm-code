@@ -2,8 +2,8 @@
 name: zvec
 description: "Zvec in-process vector database. Covers collections, indexing, embeddings, reranking, and persistence. Use when embedding Zvec into applications or tuning retrieval/storage behavior. Keywords: Zvec, HNSW-RaBitQ, vector database, ANN."
 metadata:
-  version: "0.6.0"
-  release_date: "2026-07-20"
+  version: "0.7.0"
+  release_date: "2026-08-24"
 ---
 
 # Zvec
@@ -55,6 +55,17 @@ Zvec is a lightweight, in-process vector database meant to be embedded into appl
 - Do not assume a client/server deployment model: Zvec is in-process.
 - Do not add project-specific paths, secrets, or environment assumptions.
 - Do not choose `HNSW-RaBitQ` on unsupported hardware; current docs limit it to `x86_64` with `AVX2` or better.
+
+## Release Highlights (0.7.0)
+
+- **C++ API is now snake_case (breaking).** `Index`, `Collection` and methods like `Open()`, `Search()`, `Query()`, `Insert()` moved to `index`, `collection`, `open()`, `search()`, `query()`, `insert()`. C and Python API names are unchanged. See `references/data-operations.md` for migration notes.
+- **Wider DiskANN platform support.** DiskANN indexes now run on Linux ARM64 and macOS ARM64 (Apple Silicon), auto-selecting the best I/O backend.
+- **New index and quantization options.** IVF RaBitQ, uniform uint7/uint8 quantizers, a Turbo PQ-INT8 quantizer (L2/Cosine/IP), Turbo record quantizers with portable scalar distance kernels, and an optional Fast Hadamard Transform (FHT) preprocessor before quantization.
+- **RaBitQ runtime SIMD dispatch.** HNSW-RaBitQ selects AVX2 or AVX512 at runtime from the host CPU, so no instruction set needs to be hard-coded at build time.
+- **Better HNSW graph quality.** Optional Vamana two-pass graph build, and building the graph from the original (unquantized) vectors while search still runs against the stored lossy vectors.
+- **FTS ngram tokenizer.** A character-level tokenizer for short text, code, or pinyin, configured via the index `extra_params`.
+- **`DocIterator`.** Stream the full collection as a snapshot without loading it into memory; exposed across the C++, C, and Python bindings.
+- **Concurrent `optimize()`.** Reads and writes now proceed while optimization runs, so long optimizations no longer stall ingest or retrieval.
 
 ## Release Highlights (0.6.0)
 

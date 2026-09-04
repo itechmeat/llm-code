@@ -67,6 +67,12 @@ Recent service notes (`1.6.0` line):
 - **ElevenLabs default model changed**: `ElevenLabsTTSService` and `ElevenLabsHttpTTSService` now default to `eleven_flash_v2_5` instead of `eleven_turbo_v2_5`, since ElevenLabs deprecated `eleven_turbo_v2_5`. Only affects callers that don't explicitly set `model`; pass `model="eleven_turbo_v2_5"` explicitly if you still need the old default.
 - **`PronunciationDictionaryLocator` deprecated**: the `pronunciation_dictionary_locators` parameter on `ElevenLabsTTSService` / `ElevenLabsHttpTTSService` is deprecated because dictionary substitutions can rewrite spoken words in ways that break alignment-based word-completion tracking (used to attribute spoken text back to conversation context). Use the `text_transforms` parameter with `replace_text` (added in `1.5.0`) instead — those transforms run client-side and are tracked correctly. Removal is planned for `2.0.0`.
 
+Recent service notes (`1.7.0` line):
+
+- **`PocketTTSService`** (new): local CPU-only TTS built on kyutai-labs [pocket-tts](https://github.com/kyutai-labs/pocket-tts). Supports English, French, German, Italian, Portuguese, and Spanish, predefined voices, and voice cloning from a wav file or `hf://` voice prompt. Install with `pip install "pipecat-ai[pocket-tts]"`.
+- **`XTTSService` deprecated**: the [Coqui XTTS streaming server](https://github.com/coqui-ai/xtts-streaming-server) it connects to has been unmaintained since early 2024 and pins a commit of the discontinued `coqui-ai/TTS`, and the XTTS-v2 model is licensed for non-commercial use only. Use `KokoroTTSService` / `PiperTTSService` for local TTS, or the community-maintained [`pipecat-xtts-vllm`](https://docs.pipecat.ai/api-reference/server/services/tts/xtts-vllm) package to stay on XTTS. Removal planned for `2.0.0`.
+- `AzureTTSService` / `AzureHttpTTSService` gain an opt-in `force_locale` setting (`AzureTTSSettings`) that wraps synthesized text in SSML's `<lang xml:lang>` element, so multilingual voices (e.g. `en-US-EmmaMultilingualNeural`) speak in the configured locale instead of auto-detecting per segment.
+
 Recent service notes (`1.3.0` line):
 
 - Rime `RimeTTSService` / `RimeHttpTTSService` default to the `coda` model instead of `arcana`; set `model="arcana"` explicitly to preserve old behavior.

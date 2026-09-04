@@ -2,8 +2,8 @@
 name: bun
 description: "Bun JavaScript/TypeScript runtime and all-in-one toolkit. Covers runtime, package manager, bundler, test runner, HTTP server, WebSockets, SQLite, S3, Redis, file I/O, shell scripting, FFI, Markdown parser. Use when running JS/TS with Bun, managing packages, bundling, testing, or using Bun-specific APIs. Keywords: bun, bunx, bun install, bun run, bun test, bun build, Bun.serve, Bun.file, bun:sqlite, Bun.markdown."
 metadata:
-  version: "1.3.14"
-  release_date: "2026-05-13"
+  version: "1.4.1"
+  release_date: "2026-09-04"
 ---
 
 # Bun
@@ -97,6 +97,17 @@ bun build ./index.ts --metafile-md --outdir ./dist
 | `better-sqlite3`       | `bun:sqlite`             |
 | `child_process.exec()` | `Bun.$` or `Bun.spawn()` |
 | `dotenv`               | Built-in `.env` support  |
+
+## Release Highlights (1.4.x)
+
+- **Rust rewrite**: first release of the Rust port. Lower peak memory (mimalloc allocator, 13-48% less under load), ~2x faster startup, 5x lower idle CPU, and 1,500+ more passing Node.js test-suite tests.
+- **HTTP/2 & HTTP/3**: `Bun.serve()` serves HTTP/1.1 and HTTP/2 on the same port via ALPN over TLS (v1.4.1); HTTP/3 is experimental via `http3: true`. `fetch()` can use HTTP/2/3 clients behind feature flags.
+- **Serve static directories**: `routes: { "/static/*": { dir: "./public" } }` with sendfile, ETag, Range, conditional requests, and index.html.
+- **CLI**: `bun run --parallel` for concurrent scripts; `bun audit fix`, `bun dedupe`, `bun prune`, `bun pm diff`, `bun pm licenses` for package maintenance.
+- **`bun test`**: `--parallel`, `--isolate`, `--shard=M/N`, `--timings`, `--changed` (diff-based), `--retry`, and `jest.useFakeTimers()`.
+- **`bun build`**: built-in React Compiler (`--react-compiler`), barrel-import optimization, tree-shaking through `export * as` and dynamic `import()`, `--min-chunk-size`, and module preloading.
+- **`bun install`**: `--linker=isolated` global virtual store, `--offline` / `--prefer-offline`, `bun add --catalog`, nested overrides, and `selfContained` workspaces.
+- **New runtime APIs**: `Bun.Terminal` (PTY), `Bun.Archive` (tar), `Bun.JSON5`/`JSONL`/`JSONC`/`XML`/`TOML` parsers, streaming `Bun.write(path, response)`, `WebSocket.pause()`/`resume()`, `crypto.argon2`, and post-quantum ML-DSA/ML-KEM in `crypto.subtle`.
 
 ## Release Highlights (1.3.14)
 

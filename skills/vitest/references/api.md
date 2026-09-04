@@ -52,10 +52,9 @@ test.runIf(isDev)("dev only", () => {});
 // Run tests in parallel
 test.concurrent("concurrent 1", async () => {});
 test.concurrent("concurrent 2", async () => {});
-
-// Force sequential in concurrent context
-test.sequential("must run alone", async () => {});
 ```
+
+`v5` note: the `sequential` test/suite options (`test.sequential`, `describe.sequential`, `sequence.sequential`) are removed in favor of `concurrent`; `@vitest/runner` is inlined and no longer published as a separate package.
 
 ### test.each / test.for
 

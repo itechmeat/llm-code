@@ -8,7 +8,7 @@ The Bot API is an HTTP-based interface for building Telegram bots. It provides:
 - JSON responses
 - Webhook or long polling for updates
 
-**Bot API 10.0** is supported in aiogram v3.28.x.
+**Bot API 10.0** is supported in aiogram v3.28.x, **10.1** in v3.29.x, **10.2** in v3.30.x, and **10.3** in v3.31.x.
 
 ## Bot API 10.0 highlights
 
@@ -17,6 +17,13 @@ The Bot API is an HTTP-based interface for building Telegram bots. It provides:
 - Media: live photos are now sendable/editable and can appear in paid media and media groups.
 - Chat management: reaction-deletion methods and `can_react_to_messages` permissions.
 - Managed/business bots: access-settings methods plus broader bot-to-bot and business-account flows.
+
+## Bot API 10.3 highlights (aiogram v3.31.x)
+
+- Rich messages: `RichMessageButton`/`RichTextButton`/`RichBlockButtons` buttons, expandable block quotations and document blocks, an `is_compact` flag on block tables, and `tg://document?id=` links for file uploads in rich messages.
+- Ephemeral messages: `EphemeralMessageParameters` replaces per-method `receiver_user_id`/`callback_query_id` across send methods, plus `replace_callback_query_message` swapping the original message, and `editEphemeralMessageMedia` file uploads.
+- Reply markup: `DisabledButton` and a `disabled` field on inline buttons; a `force_reply` field on inline/reply keyboards.
+- General: `can_stop`/`keep_on_stop` on message drafts, the `MessageGenerationStopped` update, the `CommunityChatJoined` service message, and `text`/`entities`/`is_private` on `UniqueGiftInfo`.
 
 ## Bot API 9.6 highlights
 

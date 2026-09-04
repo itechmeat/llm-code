@@ -2,6 +2,42 @@
 
 `@mantine/schedule` is new in Mantine 9.0. It provides calendar scheduling components with multiple view levels, drag-and-drop event management, and extensive customization.
 
+## New in v9.6
+
+### ResourcesMonthView event resizing
+
+`ResourcesMonthView` supports `withEventResize` — drag an event's start or end edge to resize. `onEventResize` is called with `{ eventId, newStart, newEnd }`. Resizing snaps to whole days and preserves the event's original time of day; `canResizeEvent` controls which events are resizable:
+
+```tsx
+<ResourcesMonthView
+  date={date}
+  onDateChange={setDate}
+  resources={resources}
+  events={events}
+  withEventResize
+  onEventResize={({ eventId, newStart, newEnd }) =>
+    setEvents((current) =>
+      current.map((event) =>
+        event.id === eventId ? { ...event, start: newStart, end: newEnd } : event
+      )
+    )
+  }
+/>
+```
+
+### Drag and resize snap intervals
+
+Time-grid views (`DayView`, `WeekView`, `ResourcesDayView`, `ResourcesWeekView`) accept `eventDragInterval` and `eventResizeInterval` to snap moves and resizes independently of the grid size — for example, a 30-minute grid can allow 15-minute drag increments. A ghost preview shows where an event will land while dragging.
+
+### Interactive background events
+
+Schedule views (`DayView`, `WeekView`, `MonthView`, `ResourcesDayView`, `ResourcesWeekView`) accept `withInteractiveBackgroundEvents` — background events (`display: "background"`) become clickable and trigger `onEventClick`, which makes it possible to open an edit modal for unavailability blocks and similar events.
+
+### YearView
+
+- `renderDay` replaces a day cell's entire content; it receives the day in `YYYY-MM-DD` format and the day's events (the same list used for the default indicators, without the three-item limit) — useful for counts, badges, or icons.
+- `withWeekendDays={false}` hides weekend columns; events that fall only on hidden days are not displayed.
+
 ## Patch notes (v9.2.1)
 
 - `MonthView` improves multi-day event overlap rendering when a day is already visually saturated.

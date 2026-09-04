@@ -2,8 +2,8 @@
 name: qdrant
 description: "Qdrant vector database: collections, points, payload filtering, indexing, quantization, snapshots, and Docker/Kubernetes deployment. Use when managing Qdrant collections, performing vector searches with payload filters, configuring HNSW indexes or quantization, or deploying Qdrant clusters. Keywords: Qdrant, vector database, HNSW, quantization, semantic search."
 metadata:
-  version: "1.18.3"
-  release_date: "2026-07-17"
+  version: "1.19.1"
+  release_date: "2026-09-04"
 ---
 
 # Qdrant (Skill Router)
@@ -11,6 +11,17 @@ metadata:
 This file is intentionally **introductory**.
 
 It acts as a **router**: based on your situation, open the right note under `references/`.
+
+## Release Highlights (1.19.0 → 1.19.1)
+
+- **TurboQuant 4-bit as primary storage:** the `"turbo4"` datatype stores only 4-bit quantized vectors, sparing disk space on originals.
+- **Per-component memory strategy:** collection components now take `"memory": "cold" / "cached" / "pinned"` for fine-grained control over memory vs performance. Deprecates `max_resident_memory_percent` of strict mode in favor of the new global quota API.
+- **Keyword prefix match:** `{"match": {"prefix": "..."}}` in filters matches keywords by prefix; must be enabled in the keyword index.
+- **Sparse search:** per-query IDF corpus for better per-tenant/sparse ranking.
+- **Slice filtering:** sliced scroll / deterministic sampling via a slice filter condition.
+- **Global quota API:** central place to cap cluster resource usage (supersedes the strict-mode memory ceiling).
+- **Routing token:** deterministic read routes when the read affinity option is in use.
+- **1.19.1:** 4-bit TurboQuant SIMD rework and batched HNSW searches (faster scoring), quantized scoring prefetch, plus input hardening — rejects empty dense vectors, vectors larger than 65536, and `.`/`..` in collection names (security).
 
 ## Release Highlights (1.16.3 → 1.18.0)
 

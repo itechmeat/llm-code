@@ -67,6 +67,22 @@ Pipecat Flows (integrated into the main package since `1.5.0`) adds `NO_RESPONSE
 
 Eval scenario expectations gain `absent: true`: the expectation passes only when no event of the given type arrives within the `within_ms` budget, and fails as soon as one does. Use it for duplicate-output regressions, e.g. asserting a bot responds exactly once after a multi-worker handoff.
 
+## MCP tools (1.8.0)
+
+- `MCPClient.tools()`: `LLMContext(tools=await mcp.tools())` is all you need — connecting, tool registration, and closing the connection at pipeline end are automatic.
+- `MCPClient(tools_arguments=...)` injects extra arguments into every call of a tool, hidden from the schema the model sees and overriding anything the model supplies:
+
+  ```python
+  mcp = MCPClient(
+      server_params=...,
+      tools_arguments={"search": {"mode": "realtime"}},
+  )
+  ```
+
+  The model only ever sees `search(query=...)`, while every call reaches the server as `search(query=..., mode="realtime")`. Use it for arguments the model shouldn't choose — a fixed search mode, an account id, a caller-supplied filter.
+
+- `KeenableWebSearch` (`pipecat.services.keenable.search`, install with the `keenable` extra) gives voice agents live web search and page reading via a hosted MCP server. It exposes `search_web_pages` (with optional site and date-range filters) and `fetch_page_content`; pass `await search.tools()` to your `LLMContext` and the connection is released automatically when the pipeline ends. Works keyless (`pro` mode); pass `api_key=` for higher rate limits and `mode="realtime"`.
+
 ## Migration notes for 1.0.0
 
 - Single-argument function call support was removed; tools must expose named parameters.

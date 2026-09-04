@@ -2,9 +2,9 @@
 
 What changed in PostgreSQL 19 compared to 18, plus the full list of incompatible changes to plan for before upgrading.
 
-> **Beta status.** PostgreSQL 19 is currently at **Beta 2 (2026-07-16)**. GA is expected **September/October 2026**, after further betas and release candidates. Behavior, feature details, and APIs may still change before GA — one feature (non-text output formats for `pg_dumpall`) was already reverted between Beta 1 and Beta 2. Do not run beta builds in production. Beta clusters may require `initdb` or a full `pg_upgrade` cycle if catalog contents change between beta releases, so treat every beta-to-beta step as a major version upgrade.
+> **Beta status.** PostgreSQL 19 is currently at **Beta 3 (2026-08-13)**. GA is expected **September/October 2026**, after further betas and release candidates. Behavior, feature details, and APIs may still change before GA — one feature (non-text output formats for `pg_dumpall`) was already reverted between Beta 1 and Beta 2. Do not run beta builds in production. Beta clusters may require `initdb` or a full `pg_upgrade` cycle if catalog contents change between beta releases, so treat every beta-to-beta step as a major version upgrade.
 
-Latest stable line remains **18.4 (2026-05-14)**; use that for production until 19 goes GA.
+Latest stable line remains **18.6 (2026-08-13)**; use that for production until 19 goes GA.
 
 ## Migration to Version 19 — Incompatible Changes
 

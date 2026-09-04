@@ -34,6 +34,12 @@ vitest init browser
 - `--detect-async-leaks` helps surface leaked async work that makes runs flaky or hang.
 - `--update` now accepts `new`, `all`, and `none` for finer snapshot control.
 
+## v5.0.0 changes
+
+- `-p` is a shorthand for `--project`.
+- `-t` uses `>` as the separator for nested test names (for example `vitest -t "suite > test"`).
+- TypeScript build mode and static parsing for `vitest list` are supported.
+
 ## Test Filtering
 
 ```bash

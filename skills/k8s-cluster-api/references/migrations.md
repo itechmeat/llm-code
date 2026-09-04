@@ -199,11 +199,18 @@ default/wait-machine-deployment-upgrade: ["10m", "10s"]
 - `v1alpha3` and `v1alpha4` are no longer available. If any provider templates, generated YAML, or custom tooling still reference them, the upgrade is blocked until those manifests are rewritten.
 - `v1beta1` is still temporarily compatible, but providers should treat `v1beta2` implementation as current work, not future cleanup.
 
+`1.14` note:
+
+- The `v1beta1` API version in core Cluster API, CABPK, and KCP is on track to be unserved in CAPI `v1.16`; migrate to `v1beta2` ASAP.
+- Support for the Cluster API v1beta1 contract versions is also on track to be dropped in `v1.16`; providers should implement the v1beta2 contract.
+- `Docker*` API resources are deprecated and will be removed in CAPI `v1.15`; migrate to the `Dev*` resources (CAPD is a test provider, so its API deprecation period does not apply).
+
 | Item                           | Deadline    |
 | ------------------------------ | ----------- |
 | v1beta1 deprecation            | Now         |
-| v1beta1 removal                | August 2026 |
-| Contract compatibility removal | August 2026 |
+| v1beta1 removal                | CAPI v1.16  |
+| v1beta1 contract removal       | CAPI v1.16  |
+| Docker* API removal            | CAPI v1.15  |
 
 ### Utility Function Changes
 

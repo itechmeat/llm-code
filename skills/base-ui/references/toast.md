@@ -18,6 +18,12 @@ A high-quality, unstyled React toast component to generate notifications.
 - `toastManager.add()` supports upsert-style flows, which is useful when one logical notification should refresh instead of stacking duplicates.
 - Touch swipe keeps the viewport expanded more reliably, and timers resume correctly after the window regains focus.
 
+## v1.7.0 - v1.8.0 notes
+
+- Toast updates can be provided as a functional updater derived from the current toast (for example self-referencing content or dynamic duration changes).
+- The `render` prop is now honored in `Toast.Title`, `Toast.Description`, and `Toast.Action`, so you can swap or extend their default elements.
+- Remaining timer calculation for paused/regained-focus toasts was fixed.
+
 ## Demo
 
 ### Tailwind

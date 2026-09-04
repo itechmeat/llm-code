@@ -136,6 +136,11 @@ vi.resetAllMocks(); // mockReset config
 vi.restoreAllMocks(); // restoreMocks config
 ```
 
+`v5` notes:
+
+- Mocks are cleared by default before each test (`clearMocks` defaults to `true`). Mock *implementations* are not reset automatically.
+- `Temporal` (the temporal API) can be mocked, with or without fake timers.
+
 ## Module Mocking
 
 ### vi.mock() - Hoisted
@@ -240,6 +245,8 @@ vi.useFakeTimers();
 vi.useRealTimers();
 
 // Check if fake timers active
+vi.isFakeTimers(); // boolean
+```
 
 ### Timer controls in v4.1.0
 
@@ -250,8 +257,6 @@ vi.useRealTimers();
 
 - `mockThrow` and `mockThrowOnce` simplify exception-oriented mocks.
 - Prefer them when the intent is "this mock throws" instead of wrapping each case in `mockImplementation(() => { throw ... })`.
-vi.isFakeTimers(); // boolean
-```
 
 ### Advance Time
 

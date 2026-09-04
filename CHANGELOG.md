@@ -5,6 +5,19 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-09-04]
+
+### Changed
+
+- **inworld** - Updated the skill for the `inworld-tts-2-flash` model: lowest-latency instant cloning, persistent steering instructions (reserved `[reset]` tag, request-level `instruction` field), and cross-lingual voice localization with one reused voice.
+- **bun** - Updated the skill for `1.4.1` with the Rust rewrite (lower memory, faster startup), HTTP/2 via ALPN and experimental HTTP/3, static-directory serving, `bun run --parallel`, new `bun test`/`bun build`/`bun install` commands, and v1.4 runtime additions (`WebSocket.pause()`, `Bun.Archive`, `Bun.Terminal`, built-in JSON5/JSONL/JSONC/XML/TOML parsers, `crypto.argon2`).
+- **pydantic-ai** - Updated the skill for `2.39.0` with realtime speech-to-speech, run cancellation, deferred tool reveal, cost and context-window tracking, typed events, durable operations, new providers/models, the `httpx2` migration, and dev web chat UI security fixes.
+- **vitest** - Updated the skill for `5.0.0` with the inlined runner and `expect`, default-cleared mocks with `Temporal` support, replaced APIs (`concurrent`, `toMatchTextContent`, strict `toHaveTextContent`, `expect.poll` timeout), new `.vitest` output conventions, inline and nested project config, and browser locator-string removal.
+- **telegram** - Updated the skill for `3.31.0` (Bot API 10.3) with rich block buttons, expandable block quotations, document blocks, ephemeral messages, and new reply-markup controls, plus webhook-context and i18n fixes.
+- **qdrant** - Updated the skill for `1.19.1` with TurboQuant 4-bit primary storage, per-component memory strategies, keyword prefix match, per-query IDF sparse search, slice filtering, the global quota API, and the SIMD/HNSW performance and input-hardening work.
+- **k8s-cluster-api** - Updated the skill for `1.14.1` with management-cluster `v1.37.x` compatibility, API types in a dedicated Go module, kubeadm control-plane robustness, upgrade-plan observability in cluster status, and `v1beta1` deprecation notices with experimental `clusterctl convert`.
+- **base-ui** - Updated the skill for `1.8.0` with the `Combobox` `createItems` collection API, `Avatar.Image` `keepMounted`, functional `Toast` updates, `Form` first-invalid-field focus, and the accessibility and bundle-size fixes across the 1.7-1.8 line.
+
 ## [2026-08-01]
 
 ### Changed

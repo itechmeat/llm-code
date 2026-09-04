@@ -44,6 +44,8 @@ You do not have to put `transport.output()` as the final processor. Placing proc
   - Audio rides a single Opus track; RTVI messages (including the transcript) ride a compressed, ordered JSON stream track, putting MoQ on par with the Daily and WebSocket transports for RTVI support.
   - See `examples/transports/transports-moq.py`.
 
+**MoQ client mode (`1.8.0`)**: the bot and the browser both dial a shared relay and rendezvous there instead of the bot serving its own socket, which works when the bot is behind NAT. Select it by naming a relay: `python bot.py -t moq --moq-connect https://cdn.moq.dev/anon` (without `--moq-connect` the bot serves its own socket, as before). Each client-mode session gets its own random namespace so concurrent sessions on a shared relay don't collide (`--moq-namespace` pins a well-known room). `MOQParams.response_path` / `MOQParams.request_path` set the bot's broadcast paths directly when a host assigns paths externally instead of agreeing on a namespace. Default participant ids are now named by direction (`<namespace>/response` and `<namespace>/request`, previously `bot0` / `client0`; `--moq-bot-id` / `--moq-client-id` still override them).
+
 The Learn guide also calls out additional transports you may encounter:
 
 - LiveKit-based WebRTC transports

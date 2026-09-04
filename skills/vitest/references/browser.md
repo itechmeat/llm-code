@@ -23,12 +23,11 @@ npx vitest init browser
 # For Playwright (recommended)
 npm install -D vitest @vitest/browser-playwright
 
-# For WebdriverIO
-npm install -D vitest @vitest/browser-webdriverio
-
 # For preview only (not for CI)
 npm install -D vitest @vitest/browser-preview
 ```
+
+`v5` note: the WebdriverIO provider (`@vitest/browser-webdriverio`) was removed in `v5.0.0`. Playwright and preview remain.
 
 ## Configuration
 
@@ -109,6 +108,13 @@ export default defineConfig({
 
 - Screenshot path resolution receives project references in `ToMatchScreenshotResolvePath`, which matters in multi-project browser suites that store snapshots per project/browser.
 
+`v5.0.0` notes:
+
+- Providers are configured with a locator/provider function imported from the provider package (e.g. `playwright()` from `@vitest/browser-playwright`), not a string name.
+- Any selector string is treated as a locator object; `locators.exact` is on by default, so string selectors match exactly (opt out explicitly for fuzzy behavior).
+- `screenshotDirectory` config controls where `toMatchScreenshot` output is written.
+- `toHaveTextContent` is strict with the passed value; use `toMatchTextContent` when you need a regex or substring match.
+
 ### Mixed Node + Browser Projects
 
 ```ts
@@ -146,12 +152,7 @@ export default defineConfig({
 - `firefox`
 - `webkit`
 
-**WebdriverIO:**
-
-- `chrome`
-- `firefox`
-- `edge`
-- `safari`
+**WebdriverIO** is no longer supported in `v5` (provider removed).
 
 ## Writing Browser Tests
 

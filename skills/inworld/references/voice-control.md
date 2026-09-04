@@ -37,6 +37,14 @@ Use this when you need broader control over articulation, volume, pitch, pacing,
 - `BALANCED` for a middle ground.
 - `CREATIVE` when you want more expressive range and can tolerate more variation.
 
+### Steering Persistence (August 2026)
+
+- An inline `[tag]` now applies from where it is written until it is explicitly changed; it no longer wears off on its own.
+- A reserved `[reset]` tag ends a styled passage.
+- A `<break/>` pause no longer clears the active instruction.
+- A request-level `instruction` field on Synthesize Speech is an alternative to inline tags.
+- Text that relied on an instruction fading out needs `[reset]`; `inworld-tts-1.5-max`/`mini` behavior is unaffected.
+
 ### Non-Verbal Sounds
 
 Can be used anywhere in text:

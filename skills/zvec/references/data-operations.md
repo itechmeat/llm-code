@@ -157,6 +157,22 @@ print(result)
 
 `MultiQuery` combines dense vectors, sparse vectors, scalar filters, and full-text (FTS) search in a single query with consistent reranking across the Python, Go, Rust, and C++ bindings. Attach an FTS index to a string field via `create_index()` first, then include a text clause alongside vector clauses. Use it when a single request must blend semantic and keyword relevance.
 
+## Iterate all documents (`DocIterator`, 0.7.0+)
+
+- `DocIterator` streams the full collection without loading it into memory. It takes a snapshot, so later writes and deletes stay invisible during iteration.
+- Exposed across the C++, C, and Python bindings; Python supports `with collection.iter_docs()`.
+
+```python
+with collection.iter_docs() as it:
+    for doc in it:
+        print(doc.id, doc.fields)
+```
+
+## Migration notes (0.7.0)
+
+- **C++ public API renamed to snake_case.** `Index`, `Collection`, etc. moved from PascalCase to snake_case: `Open()` → `open()`, `Search()` → `search()`, `Query()` → `query()`, `Insert()` → `insert()`. Update C++ call sites when upgrading. The C API and Python API names are unchanged.
+- Reads and writes can now proceed while `optimize()` runs (previously the operation was more exclusive), so long optimizations no longer stall ingest or retrieval.
+
 ## Fetch
 
 Direct lookup by ID(s); missing IDs are omitted. Pass `output_fields` (0.5.0+) to control which fields come back.

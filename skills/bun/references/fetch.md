@@ -147,7 +147,13 @@ await fetch("s3://bucket/key", {
     region: "us-east-1",
   },
 });
+
+// HTTP/2 and HTTP/3 clients (experimental in v1.4)
+await fetch("https://example.com", { protocol: "http2" });
+await fetch("https://example.com", { protocol: "http3" });
 ```
+
+Enable experimental clients with `BUN_FEATURE_FLAG_EXPERIMENTAL_HTTP2_CLIENT=1` (`--experimental-http3-fetch` for HTTP/3). Connections over Unix sockets are kept alive and reused (v1.4.1).
 
 ## Debugging
 
@@ -201,12 +207,14 @@ Default: 256, Max: 65,336
 ```typescript
 await fetch(url, {
   decompress: true,     // Auto decompress gzip/br/zstd
+  compress: true,       // Compress request body (gzip/deflate/br/zstd) + set Content-Encoding
   keepalive: false,     // Disable connection reuse
   verbose: true,        // Debug logging
-  proxy: "...",         // HTTP proxy
+  proxy: "...",         // HTTP proxy (or { url, headers } for Proxy-Authorization)
   unix: "...",          // Unix socket
   tls: { ... },         // TLS options
   s3: { ... },          // S3 credentials
+  protocol: "http2",    // Experimental HTTP/2/3 client
 });
 ```
 

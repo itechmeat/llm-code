@@ -2,8 +2,8 @@
 name: vitest
 description: "Vitest testing framework: Vite-powered tests, Jest-compatible API, mocking, snapshots, coverage, browser mode, and TypeScript support. Use when writing or configuring tests with Vitest, setting up mocking/snapshots, configuring coverage, or running browser-mode tests. Keywords: Vitest, testing, Vite, Jest, mocking, coverage."
 metadata:
-  version: "4.1.10"
-  release_date: "2026-07-06"
+  version: "5.0.0"
+  release_date: "2026-09-04"
 ---
 
 # Vitest
@@ -30,7 +30,17 @@ Next generation testing framework powered by Vite.
 
 ## Installation
 
-Install: `npm install -D vitest`. Requires Vite >=v6.0.0, Node >=v20.0.0.
+Install: `npm install -D vitest`. Requires Node.js >=22 and Vite >=6.4 in v5.
+
+## Release Highlights (5.0.0)
+
+- **Requirements:** Node.js >=22 and Vite >=6.4 are required. `@vitest/runner` is inlined (the package is no longer published) and `expect` is inlined, so old entry points were removed.
+- **Mock/timer behavior:** mocks are cleared by default before each test, and `Temporal` can now be mocked (with or without fake timers).
+- **Replaced APIs:** `sequential` test/suite options are removed in favor of `concurrent`; the `webdriverio` browser provider is removed; `toHaveTextContent` is strict with `toMatchTextContent` as the alternative; `expect.poll` fails when the function does not resolve in time.
+- **New defaults/outputs:** `attachmentsDir` defaults to `.vitest/attachments/` (was `.vitest-attachments/`), and blob/json/junit/html reporter outputs default to `.vitest`; a `createReport` API and `.vitest` report directory convention are introduced.
+- **Projects:** inline projects extend the root config by default, nested projects are supported, distinct projects share one Vite server, and the config file is no longer looked up from ancestor directories (parent dirs no longer apply).
+- **Browser:** locator objects replace locator strings, `locators.exact` is on by default, and a `screenshotDirectory` config controls `toMatchScreenshot` output.
+- **Misc:** benchmark public API was rewritten with a pluggable provider API; `-p` is a shorthand for `--project`; `-t` uses `>` as separator; coverage `thresholds.perFile` accepts an object and TypeScript build mode / `vitest list` static parsing are supported.
 
 ## Release Highlights (4.1.0 -> 4.1.6)
 

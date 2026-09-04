@@ -200,6 +200,38 @@ Bun.serve({
 });
 ```
 
+## HTTP/2 & HTTP/3 (v1.4)
+
+`Bun.serve()` serves HTTP/1.1 and HTTP/2 on the same port, negotiated via ALPN over TLS. WebSockets and trailers are not supported over HTTP/2 yet.
+
+HTTP/3 is experimental; enable with `http3: true` alongside `tls`:
+
+```typescript
+Bun.serve({
+  tls: { cert: Bun.file("cert.pem"), key: Bun.file("key.pem") },
+  http3: true,
+  fetch(req) {
+    return new Response("Hello over HTTP/3");
+  },
+});
+```
+
+Do not ship `http3: true` to production yet: `server.upgrade()` returns `false` over HTTP/3 and 0-RTT is disabled.
+
+### Serve Static Directories
+
+```typescript
+Bun.serve({
+  routes: {
+    "/static/*": { dir: "./public" },
+  },
+});
+```
+
+Static directory routes use sendfile with ETag, Range, conditional requests, and `index.html`; path traversal is blocked (`openat2 O_RESOLVE_BENEATH`). HTML-route sourcemaps are no longer served in production (opt back in via `[serve.static] sourcemap` in `bunfig.toml`).
+
+Backpressure: `Bun.serve()` and `fetch()` pause streams when the socket buffer fills.
+
 ## Key Points
 
 - Use `Bun.serve()` not `http.createServer()`

@@ -36,29 +36,29 @@ Bun aims for 100% Node.js API compatibility. Most frameworks (Next.js, Express) 
 | --------------------- | ------------------------------------------------------------------------- |
 | `node:async_hooks`    | `AsyncLocalStorage`, `AsyncResource` work. V8 promise hooks not called.   |
 | `node:child_process`  | Missing `proc.gid`, `proc.uid`. IPC can't send socket handles.            |
-| `node:cluster`        | Works, but socket passing only on Linux (via `SO_REUSEPORT`).             |
-| `node:crypto`         | Missing `secureHeapUsed`, `setEngine`, `setFips`.                         |
+| `node:cluster`        | Socket sharing across processes implemented (v1.4).                       |
+| `node:crypto`         | Missing `secureHeapUsed`, `setEngine`, `setFips`; `crypto.argon2`/`argon2Sync` implemented (v1.4). |
+| `node:domain`         | Mostly implemented; `active` added in v1.4.                               |
 | `node:http2`          | 95%+ gRPC tests pass. Missing `allowHTTP1`, `pushStream`.                 |
 | `node:https`          | Implemented, but `Agent` not always used.                                 |
 | `node:module`         | Missing `syncBuiltinESMExports`, `module.register`.                       |
 | `node:perf_hooks`     | APIs implemented, tests not passing yet.                                  |
-| `node:tls`            | Missing `tls.createSecurePair`.                                           |
+| `node:tls`            | Missing `tls.createSecurePair`; `socket.upgradeTLS({ isServer: true })` (STARTTLS) supported. |
 | `node:util`           | Missing `getCallSite`, `transferableAbortSignal`.                         |
 | `node:v8`             | `writeHeapSnapshot`, `getHeapSnapshot` work. Use `bun:jsc` for profiling. |
 | `node:vm`             | Core functionality works. Missing `measureMemory`, some `cachedData`.     |
-| `node:worker_threads` | Missing some Worker options, `markAsUntransferable`.                      |
+| `node:worker_threads` | `resourceLimits`, Worker `stdout`/`stderr`, and `eval` added in v1.4; `markAsUntransferable` missing. |
 
 ## Partially/Not Implemented
 
 | Module              | Status                     |
 | ------------------- | -------------------------- |
-| `node:domain`       | Missing `Domain`, `active` |
 | `node:inspector`    | Profiler API works         |
 | `node:wasi`         | Partial                    |
 | `node:test`         | Partial — use `bun:test`   |
-| `node:repl`         | ❌ Not implemented         |
-| `node:sqlite`       | ❌ Use `bun:sqlite`        |
-| `node:trace_events` | ❌ Not implemented         |
+| `node:repl`         | Implemented (v1.4)         |
+| `node:sqlite`       | Implemented (v1.4, 100% tests) — `bun:sqlite` remains the richer API |
+| `node:trace_events` | Implemented (v1.4)         |
 
 ## Globals
 

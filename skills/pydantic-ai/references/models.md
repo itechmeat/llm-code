@@ -50,6 +50,15 @@ Pydantic AI is model-agnostic with 30+ providers.
 - **Usage**: `cache_hit_ratio` property on `RequestUsage`/`RunUsage` (v2.13.0); both usage classes now accept arbitrary extra fields for upcoming `genai-prices` data, preserved across serialization and OTel export (v2.17.0/v2.20.0).
 - **KnownModelName**: refreshed from gateway probes, including stable Google image model IDs (v2.21.0).
 
+## Model-surface updates (2.23.0 -> 2.39.0)
+
+- **New providers**: `CrusoeProvider` (`2.28.0`); `SnowflakeModel`/`SnowflakeProvider` for Snowflake Cortex (`2.27.0`); `VLLMProvider` for self-hosted vLLM servers (`2.38.0`); a `cerebras` optional dependency group (`2.28.0`).
+- **New models**: `gemini-3.7-flash` (`2.30.0`) and `gemini-3.8-flash` (`2.38.0`); Claude Fable 5.1 (`claude-fable-5-1`) and Claude Mythos 5.1 (`2.38.0`); OpenAI `gpt-6-astra` (`2.39.0`); GLM-5.3 on `ZaiModel` plus `glm-5.3-flash` (`2.34.0`/`2.37.0`); DeepSeek V4 Flash via `OpenAIResponsesModel` + `DeepSeekProvider` (`2.26.0`).
+- **xAI**: `xai_agent_count` on `XaiModelSettings` (`2.27.0`), `FileSearchTool` collections search options (`2.25.0`) and attachment search lifecycle (`2.32.0`), gRPC `metadata` on `XaiProvider` (`2.30.0`).
+- **Anthropic compatibility** (`2.33.0`): `pydantic-ai[anthropic]` now requires `anthropic>=1.0.0` (SDK rebuilt on httpx2). A custom `http_client` passed to `AnthropicProvider` must be an `httpx2.AsyncClient`; to stay on an older pydantic-ai release, pin `anthropic<1`.
+- **Profile and identifiers**: `context_window` on `ModelProfile` (`2.38.0`); invalid model identifiers suggest known names (`2.32.0`); model profiles follow Bedrock's `r1` alias and route Heroku GLM via `zai_model_profile`, with lowercase model-name profile lookup in SambaNova/Heroku/Fireworks (`2.34.0`/`2.35.3`/`2.30.0`).
+- **Streaming and thinking**: a provider-profile flag rejects streams without `finish_reason` (`2.38.0`); Claude Sonnet 5 / Fable 5 on Bedrock deny native structured output, and Gemini falls back to `thinking_level='LOW'` when it rejects `MINIMAL` (`2.31.1`). Bedrock guardrail `trace` rides in `ModelResponse.provider_details` (`2.35.1`).
+
 ## xAI (Grok)
 
 Native xAI SDK provider (replaces deprecated `GrokProvider`):

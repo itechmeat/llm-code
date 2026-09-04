@@ -469,6 +469,14 @@ Provide results/approvals to continue:
 | `approvals` | Dict: tool_call_id → True/False/ToolApproved/ToolDenied |
 | `metadata`  | Dict: tool_call_id → metadata for RunContext            |
 
+### Reveal semantics (v2.23.0 -> v2.30.0)
+
+Deferred tools can now stay hidden from the model until the application reveals them, using each provider's native deferral/addition channel:
+
+- `ToolAvailabilityDeltaPart` renders tool additions natively (`tool_addition`) and adds `additional_tools` for secondary tool suppliers (`2.23.0`).
+- Tools can be hidden until revealed via tool search, `load_capability`, or `ToolReturn.tools` (`2.26.0`); deferred tools stay searchable after discovery, and reveal state resets at `CompactionPart` boundaries.
+- A deferred tool must be revealed, and its capability loaded, before it can be called (`2.30.0`).
+
 ---
 
 ## Toolsets
@@ -794,6 +802,8 @@ agent = Agent(
 
 result = agent.run_sync('What is the biggest AI news this week?')
 ```
+
+For OpenRouter the built-in web search is exposed as `openrouter:web_search`, and web-search sources are surfaced under `provider_details["annotations"]` (`2.30.0`/`2.32.0`).
 
 ### Code Execution Example
 

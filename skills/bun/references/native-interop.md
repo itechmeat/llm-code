@@ -312,6 +312,9 @@ console.log("HOME:", libc.symbols.getenv("HOME"));
 ## Performance
 
 - `bun:ffi` is 2-6x faster than Node.js FFI via Node-API
+- v1.4: FFI is ~3x faster via JavaScriptCore's built-in FFI
+- Add a `"buffer_length"` argument type to receive the buffer's byte length; `returns: "cstring"` yields a plain string (v1.4)
+- `--no-ffi-cc` disables `cc()` from `bun:ffi` so untrusted JS cannot compile C at runtime; workers inherit it
 - Bun JIT-compiles C bindings using embedded TinyCC
 - Use `callback.ptr` directly for slight performance boost
 

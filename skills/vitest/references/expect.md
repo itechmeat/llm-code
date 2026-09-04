@@ -155,6 +155,8 @@ await expect
   .toBe("expected");
 ```
 
+`v5` note: `expect.poll` fails when the polling function does not resolve in time; it no longer silently stays pending.
+
 ## Soft Assertions
 
 ```ts

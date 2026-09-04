@@ -94,10 +94,15 @@ response = client.search(
 
     # Domain filtering
     include_domains=["example.com"],   # Max 300
+    include_domains_mode="filter",     # "filter"|"boost" — restrict vs prioritize; requires include_domains
     exclude_domains=["spam.com"],      # Max 150
 
     # Regional
     country="US",                      # Boost results from country
+
+    # Language
+    language="en",                     # ISO 639-1 code or English name; boosts ranking
+    filter_by_language=False,          # Strictly filter non-matching languages; requires language
 
     # Usage tracking
     include_usage=False

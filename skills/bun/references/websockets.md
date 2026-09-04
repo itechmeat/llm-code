@@ -162,6 +162,11 @@ socket.addEventListener("open", () => {
   socket.send("Hello");
 });
 
+// v1.4 Bun extension: pause/resume apply backpressure on the client
+socket.pause(); // Stop reading from the underlying socket
+socket.resume();
+socket.bufferedAmount; // Queued send bytes
+
 socket.addEventListener("message", (event) => {
   console.log(event.data);
 });
@@ -201,6 +206,7 @@ const server = Bun.serve({
 
 ## Key Points
 
+- v1.4: `binaryType = "blob"` works on `ServerWebSocket` and the built-in `ws` package
 - Handlers declared once per server (not per socket) — more efficient
 - Native pub/sub — no Redis needed for simple cases
 - `ws.data` for per-connection state

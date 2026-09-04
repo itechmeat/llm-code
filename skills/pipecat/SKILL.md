@@ -2,8 +2,8 @@
 name: pipecat
 description: "Pipecat realtime voice/multimodal bots. Covers pipelines/frames, transports, RTVI, Pipecat Cloud deploy. Use when building real-time voice bots (STT/LLM/TTS pipelines), multimodal AI agents, WebRTC/WebSocket transports, or deploying to Pipecat Cloud. Keywords: pipecat, pipecat-ai, RTVI, WebRTC, voice bot."
 metadata:
-  version: "1.6.0"
-  release_date: "2026-07-21"
+  version: "1.8.1"
+  release_date: "2026-08-27"
 ---
 
 # Pipecat
@@ -95,6 +95,29 @@ It composes streaming speech/LLM/TTS services into a low-latency pipeline, conne
 - Do not assume `OpenAIResponsesLLMService` is HTTP-based anymore; WebSocket is now the default implementation.
 - Do not send a single `button` field in the RTVI `dtmf` client message; as of `1.6.0` it requires `buttons` (a list), and `RTVI.PROTOCOL_VERSION` is `2.1.0`.
 - Do not filter OTel dashboards on old GenAI span attribute names (`az.ai.openai`, `xai`, `mistral`, `gen_ai.usage.reasoning_tokens`, bare `tokens.*`); `1.6.0` renamed these to standard `gen_ai.*` conventions.
+
+## Release Highlights (1.7.0 -> 1.8.1)
+
+### Turn detection and tools (1.8.0)
+
+- **Turn detection redesign**: every in-repo service with built-in turn detection now emits `ProposedUserStartedSpeakingFrame` / `ProposedUserStoppedSpeakingFrame`, and `ExternalUserTurnStrategies` resolves them into real turn frames — one subclassable place that decides turns. Third-party services emitting turn frames directly keep working unchanged.
+- **MCP made trivial**: `MCPClient.tools()` now auto-connects, registers tools, and closes the connection at pipeline end (just `LLMContext(tools=await mcp.tools())`); `MCPClient(tools_arguments=...)` injects fixed arguments into every call of a tool, hidden from the model's schema. New `KeenableWebSearch` service (`keenable` extra) adds live web search + page reading via a hosted MCP server.
+- **MoQ client mode**: dial a shared relay instead of serving your own socket — works behind NAT (`--moq-connect <relay>`, plus `MOQParams.response_path`/`request_path`).
+
+### Workers and error handling (1.8.0)
+
+- **Workers**: `JobParams`/`JobGroupParams` bundle job dispatch metadata, `BaseUIWorker` surfaces jobs on a client UI without an LLM, `WorkerRunner.get_worker(name)` finds peers by name, and `request_cancel_job_group()` allows external cancellation.
+- **Error/usable-state model**: `ErrorCategory` (AUTHENTICATION/SERVER/APPLICATION/UNKNOWN), `FrameProcessor.is_usable`, and `on_usable_changed` let handlers tell a briefly-struggling processor from one to retire; `PipelineWorker(processor_unusable_policy=CONTINUE|END|CANCEL)` decides what happens when a processor goes unusable. `AudioVolumeTracker` measures rolling 400ms volume.
+
+### v1.7.0 additions
+
+- **STT usage metrics**: `STTUsageMetricsData` carries `audio_seconds`; enable with `enable_usage_metrics=True` (forwarded to RTVI clients as `stt_usage`, logged by `MetricsLogObserver`, attached to OTel `stt` spans). AWS Nova Sonic LLM adds `LLMUsageMetricsData` token deltas.
+- **New/updated TTS/STT settings**: `PocketTTSService` (local CPU-only TTS, 6 languages + voice cloning); `XTTSService` deprecated (removal `2.0.0`, use Kokoro/Piper); `reach_inactive_services` on settings frames; plus per-service settings such as Google LLM `safety_settings`, Azure `force_locale`, Cartesia `keyterm`, Deepgram `numerals`, ElevenLabs `filter_background_audio`, and Smol `endpointing`/`keywords`/`format`.
+- **Breaking-behavior changes**: `TavusParams.audio_out_faster_than_realtime` now defaults to `True`; `GeminiLiveLLMService` uses `GeminiLiveLLMAdapter` (hand-crafted `LLMSpecificMessage`s need `llm="gemini-live"`); LiveKit transport adds inbound SIP DTMF (`on_dtmf_event`); `LLMSettings.filter_incomplete_user_turns` deprecated.
+
+### Context Hub (1.8.0)
+
+`pipecat context-hub` (alias `pipecat ch`) lets coding agents query a local index of Pipecat APIs instead of hallucinating them; it ships in the `cli` extra, and `pipecat init` offers to register it with the coding agents it finds and to build the index. `v1.8.1` fixes `pipecat eval run` to read `.yml` scenario files and settles Context Hub staleness-warning behavior.
 
 ## Release Highlights (1.6.0)
 

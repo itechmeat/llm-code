@@ -394,3 +394,16 @@ Bun.markdown.react(text, { reactVersion: 18 });
 Enabled by default: tables, strikethrough (`~~deleted~~`), task lists (`- [x] done`), autolinks.
 
 Additional options: `wikiLinks`, `latexMath`, `headingIds`, `autolinkHeadings`.
+
+---
+
+## New Data & Terminal APIs (v1.4)
+
+Built-in parsers replace common npm density:
+
+- `Bun.JSON5`, `Bun.JSONL`, `Bun.JSONC`, `Bun.XML`, `Bun.TOML` — replace `json5`, `ndjson`, `jsonc-parser`, `fast-xml-parser`, and `@iarna/toml`.
+- `Bun.Terminal` — native PTY support via `Bun.spawn(["bash"], { terminal: { ... } })`, replaces `node-pty`.
+- `Bun.Archive` — create and extract tarballs off the main thread, replaces the `tar` command.
+- `Bun.sliceAnsi()`, `Bun.wrapAnsi()`, `Bun.stringWidth()` — terminal-column-aware ANSI text utilities.
+- `process.on("memoryPressure")` — OS low-memory notification on macOS, Linux, and Windows.
+- Post-quantum crypto: ML-DSA and ML-KEM available in `crypto.subtle` and `node:crypto`.

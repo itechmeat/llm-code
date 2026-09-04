@@ -90,6 +90,19 @@ Sources:
 
 - Log-buffer flush copies now route through the shared slab pool, and the metadata log path uses generated vtproto marshalers instead of standard protobuf marshal/unmarshal. Expect lower allocation overhead and CPU cost on filers with heavy metadata-log churn; no config change is required to benefit.
 
+## Filer reliability notes (4.41 -> 4.45)
+
+- **Conditional `UpdateEntry` (`4.41`)**: the filer update path supports a chunk-set write condition, letting a writer assert that the entry still carries a specific chunk set before mutating; use it for optimistic-concurrency writes where lost updates are unacceptable.
+- **Write-path hardening (`4.41`)**: the change feed no longer wedges on an oversized metadata-log flush, the flush queue is bounded in bytes (not copies), `proxyChunkId` values must be well-formed fids, credentials are fixed and the caller's `jwt` query parameter is dropped on proxied reads, and a placement-overlay seam is available for the write path.
+- **WORM (`4.41`)**: a nested path rule can now turn worm (write-once-read-many) off for a subtree, not just on; re-test WORM rules that assume immutable inheritance.
+- **Metadata subscriptions (`4.41`/`4.44`)**: recent unflushed events are no longer skipped on subscription gaps, aggregated-metadata subscribers stop spinning on a peer-watermark hold, and sync/replicate paths no longer advance the offset past a failed event or acknowledge notifications before the sink write lands.
+- **Redis stores (`4.41`)**: Redis2/Redis3 gain separate Sentinel auth credentials, every Redis store honors the documented TLS options, and connection settings are configurable; `4.42` removes orphaned directory index members on listing (Redis and Redis2) without destroying a concurrent recreate.
+- **Listing and folders (`4.42`)**: directories list without decoding chunk lists, deleting a folder non-recursively no longer sweeps children, a folder that receives an entry while it was deleted is restored, and peer metadata subscriptions rebuild after a master reconnect with retry + surfaced replay failures.
+- **`filer.meta.scan` (`4.42`)**: `weed shell`'s `filer.meta.scan` audits one directory's change history from the metadata log; useful for incident reconstruction and verifying that writes actually committed.
+- **Config hot reload (`4.42`)**: the filer reloads its config on local metadata updates, so identity/collection changes propagate without a restart.
+- **TUS (`4.42`)**: TUS max upload size and session expiry are configurable, and a TUS concatenation extension is supported (earlier releases documented concatenation as unsupported); on `4.44`, sub-chunks that already landed are kept when a write fails so a retry resumes without re-uploading.
+- **`4.43`**: the arangodb store uses bind variables for request-controlled values, the empty-folder race is closed by checking after each mutation, `remote.unmount` no longer deletes the remote objects, and aggregated metadata reads are bounded by peer watermarks.
+
 ## Filer reliability notes (4.29 -> 4.30)
 
 - `4.29` serializes same-path mutations with a per-path lock and adds filer-side object transactions for atomic multi-entry object writes. Prefer this upstream write path over custom app-side locking when coordinating S3-style mutations.

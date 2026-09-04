@@ -2,8 +2,8 @@
 name: seaweedfs
 description: "SeaweedFS distributed storage. Covers filer, S3 API, replication, cloud tiers, and operations. Use when deploying SeaweedFS, configuring filer stores, exposing S3-compatible endpoints, or planning backup and security controls. Keywords: SeaweedFS, weed, filer, S3, object storage."
 metadata:
-  version: "4.40"
-  release_date: "2026-07-20"
+  version: "4.45"
+  release_date: "2026-08-31"
 ---
 
 # SeaweedFS
@@ -45,6 +45,16 @@ Prefer production guidance from multi-component setups over `weed mini` shortcut
 - The filer layer adds directories, metadata stores, and higher-level protocols.
 - S3, WebDAV, FUSE, and other interfaces are front doors on top of the same storage services.
 - Production deployments should document topology, credentials, persistence, monitoring, and recovery paths explicitly.
+
+## Release Highlights (4.41 -> 4.45)
+
+- **S3 write path**: large chunk lists fold into manifest chunks on the direct write path, per-object and multipart-completion uploads chunk at the filer's `maxMB`, storage class rides in cached listing metadata, and writing a bucket policy now requires a bucket-policy action. `RenameObject` is added, bucket auto-creation on upload can be disabled, and suspended-versioning/null-delete-marker handling is tightened.
+- **IAM/STS maturity**: document-style policies load from the advanced IAM config, attached policies can list the buckets they grant, the admin's role session stays scoped to its role, IAM-management actions are authorized as IAM actions, and the admin UI gains a visual IAM policy editor plus bucket-policy management.
+- **Master/topology heartbeat digest**: volume heartbeats carry a digest, send only the volumes that changed, and keep the master current through churn; hot-path allocation and copy removals cut memory churn, and volume listings stream.
+- **Erasure coding cleanup**: encode, decode, and shard moves roll back or resume into a consistent state after interruption, `ec.balance` gains a `-volumeIds` filter, and a chaos harness exercises the EC lifecycle.
+- **Filer**: conditional `UpdateEntry` with a chunk-set write condition, `filer.meta.scan` to audit a directory's change history, TUS gains configurable max size and session expiry plus a concatenation extension, and folders deleted non-recursively no longer sweep children.
+- **Admin/workers**: a Lance catalog with a Rust plugin worker to maintain it, `seaweed-worker` serves health, readiness, and metrics, admin shows per-tier capacity, and bucket lifecycle rules are editable in the admin UI.
+- **Core**: throughput limits for replicate/EC-shard/worker moves, Range requests return `416` only when no range overlaps and reject a start offset equal to the file size, and FUSE mount gains Windows (WinFsp) support.
 
 ## Release Highlights (4.40)
 

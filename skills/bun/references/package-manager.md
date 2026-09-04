@@ -51,6 +51,7 @@ bun update react               # Update specific package
 bun update --latest            # Update to latest (ignore semver)
 bun update -i                  # Interactive mode
 bun update -i -r               # Interactive across all workspaces
+bun update '@types/*'          # Pattern-based update (v1.4: also updates transitive deps)
 ```
 
 ### Check Outdated
@@ -60,6 +61,19 @@ bun outdated                   # List outdated packages
 bun outdated 'eslint*'         # Filter by pattern
 bun outdated '!@types/*'       # Exclude pattern
 bun outdated --filter=pkg-a    # Specific workspace
+```
+
+### Audit & Maintain (v1.4)
+
+```bash
+bun audit                      # List known vulnerabilities
+bun audit fix                  # Auto-upgrade vulnerable packages (--dry-run, --latest)
+bun dedupe                     # Collapse duplicate versions in bun.lock
+bun dedupe --check             # CI check for unnecessary duplicates
+bun prune                      # Delete packages not in bun.lock
+bun prune --production         # Also remove devDependencies
+bun pm diff <pkg@old> <pkg@new> # Diff two versions (un-minified, flags new install scripts)
+bun pm licenses                # List dependencies by license (--json, --prod)
 ```
 
 ---
@@ -120,6 +134,17 @@ Usage in workspace:
     "react": "catalog:"
   }
 }
+```
+
+### Workspace-Targeted Commands (v1.4)
+
+From the monorepo root, target a single workspace without `cd`:
+
+```bash
+bun add lodash --filter=pkg-a        # Add to one workspace
+bun remove lodash --filter=pkg-a     # Remove from one workspace
+bun update --filter=pkg-a            # Update one workspace
+bun add react --catalog              # Add to root catalog, writes "catalog:" to workspace package.json
 ```
 
 ---
@@ -190,13 +215,16 @@ Force specific metadependency versions:
 ```json
 {
   "overrides": {
-    "bar": "~4.4.0"
+    "bar": "~4.4.0",
+    "express": { "qs": "^6.11.0" }
   },
   "resolutions": {
     "lodash": "4.17.21"
   }
 }
 ```
+
+(v1.4) Nested overrides support npm `{ "pkg": { "dep": ... } }`, yarn `a/b`, and pnpm `a>b` forms, including version-range-scoped overrides. `trustedDependencies` is scoped to the npm registry; `file:`/`git:` deps no longer inherit trust. `nativeDependencies` plus `ignoreScripts` links prebuilt binaries and skips lifecycle scripts.
 
 ---
 
@@ -280,12 +308,16 @@ minimumReleaseAgeExcludes = ["typescript"]
 ```bash
 bun install --linker hoisted   # npm-style (default for single)
 bun install --linker isolated  # pnpm-style (default for workspaces)
+bun install --offline          # Zero network requests; missing cache entries error
+bun install --prefer-offline   # Skip staleness checks, use cached metadata regardless of age
 ```
 
 | Strategy   | Description                           |
 | ---------- | ------------------------------------- |
 | `hoisted`  | Traditional flat node_modules         |
 | `isolated` | Strict deps, prevents phantom imports |
+
+(v1.4) `--linker=isolated` can serve packages from a shared global cache (global virtual store) via symlinks instead of copying — up to 7x faster warm CI installs on large projects. Workspace packages can opt into a self-contained `node_modules` with `"selfContained": true` in `workspaces`.
 
 ---
 

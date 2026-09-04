@@ -15,6 +15,16 @@ UI event stream integrations enable streaming agent events to frontend applicati
 
 Both inherit from `UIAdapter` abstract class.
 
+## Realtime speech-to-speech (v2.28.0)
+
+`Agent.realtime()` runs a speech-to-speech session:
+
+- Browser WebRTC plus a server sideband mode are supported (`2.28.0`); `RealtimeSession.send_audio()` accepts async iterables and the voice example moved to the `listentome` CLI (`2.36.0`).
+- `RunContext.cancel()` works inside realtime sessions (`2.32.2`).
+- Azure AI Voice Live is enabled via the `azure_voice_live` model setting (`2.29.0`).
+
+UI adapters gain `CancellationToken` support in their run methods (`2.38.0`), and `UIEventStream` can be built without a `run_input` while `AGUIEventStream` gets its own `thread_id`/`run_id` (`2.31.0`).
+
 ## Event stream migration note (v1.96.x)
 
 `event_stream_handler=` on `Agent(...)` is now part of the V2 deprecation path. Prefer wrapping streamed events with the `ProcessEventStream` capability so event-stream processing follows the same capability-based composition model as tool preparation and hooks.

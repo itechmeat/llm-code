@@ -68,11 +68,13 @@ Same body. Returns chunked audio + alignment per chunk.
 | `timestampType`                  | none     | WORD, CHARACTER                  |
 | `deliveryMode`                   | varies   | `STABLE`, `BALANCED`, `CREATIVE` |
 | `language`                       | auto     | Target language / locale hint    |
+| `instruction`                    | none     | Request-level steering text (alternative to inline tags) |
 
 ## Models
 
 | Model        | ID                     | Latency | Price    |
 | ------------ | ---------------------- | ------- | -------- |
+| TTS-2 Flash  | `inworld-tts-2-flash`  | lowest  | see docs |
 | TTS-2        | `inworld-tts-2`        | latest  | see docs |
 | TTS 1.5 Max  | `inworld-tts-1.5-max`  | legacy  | legacy   |
 | TTS 1.5 Mini | `inworld-tts-1.5-mini` | legacy  | legacy   |
@@ -83,6 +85,12 @@ Same body. Returns chunked audio + alignment per chunk.
 
 - `deliveryMode` lets you choose consistency vs expressiveness.
 - Set `language` explicitly when reusing a voice across multiple languages or when localizing a voice for a specific target language.
+
+`inworld-tts-2-flash` notes (August 2026):
+
+- Lowest latency and cost with full language coverage, instant voice cloning, and timestamp alignment.
+- Steering (`instruction` field or bracketed tags) and Professional Voice Cloning are exclusive to `inworld-tts-2`.
+- The request-level `instruction` field is the alternative to inline steering tags.
 
 ## Integrations
 

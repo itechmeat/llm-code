@@ -155,9 +155,11 @@ export default defineConfig({
 
 ## Mock Configuration
 
+`clearMocks` defaults to `true` in `v5`; set it explicitly only to keep call history across tests.
+
 ```ts
 {
-  clearMocks: true,     // Clear mock calls before each test
+  clearMocks: true,     // Cleared before each test (default true in v5)
   mockReset: true,      // Reset mock implementations before each test
   restoreMocks: true,   // Restore original implementations before each test
   unstubEnvs: true,     // Restore env vars after each test
@@ -208,6 +210,14 @@ export default defineConfig({
 
 - Snapshot update policy can now be expressed more explicitly (`new`, `all`, `none`) instead of a simple binary update mode.
 - If you expose Vitest through the programmatic API, additional `api` permissions like `allowWrite` and `allowExec` are relevant when static collection/execution is delegated.
+
+## v5.0.0 notes
+
+- **Mocks are cleared by default** before each test; the old `clearMocks` toggle now defaults to `true`.
+- **Output defaults change:** `attachmentsDir` defaults to `.vitest/attachments/` (was `.vitest-attachments/`), and blob/json/junit/html reporter outputs default to `.vitest`; a `createReport` API and a `.vitest` report directory convention are introduced.
+- **Projects:** inline projects extend the root config by default, nested projects are supported, distinct projects share one Vite server, and the config file is no longer looked up from ancestor directories (parent dirs no longer apply).
+- **Coverage:** `thresholds.perFile` accepts an object form.
+- Requires Node.js >=22 and Vite >=6.4.
 
 ## Reporters
 
@@ -413,7 +423,7 @@ Reporter note for `4.1.4`:
 {
   browser: {
     enabled: true,
-    provider: 'playwright',  // 'playwright' | 'webdriverio' | 'preview'
+    provider: playwright(),  // v5: provider function from @vitest/browser-playwright; webdriverio provider removed in v5
 
     instances: [
       { browser: 'chromium' },

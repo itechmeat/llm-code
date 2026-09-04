@@ -133,3 +133,24 @@ Sources:
 - Invalid tagging supplied on `CopyObject` now returns `InvalidTag` instead of the unrelated `InvalidCopySource`, giving clients an accurate signal to fix the tag set rather than the copy source.
 - `PutObjectAcl` and object-tagging requests for nested keys (paths containing `/`) now write back to the correct object; previously these could silently update the wrong object when the key had a directory-like prefix.
 - Raw, non-percent-encoded semicolons in query strings are now accepted, improving compatibility with clients or proxies that pass semicolons through unescaped.
+
+## Patch-level S3 notes (4.41 -> 4.45)
+
+- **Manifest chunks on the direct write path (`4.41`)**: large chunk lists fold into a manifest chunk during direct-write uploads, and manifest blob ownership is tracked through multipart completion so metadata-only copies get their own chunks. Single-object uploads now chunk at the filer's `maxMB` instead of a hardcoded size. Expect fewer, larger chunk records for big objects; re-check any tooling that assumes one chunk per upload part.
+- **Bucket-policy write gate (`4.41`)**: writing a bucket policy now requires a `PutBucketPolicy`-style bucket-policy action in the caller's identity; anonymous or under-privileged clients can no longer replace bucket policies.
+- **Identity vs static config (`4.41`)**: filer identity changes now apply even when identities come from a static config file, so editing accounts in the admin UI takes effect without a restart.
+- **Versioning correctness (`4.41`)**: list markers stay exclusive for versioned objects, a key deleted during versioning still leaves the listing, copying an object onto itself is allowed in a versioned bucket, suspended-versioning multipart completion can replace the null delete marker and the marker is only retired once the PUT commits, directory markers keep their version history and are not listed as versioned objects, and a versioned metadata-only copy carries its own chunks.
+- **Listing/API fixes (`4.41`)**: prefixes whose objects are all delete-marked stop being listed, storage class rides in cached listing metadata, a peer that goes away is reported as `ClientDisconnected` instead of `IncompleteBody`, and an identity's inline account is registered (not collapsed into admin), with the bucket owner honored when recorded as an identity.
+- **Lifecycle (`4.41`)**: the daily-replay pass is bounded so a quiet cluster no longer wedges the lifecycle job, and the S3 expiry metadata is applied through the filer path.
+- **`4.42`**: adds the `RenameObject` endpoint, fixes `ListObjectsV2` dropping objects under a partial prefix, takes bucket sizes from the master's summary, and adds an option to disable bucket auto-creation on upload (prefer explicit provisioning for multi-tenant or policy-governed gateways).
+- **`4.43`**: unrouted bucket subresources (for example `allow-unordered`) are no longer answered with a directory listing, `PutObject`/copy entries get the gateway's own uid/gid, multipart part chunks are placed by the destination object's storage rule, and `allow-unordered` is treated as a listing parameter.
+- **`4.44`**: S3 can optionally serve remote-mounted objects from the remote mount when the local read fails, and configuration credentials can come from the environment so the Helm chart can point at an existing secret instead of baking keys in.
+- **Range requests (`4.45`)**: the server returns `416` only when no requested range overlaps, includes `Content-Range` on the response, and rejects a Range start offset equal to the file size, with the Rust volume server mirroring the behavior. Retest segmented downloads after upgrade.
+- **Transient retries (`4.45`)**: multipart upload/part listings, metadata listings, and callbacks retry transient filer failures, and the S3 API no longer fails over to another filer after a callback has consumed part of a response.
+
+## Patch-level IAM notes (4.41 -> 4.45)
+
+- **Document-style policies (`4.41`)**: the advanced IAM config now loads document-style (JSON) policies, in addition to the existing compact form, and an attached IAM policy can list the buckets it grants (`ListBuckets` scope derives from the policy rather than only from explicit bucket assignments).
+- **Admin role scoping (`4.41`)**: an admin's role session stays scoped to the assumed role instead of reverting to full admin authority, and the assumed-role principal plus the STS caller are both surfaced in audit logs.
+- **IAM-management actions (`4.41`)**: creating and altering IAM users, groups, and policies are now authorized as IAM actions in their own right rather than slipping through bucket-level checks; re-test provisioning scripts that assumed otherwise.
+- **Admin UI policy editing (`4.45`)**: the admin UI adds a visual IAM policy editor and supports managing bucket policies through the UI, complementing the programmatic/policy-file paths.

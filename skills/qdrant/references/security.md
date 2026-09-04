@@ -18,6 +18,10 @@ This note summarizes the **Security guide** with an emphasis on actionable, prod
 
 - Internal gRPC endpoints now enforce API key/JWT authentication as well. That closes an older trust gap, but it also means internal callers and sidecars must be validated during upgrades instead of assuming private networking alone is enough.
 
+`1.19.1` note:
+
+- Collection names that are `.` or `..` are rejected, closing a path-based traversal risk. Do not rely on names alone to sanitize storage paths; keep the storage root scoped to its own directory.
+
 ## Authentication options
 
 ### Static API key

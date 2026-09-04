@@ -3,7 +3,7 @@ name: inworld
 description: "Inworld TTS API. Covers voice cloning, audio markups, timestamps. Use when integrating Inworld text-to-speech, cloning voices, adding audio markups (SSML-like), or aligning viseme timestamps. Keywords: Inworld, text-to-speech, TTS, voice cloning, visemes."
 metadata:
   version: "2"
-  release_date: "2026-05-05"
+  release_date: "2026-09-04"
 ---
 
 # Inworld AI
@@ -31,6 +31,7 @@ Text-to-Speech platform with voice cloning, audio markups, and timestamp alignme
 
 | Model        | ID                     | Latency | Price       |
 | ------------ | ---------------------- | ------- | ----------- |
+| TTS-2 Flash  | `inworld-tts-2-flash`  | lowest  | see pricing |
 | TTS-2        | `inworld-tts-2`        | latest  | see pricing |
 | TTS 1.5 Max  | `inworld-tts-1.5-max`  | legacy  | legacy      |
 | TTS 1.5 Mini | `inworld-tts-1.5-mini` | legacy  | legacy      |
@@ -65,6 +66,12 @@ audio = base64.b64decode(response.json()['audioContent'])
 - Steering moves beyond the older fixed emotion tags: free-form bracketed directions can control style, pitch, speed, intensity, and non-verbals.
 - Multilingual coverage expands with production quality across 15 languages and broader experimental coverage beyond that.
 - `deliveryMode` adds a stability-vs-creativity knob, and specifying `language` matters more for cross-lingual output quality.
+
+## Release Updates (August 2026)
+
+- New `inworld-tts-2-flash` model: lowest latency and cost, full language coverage, instant voice cloning, and timestamp alignment. Steering and Professional Voice Cloning remain exclusive to `inworld-tts-2`.
+- Steering instructions now persist until explicitly changed: a reserved `[reset]` tag ends a styled passage, and a `<break/>` pause no longer clears the active instruction. A request-level `instruction` field on Synthesize Speech is an alternative to inline tags.
+- Cross-lingual voice synthesis and voice localization improve native-sounding output when one voice is reused across languages.
 
 ## Prohibitions
 

@@ -71,7 +71,7 @@ await Bun.write("output.txt", Bun.file("input.txt"));
 // ArrayBuffer/TypedArray
 await Bun.write("data.bin", new Uint8Array([1, 2, 3]));
 
-// HTTP Response body
+// HTTP Response body (streams to disk in v1.4, not buffered in memory)
 const res = await fetch("https://example.com");
 await Bun.write("page.html", res);
 
@@ -151,6 +151,7 @@ await rm("./temp", { recursive: true, force: true });
 - `Bun.write()` uses optimal syscalls (`copy_file_range`, `sendfile`, etc.)
 - `BunFile` is lazy — reading happens only when content methods called
 - Use `FileSink` for incremental writes (streaming logs, etc.)
+- v1.4: `Bun.write(path, response)` streams a `Response`, `Request`, or `ReadableStream` to disk instead of buffering it in memory (a 128 MiB download dropped from ~161 MB peak RSS to ~13 MB)
 
 ## Example: cat Command
 

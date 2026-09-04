@@ -110,6 +110,12 @@ Operational implication:
 - Strict mode can now reject updates when resident memory crosses a configured ceiling (`max_resident_memory_percent`). Use it as a safety brake, not as a substitute for capacity planning.
 - Qdrant now exposes deeper memory reporting, which makes storage-component breakdowns easier to inspect during capacity incidents.
 
+`1.19.0` notes:
+
+- Storage now unifies how memory is managed per collection component via `"memory": "cold" / "cached" / "pinned"`. `pinned` keeps a component resident in RAM, `cached` lets the OS page cache decide, and `cold` keeps it on disk. Use this instead of the older per-datatype on-disk flags when you want fine-grained control over memory vs performance.
+- TurboQuant 4-bit (`"turbo4"`) can act as the datatype of primary vector storage: store only 4-bit quantized vectors and spare the disk space that original vectors would take.
+- `max_resident_memory_percent` from strict mode is deprecated in favor of the global quota API.
+
 ## Upgrade note (v1.17.0)
 
 Qdrant v1.17.x removes RocksDB support in favor of gridstore. If you are upgrading from older minor versions (notably v1.15.x), avoid jumping directly to v1.17.x.

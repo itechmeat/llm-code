@@ -174,6 +174,8 @@ for case_result in report.case_results:
 report.to_json('results.json')
 ```
 
+On non-UTF-8 consoles `report.print()` falls back to ASCII output (`2.30.0`). Async callable instances are awaited in `pydantic_evals` tasks and the `evaluate` decorator (`2.32.2`), and zero-valued `SpanQuery` maximums are honored (`2.34.0`).
+
 ## Logfire Integration
 
 ```python

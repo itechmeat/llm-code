@@ -2,8 +2,8 @@
 name: beads
 description: "Beads (bd) Dolt-backed issue tracker for agent task memory. Covers CLI ops, molecules, Dolt sync, Linear/Jira/GitLab. Use when tracking tasks and dependencies with the Beads CLI, syncing issues via Dolt, or integrating with Linear/Jira/GitLab. Keywords: bd, beads, Dolt, issue tracker."
 metadata:
-  version: "1.1.2"
-  release_date: "2026-07-26"
+  version: "1.2.2"
+  release_date: "2026-08-15"
 ---
 
 # Beads (bd)
@@ -183,6 +183,11 @@ bd list --json                   # Standard JSON output
 ### MCP Plugin
 
 Beads includes Claude Code MCP plugin for direct integration.
+
+## Release Highlights (1.2.2)
+
+- **Recovery release**: v1.2.0/v1.2.1 were published without release testing; v1.2.2 re-releases the tested 1.1 line under a higher version, so every install channel moves onto tested code. The 1.2.x-only features (work leases, events journal, sync federation, HTTP API server, provenance events) are **not** in this release — they return in a tested future release.
+- **If you ran v1.2.1** and hit `schema version mismatch: database is at v65, binary knows up to v53`: roll the schema cursor back to v53 (see `docs/RECOVERY-1.2.1.md`), or use the `BD_IGNORE_SCHEMA_SKEW=1` stopgap — see `references/sync.md`. Upgrade every machine/clone to v1.2.2 **before** recovering, or a leftover 1.2.1 binary will silently re-migrate the database.
 
 ## Release Highlights (1.1.0)
 

@@ -2,13 +2,23 @@
 name: mantine-dev
 description: "Mantine UI library for React: 100+ components, hooks, forms, theming, dark mode, CSS modules, and Vite/TypeScript setup. Use when building React applications with Mantine components, configuring theming/dark mode, or working with Mantine hooks and forms. Keywords: Mantine, React, UI components, CSS modules, theming."
 metadata:
-  version: "9.5.0"
-  release_date: "2026-07-27"
+  version: "9.6.0"
+  release_date: "2026-08-31"
 ---
 
 # Mantine UI Library
 
 Mantine is a fully-featured React components library with TypeScript support. It provides 100+ hooks and components with native dark mode, CSS-in-JS via CSS modules, and excellent accessibility.
+
+## v9.6 Highlights
+
+- New `@mantine/lightbox` package: full-screen media lightbox with carousel navigation, zoom, thumbnails, video and custom slides, and a store-based API (mount once, open from anywhere, same pattern as Spotlight and Notifications).
+- New `ActionBar` component: a floating selection-action bar that hosts bulk actions for selected items (for example, selected table rows).
+- `@mantine/charts` adds `GaugeChart`, `WaffleChart`, `MatrixChart`, and `CandlestickChart`; area/bar/line/composite/scatter charts gain `referenceAreas` and `referenceDots`; `AreaChart` gains `type="stream"`; `ScatterChart` gains a right Y axis.
+- `@mantine/tiptap` `RichTextEditor` gains table controls, a collapsible `Details` control, and an `InvisibleCharacters` formatting-marks control (register the matching Tiptap extensions); `Typography` now styles `details`/`summary` elements.
+- `Notifications` gains `renderNotification` to replace the default notification with fully custom content while keeping enter/exit/drag-dismiss animations.
+- `@mantine/schedule`: `ResourcesMonthView` supports event resizing, time-grid views support configurable drag/resize snap intervals, background events can be interactive, and `YearView` gains `renderDay` and `withWeekendDays`.
+- `Dropzone` upgrades to `react-dropzone` 20 (partial-accept `maxFiles` behavior, stricter `FileWithPath`). **Node.js 22 or later is now required** (Node 20 reached end of life in April 2026).
 
 ## v9.5 Highlights
 
