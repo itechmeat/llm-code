@@ -2,8 +2,8 @@
 name: makefile
 description: "GNU Make automation and build system guidance. Use when creating or maintaining Makefiles, writing Make targets and recipes, or configuring GNU Make build automation. Keywords: Makefile, GNU Make, targets, recipes, build automation."
 metadata:
-  version: "2.0.0"
-  release_date: "2023-02-26"
+  version: "2.2.0"
+  release_date: "2026-05-22"
 ---
 
 # Makefile Skill
@@ -21,6 +21,7 @@ Guidance for creating and maintaining GNU Make build automation.
 | Recipe execution, parallel    | [recipes.md](references/recipes.md)     |
 | Implicit and pattern rules    | [implicit.md](references/implicit.md)   |
 | Common practical patterns     | [patterns.md](references/patterns.md)   |
+| Monorepo / umbrella repos     | Monorepo section below + [patterns.md](references/patterns.md) |
 
 ---
 
@@ -79,21 +80,132 @@ CFLAGS += -Wall        # Append
 
 ## Essential Patterns
 
-### Self-Documenting Help
+### Colored Help (Required)
+
+**Always** use explicit, sectioned `@echo` help — never grep/awk auto-generation.
+
+#### Color hierarchy
+
+| Variable | Role | Usage |
+| -------- | ---- | ----- |
+| `BLUE`   | Section headers | `$(BLUE)Development servers$(RESET)` |
+| `GREEN`  | Target names | `$(GREEN)dev-backend$(RESET)` |
+| `YELLOW` | Commands, paths, hints | `$(YELLOW)bun run dev$(RESET)`, `$(YELLOW)apps/backend$(RESET)` |
+
+Define colors once at the top:
+
+```makefile
+BLUE := $(shell printf '\033[34m')
+GREEN := $(shell printf '\033[32m')
+YELLOW := $(shell printf '\033[33m')
+RESET := $(shell printf '\033[0m')
+```
+
+#### Help target rules
+
+1. `.DEFAULT_GOAL := help`
+2. Blank line before first section: `@echo ""`
+3. Section header in **BLUE**, blank line between sections
+4. Each target line: `@echo "  $(GREEN)target$(RESET)   description with $(YELLOW)hints$(RESET)"`
+5. Reference delegation paths in help: `$(GREEN)make -C apps/backend dev$(RESET)`
+6. Use inline color switches mid-line for nested emphasis (see Docker section example)
+7. End help with a trailing blank line
 
 ```makefile
 .DEFAULT_GOAL := help
 
-help: ## Show available targets
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "  %-15s %s\n", $$1, $$2}'
-
-install: ## Install dependencies
-	uv sync
-
-test: ## Run tests
-	uv run pytest
+help:
+	@echo ""
+	@echo "$(BLUE)Development servers$(RESET)"
+	@echo "  $(GREEN)dev$(RESET)                 $(YELLOW)turbo dev$(RESET) — all apps"
+	@echo "  $(GREEN)dev-backend$(RESET), $(GREEN)backend$(RESET)   API only ($(GREEN)make -C apps/backend dev$(RESET))"
+	@echo ""
+	@echo "$(BLUE)Docker ($(RESET)delegates to $(GREEN)apps/backend/Makefile$(RESET)$(BLUE))$(RESET)"
+	@echo "  $(GREEN)docker-up$(RESET)           $(GREEN)make -C apps/backend up$(RESET) — Postgres, Redis"
+	@echo ""
 ```
+
+#### Header boilerplate
+
+```makefile
+.PHONY: \
+	help \
+	install dev build \
+	typecheck check
+
+ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+BACKEND := $(ROOT)/apps/backend
+
+BLUE := $(shell printf '\033[34m')
+GREEN := $(shell printf '\033[32m')
+YELLOW := $(shell printf '\033[33m')
+RESET := $(shell printf '\033[0m')
+
+SHELL := /bin/bash
+.SHELLFLAGS := -eu -o pipefail -c
+
+.DEFAULT_GOAL := help
+```
+
+### Monorepo / Umbrella Repos (Required for multi-app projects)
+
+For monorepos and umbrella repos, **generate a Makefile per app** (and per shared package that owns infra, e.g. `packages/db`) then delegate from the root.
+
+#### Layout
+
+```
+Makefile                  # umbrella: help, setup, aggregates, docker
+apps/backend/Makefile     # dev, build, start, typecheck, test
+apps/extension/Makefile   # dev, build, zip, typecheck
+packages/db/Makefile      # db-generate, db-migrate-*, db-seed, db-studio
+```
+
+#### Root delegation pattern
+
+```makefile
+ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+BACKEND := $(ROOT)/apps/backend
+EXTENSION := $(ROOT)/apps/extension
+DB := $(ROOT)/packages/db
+
+ensure-apps:
+	@if [ ! -f "$(BACKEND)/package.json" ] || [ ! -f "$(EXTENSION)/package.json" ]; then \
+		echo "$(YELLOW)App checkouts missing. Check apps/ layout.$(RESET)"; \
+		exit 1; \
+	fi
+
+dev-backend backend: ensure-apps docker-up
+	@$(MAKE) -C "$(BACKEND)" dev
+
+build-seq: ensure-apps
+	@$(MAKE) -C "$(BACKEND)" build
+	@$(MAKE) -C "$(EXTENSION)" build
+
+db-migrate-deploy: ensure-apps
+	@$(MAKE) -C "$(DB)" db-migrate-deploy
+```
+
+#### Per-app Makefile rules
+
+1. Set `ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))` to the app directory
+2. Include the same color variables and a scoped `help` target (app name in header)
+3. Recipes run commands from `$(ROOT)` — use `@cd "$(ROOT)" && bun run dev`
+4. Target aliases: `dev-backend backend:` on one line for shorthand
+5. Root help documents every delegation with `make -C path target`
+
+#### What stays at root vs app
+
+| Root (umbrella) | Per-app Makefile |
+| --------------- | ---------------- |
+| `help`, `setup`, `install` | `dev`, `build`, `start` |
+| Shared `docker-compose` up/down | App-specific runtime |
+| Sequential `build-seq` | Single-app build |
+| Turbo aggregates (`typecheck`, `test`) | Single-app typecheck/test |
+| Guard targets (`ensure-apps`) | — |
+
+#### Submodule variant
+
+When apps are git submodules, add `ensure-submodules` + `submodules-init` and check for `package.json` before delegating (same guard pattern, different message).
 
 ### Platform Detection
 
@@ -285,31 +397,48 @@ include config.mk
 ## Quick Reference
 
 ```makefile
-# Makefile Template
-.DEFAULT_GOAL := help
+# Umbrella Makefile (monorepo root)
+.PHONY: help ensure-apps install dev-backend build-seq typecheck
+
+ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+BACKEND := $(ROOT)/apps/backend
+ADMIN := $(ROOT)/apps/admin
+
+BLUE := $(shell printf '\033[34m')
+GREEN := $(shell printf '\033[32m')
+YELLOW := $(shell printf '\033[33m')
+RESET := $(shell printf '\033[0m')
+
 SHELL := /bin/bash
-.SHELLFLAGS := -ec
+.SHELLFLAGS := -eu -o pipefail -c
+.DEFAULT_GOAL := help
 
-.PHONY: help install test lint format clean
+help:
+	@echo ""
+	@echo "$(BLUE)Development servers$(RESET)"
+	@echo "  $(GREEN)dev-backend$(RESET), $(GREEN)backend$(RESET)   API ($(GREEN)make -C apps/backend dev$(RESET))"
+	@echo ""
+	@echo "$(BLUE)Quality (delegates per app)$(RESET)"
+	@echo "  $(GREEN)typecheck$(RESET)             tsc in each app"
+	@echo ""
 
-help: ## Show this help
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "  %-15s %s\n", $$1, $$2}'
+ensure-apps:
+	@test -f "$(BACKEND)/package.json" || (echo "$(YELLOW)Missing apps/backend$(RESET)" && exit 1)
 
-install: ## Install dependencies
-	uv sync --extra dev
+install: ensure-apps
+	bun install
+	@$(MAKE) -C "$(BACKEND)" install
 
-test: ## Run tests
-	uv run pytest tests/ -v
+dev-backend backend: ensure-apps
+	@$(MAKE) -C "$(BACKEND)" dev
 
-lint: ## Run linters
-	uv run ruff check .
+build-seq: ensure-apps
+	@$(MAKE) -C "$(BACKEND)" build
+	@$(MAKE) -C "$(ADMIN)" build
 
-format: ## Format code
-	uv run ruff format .
-
-clean: ## Clean artifacts
-	rm -rf build/ dist/ .pytest_cache
+typecheck: ensure-apps
+	@$(MAKE) -C "$(BACKEND)" typecheck
+	@$(MAKE) -C "$(ADMIN)" typecheck
 ```
 
 ---

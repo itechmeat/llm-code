@@ -13,10 +13,22 @@ SHELL := /bin/bash
 # Phony declarations (group at top)
 .PHONY: all help install test lint format clean
 
-# Help target (self-documenting)
-help: ## Show available targets
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "  %-15s %s\n", $$1, $$2}'
+# Help target (colored sections — required; use @echo, not grep/awk)
+BLUE := $(shell printf '\033[34m')
+GREEN := $(shell printf '\033[32m')
+YELLOW := $(shell printf '\033[33m')
+RESET := $(shell printf '\033[0m')
+
+.DEFAULT_GOAL := help
+
+help:
+	@echo ""
+	@echo "$(BLUE)Setup$(RESET)"
+	@echo "  $(GREEN)install$(RESET)             $(YELLOW)bun install$(RESET) at monorepo root"
+	@echo ""
+	@echo "$(BLUE)Quality (delegates per app)$(RESET)"
+	@echo "  $(GREEN)typecheck$(RESET)             $(YELLOW)tsc$(RESET) in each app"
+	@echo ""
 ```
 
 ## Platform Detection
@@ -100,6 +112,63 @@ clean: ## Remove artifacts
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 	rm -rf .pytest_cache .mypy_cache .ruff_cache htmlcov .coverage
 ```
+
+## Monorepo / Umbrella Pattern
+
+Generate a Makefile per app; root delegates with `$(MAKE) -C`:
+
+```makefile
+ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+BACKEND := $(ROOT)/apps/backend
+EXTENSION := $(ROOT)/apps/extension
+DB := $(ROOT)/packages/db
+
+ensure-apps:
+	@test -f "$(BACKEND)/package.json" || (echo "$(YELLOW)Missing apps/backend$(RESET)" && exit 1)
+
+install: ensure-apps
+	bun install
+	@$(MAKE) -C "$(BACKEND)" install
+	@$(MAKE) -C "$(EXTENSION)" install
+
+dev-backend backend: ensure-apps docker-up
+	@$(MAKE) -C "$(BACKEND)" dev
+
+build-seq: ensure-apps
+	@$(MAKE) -C "$(BACKEND)" build
+	@$(MAKE) -C "$(EXTENSION)" build
+
+db-migrate-deploy: ensure-apps
+	@$(MAKE) -C "$(DB)" db-migrate-deploy
+
+typecheck: ensure-apps
+	@$(MAKE) -C "$(BACKEND)" typecheck
+	@$(MAKE) -C "$(EXTENSION)" typecheck
+```
+
+Per-app Makefile (`apps/backend/Makefile`):
+
+```makefile
+ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+
+BLUE := $(shell printf '\033[34m')
+GREEN := $(shell printf '\033[32m')
+YELLOW := $(shell printf '\033[33m')
+RESET := $(shell printf '\033[0m')
+
+.DEFAULT_GOAL := help
+
+help:
+	@echo ""
+	@echo "$(BLUE)Backend ($(RESET)apps/backend$(BLUE))$(RESET)"
+	@echo "  $(GREEN)dev$(RESET)          $(YELLOW)bun run dev$(RESET)"
+	@echo ""
+
+dev:
+	@cd "$(ROOT)" && bun run dev
+```
+
+Root `help` must document every `make -C` delegation path.
 
 ## Node.js Project
 
@@ -244,21 +313,25 @@ test: ## Run tests
 
 ## Colored Output
 
+Use `printf`-based ANSI variables. Hierarchy: **BLUE** sections, **GREEN** targets, **YELLOW** hints/commands.
+
 ```makefile
-# Colors (may not work on all terminals)
-RED := \033[31m
-GREEN := \033[32m
-CYAN := \033[36m
-RESET := \033[0m
+BLUE := $(shell printf '\033[34m')
+GREEN := $(shell printf '\033[32m')
+YELLOW := $(shell printf '\033[33m')
+RESET := $(shell printf '\033[0m')
 
 info:
-	@echo "$(CYAN)Building...$(RESET)"
+	@echo "$(BLUE)Building...$(RESET)"
 
 success:
 	@echo "$(GREEN)Done!$(RESET)"
 
-error:
-	@echo "$(RED)Failed!$(RESET)"
+warn:
+	@echo "$(YELLOW)Run: make install$(RESET)"
+```
+
+Help targets use explicit `@echo` lines — see **Project Setup Pattern** above.
 ```
 
 ## Guard Patterns
