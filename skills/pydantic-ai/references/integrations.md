@@ -269,7 +269,7 @@ agent = Agent(
 
 This replaces the older wrapper-agent pattern (`TemporalAgent`, `DBOSAgent`, `PrefectAgent`), which is deprecated and scheduled for removal in v3. Workflows built on the wrapper classes keep replaying correctly after switching to the capability, so there is no need to drain or re-version them first. The capability form composes with other capabilities (hooks, ordering, thinking, etc.) using the same rules as the rest of the harness, whereas the wrapper classes could only stand alone. All three integrations also support `DynamicCapability` toolsets and round-trip tool control-flow exceptions (`ModelRetry`, approvals, deferrals) across the durability boundary.
 
-Since `2.36.0`, capabilities can declare durable steps with `@durable_operation` (which requires an explicit operation name), and a public backend API lets third-party durable execution engines integrate. Models rebuilt inside durable operations are context-managed, and per-run `capabilities=` is rejected on DBOS to match Temporal (`2.37.0`).
+Since `2.36.0`, capabilities can declare durable steps with `@durable_operation` (which requires an explicit operation name), and a public backend API lets third-party durable execution engines integrate. Models rebuilt inside durable operations are context-managed, and per-run `capabilities=` is rejected on DBOS to match Temporal (`2.37.0`). `event_stream_topic` on `TemporalDurability` streams agent events via Workflow Streams (`2.46.0`).
 
 ### Installation
 

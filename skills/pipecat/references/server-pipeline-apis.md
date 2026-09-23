@@ -96,6 +96,10 @@ Tracing span attributes were updated to the current OpenTelemetry GenAI semantic
 - Gemini Live `llm_response` spans: the same non-standard `tokens.*` attributes were removed in favor of the standard `gen_ai.usage.input_tokens` / `gen_ai.usage.output_tokens` attributes already present on the spans; Gemini Live spans also now include cached and reasoning token counts.
 - See `references/llm-inference.md` for the corresponding `LLMTokenUsage` audio-token fields that feed these span attributes.
 
+## Latency breakdown (1.9.0)
+
+`LatencyBreakdown.contributions` is a timeline of the user-to-bot interval whose durations sum to the measured latency. It attributes the time no service reports on its own: VAD silence, turn detection, turn-completion markers and holds, sentence aggregation, and function handlers. Use it to explain a high measured latency before blaming the LLM or TTS service.
+
 ## Practical checklist
 
 - Turn on metrics/usage metrics early in development to spot latency regressions.

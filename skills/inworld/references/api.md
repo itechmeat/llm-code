@@ -41,6 +41,12 @@ Authorization: Basic {INWORLD_API_KEY}
 
 Same body. Returns chunked audio + alignment per chunk.
 
+### OpenAI-Compatible Endpoint (September 2026)
+
+**POST** `https://api.inworld.ai/v1/audio/speech`
+
+Drop-in OpenAI `audio/speech` format: official OpenAI Python/Node SDKs work unchanged — point `base_url` at `https://api.inworld.ai/v1`. Supports `mp3`, `opus`, `flac`, `wav`, `pcm` response formats plus SSE streaming. The same base URL now serves both TTS and the LLM Router.
+
 ## Audio Formats
 
 | Format        | Sample Rate | Use Case              |

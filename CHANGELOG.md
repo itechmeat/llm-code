@@ -5,6 +5,15 @@ All notable changes to this collection will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses date-based versioning rather than semantic versioning.
 
+## [2026-09-23]
+
+### Changed
+
+- **inworld** - Updated the skill for the OpenAI-compatible speech endpoint: `POST /v1/audio/speech` works with official OpenAI SDKs after a `base_url` swap, supports `mp3`/`opus`/`flac`/`wav`/`pcm` plus SSE streaming, and one base URL now serves both TTS and the LLM Router.
+- **pydantic-ai** - Updated the skill for `2.48.0` with the `2.44.0` security release (four `web_fetch_tool`/OTel fixes), realtime session control (barge-in, `enqueue()`, `respond=`, `wait_for_playback()`, `@agent.on_event`), the direct `ImageGenerator` API with `fallback_subagent_model` deprecation, `openai-codex` and GitHub Copilot providers, `gpt-6-sol`/`gpt-6-luna`/`claude-opus-5-5` models, `prices.update_in_background()`, and Temporal `event_stream_topic`.
+- **pipecat** - Updated the skill for `1.11.0` with `LatencyBreakdown.contributions` latency attribution, the `SmallestTTSService` continuation API with `max_buffer_delay_ms`, and `BaseAudioResampler.flush()`/`reset()` stream boundaries.
+- **beads** - Updated the skill for `1.3.0` with the `bd serve` HTTP API (41 OpenAPI operations, bearer-token file auth, no TLS), work leases (`bd heartbeat`/`reclaim`/`unclaim`), compare-and-set updates with exit code 13, the `bd sync` federation loop with positive conflict detection and exit codes, the durable events journal (`bd events`), and `claim.pools`.
+
 ## [2026-09-04]
 
 ### Changed

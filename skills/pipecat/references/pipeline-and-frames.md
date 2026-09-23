@@ -82,6 +82,7 @@ Use a parallel/branching pattern when multiple processors need the same upstream
 - **PipelineWorker**: wraps a pipeline plus execution params (sample rates, metrics flags) and observers. Older docs may call this `PipelineTask`.
 - **WorkerRunner**: runs workers and can optionally handle OS signals for graceful shutdown. Older docs may call this `PipelineRunner`.
 - **Observers**: monitor protocol events and custom metrics (useful for debugging and production visibility).
+- **Audio resampler boundaries (`1.11.0`)**: `BaseAudioResampler.flush()` returns the audio a resampler still holds when a stream ends and `reset()` starts a fresh stream, so callers can mark stream boundaries explicitly instead of relying on `SOXRStreamAudioResampler`'s inactivity timeout.
 
 For exact parameter names (metrics, heartbeats, idle timeout), see: `references/server-pipeline-apis.md`.
 

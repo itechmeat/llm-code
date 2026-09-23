@@ -22,6 +22,7 @@ Both inherit from `UIAdapter` abstract class.
 - Browser WebRTC plus a server sideband mode are supported (`2.28.0`); `RealtimeSession.send_audio()` accepts async iterables and the voice example moved to the `listentome` CLI (`2.36.0`).
 - `RunContext.cancel()` works inside realtime sessions (`2.32.2`).
 - Azure AI Voice Live is enabled via the `azure_voice_live` model setting (`2.29.0`).
+- Session control (`2.40.0`/`2.46.0`): `handle_barge_in=True` interrupts on user speech with `interrupt(played_bytes=...)` and `played_audio_bytes`; `RealtimeSession.enqueue()` queues out-of-band prompts from code; `respond=` on `send()` marks a text turn as soliciting a reply; `wait_for_playback()` awaits the end of reply playback; `@agent.on_event` registers event listeners; `provider_factory` on `infer_realtime_model` (`2.40.0`).
 
 UI adapters gain `CancellationToken` support in their run methods (`2.38.0`), and `UIEventStream` can be built without a `run_input` while `AGUIEventStream` gets its own `thread_id`/`run_id` (`2.31.0`).
 

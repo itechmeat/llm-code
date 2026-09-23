@@ -2,8 +2,8 @@
 name: seaweedfs
 description: "SeaweedFS distributed storage. Covers filer, S3 API, replication, cloud tiers, and operations. Use when deploying SeaweedFS, configuring filer stores, exposing S3-compatible endpoints, or planning backup and security controls. Keywords: SeaweedFS, weed, filer, S3, object storage."
 metadata:
-  version: "4.45"
-  release_date: "2026-08-31"
+  version: "4.47"
+  release_date: "2026-09-14"
 ---
 
 # SeaweedFS

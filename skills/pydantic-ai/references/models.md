@@ -59,6 +59,16 @@ Pydantic AI is model-agnostic with 30+ providers.
 - **Profile and identifiers**: `context_window` on `ModelProfile` (`2.38.0`); invalid model identifiers suggest known names (`2.32.0`); model profiles follow Bedrock's `r1` alias and route Heroku GLM via `zai_model_profile`, with lowercase model-name profile lookup in SambaNova/Heroku/Fireworks (`2.34.0`/`2.35.3`/`2.30.0`).
 - **Streaming and thinking**: a provider-profile flag rejects streams without `finish_reason` (`2.38.0`); Claude Sonnet 5 / Fable 5 on Bedrock deny native structured output, and Gemini falls back to `thinking_level='LOW'` when it rejects `MINIMAL` (`2.31.1`). Bedrock guardrail `trace` rides in `ModelResponse.provider_details` (`2.35.1`).
 
+## Model-surface updates (2.40.0 -> 2.48.0)
+
+- **New providers**: `openai-codex` provider for ChatGPT/Codex subscription authentication (`2.41.0`); `GitHubCopilotProvider` for GitHub Copilot's OpenAI-compatible API (`2.42.0`).
+- **New models**: OpenAI `gpt-6-sol` and `gpt-6-luna` plus new OpenAI audio models, and Claude Opus 5.5 (`claude-opus-5-5`) (`2.48.0`).
+- **Image generation**: direct `ImageGenerator` API in addition to the built-in `ImageGenerationTool` (`2.41.0`); `fallback_model` on `ImageGeneration`/`XSearch` deprecated in favor of `fallback_subagent_model` (`2.41.0`).
+- **Pricing and usage**: `pydantic_ai.prices.update_in_background()` refreshes `genai-prices` data (`2.40.0`); Anthropic native web searches are reported in `RequestUsage.details` and priced in `cost` (`2.41.0`).
+- **Profiles**: `supports_text_output` on `ModelProfile` lets `LLMJudge`/`GEval` run against models without text output (`2.46.0`).
+- **Bedrock**: `xhigh` effort passes through when the model profile supports it (`2.45.0`); `gpt-5.6-sol`/`luna`/`terra` allowed on Bedrock Converse (`2.45.0`); `anthropic_disallows_sampling_settings` honored (`2.42.0`); botocore transport errors are wrapped in `ModelAPIError` (`2.41.0`).
+- **Gemini**: thinking levels snap to the nearest supported level instead of erroring (`2.41.0`).
+
 ## xAI (Grok)
 
 Native xAI SDK provider (replaces deprecated `GrokProvider`):

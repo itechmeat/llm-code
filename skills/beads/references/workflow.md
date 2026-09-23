@@ -115,6 +115,21 @@ bd update bd-xyz --ephemeral
 bd update bd-xyz --persistent
 ```
 
+### Compare-and-set updates (v1.3.0)
+
+```bash
+# Reassign only while the current assignee still holds the bead
+bd update bd-xyz --if-assignee worker-1 -a mayor
+
+# Transition only from the expected status
+bd update bd-xyz --if-status=in_progress --status=done
+
+# Inverse spelling for unclaim
+bd unclaim bd-xyz --if-assignee worker-1
+```
+
+One atomic transaction; nothing is written on a mismatch. Exit code `13` means every failure in the run was a guard mismatch (a racer won — skip gracefully); exit `1` is any other failure. Under `--json`, each failed entry carries `"guard_mismatch": true`. `--if-assignee ''` means "expected unassigned". `claim.pools` (e.g. `bd config set claim.pools "fable-crew,night-crew"`) makes the listed aliases claimable by any actor through the same compare-and-swap, while beads assigned to a real actor keep their anti-steal protection.
+
 ### Status Values
 
 | Status        | Meaning          |
@@ -185,6 +200,10 @@ bd activity --town          # Cross-rig aggregated feed
 bd activity --details       # Full issue details
 ```
 
+### Durable events journal (v1.3.0)
+
+Every committed bead mutation writes one ordered record in the same transaction as the mutation, carrying the operation, the mutated id, and the bead's full post-mutation snapshot (including `is_blocked`). `bd events` reads the journal, so history survives compaction and external readers can tail it.
+
 ## Agent Mode
 
 For AI agents, use structured output:
@@ -193,6 +212,16 @@ For AI agents, use structured output:
 BD_AGENT_MODE=1 bd ready --json
 BD_AGENT_MODE=1 bd list --json
 ```
+
+## HTTP API Server (v1.3.0)
+
+`bd serve` exposes the whole work loop over HTTP: 41 OpenAPI-specified operations across 35 paths — ready/list/get/query/count/related, stats, dependencies (list, count, tree, blocking, cycles), config, memories, events, and the writes (claim, claimNext, release, close, reopen, PATCH, batchCreate/batchClose/batchApply, delete, sweep). Errors are RFC 9457 `problem+json` with a machine-readable `code` per HTTP status, so clients classify a claim conflict from a typed 409 instead of substring-matching prose. Listing pages use an opaque keyset cursor that survives restart; `GET /v0/beads/context` reports which operations the running build implements. The release also publishes a public Go API for embedding the engine.
+
+Deployment model:
+
+- `--auth-token-file` names a file of accepted bearer tokens (one per line); every operation except `GET /healthz` requires `Authorization: Bearer <token>`. The file is re-read while the server runs, so revocation is a file rewrite with no restart, and a failed re-read keeps the last-good set.
+- There is deliberately no `--auth-token` flag (argv is readable from `ps`). `--allow-non-loopback` requires a token file; `--insecure-no-auth` is the explicit auditable opt-out; `--allowed-host` extends the DNS-rebinding allowlist.
+- Read the omissions as contract: no TLS (the deployment supplies confidentiality), a token is a shared secret granting the whole surface rather than an identity, `actor` stays caller-asserted provenance, hooks do not fire on HTTP mutations, and the surface includes destructive operations (`issues:sweep`, `issues:delete`).
 
 ## Key-Value Store
 
@@ -281,6 +310,18 @@ bd forget "key"
 ```bash
 bd update bd-xyz --claim    # Mark as claimed by current agent
 ```
+
+### Work leases (v1.3.0)
+
+Claims carry a lease (`lease_expires_at`, default TTL 5m, plus `heartbeat_at`; schema v54), so a worker that dies mid-task no longer strands its bead `in_progress` forever:
+
+```bash
+bd heartbeat bd-xyz            # Extend the lease while working
+bd reclaim --older-than 10m    # Revert expired leases back to ready
+bd unclaim bd-xyz              # Give a claim back
+```
+
+Every ownership-mutating path rewrites a shared `row_lock` cell, so racing heartbeat-vs-reclaim becomes a serialization conflict the retry layer replays instead of cell-merging into a zombie claim; work-queue hot paths retry the same way, so N workers draining one queue stop surfacing raw MySQL 1213/1205 errors. Leases are replica-aware: `bd reclaim` skips a lease another replica granted unless you pass `--any-replica`; the guard is opt-in and fail-open, armed by `node_id` / `BEADS_NODE_ID`.
 
 ## Session End
 

@@ -2,8 +2,8 @@
 name: beads
 description: "Beads (bd) Dolt-backed issue tracker for agent task memory. Covers CLI ops, molecules, Dolt sync, Linear/Jira/GitLab. Use when tracking tasks and dependencies with the Beads CLI, syncing issues via Dolt, or integrating with Linear/Jira/GitLab. Keywords: bd, beads, Dolt, issue tracker."
 metadata:
-  version: "1.2.2"
-  release_date: "2026-08-15"
+  version: "1.3.0"
+  release_date: "2026-09-15"
 ---
 
 # Beads (bd)
@@ -48,9 +48,15 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 | `bd list --format json`       | JSON output (alias for `--json`)          |
 | `bd show --current`           | Show active issue (no ID needed)          |
 | `bd update <id> --claim`      | Atomically claim issue for work           |
+| `bd heartbeat <id>`           | Extend a claim's lease (v1.3.0)           |
+| `bd reclaim --older-than=10m` | Revert expired leases to ready (v1.3.0)   |
+| `bd unclaim <id>`             | Give a claim back (v1.3.0)                |
+| `bd update <id> --if-status=S`| CAS update: apply only if status matches  |
 | `bd note <id> "text"`         | Append note (shorthand)                   |
 | `bd import -i <file>`         | Import JSONL incrementally                |
-| `bd sync`                     | Sync database state                       |
+| `bd sync`                     | Pull, settle conflicts, recompute, push   |
+| `bd events`                   | Read the durable events journal (v1.3.0)  |
+| `bd serve`                    | Serve the HTTP API (v1.3.0)               |
 | `bd dolt pull`                | Pull latest DB changes (advanced)         |
 | `bd dolt push`                | Push DB changes (advanced)                |
 | `bd bootstrap`                | Repair/bootstrap workspace identity       |

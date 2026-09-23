@@ -2,8 +2,8 @@
 name: vitest
 description: "Vitest testing framework: Vite-powered tests, Jest-compatible API, mocking, snapshots, coverage, browser mode, and TypeScript support. Use when writing or configuring tests with Vitest, setting up mocking/snapshots, configuring coverage, or running browser-mode tests. Keywords: Vitest, testing, Vite, Jest, mocking, coverage."
 metadata:
-  version: "5.0.0"
-  release_date: "2026-09-04"
+  version: "5.0.1"
+  release_date: "2026-09-15"
 ---
 
 # Vitest

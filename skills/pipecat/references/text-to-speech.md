@@ -99,6 +99,10 @@ If you maintain custom TTS classes, update inheritance and constructor calls bef
 
 `CartesiaTTSService` can synthesize the next sentence while the previous one is still playing by disabling frame-processing pauses and routing each sentence through its own audio context queue. Use this when you want lower perceived latency without waiting for the prior sentence to finish playback.
 
+## Fragment continuation (Smallest AI, 1.10.0)
+
+`SmallestTTSService` joins text fragments of the same LLM turn into one continuous generation by sharing a `context_id`, instead of resetting prosody on each request. Optional `max_buffer_delay_ms` bounds how long fragments buffer before synthesis.
+
 ## Practical checklist
 
 - Use WebSocket TTS providers when latency is critical.

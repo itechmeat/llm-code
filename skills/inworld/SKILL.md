@@ -3,7 +3,7 @@ name: inworld
 description: "Inworld TTS API. Covers voice cloning, audio markups, timestamps. Use when integrating Inworld text-to-speech, cloning voices, adding audio markups (SSML-like), or aligning viseme timestamps. Keywords: Inworld, text-to-speech, TTS, voice cloning, visemes."
 metadata:
   version: "2"
-  release_date: "2026-09-04"
+  release_date: "2026-09-11"
 ---
 
 # Inworld AI

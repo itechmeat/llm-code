@@ -2,8 +2,8 @@
 name: pipecat
 description: "Pipecat realtime voice/multimodal bots. Covers pipelines/frames, transports, RTVI, Pipecat Cloud deploy. Use when building real-time voice bots (STT/LLM/TTS pipelines), multimodal AI agents, WebRTC/WebSocket transports, or deploying to Pipecat Cloud. Keywords: pipecat, pipecat-ai, RTVI, WebRTC, voice bot."
 metadata:
-  version: "1.8.1"
-  release_date: "2026-08-27"
+  version: "1.11.0"
+  release_date: "2026-09-18"
 ---
 
 # Pipecat
@@ -95,6 +95,12 @@ It composes streaming speech/LLM/TTS services into a low-latency pipeline, conne
 - Do not assume `OpenAIResponsesLLMService` is HTTP-based anymore; WebSocket is now the default implementation.
 - Do not send a single `button` field in the RTVI `dtmf` client message; as of `1.6.0` it requires `buttons` (a list), and `RTVI.PROTOCOL_VERSION` is `2.1.0`.
 - Do not filter OTel dashboards on old GenAI span attribute names (`az.ai.openai`, `xai`, `mistral`, `gen_ai.usage.reasoning_tokens`, bare `tokens.*`); `1.6.0` renamed these to standard `gen_ai.*` conventions.
+
+## Release Highlights (1.9.0 -> 1.11.0)
+
+- **Latency attribution (`1.9.0`)**: `LatencyBreakdown.contributions` is a timeline of the user-to-bot interval whose durations sum to the measured latency — it names the time no service reports (VAD silence, turn detection, turn-completion markers and holds, sentence aggregation, function handlers).
+- **Smallest AI continuation (`1.10.0`)**: `SmallestTTSService` shares a `context_id` across text fragments of the same LLM turn so the server joins them into one continuous generation instead of resetting prosody per request; optional `max_buffer_delay_ms` bounds the fragment buffer.
+- **Resampler stream boundaries (`1.11.0`)**: `BaseAudioResampler.flush()` returns audio the resampler still holds when a stream has ended and `reset()` starts a fresh stream — callers mark boundaries explicitly instead of relying on `SOXRStreamAudioResampler`'s inactivity timeout.
 
 ## Release Highlights (1.7.0 -> 1.8.1)
 

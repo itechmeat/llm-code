@@ -269,6 +269,7 @@ async def test_app():
 - **Cost and limits** (`2.23.0`): `cost` on `RunUsage` and `cost_limit` on `UsageLimits`.
 - **Context window** (`2.38.0`): `context_window_used` on `RunContext` alongside `context_window` on `ModelProfile`.
 - **Typed events** (`2.38.0`): application code and capabilities can emit typed `CustomEvent`/`CapabilityEvent` into the run event stream and subscribe with `@on_event`; instruction parts carry a stable `InstructionPart.id` (`2.36.0`).
+- **Agent event listeners** (`2.40.0`): `@agent.on_event` registers event listeners directly on an `Agent`.
 - **Instrumentation** (`2.32.0`): instrumentation version 6 emits tool results under `role: 'tool'`.
 - **Execution model** (`2.32.0`): synchronous hooks run in a thread pool and `timeout=` is enforced for blocking sync tools and hooks; `Agent.run_sync()` is rejected from synchronous callbacks inside agent runs (`2.32.1`).
 - **Compaction** (`2.26.0`): only the compacted window is sent — history before the latest same-provider `CompactionPart` is dropped; `CompactionPart` round-trips through the Vercel AI and AG-UI adapters (`2.27.0`).

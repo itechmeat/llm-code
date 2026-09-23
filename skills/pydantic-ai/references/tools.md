@@ -834,6 +834,10 @@ agent = Agent(
 result = agent.run_sync('Generate an image of a sunset.')
 ```
 
+### Direct ImageGenerator API (v2.41.0)
+
+`ImageGenerator` exposes image generation as a direct API, without routing through an agent run or the built-in tool. On the `ImageGeneration` and `XSearch` capabilities, `fallback_model` is deprecated in favor of `fallback_subagent_model` (`v2.41.0`).
+
 ### File Search (RAG) Example
 
 ```python

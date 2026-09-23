@@ -21,6 +21,14 @@ At a high level, `bd sync`:
 3. Applies merges/conflict strategy
 4. Pushes if configured (or if you didn’t opt out)
 
+Since `v1.3.0` it is a real federation verb: pull → detect conflicts → recompute `is_blocked` → push, with bounded retry (default 3) when another replica wins the push race.
+
+- Conflicts are detected **positively**, from the merge's captured conflict rows and `dolt_conflicts`, never inferred from the pull's exit status (a pull fails for many non-conflict reasons, and a settled-but-conflicted merge aborts leaving `dolt_conflicts` empty).
+- A conflict `bd sync` cannot settle is **never** resolved by picking a side: it halts before recomputing or pushing, with no `--strategy` override. `bd conflicts list|show|resolve` clears an exit-2 halt without dropping into the raw `dolt` CLI.
+- The recompute between pull and push is not bookkeeping: `is_blocked` is denormalized, so a merge that brings in another replica's dependency edge leaves `bd ready` stale until it runs.
+
+Exit codes: `0` synced, `1` error, `2` merge conflict (halted, nothing pushed), `3` push-race retries exhausted, `4` dirty working set that is stuck rather than busy.
+
 If you need to skip pushing (e.g. read-only environments):
 
 ```bash

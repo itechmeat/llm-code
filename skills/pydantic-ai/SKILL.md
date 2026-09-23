@@ -2,8 +2,8 @@
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Use when building Python AI agents with Pydantic AI, configuring model providers, implementing typed tools/dependencies, running evals, or integrating MCP servers. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
 metadata:
-  version: "2.39.0"
-  release_date: "2026-09-04"
+  version: "2.48.0"
+  release_date: "2026-09-23"
 ---
 
 # Pydantic AI
@@ -37,6 +37,15 @@ Python agent framework for building production-grade GenAI applications with the
 ## Installation
 
 See `references/installation.md` for full/slim install options and optional dependency groups. Requires Python 3.10+.
+
+## Release Highlights (2.40.0 -> 2.48.0)
+
+- **Security (upgrade)** (`2.44.0`, backported to `1.107.6`): four fixes reached through `web_fetch_tool` or OTel instrumentation — IPv6 zone-identifier bypass of the private-IP blocklist when local URLs are opted in, superlinear `web_fetch` HTML/charset processing that could stall the event loop, domain blocklists compared without resolver normalization, and span content leaks with `include_content=False` (GHSA-vmxc-h2x2-jmf3, GHSA-fpf4-vwcp-v4hp, GHSA-22h6-qm39-v87j, GHSA-4x9p-g9wm-8q7f).
+- **Realtime session control** (`2.40.0`/`2.46.0`): `handle_barge_in=True` with `interrupt(played_bytes=...)`, `RealtimeSession.enqueue()` for out-of-band prompts, `respond=` on `send()`, `wait_for_playback()`, and `@agent.on_event` listeners.
+- **Image generation** (`2.41.0`): direct `ImageGenerator` API alongside the built-in tool; `fallback_model` on `ImageGeneration`/`XSearch` deprecated in favor of `fallback_subagent_model`.
+- **Providers and models** (`2.41.0`/`2.42.0`/`2.48.0`): `openai-codex` provider for ChatGPT/Codex subscription auth, `GitHubCopilotProvider`; OpenAI `gpt-6-sol`/`gpt-6-luna` and Claude Opus 5.5 (`claude-opus-5-5`).
+- **Pricing** (`2.40.0`): `pydantic_ai.prices.update_in_background()` refreshes `genai-prices` data in the background.
+- **Temporal** (`2.46.0`): `event_stream_topic` on `TemporalDurability` streams agent events via Workflow Streams.
 
 ## Release Highlights (2.23.0 -> 2.39.0)
 

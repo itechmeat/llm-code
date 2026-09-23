@@ -13,23 +13,24 @@ Quick reference for tracking tool versions across skills. Use this file to check
 
 | Skill                               | Skill Version | Release Date | Releases                                                                      | Documentation                                                         |
 | ----------------------------------- | ------------- | ------------ | ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| **bun**                             | 1.4.1         | 2026-09-04   | [Releases](https://github.com/oven-sh/bun/releases)                           | [Docs](https://bun.sh/docs)                                           |
+| **openapi**                         | 3.2.1         | 2026-09-10   | [Releases](https://github.com/OAI/OpenAPI-Specification/releases)             | [Docs](https://spec.openapis.org/oas/latest.html)                     |
+| **tavily**                          | 0.8.4         | 2026-09-18   | [PyPI](https://pypi.org/project/tavily-python/#history)                       | [Docs](https://docs.tavily.com/)                                      |
+| **vite**                            | 8.3.0         | 2026-09-10   | [Releases](https://github.com/vitejs/vite/releases)                           | [Docs](https://vite.dev/guide/)                                       |
+| **mantine-dev**                     | 9.6.2         | 2026-09-21   | [Releases](https://github.com/mantinedev/mantine/releases)                    | [Docs](https://mantine.dev/getting-started/)                          |
+| **beads**                           | 1.3.0         | 2026-09-15   | [Releases](https://github.com/gastownhall/beads/releases)                     | [Docs](https://github.com/gastownhall/beads/tree/main/docs)           |
+| **pipecat**                         | 1.11.0        | 2026-09-18   | [Changelog](https://github.com/pipecat-ai/pipecat/blob/main/CHANGELOG.md)     | [Docs](https://docs.pipecat.ai/getting-started/introduction)          |
+| **seaweedfs**                       | 4.47          | 2026-09-14   | [Releases](https://github.com/seaweedfs/seaweedfs/releases)                   | [Docs](https://github.com/seaweedfs/seaweedfs/wiki/Getting-Started)   |
+| **pydantic-ai**                     | 2.48.0        | 2026-09-23   | [Releases](https://github.com/pydantic/pydantic-ai/releases)                  | [Docs](https://ai.pydantic.dev/)                                      |
+| **k8s-cluster-api**                 | 1.14.2        | 2026-09-08   | [Releases](https://github.com/kubernetes-sigs/cluster-api/releases)           | [Docs](https://cluster-api.sigs.k8s.io/)                              |
+| **vitest**                          | 5.0.1         | 2026-09-15   | [Releases](https://github.com/vitest-dev/vitest/releases)                     | [Docs](https://vitest.dev/guide/)                                     |
+| **inworld**                         | 2             | 2026-09-11   | [Changelog](https://docs.inworld.ai/docs/release-notes/tts)                   | [Docs](https://docs.inworld.ai/)                                      |
+| **open-meteo**                      | 1.6.0         | 2026-09-10   | [Changelog](https://github.com/open-meteo/open-meteo/releases)                | [Docs](https://open-meteo.com/en/docs)                                |
+| **bun**                             | 1.4.2         | 2026-09-05   | [Releases](https://github.com/oven-sh/bun/releases)                           | [Docs](https://bun.sh/docs)                                           |
 | **react-testing-library**           | 16.3.3        | 2026-09-04   | [Releases](https://github.com/testing-library/react-testing-library/releases) | [Docs](https://testing-library.com/docs/react-testing-library/intro/) |
-| **open-meteo**                      | 1.5.6         | 2026-09-04   | [Changelog](https://github.com/open-meteo/open-meteo/releases)                | [Docs](https://open-meteo.com/en/docs)                                |
-| **inworld**                         | 2             | 2026-09-04   | [Changelog](https://docs.inworld.ai/docs/release-notes/tts)                   | [Docs](https://docs.inworld.ai/)                                      |
 | **base-ui**                         | 1.8.0         | 2026-09-04   | [Releases](https://github.com/mui/base-ui/releases)                           | [Docs](https://base-ui.com/)                                          |
-| **vitest**                          | 5.0.0         | 2026-09-04   | [Releases](https://github.com/vitest-dev/vitest/releases)                     | [Docs](https://vitest.dev/guide/)                                     |
-| **k8s-cluster-api**                 | 1.14.1        | 2026-09-04   | [Releases](https://github.com/kubernetes-sigs/cluster-api/releases)           | [Docs](https://cluster-api.sigs.k8s.io/)                              |
 | **telegram**                        | 3.31.0        | 2026-09-04   | [Releases](https://github.com/aiogram/aiogram/releases)                       | [Docs](https://core.telegram.org/bots/api)                            |
 | **qdrant**                          | 1.19.1        | 2026-09-04   | [Releases](https://github.com/qdrant/qdrant/releases)                         | [Docs](https://qdrant.tech/documentation/)                            |
-| **pydantic-ai**                     | 2.39.0        | 2026-09-04   | [Releases](https://github.com/pydantic/pydantic-ai/releases)                  | [Docs](https://ai.pydantic.dev/)                                      |
-| **seaweedfs**                       | 4.45          | 2026-08-31   | [Releases](https://github.com/seaweedfs/seaweedfs/releases)                   | [Docs](https://github.com/seaweedfs/seaweedfs/wiki/Getting-Started)   |
-| **pipecat**                         | 1.8.1         | 2026-08-27   | [Changelog](https://github.com/pipecat-ai/pipecat/blob/main/CHANGELOG.md)     | [Docs](https://docs.pipecat.ai/getting-started/introduction)          |
-| **beads**                           | 1.2.2         | 2026-08-15   | [Releases](https://github.com/gastownhall/beads/releases)                     | [Docs](https://github.com/gastownhall/beads/tree/main/docs)           |
-| **mantine-dev**                     | 9.6.0         | 2026-08-31   | [Releases](https://github.com/mantinedev/mantine/releases)                    | [Docs](https://mantine.dev/getting-started/)                          |
 | **zvec**                            | 0.7.0         | 2026-08-24   | [Releases](https://github.com/alibaba/zvec/releases)                          | [Docs](https://zvec.org/en/docs/)                                     |
-| **vite**                            | 8.2.2         | 2026-08-20   | [Releases](https://github.com/vitejs/vite/releases)                           | [Docs](https://vite.dev/guide/)                                       |
-| **tavily**                          | 0.8.1         | 2026-09-03   | [PyPI](https://pypi.org/project/tavily-python/#history)                       | [Docs](https://docs.tavily.com/)                                      |
 | **postgresql**                      | 19beta3       | 2026-08-13   | [Releases](https://www.postgresql.org/about/newsarchive/pgsql/)               | [Docs](https://www.postgresql.org/docs/current/)                      |
 | **deps-dev**                        | 3             | 2026-06-09   | [Commits](https://github.com/google/deps.dev/commits/main/)                   | [Docs](https://docs.deps.dev/api/v3/)                                 |
 | **pgvector**                        | 0.8.6         | 2026-07-29   | [Changelog](https://github.com/pgvector/pgvector/tags)                        | [Docs](https://github.com/pgvector/pgvector)                          |
@@ -45,7 +46,6 @@ Quick reference for tracking tool versions across skills. Use this file to check
 | **refine-dev** [ignore]             | 5.0.12        | 2026-04-02   | [Releases](https://github.com/refinedev/refine/releases)                      | [Docs](https://refine.dev/docs/)                                      |
 | **skill-master** [ignore]           | 1.6.0         | 2026-03-11   | [Commits](https://github.com/agentskills/agentskills/commits/main/)           | [Docs](https://github.com/agentskills/agentskills/tree/main/docs)     |
 | **github-stars-organizer** [ignore] | —             | 2026-03-18   | —                                                                             | —                                                                     |
-| **openapi**                         | 3.2.0         | 2025-09-19   | [Releases](https://github.com/OAI/OpenAPI-Specification/releases)             | [Docs](https://spec.openapis.org/oas/latest.html)                     |
 | **changelog** [ignore]              | 1.1.0         | 2023-03-06   | [Spec](https://keepachangelog.com/)                                           | [Docs](https://keepachangelog.com/)                                   |
 | **makefile** [ignore]               | 2.0.0         | 2023-02-26   | [Manual](https://www.gnu.org/software/make/manual/)                           | [Docs](https://www.gnu.org/software/make/manual/)                     |
 | **commits**                         | 1.0.0         | 2019-02-21   | [Spec](https://www.conventionalcommits.org/)                                  | [Docs](https://www.conventionalcommits.org/)                          |
@@ -71,4 +71,4 @@ When updating a skill:
 
 ---
 
-Last reviewed: 2026-08-01
+Last reviewed: 2026-09-23
