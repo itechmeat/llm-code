@@ -16,6 +16,10 @@ A high-quality, unstyled React scroll area that provides a native scroll contain
 
 - RTL behavior is corrected in the `1.5.0` line. Re-test custom scrollbar placement and direction-sensitive CSS before preserving earlier fixes.
 
+## v1.9.0 notes
+
+- The viewport no longer carries the presentational viewport role. Retest any screen-reader expectations that relied on it.
+
 ## Demo
 
 #### Tailwind

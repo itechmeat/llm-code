@@ -2,8 +2,8 @@
 name: k8s-cluster-api
 description: "Kubernetes Cluster API v1.12. Covers clusterctl CLI, ClusterClass, GitOps integration. Scripts for health checks, backup, migration, linting. Templates: clusters, DR, Prometheus. Use when provisioning, upgrading, or operating Kubernetes clusters with CAPI, or running clusterctl and ClusterClass workflows. Keywords: CAPI, clusterctl, kubeadm, cluster lifecycle."
 metadata:
-  version: "1.14.2"
-  release_date: "2026-09-08"
+  version: "1.14.3"
+  release_date: "2026-10-07"
 ---
 
 # Kubernetes Cluster API
@@ -197,6 +197,7 @@ spec:
 - Observability: the upgrade plan is surfaced in cluster status, aggregated machine versions are exposed in status, and runtime extension errors appear in cluster conditions.
 - Scale/performance: ClusterCache clients expose cache tuning options for a smaller memory footprint, and managedFields interning reduces stored state.
 - Deprecation warning: the `v1beta1` API is on track to be unserved in CAPI `v1.16` (migrate to `v1beta2`), and `Docker*` resources will be removed in `v1.15` (migrate to `Dev*` resources). An experimental `clusterctl convert` command is available.
+- `1.14.3` (2026-10-07) is a patch release and keeps the same Kubernetes support window (management `v1.33.x -> v1.37.x`, workload `v1.31.x -> v1.37.x`). Its fixes cover a KCP proxy `DialContext` race, matching an etcd member to the machine the KCP is deleting, graceful handling of missing owner references for Machine/MachineSet, and setting the cluster-name label on Clusters created without a ClusterClass.
 
 ## Release Highlights (1.13.x)
 

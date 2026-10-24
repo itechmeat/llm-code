@@ -2,6 +2,53 @@
 
 `@mantine/core` provides 120+ components. This reference covers key patterns.
 
+## New in v9.7
+
+### Tour
+
+Step-by-step onboarding component: a spotlight overlay highlights the target element and a tooltip shows the navigation controls. Two modes — `'guided'` (sequential, default) and `'beacon'`. Key props: `active`, `onClose`, `step`/`defaultStep`/`onStepChange`, `mode`, `withOverlay`, `withOverlayInteraction`, `withCloseButton`, `withKeyboardNavigation`, `withScrollIntoView`, `closeOnEscape`, `closeOnOverlayClick`, `spotlightPadding`, `spotlightRadius`, `labels`, `withinPortal`. Compound parts: `Tour.Root`, `Tour.Step`, `Tour.Overlay`, `Tour.Tooltip`, `Tour.Title`, `Tour.Body`, `Tour.CloseButton`, `Tour.Navigation`, `Tour.Beacon`. `Tour.Step` elements must be direct children of the root (arrays are supported, fragments and wrapper components are not).
+
+### Toolbar
+
+Accessible toolbar container with roving tabindex and keyboard navigation, plus toggle groups with single or multiple selection, visual grouping and dividers. Compound parts: `Toolbar.Group`, `Toolbar.Toggle`, `Toolbar.ToggleGroup`, `Toolbar.ToggleItem`, `Toolbar.Divider`.
+
+### Toggle
+
+Button that can be toggled between active and inactive states: `active`, `defaultActive`, `onActiveChange`, plus `size`, `radius`, `autoWidth`, `color`.
+
+### JsonViewer
+
+`@mantine/code-highlight` component that renders complex JSON structures with expand/collapse, type indicators and copy buttons. Props include `value`, `rootName`, `defaultExpandDepth`, controlled `expandedPaths` with `onExpandedPathsChange`, `maxDisplayLength`, `withTypes`, `withSize`, `withCopy`, `withCopyButton`, `withQuotes`, `withKeyQuotes`, `collapseStringsAfterLength`, `sortKeys`, `groupArraysAfterLength`.
+
+### ScrollArea offset size
+
+`ScrollArea` gained the `--scrollarea-offset-size` CSS variable. By default `offsetScrollbars` reserves a gap equal to `scrollbarSize`; set `--scrollarea-offset-size` (with the `style` or `vars` prop, or in CSS) to change the gap without changing the scrollbar size. The gap stays on the scrollbar side, including in RTL and with `verticalScrollbarPosition`:
+
+```tsx
+<ScrollArea h={200} offsetScrollbars scrollbarSize={10} style={{ "--scrollarea-offset-size": "20px" }}>
+  {/* content */}
+</ScrollArea>
+```
+
+### New props on existing components
+
+- `Checkbox` and `Radio` support `variant="light"` — the indicator uses a light background with a colored icon. The color is resolved with `theme.variantColorResolver`, so any CSS color or theme color with a shade can be used.
+- `TreeSelect` supports `renderPill` to customize the pills rendered for selected values in `multiple` and `checkbox` modes (same prop as `MultiSelect`). The callback receives the tree node, so `nodeProps` can be used.
+- `Tooltip` supports `hideDetached` (enabled by default): the tooltip is hidden when its target is removed from the DOM, hidden with `display: none`, or scrolled out of a clipping container. Set `hideDetached={false}` to restore the previous behavior; the prop has no effect on `Tooltip.Floating`. In jsdom every element has a zero-size rectangle, so tooltips are treated as detached unless the test wrapper sets `env="test"` on `MantineProvider` or the component is rendered with `hideDetached={false}`.
+- `Notifications` supports `withAutoCloseProgress`, which renders a progress line that fills up until the notification auto closes. It sets the default for all notifications and can be overridden per notification in `notifications.show` / `notifications.update`.
+- `RichTextEditor` (`@mantine/tiptap`) supports image upload through `getUploadImageExtension`. `onImageUpload` and `onImageUploadError` are optional overrides for the toolbar control; `onImageUpload` can resolve to a string or to `{ src, alt, title }` (exported as `ImageUploadResult`).
+
+### Fixes
+
+- `Radio` and `Chip` now prevent value changes when the `readOnly` prop is set, and `Switch` no longer toggles when `readOnly` is set. Remove any local `onChange` guards that were used to work around this.
+- `PinInput` no longer changes its value with `readOnly` on Delete, Backspace and paste, and `MultiSelect`/`TreeSelect` no longer remove the last value with Backspace when `readOnly` is set.
+- `Select`'s `onChange` option argument is typed as nullable: `onChange?: (value: Value | null, option: ComboboxItem<Value> | null) => void`. Handlers that assumed a non-null option need a null check.
+- `Cascader` mirrors `ArrowLeft`/`ArrowRight` in RTL — the arrow keys follow the reading direction in right-to-left layouts.
+- Searchable inputs no longer ignore typing when they are rendered in another window or in an iframe.
+- `@mantine/charts` fixes the rendering of the right Y axis children on `ScatterChart`.
+- `Divider` supports `aria-orientation`; `Tooltip` with a disabled target no longer sets `aria-describedby` on that target; `Transition` no longer runs frames and callbacks after unmount during the first frame; `Tree` items with children get `aria-expanded`; `SegmentedControl` no longer calls `Math.random` during render; `Popover` supports the `capture` prop.
+- `@mantine/form` fixes clearing the state of unrelated fields and moving errors of items whose index shares a prefix with the reordered index; `UseContextForm` is now exported as a type.
+
 ## New in v9.6
 
 ### ActionBar

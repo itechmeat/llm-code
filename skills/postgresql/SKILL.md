@@ -2,8 +2,8 @@
 name: postgresql
 description: "PostgreSQL best practices: multi-tenancy with RLS, schema design, Alembic migrations, async SQLAlchemy, and query optimization. Use when designing multi-tenant tables with Row-Level Security, debugging tenant isolation, creating/changing Alembic migrations, or optimizing PostgreSQL queries. Keywords: PostgreSQL, RLS, Alembic, SQLAlchemy, multi-tenancy."
 metadata:
-  version: "19beta3"
-  release_date: "2026-08-13"
+  version: "19rc1"
+  release_date: "2026-10-15"
 ---
 
 # PostgreSQL
@@ -63,9 +63,9 @@ USING (tenant_id = current_setting('app.current_tenant_id', true)::uuid);
 
 ## Version Notes
 
-### PostgreSQL 19 (beta)
+### PostgreSQL 19 (RC 1)
 
-- 19 is at **Beta 3 (2026-08-13)**; GA is expected September/October 2026 and details may still change. Latest stable line is `18.6`.
+- 19 is at **RC 1 (2026-10-15)**: the feature set is frozen and matches the upcoming general availability, planned for **2026-11-19**. RC 2 ships on **2026-11-12** together with the November update release, so that release's fixes land in 19 before GA. Latest stable line is `18.6`.
 - Headline changes: `REPACK` / `REPACK CONCURRENTLY` replacing `VACUUM FULL` and `CLUSTER`, parallel autovacuum with a scoring system, logical replication of sequences, SQL/PGQ property graphs, `GROUP BY ALL`, `FOR PORTION OF`, and online checksum enable/disable.
 - 18 incompatible changes to plan for, including forced `standard_conforming_strings`, RADIUS removal, `jit` off by default, `default_toast_compression` switching to `lz4`, and `max_locks_per_transaction` defaulting to 128 with changed sizing.
 - Full detail and the upgrade checklist: [postgresql-19.md](references/postgresql-19.md)

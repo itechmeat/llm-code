@@ -85,6 +85,15 @@ bd list --tree              # Tree view with hierarchy
 bd list --tree --parent=bd-abc  # Subtree
 ```
 
+### Ephemeral rows (v1.3.1)
+
+```bash
+bd list --include-ephemeral                     # Include ephemeral (wisp) rows
+bd list --include-ephemeral --wisp-type heartbeat  # Reach ephemeral rows by wisp type
+```
+
+`--include-ephemeral` is off by default, so the default listing is unchanged. It is the flag `--wisp-type` needs: without it, `--wisp-type` matches nothing.
+
 ### Show Details
 
 ```bash
@@ -249,21 +258,15 @@ bd dolt test                # Validate connectivity
 
 ## Backup & Restore
 
-Beads can produce JSONL backups for off-machine recovery and portability.
+Beads has two safety nets: Dolt-native snapshots under `.beads/backup` and portable JSONL dumps.
 
 ```bash
-bd backup
-bd backup status
-
+bd backup status             # Inspect backups and auto-backup mode
 bd export -o backup.jsonl
 bd import -i backup.jsonl
 ```
 
-Notes:
-
-- Use `bd backup --help` to see the available options (location, format, automation).
-- Treat restore as a bootstrap/recovery tool; validate Dolt connectivity after restoring.
-- `bd import` supports incremental JSONL replay workflows and avoids duplicating already-imported comment history.
+Auto-backup is opt-in (`backup.enabled=true`) and is refused on external/team-server topologies; `bd backup restore` is a recovery tool that replaces the database. See [backup.md](backup.md) for the full backup family, the proxied-server rules and the `.beads/backup.lock` behavior.
 
 ## Richer Task Creation (v0.61.0)
 
@@ -293,6 +296,31 @@ Delete closed ephemeral beads (wisps) to reclaim storage:
 ```bash
 bd purge
 ```
+
+### Purge flags (v1.3.1)
+
+- `--wisps-plane` — selects every closed row in the wisps table, including `--no-history` beads. It works on embedded, server and proxied workspaces, and it requires `--older-than` or `--pattern`.
+- `--limit N` — caps a single run at N beads, oldest-closed first. With `--json` the output then adds `remaining` and `has_more`, so a script can loop until the plane is clear.
+- `--older-than <dur>` — only purges rows closed longer ago than the duration. Accepts hour precision (`36h`, `168h`, `90m`) down to `1s`.
+- `--pattern <pattern>` — the alternative selection filter to `--older-than`.
+
+Two traps worth knowing before you script a purge:
+
+- `--older-than` takes a **duration**, not a calendar date, and its precision is one hour or finer. A value too large to represent (e.g. `213504d`) is refused instead of wrapping around to a tiny age — which would have purged far more than you asked for.
+- `--wisps-plane` is the broad selector: it takes *every* closed wisps-table row, so always pair it with `--older-than` or `--pattern`.
+
+With `--json`, a capped run also reports `remaining` and `has_more`, so a script can loop until the plane is clear:
+
+```bash
+# Delete in batches of 500, oldest-closed first, until nothing is left
+while :; do
+  out=$(bd purge --wisps-plane --older-than=168h --limit=500 --json) || break
+  echo "$out" | jq -r '"remaining: \(.remaining), has_more: \(.has_more)"'
+  [ "$(echo "$out" | jq -r '.has_more')" = "true" ] || break
+done
+```
+
+Check `bd purge --help` for the full filter set and the exact `--pattern` syntax.
 
 ## Persistent Agent Memory (v0.58.0)
 

@@ -12,6 +12,10 @@ A high-quality, unstyled React switch component that indicates whether a setting
 
 - `readOnly` mode now blocks input state changes instead of allowing accidental toggles through the hidden input path.
 
+## v1.9.0 notes
+
+- `aria-label` is preferred over an associated label when both are present, so an explicit `aria-label` on the switch wins.
+
 ## Demo
 
 ### Tailwind

@@ -2,8 +2,8 @@
 name: base-ui
 description: "Base UI unstyled React components. Covers forms, menus, overlays, composition. Use when building accessible, unstyled React UI components with @base-ui/react, composing with render props, or implementing custom-styled form controls, menus, and overlays. Keywords: @base-ui/react, render props, unstyled components."
 metadata:
-  version: "1.8.0"
-  release_date: "2026-09-04"
+  version: "1.9.0"
+  release_date: "2026-10-09"
 ---
 
 # Base UI (React)
@@ -45,6 +45,7 @@ Base UI provides unstyled, composable React components. This skill focuses on as
 - references/navigation-menu.md
 - references/popover.md
 - references/preview-card.md
+- references/tabs.md
 - references/tooltip.md
 
 ### Toggles & controls
@@ -57,6 +58,20 @@ Base UI provides unstyled, composable React components. This skill focuses on as
 
 - references/scroll-area.md
 - references/separator.md
+
+## Release Highlights (1.9.0)
+
+- **Menu filtering (preview)**: `<Menu.FilterProvider>` wraps a `<Menu.Root>` or `<Menu.SubmenuRoot>`, `<Menu.Input>` takes the query, and `<Menu.List>` holds the items that get filtered. `<Menu.Clear>` and `<Menu.Empty>` cover reset and no-match states. Full details in references/menu.md.
+- **Unmount control**: automatic unmounting is decoupled from `actionsRef`. Call `eventDetails.preventUnmountOnClose()` inside `onOpenChange` to keep the popup mounted, then end the closing phase yourself with `actionsRef.current.unmount()`. Applies to Autocomplete, Combobox, Menu, Select, Dialog, Alert Dialog, Popover, Tooltip, and Preview Card. Details in references/popover.md.
+- `Menu.Root` accepts `onItemHighlighted(highlightedItem, eventDetails)`. The reason is `'keyboard'`, `'pointer'`, or `'none'`; pointer events may be a `MouseEvent` rather than a `PointerEvent`, and typing reports `'none'`.
+- `Autocomplete` and `Combobox` support `autoHighlight` with asynchronous results, accept readonly arrays for multiple values, and report the originating event to `onItemHighlighted`.
+- `Menu` fixes nested menus without a root trigger, submenu closing when focus returns through its guard, repeated trigger activation toggling submenus, and the focus-guard loop when the trigger is the only tabbable element.
+- `Drawer` preserves swipe release velocity on 120 Hz input and after a trailing stationary pointer event, `data-base-ui-swipe-ignore` gains `x` and `y` options, and a drag starting on an SVG scrolls instead of swiping.
+- `Accordion.Trigger` and `Collapsible.Trigger` apply the native `disabled` attribute when rendering native buttons, and `hiddenUntilFound` panels expand synchronously on `beforematch`.
+- `Radio Group` and `Checkbox` prefer `aria-label` over an associated label, ignored arrow keys no longer select on refocus, and `inputRef` forwarding is fixed.
+- `NumberField.ScrubArea` fires `onClick` once per click, and `OTPField` no longer over-fills slots during Safari IME composition.
+- `Field.Control` no longer warns when an uncontrolled `defaultValue` changes, `ScrollArea` drops the presentational viewport role, and `Tabs` can select tabs with function values.
+- The `CssVariables` and `DataAttributes` types are now exported.
 
 ## v1.7.0 - v1.8.0 highlights
 
@@ -132,6 +147,7 @@ Base UI provides unstyled, composable React components. This skill focuses on as
 - Build popups using `Root` + `Trigger` + `Portal` + `Positioner` + `Popup`.
 - For menus and navigation, add `Item`, `Separator`, `Arrow`, and list/viewport parts as needed.
 - `NavigationMenu.Link` supports `render` for framework router links.
+- To drive the close animation from an external library, call `eventDetails.preventUnmountOnClose()` in `onOpenChange` and finish with `actionsRef.current.unmount()`; `keepMounted` on the portal decides whether the DOM node stays.
 
 ### 4) Toasts
 

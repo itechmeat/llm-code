@@ -170,3 +170,14 @@ Beads now treats `spike`, `story`, and `milestone` as first-class issue types.
 - Newer sync integrations map these built-in types more completely into external trackers such as Linear and GitHub, so prefer the built-in names when external tracker fidelity matters.
 
 Custom statuses and custom types also moved to normalized tables in the `1.0.x` line. Prefer built-in types when they fit; use custom types only when the workflow semantics are truly different.
+
+### System types (v1.3.1)
+
+`bd types` now has a separate "System types" section listing the types Beads uses for its own bookkeeping: `message`, `molecule`, `gate`, and `event`.
+
+```bash
+bd types             # Issue types plus a "System types" section
+bd types --json      # JSON output gains an additive "system_types" field
+```
+
+The JSON change is additive — existing consumers keep working, but a script that filters on `type` should now expect system types to show up there too.

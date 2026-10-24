@@ -6,6 +6,36 @@
 npm install @mantine/hooks
 ```
 
+## Patch notes (v9.6.3 → v9.7.3)
+
+### use-scroller
+
+The click that follows a drag is no longer ignored when the drag ended by leaving the container. If you added a manual "ignore the click after drag" workaround around `use-scroller`, remove it.
+
+### use-event-listener
+
+The listener is no longer removed after a re-render when the `options` object is passed inline (for example `useEventListener('click', handler, { passive: true })` created in render). Previously the inline object changed identity on every render and detached the listener.
+
+### use-throttled-callback
+
+Reentrant calls are handled — calling the throttled callback again from inside the callback no longer breaks the throttle state. `9.6.3` also fixed the callback becoming unresponsive after `clearTimeout`.
+
+### use-focus-trap
+
+Focus is now fully trapped when the trap is used on macOS with Full Keyboard Access turned off.
+
+### Other hook fixes
+
+- `use-click-outside` supports the capture phase — `capture` is the fifth positional argument: `useClickOutside(callback, events?, nodes?, enabled?, capture?)`.
+- `use-intersection` uses the last entry of a batched observer callback.
+- `use-media-query` catches `matchMedia` errors when the initial value is read synchronously.
+- `use-hotkeys` applies `preventDefault` when other hotkey options are set.
+- `use-mask` applies the transform to the initial input value.
+- `use-roving-index` skips disabled items with `ArrowLeft`/`ArrowRight` in grid mode.
+- `use-pagination` no longer replaces a single page with dots on the right side.
+- `use-debounced-state` fires the leading edge only once; `use-debounced-callback` no longer repeats completed leading calls.
+- `use-scroll-into-view` resets the start time when the animation is cancelled.
+
 ## New in v9.3
 
 ### use-splitter

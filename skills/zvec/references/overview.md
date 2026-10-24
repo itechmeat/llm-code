@@ -15,7 +15,7 @@ Zvec is an **in-process** vector database (library-style), intended to run insid
 - Multi-vector queries (retrieve with multiple embedding signals).
 - Designed for low-latency similarity search.
 - Official SDKs for Python and Node.js, plus a stable C API for broader language bindings.
-- Official package coverage across Linux, macOS, and Windows.
+- Official package coverage across Linux, macOS (Apple Silicon and Intel), and Windows (`x86_64` and `ARM64`).
 - Official agent-facing integrations via MCP server and agent skills projects.
 
 ## Next reading

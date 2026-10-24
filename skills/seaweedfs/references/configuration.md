@@ -191,3 +191,14 @@ Sources:
 - Publish one env-var naming guide for flags, `WEED_` config keys, and secret injection.
 - Keep container examples explicit about disabling `leveldb2` when an external metadata store is chosen.
 - Separate immutable non-secret config from secret-bearing env vars in deployment manifests.
+
+## Admin and Worker Binding (4.48)
+
+- The admin server's `-ip` default now depends on authentication: with `-adminPassword` or `[https.admin]` mTLS configured, the default auto-upgrades to `0.0.0.0`; without authentication it stays on loopback so the unauthenticated admin API is never exposed on the network. An explicit `-ip` is always honored.
+- The admin worker/plugin gRPC control plane (HTTP port + 10000) now binds through `-ip` like every other gRPC listener. It previously bound `:port` and ignored the setting.
+- The filer gained its own `disableHttp` flag, so a deployment can turn off the filer HTTP surface independently of the rest of the service.
+
+### Gotchas / prohibitions
+
+- Do not assume the admin UI is reachable on the network just because it was before `4.40`; check the `-ip` value against your authentication setup.
+- Do not leave the worker gRPC port exposed on a public interface expecting `-ip` to protect it - on releases before `4.48` it ignored `-ip` entirely.

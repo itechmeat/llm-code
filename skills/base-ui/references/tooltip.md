@@ -13,6 +13,11 @@ description: A high-quality, unstyled React tooltip component that appears when 
 - `Tooltip` adds `closeOnClick` for flows where clicking the trigger or target action should also dismiss the hint.
 - Keep using tooltips as non-essential hints for sighted users; do not move required form or validation messaging into tooltip-only content.
 
+## v1.9.0 notes
+
+- Automatic unmounting is decoupled from `actionsRef`. Call `eventDetails.preventUnmountOnClose()` in `onOpenChange` to opt out, then end the closing phase with `actionsRef.current.unmount()`. See `popover.md`.
+- A viewport transition no longer starts when a retained popup reopens.
+
 ## Demo
 
 ### Tailwind
@@ -1979,7 +1984,7 @@ Doesn’t render its own HTML element.
 | defaultOpen                                              | `boolean`                                                                  | `false`  | Whether the tooltip is initially open.To render a controlled tooltip, use the `open` prop instead.                                                                                                                                                              |
 | open                                                     | `boolean`                                                                  | -        | Whether the tooltip is currently open.                                                                                                                                                                                                                          |
 | onOpenChange                                             | `((open: boolean, eventDetails: Tooltip.Root.ChangeEventDetails) => void)` | -        | Event handler called when the tooltip is opened or closed.                                                                                                                                                                                                      |
-| actionsRef                                               | `RefObject<Tooltip.Root.Actions \| null>`                                  | -        | A ref to imperative actions.\* `unmount`: Unmounts the tooltip popup.                                                                                                                                                                                           |
+| actionsRef                                               | `RefObject<Tooltip.Root.Actions \| null>`                                  | -        | A ref to imperative actions.\* `unmount`: Ends the closing phase of the tooltip after an externally controlled closing animation finishes.&#xA;Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the tooltip completes closing on its own.&#xA;Whether it leaves the DOM is decided by `keepMounted` on the portal.                                                                                                                                                                                           |
 | \* `close`: Closes the tooltip imperatively when called. |
 | defaultTriggerId                                         | `string \| null`                                                           | -        | ID of the trigger that the tooltip is associated with.&#xA;This is useful in conjunction with the `defaultOpen` prop to create an initially open tooltip.                                                                                                       |
 | handle                                                   | `Tooltip.Handle<Payload>`                                                  | -        | A handle to associate the tooltip with a trigger.&#xA;If specified, allows external triggers to control the tooltip's open state.&#xA;Can be created with the Tooltip.createHandle() method.                                                                    |

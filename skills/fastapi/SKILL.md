@@ -2,8 +2,8 @@
 name: fastapi
 description: "FastAPI Python framework. Covers REST APIs, validation, dependencies, security. Use when building Python web APIs with FastAPI, configuring Pydantic models, implementing dependency injection, or setting up OAuth2/JWT authentication. Keywords: FastAPI, Pydantic, async, OAuth2, JWT, REST API."
 metadata:
-  version: "0.141.1"
-  release_date: "2026-07-29"
+  version: "0.159.1"
+  release_date: "2026-10-21"
 ---
 
 # FastAPI
@@ -19,7 +19,6 @@ This skill provides comprehensive guidance for building APIs with FastAPI.
 | Query parameters   | `references/query-parameters.md`    |
 | Request body       | `references/request-body.md`        |
 | Validation         | `references/validation.md`          |
-| Body advanced      | `references/body-advanced.md`       |
 | Cookies/Headers    | `references/cookies-headers.md`     |
 | Pydantic models    | `references/models.md`              |
 | Forms/Files        | `references/forms-files.md`         |
@@ -27,6 +26,7 @@ This skill provides comprehensive guidance for building APIs with FastAPI.
 | Path config        | `references/path-config.md`         |
 | Dependencies       | `references/dependencies.md`        |
 | Security           | `references/security.md`            |
+| Telemetry          | `references/telemetry.md`           |
 | Middleware         | `references/middleware.md`          |
 | CORS               | `references/cors.md`                |
 | Database           | `references/sql-databases.md`       |
@@ -55,6 +55,25 @@ This skill provides comprehensive guidance for building APIs with FastAPI.
 ## Installation
 
 Requires Python 3.10+. Install: `pip install "fastapi[standard]"` (full with uvicorn) or `pip install fastapi` (minimal). Add `python-multipart` for forms/files.
+
+## Release Highlights (0.141.1 -> 0.159.1)
+
+Breaking changes first — each one changes runtime behavior for existing code.
+
+- **Breaking — `**extra` removed from request parameters (`0.155.0`)**: `Path`, `Query`, `Header`, `Cookie`, `Body`, `Form`, and `File` no longer accept arbitrary keyword arguments; unknown kwargs now raise `TypeError`. Use `json_schema_extra={"custom": "value"}` instead of `Query(custom="value")`. See `references/validation.md`.
+- **Breaking — `root_path` deprecated (`0.146.0`)**: `FastAPI(root_path=...)` is deprecated. Configure the server instead: `fastapi run --root-path /api/v1`.
+- **Breaking — `openapi_prefix` and `FastAPI(**extra)` removed (`0.145.0`)**: both were deprecated and are gone; `FastAPI()` now rejects them.
+- **Breaking — OpenTelemetry auto-configuration is opt-in (`0.143.0`)**: FastAPI no longer sets up exporters from `OTEL_*` environment variables on its own. Set `FASTAPI_OTEL_AUTO_CONFIGURE=true` or `FastAPI(telemetry={"auto_configure": True})` to keep the old behavior. Apps that configure their own providers/exporters need no change. See `references/telemetry.md`.
+- **Breaking — form values follow browser semantics (`0.147.0` – `0.153.0`)**: omitted `bool`/`bool | None` form fields become `False` and count as explicitly set (`0.147.0`); empty scalar form values are treated as missing — required fields error, fields with defaults use the default and stay unset in `model_dump(exclude_unset=True)`, empty strings inside lists are preserved (`0.149.0`); unselected browser file inputs (empty filename and content) are treated as missing (`0.150.0`); unions of form models follow the same rules (`0.153.0`).
+- **Breaking — JSON `null` is not an omitted value (`0.151.0`)**: `null` in a JSON body is validated as `None` — nullable types accept it, non-nullable types reject it even when a default exists. Defaults and default factories apply only when the value is omitted. Sending `null` as the whole body of an embedded/multi-parameter body is a validation error. See `references/request-body.md`.
+- **Breaking — defaults are not user input (`0.148.0`)**: defaults for omitted `Query`, `Header`, `Cookie`, and `Form` parameters and parameter-model fields are no longer validated unless `validate_default=True`, and applying a default no longer marks a field as explicitly set (`model_dump(exclude_unset=True)` excludes it). Default factories run once, validation errors no longer include injected defaults in `input`, and `Body(validate_default=True)` is honored.
+- **Native OpenTelemetry (`0.142.0`)**: FastAPI emits HTTP request traces, metrics, and logs plus WebSocket traces and logs. Configure it with `FastAPI(telemetry={...})` (`tracing`, `metrics`, `logs`, `operation_spans`, `exclude`, provider injection). A failed automatic setup no longer aborts startup (`0.142.2`), tracers are cached so warnings deduplicate (`0.142.3`), and telemetry is isolated for excluded requests (`0.142.4`).
+- **Parameter models grew (`0.157.0` – `0.159.1`)**: optional query/header/cookie parameter models (`0.159.0`), optional form models (`0.158.2`), optional unions of form models (`0.159.1`), combined query/header/cookie models (`0.157.0`), and combined form models (`0.158.0`).
+- **Pydantic validation options on request parameters (`0.154.0`)**: `Query`, `Path`, `Header`, `Cookie`, `Body`, `Form`, and `File` accept Pydantic validation options such as `validate_default`.
+- **WebSocket support in security dependencies (`0.144.0`)**: security schemes can now be used in WebSocket dependencies.
+- **Header model error locations (`0.152.0`)**: validation errors for header parameter models report the HTTP header name (e.g. `int-val`) instead of the Python field name (`int_val`). Explicit aliases, `Header(convert_underscores=False)`, and `loc_by_alias=False` are unchanged.
+- **Alias and metadata fixes (`0.156.0` – `0.156.7`)**: `AliasChoices` now works for query/header/cookie (`0.156.3`), path (`0.156.5`), named JSON body parameters, and form model extraction (`0.156.4`); form/file `AliasChoices` report correct error locations (`0.156.7`); model alias settings are respected for query/header/cookie parameters (`0.156.6`); Pydantic `Field()` attributes and field metadata survive into inferred request parameters (`0.156.0` – `0.156.2`).
+- **Other fixes (`0.143.1` – `0.143.5`, `0.158.1`, `0.156.8`)**: form media types are preserved in the generated OpenAPI (`0.158.1`); uploaded file positions are preserved when converting to `bytes` (`0.156.8`); `byte` file list parameters handle empty values (`0.143.5`); non-finite float serialization is fixed for JSONL and SSE streams (`0.143.3`); blocking frontend fallback file checks are fixed (`0.143.2`); included route metadata is fixed in `iter_route_contexts()` (`0.143.1`); repeated endpoint wrapping in included routers is fixed (`0.142.1`); `httpx2` was added to the optional dependencies (`0.143.4`).
 
 ## Release Highlights (0.139.2 -> 0.141.1)
 
@@ -188,6 +207,7 @@ def read_me(user: Annotated[User, Depends(get_current_user)]):
 ## Links
 
 - [Documentation](https://fastapi.tiangolo.com/)
+- [Release Notes](https://fastapi.tiangolo.com/release-notes/)
 - [Releases](https://github.com/fastapi/fastapi/releases)
 - [GitHub](https://github.com/fastapi/fastapi)
 - [PyPI](https://pypi.org/project/fastapi/)

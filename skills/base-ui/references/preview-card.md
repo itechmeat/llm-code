@@ -8,6 +8,11 @@ description: A high-quality, unstyled React preview card component that appears 
 
 <Meta name="description" content="A high-quality, unstyled React preview card component that appears when a link is hovered, showing a preview for sighted users." />
 
+## v1.9.0 notes
+
+- Automatic unmounting is decoupled from `actionsRef`. Call `eventDetails.preventUnmountOnClose()` in `onOpenChange` to opt out, then end the closing phase with `actionsRef.current.unmount()`. See `popover.md`.
+- A viewport transition no longer starts when a retained popup reopens.
+
 ## Demo
 
 ### Tailwind
@@ -1798,7 +1803,7 @@ Doesn’t render its own HTML element.
 | defaultOpen                                                   | `boolean`                                                                      | `false` | Whether the preview card is initially open.To render a controlled preview card, use the `open` prop instead.                                                                                                                                                                  |
 | open                                                          | `boolean`                                                                      | -       | Whether the preview card is currently open.                                                                                                                                                                                                                                   |
 | onOpenChange                                                  | `((open: boolean, eventDetails: PreviewCard.Root.ChangeEventDetails) => void)` | -       | Event handler called when the preview card is opened or closed.                                                                                                                                                                                                               |
-| actionsRef                                                    | `RefObject<PreviewCard.Root.Actions \| null>`                                  | -       | A ref to imperative actions.\* `unmount`: Unmounts the preview card popup.                                                                                                                                                                                                    |
+| actionsRef                                                    | `RefObject<PreviewCard.Root.Actions \| null>`                                  | -       | A ref to imperative actions.\* `unmount`: Ends the closing phase of the preview card after an externally controlled closing animation finishes.&#xA;Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the preview card completes closing on its own.&#xA;Whether it leaves the DOM is decided by `keepMounted` on the portal.                                                                                                                                                                                                    |
 | \* `close`: Closes the preview card imperatively when called. |
 | defaultTriggerId                                              | `string \| null`                                                               | -       | ID of the trigger that the preview card is associated with.&#xA;This is useful in conjunction with the `defaultOpen` prop to create an initially open preview card.                                                                                                           |
 | handle                                                        | `PreviewCard.Handle<Payload>`                                                  | -       | A handle to associate the preview card with a trigger.&#xA;If specified, allows external triggers to control the card's open state.&#xA;Can be created with the PreviewCard.createHandle() method.                                                                            |

@@ -180,6 +180,50 @@ async def read_items(headers: Annotated[CommonHeaders, Header()]):
     return headers
 ```
 
+### Optional Header and Cookie Models (0.159.0)
+
+Add `| None` and a default of `None` to make the whole group optional:
+
+```python
+class CommonHeaders(BaseModel):
+    x_request_id: str | None = None
+    user_agent: str | None = None
+
+@app.get("/items/")
+async def read_items(
+    headers: Annotated[CommonHeaders | None, Header()] = None,
+):
+    return headers
+```
+
+- If none of the group's fields is sent, the model is `None`.
+- If any field is sent, the model is validated.
+- Using `| None` without a default keeps the parameter required.
+- Unknown headers follow the model's extra configuration; ignored extras do not make the model present.
+
+### Combining Parameter Models (0.157.0)
+
+Query, header, and cookie parameter models can be combined with each other and with individual parameters. See `references/query-parameters.md` for the combination rules.
+
+### Header Validation Error Locations (0.152.0)
+
+Validation errors for header parameter models report the HTTP header name instead of the Python field name:
+
+```json
+{
+  "detail": [
+    {
+      "type": "int_parsing",
+      "loc": ["header", "int-val"],
+      "msg": "Input should be a valid integer",
+      "input": "foo"
+    }
+  ]
+}
+```
+
+The Python field `int_val` maps to the header `int-val`. Explicit aliases, `Header(convert_underscores=False)`, and models configured with `loc_by_alias=False` keep their previous behavior.
+
 ## Setting Response Cookies/Headers
 
 ### Set Cookie

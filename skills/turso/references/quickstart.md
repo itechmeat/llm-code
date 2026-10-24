@@ -50,8 +50,11 @@ SELECT * FROM users;
 Enable with flags:
 
 - `--experimental-encryption`
-- `--experimental-mvcc`
-- `--experimental-strict`
 - `--experimental-views`
+- `--experimental-custom-types`
+- `--experimental-generated-columns`
+- `--experimental-attach`
 
 **Warning:** Not production ready.
+
+MVCC is not behind a flag — select it per database with `PRAGMA journal_mode = 'mvcc'`.

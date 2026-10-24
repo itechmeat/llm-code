@@ -101,6 +101,10 @@ await recordStep([{ action: "fetch_data", result: "success" }]);
 
 Always use the `txn` handle passed into the callback for statements inside the transaction — never the outer `db`/`conn` instance. The older `transaction(fn)` method, which closes over the outer instance instead of taking an explicit transaction parameter, is now **deprecated**: once more than one transaction can be in flight at a time (the normal case for a multi-agent or multi-worker setup sharing a connection), statements scheduled through the closed-over instance can be interleaved out of order, producing unsound results. `transactionAsync()` fixes this by threading a dedicated transaction handle through the callback — migrate any agent code that opens transactions to the new signature, especially under concurrent access.
 
+`transactionAsync()` runs the whole `BEGIN`..`COMMIT` window on its own server session, so it does not lock the connection: statements issued on the connection while the transaction is open run on a separate stream, outside the transaction, and do not see its uncommitted changes. The flip side is that session-scoped state applied earlier — `PRAGMA` settings such as `foreign_keys`, attached databases, temp tables — is not present inside the transaction, so re-apply anything the transaction depends on through the transaction handle.
+
+Transaction modes are explicit on the JavaScript surface: the wrapper exposes `.deferred()`, `.immediate()`, `.exclusive()` and `.concurrent()` variants, and `batch(stmts, mode)` takes the same mode strings. Use `concurrent` only against an MVCC database (`PRAGMA journal_mode = 'mvcc'`); the Rust bindings expose the same behavior as `TransactionBehavior::Concurrent`.
+
 ## Interactive Transactions
 
 Turso now documents interactive transactions for multi-step read/write invariants.
@@ -111,7 +115,9 @@ Turso now documents interactive transactions for multi-step read/write invariant
 
 ## Python Agent Backends
 
-For Python services, prefer the official `sqlalchemy-libsql` integration instead of custom DBAPI glue. That keeps local-only, remote-only, and embedded-replica setups on the documented path and aligns well with async web backends that still want ORM ergonomics.
+For Python services, prefer the official `sqlalchemy-libsql` integration instead of custom DBAPI glue. That keeps local-only, remote-only, and embedded-replica setups on the documented path and aligns well with async web backends that still want ORM ergonomics. As of 0.8.0 the dialect supports SQLAlchemy reflection, so schema introspection works against a Turso database (SQLAlchemy 2.0.45 or newer).
+
+For agents that talk to Turso Cloud over HTTP without an ORM, the Python serverless driver (`turso-serverless`) is the direct option — see [serverless-drivers.md](serverless-drivers.md) for the driver matrix covering JavaScript, Python, Rust, Go and .NET.
 
 ## Useful SQL Surface for Agents
 
@@ -120,6 +126,7 @@ The SQL surface has a few features that matter for agent workflows:
 - `CREATE TABLE AS SELECT` is useful for checkpointing, materializing intermediate search results, or creating review snapshots.
 - Temporary tables are useful for short-lived planning/output staging without polluting durable schema.
 - `CREATE DOMAIN` / `DROP DOMAIN` and STRICT composite types (`STRUCT`, `UNION`) let you encode stronger contracts when agents write semi-structured state.
+- Full-text search (FTS) backs agent memory recall. As of 0.8.0 FTS search accepts null and non-text inputs, so a null or non-string search term no longer aborts the query, and non-finite field weights are rejected instead of silently corrupting ranking.
 
 Prefer these features when they simplify state transitions, but keep production schemas intentionally small and reviewable.
 

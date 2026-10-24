@@ -8,6 +8,10 @@ description: A high-quality, unstyled React number field component with incremen
 
 A high-quality, unstyled React number field component with increment and decrement buttons, and a scrub area.
 
+## v1.9.0 notes
+
+- `<NumberField.ScrubArea>` fires `onClick` once per click, so a click handler no longer runs twice for a single interaction.
+
 ## Demo
 
 ### Tailwind

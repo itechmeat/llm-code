@@ -2,8 +2,8 @@
 name: bun
 description: "Bun JavaScript/TypeScript runtime and all-in-one toolkit. Covers runtime, package manager, bundler, test runner, HTTP server, WebSockets, SQLite, S3, Redis, file I/O, shell scripting, FFI, Markdown parser. Use when running JS/TS with Bun, managing packages, bundling, testing, or using Bun-specific APIs. Keywords: bun, bunx, bun install, bun run, bun test, bun build, Bun.serve, Bun.file, bun:sqlite, Bun.markdown."
 metadata:
-  version: "1.4.2"
-  release_date: "2026-09-05"
+  version: "1.4.4"
+  release_date: "2026-10-22"
 ---
 
 # Bun
@@ -19,6 +19,7 @@ All-in-one JavaScript/TypeScript toolkit: runtime, package manager, test runner,
 | Development        | `references/development.md`          |
 | Module System      | `references/module-system.md`        |
 | TypeScript & JSX   | `references/typescript-jsx.md`       |
+| Type Check & Format | `references/type-checking-and-formatting.md` |
 | Configuration      | `references/bunfig.md`               |
 | HTTP Server        | `references/http-server.md`          |
 | Browser Automation | `references/webview.md`              |
@@ -97,6 +98,19 @@ bun build ./index.ts --metafile-md --outdir ./dist
 | `better-sqlite3`       | `bun:sqlite`             |
 | `child_process.exec()` | `Bun.$` or `Bun.spawn()` |
 | `dotenv`               | Built-in `.env` support  |
+
+## Release Highlights (1.4.3 -> 1.4.4)
+
+- **Built-in TypeScript checker (`1.4.3`)**: `bun check` type-checks the project of the nearest `tsconfig.json` and passes 100% of the TypeScript 7.0.2 conformance suite. It reports the same errors as `tsc` (file, line, column, error code) at 3x-6.4x the speed and 2.2x-4.9x less memory; any compiler option works as a flag (`--strict`, `--target`) and overrides `tsconfig.json`.
+- **`bun build --check` (`1.4.3`)**: type-checks and then bundles. A type error fails the build like any other build error and nothing is written. The JS API equivalent is `Bun.build({ check: true })`.
+- **Built-in formatter (`1.4.4`)**: `bun fmt` is a Prettier-compatible formatter built into the runtime. On Prettier's own repository (2,616 files) `bun fmt --check` takes 60 ms against 17 seconds for Prettier - about 286x faster at 48 MB peak memory instead of 459 MB. It formats JavaScript, TypeScript, JSX, Flow, CSS, SCSS, Less, HTML, Vue, Svelte, Angular, LWC, MJML, JSON/JSONC/JSON5, YAML, TOML, Markdown, MDX, GraphQL and Handlebars, including embedded code.
+- **`bun fmt` flags**: `--check` lists files that need formatting and exits with code 1, `--staged` formats and re-stages only what you are about to commit (replaces lint-staged), `--changed` formats what differs from the default branch (accepts a ref, e.g. `--changed=origin/dev`), `--doctor` shows how Bun reads your config and which packages you can uninstall, `--init` creates the `[fmt]` section.
+- **`bun fmt` configuration**: reads `.prettierrc*`, `prettier.config.*`, `prettier` in `package.json`, `overrides`, `.editorconfig`, `.prettierignore`, plus `.oxfmtrc.json`, `.oxfmtrc.jsonc` and `oxfmt.config.ts`. Prettier options work under the same names in `bunfig.toml` (`[fmt] printWidth`, `semi`, plus `[[fmt.overrides]]` with `files` and `options`) and as flags (`--print-width 100`, `--no-semi`).
+- **Built-in import sorting**: `sortImports` groups imports, sorts the names inside `{ }` and merges duplicate imports from the same module, so `@trivago/prettier-plugin-sort-imports`, `@ianvs/prettier-plugin-sort-imports` and `prettier-plugin-organize-imports` are no longer needed. `sortTailwindcss`, `sortPackageJson` and `jsdoc` are opt-in and need no Prettier config.
+- **Built-in plugin equivalents**: `bun fmt` does the work of `prettier-plugin-tailwindcss`, `prettier-plugin-packagejson` and `prettier-plugin-svelte`, and their options are supported. Tailwind classes are sorted with the project's `tailwindcss` (v3 or v4). Languages that need a real Prettier plugin (e.g. Astro) fall back to the Prettier installed in the project.
+- **Monorepo and skip rules**: in a monorepo `bun fmt` walks up to the nearest `bunfig.toml` with a `[fmt]` section; without a Prettier config it also formats TOML. It skips `*.min.js`, `*.min.css` and lockfiles unless you pass them explicitly.
+
+Full details: `references/type-checking-and-formatting.md`
 
 ## Release Highlights (1.4.x)
 
@@ -266,5 +280,6 @@ import.meta.env.DATABASE_URL;
 
 - [Documentation](https://bun.sh/docs)
 - [Releases](https://github.com/oven-sh/bun/releases)
+- [Release blog](https://bun.com/blog/bun-v1.4.4)
 - [GitHub](https://github.com/oven-sh/bun)
 - [Discord](https://bun.sh/discord)

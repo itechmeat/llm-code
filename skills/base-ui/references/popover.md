@@ -22,6 +22,12 @@ A high-quality, unstyled React popover component that displays an accessible pop
 - Modal popovers with an internal `Popover.Close` now trap focus more reliably, including cases with visually hidden close buttons.
 - Nested hoverable popup behavior was hardened again; if you compose popovers with preview cards or menus, retest pointer transitions instead of assuming older hover bugs still apply.
 
+## v1.9.0 notes
+
+- Automatic unmounting is decoupled from `actionsRef`. Call `eventDetails.preventUnmountOnClose()` in `onOpenChange` to opt out, then end the closing phase with `actionsRef.current.unmount()`. See the Unmount control section below.
+- The focus guard no longer loops when the trigger is the only tabbable element.
+- Hover-out animations are fixed when switching between detached triggers, and a viewport transition no longer starts when a retained popup reopens.
+
 ## Demo
 
 ### Tailwind
@@ -2159,6 +2165,63 @@ function ListIcon(props: React.ComponentProps<"svg">) {
 }
 ```
 
+### Unmount control
+
+Since `1.9.0`, automatic unmounting is decoupled from `actionsRef`. Popups used to unmount as soon as they closed, unless you passed an `actionsRef` and called `unmount()` yourself. Now the popup always unmounts on its own after the close animation, and you opt out explicitly.
+
+To keep the popup mounted while an external animation library plays the exit transition, call `eventDetails.preventUnmountOnClose()` inside `onOpenChange`:
+
+```tsx title="Keeping the popup mounted during an external exit animation"
+import * as React from "react";
+import { Popover } from "@base-ui/react/popover";
+
+function ExamplePopover() {
+  const actionsRef = React.useRef<Popover.Root.Actions | null>(null);
+
+  return (
+    <Popover.Root
+      actionsRef={actionsRef}
+      onOpenChange={(open, eventDetails) => {
+        if (!open) {
+          // Opt out of the automatic unmount for this close.
+          eventDetails.preventUnmountOnClose();
+        }
+      }}
+    >
+      <Popover.Trigger>Open</Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Positioner>
+          <Popover.Popup>Content</Popover.Popup>
+        </Popover.Positioner>
+      </Popover.Portal>
+    </Popover.Root>
+  );
+}
+```
+
+Then end the closing phase yourself once the external animation finishes:
+
+```tsx
+actionsRef.current?.unmount();
+```
+
+The same `eventDetails.preventUnmountOnClose()` pattern applies to Autocomplete, Combobox, Menu, Select, Dialog, Alert Dialog, Tooltip, and Preview Card.
+
+Two separate things are involved, and they are easy to confuse:
+
+- **Unmounting** is the end of the closing phase. `preventUnmountOnClose()` stops Base UI from ending that phase on its own, and `actionsRef.current.unmount()` ends it. The `unmount` action is only meaningful after `preventUnmountOnClose()` was called; without it the popup completes closing on its own.
+- **Staying in the DOM** is decided by `keepMounted` on the portal. Setting `keepMounted` keeps the portal element in the DOM while the popup is hidden, which is independent of the closing phase.
+
+```jsx title="keepMounted is separate from unmounting"
+<Popover.Portal keepMounted>
+  <Popover.Positioner>
+    <Popover.Popup>Content</Popover.Popup>
+  </Popover.Positioner>
+</Popover.Portal>
+```
+
+`eventDetails` also carries the other fields you already use, such as `reason`, `event`, and `trigger`. Cancelling the change (`eventDetails.cancel()`) prevents the open state change entirely and leaves the popup open.
+
 ## API reference
 
 ### Root
@@ -2173,8 +2236,8 @@ Doesn’t render its own HTML element.
 | defaultOpen                                             | `boolean`                                                                  | `false` | Whether the popover is initially open.To render a controlled popover, use the `open` prop instead.                                                                                                                                                                         |
 | open                                                    | `boolean`                                                                  | -       | Whether the popover is currently open.                                                                                                                                                                                                                                     |
 | onOpenChange                                            | `((open: boolean, eventDetails: Popover.Root.ChangeEventDetails) => void)` | -       | Event handler called when the popover is opened or closed.                                                                                                                                                                                                                 |
-| actionsRef                                              | `RefObject<Popover.Root.Actions \| null>`                                  | -       | A ref to imperative actions.\* `unmount`: When specified, the popover will not be unmounted when closed.&#xA;Instead, the `unmount` function must be called to unmount the popover manually.&#xA;Useful when the popover's animation is controlled by an external library. |
-| \* `close`: Closes the dialog imperatively when called. |
+| actionsRef                                              | `RefObject<Popover.Root.Actions \| null>`                                  | -       | A ref to imperative actions.\* `unmount`: Ends the closing phase of the popover after an externally controlled closing animation finishes.&#xA;Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the popover completes closing on its own.&#xA;Whether it leaves the DOM is decided by `keepMounted` on the portal. |
+| \* `close`: Closes the popover imperatively when called.  |
 | defaultTriggerId                                        | `string \| null`                                                           | -       | ID of the trigger that the popover is associated with.&#xA;This is useful in conjunction with the `defaultOpen` prop to create an initially open popover.                                                                                                                  |
 | handle                                                  | `Popover.Handle<Payload>`                                                  | -       | A handle to associate the popover with a trigger.&#xA;If specified, allows external triggers to control the popover's open state.                                                                                                                                          |
 | modal                                                   | `boolean \| 'trap-focus'`                                                  | `false` | Determines if the popover enters a modal state when open.\* `true`: user interaction is limited to the popover: document page scroll is locked, and pointer interactions on outside elements are disabled.                                                                 |

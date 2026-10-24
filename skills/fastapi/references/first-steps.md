@@ -48,6 +48,20 @@ Server runs at `http://127.0.0.1:8000`
 
 `fastapi dev` sets the `FASTAPI_ENV` environment variable to `development` before importing your app, unless it is already set; `fastapi run` leaves it unchanged. Conventional values are `development` and `production` (documented in the FastAPI CLI guide as of `0.141.1`); app startup code can branch on it, and `app.frontend(check_dir="auto")` uses it to relax its directory check in dev.
 
+## App Configuration Changes (0.145.0 - 0.146.0)
+
+- `openapi_prefix` and the unused `**extra` keyword arguments were removed from `FastAPI()` (`0.145.0`). Both were deprecated; unknown keyword arguments now raise `TypeError`.
+- `root_path` is deprecated (`0.146.0`). Configure the server instead of the application:
+
+```bash
+fastapi run --root-path /api/v1
+```
+
+```python
+# ❌ deprecated since 0.146.0
+app = FastAPI(root_path="/api/v1")
+```
+
 ## Auto-Generated Documentation
 
 | URL             | Documentation            |

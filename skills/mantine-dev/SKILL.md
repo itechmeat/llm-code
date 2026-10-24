@@ -2,13 +2,23 @@
 name: mantine-dev
 description: "Mantine UI library for React: 100+ components, hooks, forms, theming, dark mode, CSS modules, and Vite/TypeScript setup. Use when building React applications with Mantine components, configuring theming/dark mode, or working with Mantine hooks and forms. Keywords: Mantine, React, UI components, CSS modules, theming."
 metadata:
-  version: "9.6.2"
-  release_date: "2026-09-21"
+  version: "9.7.3"
+  release_date: "2026-10-17"
 ---
 
 # Mantine UI Library
 
 Mantine is a fully-featured React components library with TypeScript support. It provides 100+ hooks and components with native dark mode, CSS-in-JS via CSS modules, and excellent accessibility.
+
+## v9.7 Highlights
+
+- New components: `Tour` (step-by-step onboarding with a spotlight overlay, guided and beacon modes), `Toolbar` (roving-tabindex container with toggle groups and dividers), `Toggle` (button with `active`/`onActiveChange` state), and `JsonViewer` (`@mantine/code-highlight`: expandable JSON tree with type indicators and copy buttons).
+- `@mantine/schedule`: `DayView`/`WeekView` gain `slotLabelInterval` (time labels more often than once per hour, must be a multiple of `intervalMinutes`); `businessHours` accepts `HH:mm` times and, in `WeekView`, a per-day record; business-hour colors are customizable with `--day-view-business-hours-bg` / `--week-view-business-hours-bg`; `MobileMonthView` gains `withWeekendDays`.
+- `@mantine/schedule`: `DayView`/`WeekView` gain `eventOverlapMode` (`'columns'` or `'cascade'`) and drop validation (`preventEventOverlap`, `canDropEvent`, `canResizeEventTo`, `canDropExternalEvent`, `onEventPlacementRejected`).
+- `@mantine/core`: `ScrollArea` gains the `--scrollarea-offset-size` CSS variable (offset gap independent of `scrollbarSize`); `Tooltip` gains `hideDetached`; `TreeSelect` gains `renderPill`; `Notifications` gains `withAutoCloseProgress`; `Checkbox` and `Radio` gain `variant="light"`.
+- `@mantine/core` fixes: `Radio`, `Chip` and `Switch` `readOnly` now prevents value changes; the `Select` `onChange` option argument is typed as nullable; `Cascader` mirrors `ArrowLeft`/`ArrowRight` in RTL; searchable inputs accept typing when rendered in another window or an iframe.
+- `@mantine/hooks` fixes: `use-scroller` no longer ignores the click after a drag that ended outside the container; `use-event-listener` keeps the listener when the options object is passed inline; `use-throttled-callback` handles reentrant calls; `use-focus-trap` traps focus with macOS Full Keyboard Access off.
+- `@mantine/charts` fixes the rendering of the right Y axis children; `@mantine/tiptap` `RichTextEditor` supports image upload through `getUploadImageExtension`.
 
 ## v9.6 Highlights
 

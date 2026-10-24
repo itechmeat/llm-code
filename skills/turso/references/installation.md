@@ -46,18 +46,33 @@ SELECT * FROM users;
 
 ## Experimental Flags
 
+`tursodb` gates newer SQL features behind flags:
+
 - `--experimental-encryption` — enable encryption
-- `--experimental-mvcc` — multi-version concurrency
-- `--experimental-strict` — strict mode
+- `--experimental-views` — materialized views
+- `--experimental-custom-types` — `CREATE TYPE` / `DROP TYPE`
+- `--experimental-generated-columns` — generated columns
+- `--experimental-attach` — `ATTACH DATABASE`
+- `--experimental-vacuum` / `--experimental-autovacuum` — vacuum and autovacuum
+- `--experimental-index-method` — pluggable index methods
+- `--experimental-without-rowid` — `WITHOUT ROWID` tables
+- `--experimental-multiprocess-wal` — multiprocess WAL coordination
+- `--experimental-mvcc-passive-checkpoint` — passive checkpointing (requires `journal_mode=mvcc`)
 
 **Warning:** Not production ready.
 
-## Python / SQLAlchemy (v0.6.0)
+MVCC itself is no longer behind a flag — enable it per database with `PRAGMA journal_mode = 'mvcc'` instead of a CLI switch.
 
-Turso documents SQLAlchemy via the `sqlalchemy-libsql` dialect. Prefer the official dialect over ad-hoc wrappers for Python services or agent backends, and treat the `0.6.0` line as the point where Python coverage became more practical for asyncio-heavy apps and named-parameter usage.
+## Python / SQLAlchemy
+
+Turso documents SQLAlchemy via the `sqlalchemy-libsql` dialect, and the embedded `turso` Python package ships the dialects `sqlite.turso`, `sqlite.aioturso` and `sqlite.turso_sync`.
 
 ```bash
 pip install sqlalchemy-libsql
 ```
 
 Use standard SQLAlchemy engines for local, remote, memory-only, or embedded-replica setups, and keep Turso credentials in environment variables instead of hardcoding them.
+
+As of 0.8.0 Turso supports **SQLAlchemy reflection**, so `MetaData.reflect()` and ORM autogeneration work against a Turso database. This requires **SQLAlchemy 2.0.45 or newer** — pin the minimum version in your dependency set.
+
+For raw DB-API access to Turso Cloud over HTTP, use the separate serverless driver instead of the ORM path (see [serverless-drivers.md](serverless-drivers.md)).

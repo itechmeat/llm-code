@@ -6,7 +6,7 @@ Official prebuilt packages now cover the main desktop/server targets, including 
 
 ## Python
 
-- Requirement (as documented in the GitHub README): Python 3.10–3.14
+- `0.8.0` ships native wheels for Python 3.11–3.14. Earlier interpreters (e.g. 3.10) are not in the `0.8.0` wheel matrix — check the upstream release notes before assuming support, and fall back to a source build if needed.
 
 ```bash
 pip install zvec
@@ -34,9 +34,13 @@ flutter pub add zvec
 
 - Linux (`x86_64`, `ARM64`)
 - macOS (`ARM64`)
+- macOS (`x86_64`, Intel Mac) — added in `0.8.0`
 - Windows (`x86_64`)
+- Windows (`ARM64`, MSVC) with dedicated ARM64 SDK packages — added in `0.8.0`
 - Android (`arm64-v8a`) via Flutter package
 - iOS (`arm64`) via Flutter package
+
+DiskANN indexes run on Windows and on the mobile platforms (Android, iOS) as of `0.8.0`; see `indexing.md` for the per-platform I/O behaviour.
 
 ## Build from source
 

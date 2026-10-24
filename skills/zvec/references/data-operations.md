@@ -6,7 +6,7 @@ Docs note that writes (`insert`, `upsert`, `update`, `delete`) become visible to
 
 ## Document shape (`Doc`)
 
-- `id`: unique string identifier
+- `id`: unique string identifier — valid UTF-8, up to 1024 bytes (`0.8.0+`)
 - `fields`: scalar metadata (must match schema; nullable fields can be omitted)
 - `vectors`: named dense/sparse vectors (must match schema type/dimension)
 
@@ -172,6 +172,15 @@ with collection.iter_docs() as it:
 
 - **C++ public API renamed to snake_case.** `Index`, `Collection`, etc. moved from PascalCase to snake_case: `Open()` → `open()`, `Search()` → `search()`, `Query()` → `query()`, `Insert()` → `insert()`. Update C++ call sites when upgrading. The C API and Python API names are unchanged.
 - Reads and writes can now proceed while `optimize()` runs (previously the operation was more exclusive), so long optimizations no longer stall ingest or retrieval.
+
+## Stability fixes (0.8.0)
+
+- `fetch()` and `query()` no longer crash or return missing rows when they race a segment switch or a flush; reads of a segment that is being written are synchronized.
+- Flat cache synchronization and key-map iterator lifetimes are fixed, which removes intermittent wrong-result and crash behaviour under concurrent read load.
+- Rebuilding an index that contains deleted rows keeps the vector-to-row mapping intact.
+- IVF `n_iters` is propagated correctly to the training step.
+
+If you saw missing rows or crashes during concurrent reads before `0.8.0`, upgrading is the fix — no application-side workaround is required.
 
 ## Fetch
 

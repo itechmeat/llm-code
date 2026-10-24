@@ -1,6 +1,6 @@
 # Sync & Integration
 
-Beads v0.58.0 uses Dolt as the primary backend and supports multiple sync strategies.
+Beads uses Dolt as the primary backend and supports multiple sync strategies.
 
 ## TL;DR
 
@@ -96,28 +96,18 @@ Constraints:
 
 ## Backup / Portability (JSONL)
 
-Use JSONL as an off-machine recovery path and migration/portability tool.
+Use JSONL as an off-machine recovery path and migration/portability tool:
 
 ```bash
 bd export -o backup.jsonl
 bd import -i backup.jsonl
 ```
 
-If auto-backup is enabled, you can trigger it manually:
+Export defaults are deliberately narrow — memories and ephemeral wisps are excluded unless you opt back in, so re-test any migration or audit tooling that assumed "everything goes into export".
 
-```bash
-bd backup
-bd backup status
-```
+For the rest of the backup story — the `bd backup` family, opt-in auto-backup, the proxied-server rules and restore — see [backup.md](backup.md).
 
 Set `BD_BACKUP_ENABLED=false` when automation must suppress backup commits.
-
-Recent export defaults changed in a safer direction:
-
-- `bd export` excludes memories by default.
-- `bd export` excludes ephemeral wisps by default.
-
-If you rely on older "everything goes into export" assumptions for migration or audit tooling, re-test those flows and opt back in intentionally where needed.
 
 ## Upgrades & Migrations
 

@@ -19,6 +19,11 @@ A high-quality, unstyled React slider component that works like a range input an
 - Extra TalkBack focus targets were removed, so Android accessibility behavior should be retested before shipping custom ARIA workarounds.
 - Prehydration client-only scripts are skipped more safely, reducing hydration noise in SSR setups.
 
+## v1.9.0 notes
+
+- Label focus works in Shadow DOM.
+- Drags end on `touchcancel` and `pointercancel`, touch track taps fire `onValueCommitted`, and single-element array values are preserved on pointer interaction.
+
 ## Demo
 
 ### Tailwind

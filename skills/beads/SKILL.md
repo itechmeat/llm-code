@@ -2,8 +2,8 @@
 name: beads
 description: "Beads (bd) Dolt-backed issue tracker for agent task memory. Covers CLI ops, molecules, Dolt sync, Linear/Jira/GitLab. Use when tracking tasks and dependencies with the Beads CLI, syncing issues via Dolt, or integrating with Linear/Jira/GitLab. Keywords: bd, beads, Dolt, issue tracker."
 metadata:
-  version: "1.3.0"
-  release_date: "2026-09-15"
+  version: "1.3.1"
+  release_date: "2026-09-30"
 ---
 
 # Beads (bd)
@@ -46,6 +46,7 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 | `bd dep add <child> <parent>` | Link tasks (blocks, related, parent)      |
 | `bd list`                     | List issues (default: 50, non-closed)     |
 | `bd list --format json`       | JSON output (alias for `--json`)          |
+| `bd list --include-ephemeral` | Include ephemeral rows (v1.3.1)           |
 | `bd show --current`           | Show active issue (no ID needed)          |
 | `bd update <id> --claim`      | Atomically claim issue for work           |
 | `bd heartbeat <id>`           | Extend a claim's lease (v1.3.0)           |
@@ -72,7 +73,15 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 | `bd github sync`              | Sync with GitHub Issues                   |
 | `bd remember`                 | Write persistent agent memory             |
 | `bd recall`                   | Read persistent agent memory              |
+| `bd types`                    | List issue types + system types (v1.3.1)  |
+| `bd backup init`              | Register a Dolt-native backup (v1.3.1)    |
+| `bd backup sync`              | Write a new backup snapshot (v1.3.1)      |
+| `bd backup remove`            | Remove a registered backup (v1.3.1)       |
+| `bd backup status`            | Show backups and auto mode (v1.3.1)       |
+| `bd backup restore`           | Restore the DB from a backup (v1.3.1)     |
 | `bd purge`                    | Delete closed ephemeral beads (wisps)     |
+| `bd purge --wisps-plane`      | Purge the closed wisps plane (v1.3.1)     |
+| `bd purge --limit N`          | Cap one purge run at N beads (v1.3.1)     |
 
 ## Hash-Based IDs
 
@@ -103,6 +112,7 @@ Use `bd children <id>` to view hierarchy.
 | [authoring.md](references/authoring.md) | Writing quality issues, EARS patterns |
 | [molecules.md](references/molecules.md) | Molecules, gates, formulas, compounds |
 | [sync.md](references/sync.md)           | Dolt sync, upgrades, and integrations |
+| [backup.md](references/backup.md)       | Backups, auto-backup, restore         |
 
 ## Key Concepts
 
@@ -163,6 +173,7 @@ Beads uses Dolt as its primary backend. Depending on your setup, Dolt can run:
 
 - Embedded (single-writer, no daemon)
 - Server mode (multi-writer)
+- Proxied server (bd runs and owns the Dolt server process itself — backup rules differ here, see [backup.md](references/backup.md))
 
 Use `bd doctor` (and `bd doctor --server` when applicable) to validate your
 environment. For legacy stores, use `bd migrate` workflows.
@@ -189,6 +200,14 @@ bd list --json                   # Standard JSON output
 ### MCP Plugin
 
 Beads includes Claude Code MCP plugin for direct integration.
+
+## Release Highlights (1.3.1)
+
+- **Backup family on proxied-server workspaces**: `bd backup init|sync|remove|status|restore` now works where bd runs the Dolt server itself. `bd backup restore` stops the proxy and its Dolt child before replacing the database, so the next command relaunches against the restored data. External host, socket and team-server databases are still refused with code `proxy.backup.unsupported` and `"reason": "design"` — see [backup.md](references/backup.md).
+- **Opt-in auto-backup**: with `backup.enabled=true` (or `BD_BACKUP_ENABLED=1`) the post-command hook takes the same change-detected Dolt-native backup into `.beads/backup` that it takes in direct mode. It is off by default, and it does nothing on an external or team-server topology, under strict `--readonly`, under `bd serve`, with `--dry-run`/`--inspect`, or during a migration freeze. A per-workspace `.beads/backup.lock` keeps auto-backup and `bd backup sync` from running at the same time.
+- **Purge flags**: `bd purge --wisps-plane` selects every closed row in the wisps table (including `--no-history` beads) on embedded, server and proxied workspaces and requires `--older-than` or `--pattern`. `--limit N` caps one run at N beads, oldest-closed first; with `--json` the output then adds `remaining` and `has_more` to loop on. `--older-than` accepts hour-precision durations (`36h`, `168h`, `90m`, down to `1s`) and refuses an unrepresentable value instead of wrapping it to a tiny age.
+- **Ephemeral listing**: `bd list --include-ephemeral` is the flag `--wisp-type` needs to reach any rows — `bd list --include-ephemeral --wisp-type heartbeat`. It is off by default, so the default listing is unchanged.
+- **System types**: `bd types` gains a "System types" section listing `message`, `molecule`, `gate` and `event`, and `bd types --json` gains an additive `system_types` field.
 
 ## Release Highlights (1.2.2)
 

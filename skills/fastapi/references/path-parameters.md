@@ -95,3 +95,32 @@ URL: `/files//home/user/file.txt` (note double slash)
 - `str`, `int`, `float`, `bool`
 - `UUID`
 - Custom types via Pydantic
+
+## Validation with `Path`
+
+```python
+from typing import Annotated
+from fastapi import Path
+
+@app.get("/items/{item_id}")
+async def read_item(item_id: Annotated[int, Path(ge=1)]):
+    return {"item_id": item_id}
+```
+
+`Path` supports the same constraints as `Query` (`gt`, `ge`, `lt`, `le`, `min_length`, `max_length`, `pattern`, …) and the Pydantic validation options added in `0.154.0`. See `references/validation.md`.
+
+## Alias Choices (0.156.5)
+
+`Path` accepts an `AliasChoices` instance, so a path parameter can be read from more than one name:
+
+```python
+from pydantic import AliasChoices
+
+@app.get("/items/{item_id}")
+async def read_item(item_id: Annotated[int, Path(alias=AliasChoices("item_id", "id"))]):
+    return {"item_id": item_id}
+```
+
+## Extra JSON Schema Properties (0.155.0)
+
+`Path` no longer accepts arbitrary keyword arguments — unknown kwargs raise `TypeError`. Use `json_schema_extra={"custom": "value"}` instead of `Path(custom="value")`. See `references/validation.md`.

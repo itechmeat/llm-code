@@ -8,6 +8,12 @@ description: A high-quality, unstyled React radio button component that is easy 
 
 A high-quality, unstyled React radio button component that is easy to style.
 
+## v1.9.0 notes
+
+- `aria-label` is preferred over an associated label when both are present, so an explicit `aria-label` on the radio or radio group wins.
+- Arrow keys that the group ignores no longer select a value when focus returns to the group.
+- `inputRef` forwarding and cleanup are fixed for both the radio and the radio group.
+
 ## Demo
 
 ### Tailwind

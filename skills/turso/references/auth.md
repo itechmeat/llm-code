@@ -79,6 +79,10 @@ await conn.all("SELECT * FROM users", {
 
 Per-query headers merge over any connection-level `requestHeaders` and apply only to that call's HTTP request(s). To stamp every request in a transaction, including `BEGIN`/`COMMIT`, set the header at the connection level or use an atomic `batch()` call, which sends the whole transaction as one HTTP request.
 
+### Rotating Tokens
+
+Short-lived auth tokens (for example a JWT refreshed from your identity provider) are supported per request by the Rust serverless driver: `Builder::with_auth_token_fn` takes an async callback invoked before every HTTP request, so the token can be rotated without rebuilding the database handle. The other drivers take the token at connection time — recreate the connection when the token expires. See [serverless-drivers.md](serverless-drivers.md).
+
 ## CLI Token Management
 
 ```bash

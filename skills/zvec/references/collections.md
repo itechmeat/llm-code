@@ -38,6 +38,14 @@ collection = zvec.create_and_open(
 )
 ```
 
+## Naming rules (0.8.0)
+
+- **Collection names** accept valid UTF-8 from 1 to 256 bytes. Control characters and path separator characters are rejected.
+- **Field names** keep an ASCII charset, are capped at 64 bytes, and reserved internal names are rejected.
+- **Document IDs** accept valid UTF-8 up to 1024 bytes (see `references/data-operations.md`).
+
+These are byte limits, not character counts — a multi-byte UTF-8 name reaches the limit sooner than its character count suggests.
+
 ## Open
 
 Use `open()` to load an existing collection directory.

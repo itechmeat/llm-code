@@ -22,6 +22,15 @@ This note summarizes the **Security guide** with an emphasis on actionable, prod
 
 - Collection names that are `.` or `..` are rejected, closing a path-based traversal risk. Do not rely on names alone to sanitize storage paths; keep the storage root scoped to its own directory.
 
+`1.19.2` notes:
+
+- **Internal gRPC accepts read-write keys only.** With `service.enforce_internal_auth: true`, the internal (p2p) gRPC API accepts `service.api_key` and `service.alt_api_key` only — the read-only key and JWT tokens are rejected, because peers that join consensus and move shards must hold the read-write key. `alt_api_key` is now actually forwarded on internal calls, so a rolling key rotation no longer breaks peer traffic.
+- **Rolling-upgrade order:** keep `enforce_internal_auth` off while any peer is still on an older release (those peers do not attach a key yet), then enable it once every node is upgraded.
+- **Startup warnings are now explicit.** Qdrant logs a warning when a distributed deployment runs without any API key (the internal p2p API is then unauthenticated and `enforce_internal_auth` cannot be enabled), when a key is configured but `enforce_internal_auth` is off, and when `enforce_internal_auth` is on while only `read_only_api_key` is set (peers would not be able to reach each other).
+- **An empty key is an unset key.** `api_key`, `alt_api_key` or `read_only_api_key` set to an empty string is treated as unset, so authentication is silently disabled. Qdrant warns about this case too — treat an empty secret as a failed deployment, not as "no auth needed".
+- **Bind the internal listener separately.** `cluster.p2p.host` (env: `QDRANT__CLUSTER__P2P__HOST`) binds the internal gRPC listener to a different interface than the public API, keeping the cluster port off the externally reachable interface. It defaults to `service.host`.
+- **Snapshot upload no longer logs server-side paths.** Uploading a snapshot without a collection configuration used to write the local path into the logs; that is fixed in `1.19.2`.
+
 ## Authentication options
 
 ### Static API key
@@ -72,6 +81,7 @@ Use this when you need to rotate credentials without a coordinated “all client
 ## Concrete guidance worth enforcing in projects
 
 - Always keep internal cluster traffic private (never expose the internal cluster port publicly).
+- In a cluster, configure `service.api_key` and, once every node is on the same release, `service.enforce_internal_auth: true`; bind the internal listener to a private interface with `cluster.p2p.host`.
 - If using API keys/JWT, do not run without TLS unless you have a trusted, private network boundary.
 - Prefer least privilege (read-only key or collection-scoped JWT) for read-heavy workloads.
 - If you do not need remote snapshot restore, disable restore-from-URL in hardened environments to reduce the remote-input attack surface.

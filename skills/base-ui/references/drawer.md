@@ -53,6 +53,14 @@ Prefer `Popover` when the UI must stay anchored to a trigger and behave like a p
 
 - `Drawer.Viewport` now forwards `style`. Prefer that over wrapper div hacks when you need inline max-height, sizing, or animated viewport constraints.
 
+## v1.9.0 notes
+
+- Swipe release velocity is preserved on 120 Hz input and after a trailing stationary pointer event, so flick-to-dismiss no longer feels like it stops dead.
+- `data-base-ui-swipe-ignore` accepts `x` and `y` options to ignore swipes along a single axis instead of both.
+- A drag that starts on an SVG scrolls instead of swiping.
+- Excess virtual-keyboard scroll space is removed, and item taps are preserved when the virtual keyboard is dismissed.
+- CloseWatcher close requests coming from the `cancel` event are handled, and unmounted drawers are no longer retained in `<Drawer.Provider>`.
+
 ## Accessibility checklist
 
 - Provide a visible title or an equivalent accessible label.

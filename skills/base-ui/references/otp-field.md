@@ -33,6 +33,10 @@ import { OTPFieldPreview as OTPField } from "@base-ui/react/otp-field";
 - Keyboard shortcuts such as Ctrl/Cmd editing behave more reliably.
 - Prefer one normalization path plus explicit validation instead of layering custom sanitizers.
 
+## v1.9.0 notes
+
+- Safari IME composition no longer over-fills slots, so an in-progress composition no longer pushes characters into the next slot.
+
 ## Operational notes
 
 - `autoComplete="one-time-code"` is the default and should usually be preserved for mobile autofill flows.

@@ -2,8 +2,8 @@
 name: pgvector
 description: "pgvector Postgres extension. Covers vector types, distance operators, indexing (HNSW/IVFFlat), and client library usage. Use when storing vectors in PostgreSQL, running nearest-neighbor searches, or configuring HNSW/IVFFlat indexes. Keywords: pgvector, PostgreSQL, vector search, HNSW, IVFFlat."
 metadata:
-  version: "0.8.6"
-  release_date: "2026-07-29"
+  version: "0.8.7"
+  release_date: "2026-10-01"
 ---
 
 # pgvector
@@ -68,6 +68,10 @@ SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 5;
 - Index usage typically requires `ORDER BY <distance-op> ... LIMIT ...`.
 - `<#>` returns negative inner product; multiply by `-1` to get the actual value.
 - `NULL` vectors are not indexed; for cosine distance, zero vectors are not indexed.
+
+## Release Notes
+
+- `0.8.7` (2026-10-01) is a fix release: a race between HNSW `INSERT` and `VACUUM` that could return duplicate neighbors, a buffer overflow in IVFFlat index builds with hardened index entry points, improved `vector_combine`, and a fix for the `avg` aggregate when no rows match. Casts between `vector`, `halfvec`, and `sparsevec` were tightened and safety-checked, and `-ffp-contract=fast` was added to `PG_CFLAGS` to enable multiply-and-add.
 
 ## Links
 

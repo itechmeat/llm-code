@@ -2,8 +2,8 @@
 name: vite
 description: "Vite next-gen frontend tooling: dev server, HMR, build, config, plugins, Environment API, Rolldown. Use when setting up or running a Vite project, configuring vite.config.*, authoring plugins, working with HMR or JS API, or managing environment variables and modes. Keywords: vite.config, bundler, Vite, HMR, Rolldown."
 metadata:
-  version: "8.3.0"
-  release_date: "2026-09-10"
+  version: "8.3.5"
+  release_date: "2026-10-21"
 ---
 
 # Vite
@@ -83,6 +83,15 @@ metadata:
 - **Type-safe PostCSS config**: Vite exports `PostcssUserConfig` (re-exported from `postcss-load-config`'s `Config` type) so `postcss.config.js`/`.ts` can be typed directly.
 - **Network URL labeling**: dev server network URLs now resolve and print the OS network-interface name (e.g. `eth0`, `wlan0`) even when `server.host` is an explicit address, not only when Vite auto-detects every interface.
 - **Rolldown and optimizer updates**: Rolldown bumps to `~1.2.0`, bringing client-side HMR handling into `experimental.bundledDev`; the dependency optimizer's lockfile-hash cache now also recognizes `aube-lock.yaml` (Aube) and `nub.lock` (nub), so those package managers correctly invalidate `node_modules/.vite` on dependency changes.
+
+## Patch Notes (8.3.0 -> 8.3.5)
+
+- The whole `8.3.x` line is fixes only — no new configuration options or APIs.
+- **Bundled dev mode:** serves `/@vite/client` and stubs `@vite/env`, imports CSS HMR helpers from `/@vite/client`, applies `server.origin` to asset URLs, exposes user `import.meta.env.*` defines inside the `import.meta.env` object, maps forwarded error stacks through the bundle source maps, and stops HMR propagation at modules that are no longer imported.
+- **Build:** chunk import maps handle missing imports and include preload dependencies in the hashing, preloads are corrected for a non-root `base` when `chunkImportMap` is enabled, the preload helper waits for in-flight stylesheets instead of scanning links quadratically, and a missing chunk import map no longer fails the build.
+- **Optimizer:** falls back to `yarn.lock` for the lockfile hash, scans `oxc.jsxInject` imports, scans deep imports with custom extensions, and no longer skips imports whose binding starts with `type`.
+- **CSS:** a literal `%` inside `url()` no longer fails the build, and preprocessors resolve from their own file path under lightningcss.
+- **Server:** `transformIndexHtml` no longer receives the query string in the filename, static aliases match on path boundaries, and file-watcher errors no longer crash the dev server.
 
 ## Patch Notes (8.0.14 -> 8.0.16)
 

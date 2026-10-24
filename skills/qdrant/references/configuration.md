@@ -37,17 +37,19 @@ Practical pattern:
 - HTTP: typically `6333`; gRPC: typically `6334`.
 - gRPC can be disabled if configured accordingly.
 - Bind address/host is configurable.
+- The internal cluster listener has its own bind address (`cluster.p2p.host`), so it can be moved off the public interface; it defaults to `service.host`.
 
 ### Security
 
 - API keys and read-only API keys are config-driven.
 - TLS can be enabled at the service level; optional mutual TLS is supported.
 - TLS cert rotation can be handled via periodic reload (`tls.cert_ttl`).
+- The internal (p2p) gRPC API can require the read-write key (`service.enforce_internal_auth`).
 
 ### Storage / snapshots
 
 - storage path and snapshots path are explicit configuration.
-- snapshots can be stored locally or in S3 (requires S3 config).
+- snapshots can be stored locally or in object storage — S3, GCS or Azure Blob Storage — each with its own `*_config` block and an optional key `prefix` under `storage.snapshots_config`.
 - WAL has tunables (capacity/segments) that matter under write load.
 
 ### Performance (avoid premature tuning)
@@ -66,4 +68,5 @@ Practical pattern:
 - Treat config as an explicit artifact: commit non-secret defaults, inject secrets at deploy time.
 - Prefer “small number of well-understood knobs” over changing many settings without measurement.
 - Validate a restart path: invalid config should fail fast at startup.
+- Read the startup warnings: they flag empty API keys, distributed deployments that leave the internal API unauthenticated, and snapshot-storage config blocks that are ignored because they do not match the selected backend.
 

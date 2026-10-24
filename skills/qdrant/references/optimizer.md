@@ -71,3 +71,9 @@ Docs highlight a common production pattern:
 
 - Collections can have different lifecycles (churny vs append-only).
 - Bulk backfills / re-embeddings should use the "disable indexing during upload, re-enable after" pattern to save compute.
+
+`1.19.2` notes:
+
+- Proxy segments now persist their state, so a restart during an optimization no longer pins the WAL and no longer needs a long WAL replay before the node serves traffic.
+- Updates are no longer blocked while optimizations are being planned, so the write path stays responsive while the optimizer decides what to rebuild.
+- HNSW builds now always saturate all assigned threads, so an index build finishes sooner instead of using only part of the thread budget.

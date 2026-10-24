@@ -24,11 +24,12 @@ This note consolidates the practical deployment constraints and options.
 
 - `6333`: HTTP API (and health/metrics endpoints)
 - `6334`: gRPC API
-- `6335`: distributed deployment / cluster communication
+- `6335`: distributed deployment / cluster communication (internal p2p gRPC)
 
 Operational rule of thumb:
 - Clients typically need `6333`/`6334`.
 - Cluster nodes must reach each other on all required ports.
+- `1.19.2`: the internal listener can be bound to a **separate interface** with `cluster.p2p.host` (env: `QDRANT__CLUSTER__P2P__HOST`). It defaults to `service.host`; set it to the node's internal address to keep the cluster port off the interface that serves the public API.
 
 ## Docker quickstart (practical)
 
@@ -72,6 +73,6 @@ If you self-host on K8s, you must design:
 ## Production checklist (minimum)
 
 - Persistent storage is configured and compatible (no NFS).
-- Network exposure is intentional (do not expose internal cluster comms publicly).
+- Network exposure is intentional (do not expose internal cluster comms publicly; bind the internal listener to a private interface with `cluster.p2p.host`).
 - Security boundary is defined (auth + TLS termination).
 - Monitoring and backups are in place.

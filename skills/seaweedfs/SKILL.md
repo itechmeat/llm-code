@@ -2,8 +2,8 @@
 name: seaweedfs
 description: "SeaweedFS distributed storage. Covers filer, S3 API, replication, cloud tiers, and operations. Use when deploying SeaweedFS, configuring filer stores, exposing S3-compatible endpoints, or planning backup and security controls. Keywords: SeaweedFS, weed, filer, S3, object storage."
 metadata:
-  version: "4.47"
-  release_date: "2026-09-14"
+  version: "4.48"
+  release_date: "2026-09-28"
 ---
 
 # SeaweedFS
@@ -45,6 +45,18 @@ Prefer production guidance from multi-component setups over `weed mini` shortcut
 - The filer layer adds directories, metadata stores, and higher-level protocols.
 - S3, WebDAV, FUSE, and other interfaces are front doors on top of the same storage services.
 - Production deployments should document topology, credentials, persistence, monitoring, and recovery paths explicitly.
+
+## Release Highlights (4.48)
+
+- **S3 trusted proxies (`aws:SourceIp`)**: a configurable allowlist in `security.toml` restores forwarded-header support without re-opening the spoofing hole. When the direct TCP peer is in the allowlist, `X-Forwarded-For` is walked right-to-left (then `X-Real-Ip`) to determine `aws:SourceIp`; otherwise the direct peer address is used. Applies to the bucket policy engine, the IAM attached-policy engine, and the IAM role/session policy middleware. See `references/s3-gateway.md` and `references/security.md`.
+- **Admin bind default**: the `-ip` default auto-upgrades to `0.0.0.0` when `-adminPassword` or `[https.admin]` mTLS is configured; the loopback default stays for unauthenticated deployments, and an explicit `-ip` is always honored. The admin **worker/plugin gRPC** control plane now honors `-ip` too, instead of wildcard-binding every interface.
+- **Multipart concurrency for remote storage and tiering**: `upload_concurrency` / `download_concurrency` are configurable per remote storage (`remote.configure -upload_concurrency` / `-download_concurrency`) and per S3 backend in `master.toml`; `volume.tier.upload|download|move|evict` accept a `-concurrent` flag. `0`/unset keeps the previous defaults (1 upload part, 5 download parts for S3). See `references/cloud-drive.md`.
+- **S3 correctness**: `ListMultipartUploads` now returns the `Initiated` timestamp (repeated listings preserve the original time), POST policy uploads preserve object versions, object lock retention is honoured on version deletes, Object Lock configuration and object-lock actions are authorized separately, a list marker sorting before the prefix excludes nothing, request bodies are drained before an error response, and multipart completion commits the upload and removes `.uploads` atomically.
+- **Helm**: the generated read-only S3 identity is granted `List`, master pods roll when the master config changes, and `admin.allowInsecureBind` satisfies the admin auth render guard.
+- **Filer**: accepted metadata log records survive shutdown, shutdown paths are joined before the metadata store closes, the filer gained its own `disableHttp` flag, and manifest resolve error propagation is cleaned up.
+- **Shell**: `fs.verify -pruneEntries` deletes entries whose needles are lost, and `fs.mergeVolumes` warns when the source holds only orphan needles.
+- **Rust volume**: `tonic`/`prost` 0.14, the tail scan streams and releases the store lock, 8-15 argument functions folded into parameter structs, and a Windows build fix.
+- **Enterprise**: a new KVCache subsystem - an LMCache-facing KV cache service for LLM inference KV-cache tiering, with per-collection write concurrency and bounded cleanup memory.
 
 ## Release Highlights (4.41 -> 4.45)
 

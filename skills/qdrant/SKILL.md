@@ -2,8 +2,8 @@
 name: qdrant
 description: "Qdrant vector database: collections, points, payload filtering, indexing, quantization, snapshots, and Docker/Kubernetes deployment. Use when managing Qdrant collections, performing vector searches with payload filters, configuring HNSW indexes or quantization, or deploying Qdrant clusters. Keywords: Qdrant, vector database, HNSW, quantization, semantic search."
 metadata:
-  version: "1.19.1"
-  release_date: "2026-09-04"
+  version: "1.19.2"
+  release_date: "2026-10-05"
 ---
 
 # Qdrant (Skill Router)
@@ -12,7 +12,7 @@ This file is intentionally **introductory**.
 
 It acts as a **router**: based on your situation, open the right note under `references/`.
 
-## Release Highlights (1.19.0 → 1.19.1)
+## Release Highlights (1.19.0 → 1.19.2)
 
 - **TurboQuant 4-bit as primary storage:** the `"turbo4"` datatype stores only 4-bit quantized vectors, sparing disk space on originals.
 - **Per-component memory strategy:** collection components now take `"memory": "cold" / "cached" / "pinned"` for fine-grained control over memory vs performance. Deprecates `max_resident_memory_percent` of strict mode in favor of the new global quota API.
@@ -22,6 +22,10 @@ It acts as a **router**: based on your situation, open the right note under `ref
 - **Global quota API:** central place to cap cluster resource usage (supersedes the strict-mode memory ceiling).
 - **Routing token:** deterministic read routes when the read affinity option is in use.
 - **1.19.1:** 4-bit TurboQuant SIMD rework and batched HNSW searches (faster scoring), quantized scoring prefetch, plus input hardening — rejects empty dense vectors, vectors larger than 65536, and `.`/`..` in collection names (security).
+- **1.19.2 snapshot storage:** collection snapshots can now be written to **GCS** or **Azure Blob Storage** next to S3, and every object-storage backend accepts an optional key `prefix` — see `references/snapshots.md`.
+- **1.19.2 network boundary:** the internal (p2p) gRPC listener can bind to its own interface (`cluster.p2p.host`), and a distributed node now warns at startup when it runs without API keys — see `references/security.md` and `references/deployment.md`.
+- **1.19.2 performance:** sparse upserts no longer rewrite the whole posting list, proxy segments persist their state (no WAL pinning, fast restarts), filter IDs resolve once per request, HNSW builds saturate all assigned threads, and blocking work (queue-proxy encoding, WAL reads, BM25 embedding) moved off the async runtime.
+- **1.19.2 correctness:** filtered search no longer returns zero results when the HNSW entry point fails the filter, adding a named multivector to an indexed collection no longer breaks search, proxy segments propagate named-vector and payload-index changes, and write tearing is prevented in all Gridstore storages.
 
 ## Release Highlights (1.16.3 → 1.18.0)
 
@@ -50,9 +54,15 @@ It acts as a **router**: based on your situation, open the right note under `ref
 - Internal gRPC endpoints now enforce API key/JWT authentication when auth is enabled; validate internal service-to-service traffic before upgrade if you previously relied on private-network-only trust.
 - Snapshot restore from URL can now be disabled by config, which is relevant for hardened/self-hosted environments.
 
+## Additional Upgrade Notes (1.19.2)
+
+- The internal (p2p) gRPC API accepts **read-write keys only** (`service.api_key` / `service.alt_api_key`); a read-only key or a JWT is rejected there. Keep `service.enforce_internal_auth` off during a rolling upgrade and enable it only once every node is on 1.19.2+.
+- No API surface changed; the release is additive apart from the internal-key rule above. Still re-run filtered-search and multivector tests, because the filter/multivector fixes change result sets that were previously wrong.
+
 ## Start here (fast)
 
 - New to Qdrant? Read: `references/concepts.md`.
+- Creating and configuring collections? Read: `references/collections.md`.
 - Want the fastest local validation? Read: `references/quickstart.md` + `references/deployment.md`.
 - Integrating with Python? Read: `references/api-clients.md`.
 

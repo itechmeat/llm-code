@@ -57,6 +57,23 @@ Sources:
 - Keep one inventory of remote names, provider types, and endpoint quirks.
 - Validate provider-specific signature and path-style behavior before production cutover.
 
+## Multipart Transfer Concurrency (4.48)
+
+Multipart transfer concurrency for remote storage and tiered volumes is configurable instead of hard-coded.
+
+- **Per remote storage**: `remote.configure` accepts `-upload_concurrency` and `-download_concurrency`, which are persisted into the remote's `RemoteConf` and honored by the S3 and Azure remote storage clients. Before `4.48` the S3 client uploaded with 1 concurrent part and downloaded with 5.
+- **Per S3 backend**: the same keys (`upload_concurrency`, `download_concurrency`) can be set in the backend scaffold configuration in `master.toml`. An empty or invalid value falls back to the backend default rather than failing.
+- **Per operation**: the shell tier commands `volume.tier.upload`, `volume.tier.download`, `volume.tier.move` and `volume.tier.evict` accept a `-concurrent` flag that is forwarded through the volume-server gRPC handlers into the backend, so one-off moves can be tuned without reconfiguring the remote.
+- `0` or unset always means "backend default", so existing configurations behave identically after the upgrade.
+
+```bash
+weed shell -master=localhost:9333
+> remote.configure -name=my-s3 -type=s3 -bucket=b -region=r -access_key=k -secret_key=s -upload_concurrency=5 -download_concurrency=10
+> volume.tier.move -volumeId=3 -collection=cloud -concurrent=8
+```
+
+Why it matters: with a single concurrent upload part, most of the available bandwidth to a high-latency object store goes unused; with too many, the pipe saturates and small parts thrash. Tune per remote, not globally.
+
 ## Mount Remote Storage
 
 ### What this page is about

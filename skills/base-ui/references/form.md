@@ -17,6 +17,11 @@ A high-quality, unstyled React form component with consolidated error handling.
 
 - Validation-sensitive form flows avoid older `flushSync` behavior in the `1.5.0` line. Remove timing hacks only after retesting real submit and error-render paths.
 
+## v1.9.0 notes
+
+- No warning is emitted when an uncontrolled `<Field.Control>`'s `defaultValue` changes.
+- Label focus works in Shadow DOM.
+
 ## Demo
 
 ### Tailwind

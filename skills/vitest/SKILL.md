@@ -2,8 +2,8 @@
 name: vitest
 description: "Vitest testing framework: Vite-powered tests, Jest-compatible API, mocking, snapshots, coverage, browser mode, and TypeScript support. Use when writing or configuring tests with Vitest, setting up mocking/snapshots, configuring coverage, or running browser-mode tests. Keywords: Vitest, testing, Vite, Jest, mocking, coverage."
 metadata:
-  version: "5.0.1"
-  release_date: "2026-09-15"
+  version: "5.0.5"
+  release_date: "2026-10-15"
 ---
 
 # Vitest
@@ -41,6 +41,15 @@ Install: `npm install -D vitest`. Requires Node.js >=22 and Vite >=6.4 in v5.
 - **Projects:** inline projects extend the root config by default, nested projects are supported, distinct projects share one Vite server, and the config file is no longer looked up from ancestor directories (parent dirs no longer apply).
 - **Browser:** locator objects replace locator strings, `locators.exact` is on by default, and a `screenshotDirectory` config controls `toMatchScreenshot` output.
 - **Misc:** benchmark public API was rewritten with a pluggable provider API; `-p` is a shorthand for `--project`; `-t` uses `>` as separator; coverage `thresholds.perFile` accepts an object and TypeScript build mode / `vitest list` static parsing are supported.
+
+## Patch Notes (5.0.1 -> 5.0.5)
+
+- `5.0.2` to `5.0.5` are fixes only — the `5.0` API surface is unchanged.
+- The root temp directory is removed when the run closes, and `--changed` handles quoted file names.
+- `import.meta.hot` stubs expose `data`, `skipIf` sets `skip` and ignores `undefined` options, and the native loader keeps the import frame inside its errors.
+- Browser mode: late connections of closed sessions are dropped, global setup runs once with instances, the browser waits up to 30s to close, and synthetic `pagehide` events are ignored.
+- Hook cleanups run even when a later hook fails, mocks of finished test files are released, and all running tests are aborted on cancel.
+- The reporter reports end reason `failed` when a worker crashes.
 
 ## Release Highlights (4.1.0 -> 4.1.6)
 

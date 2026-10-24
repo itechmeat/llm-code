@@ -154,3 +154,23 @@ Sources:
 - **Admin role scoping (`4.41`)**: an admin's role session stays scoped to the assumed role instead of reverting to full admin authority, and the assumed-role principal plus the STS caller are both surfaced in audit logs.
 - **IAM-management actions (`4.41`)**: creating and altering IAM users, groups, and policies are now authorized as IAM actions in their own right rather than slipping through bucket-level checks; re-test provisioning scripts that assumed otherwise.
 - **Admin UI policy editing (`4.45`)**: the admin UI adds a visual IAM policy editor and supports managing bucket policies through the UI, complementing the programmatic/policy-file paths.
+
+## Patch-level S3 notes (4.48)
+
+- **Trusted proxies for `aws:SourceIp`**: the S3 API accepts forwarded client addresses again, but only behind an operator-configured allowlist. Add this section to `security.toml`:
+
+  ```toml
+  [s3.trusted_proxies]
+  white_list = "10.10.10.0/24" # comma separated; bare IPs or CIDRs
+  ```
+
+  When the direct TCP peer is in the allowlist, `X-Forwarded-For` is walked right-to-left, skipping trusted hops, and then `X-Real-Ip` is consulted, to determine `aws:SourceIp`. When the peer is not trusted - or no allowlist is configured - the direct peer address is used, matching AWS S3 semantics. The allowlist applies to all three `aws:SourceIp` evaluation paths: the bucket policy engine, the IAM attached-policy engine, and the IAM role/session policy middleware. It is reloaded on `SIGHUP` alongside the JWT signing keys.
+
+  Why this matters: a previous commit removed implicit trust of `X-Forwarded-For` / `X-Real-Ip` because any caller behind a private-looking peer could spoof `aws:SourceIp` and slip past `IpAddress` / `NotIpAddress` policy restrictions. If you run behind a reverse proxy, configure the allowlist with the proxy's address range; otherwise `aws:SourceIp` stays the proxy's address for every request and IP-based policies will misbehave.
+- **`ListMultipartUploads` `Initiated`**: each in-progress upload is now reported with its `Initiated` timestamp, taken from the upload directory entry's creation time. Repeated listings preserve the original initiation time instead of substituting the listing time. Clients such as GeeseFS 0.43.0 rely on this field to expire old uploads and panicked when it was missing.
+- **POST policy uploads keep versions**: an upload performed through a POST policy now preserves object versions like a regular `PutObject` does, instead of dropping the version chain.
+- **Object lock on version deletes**: deleting a version respects the object lock retention period, and Object Lock configuration and object-lock actions are authorized as separate permissions, so a principal may be allowed to configure the lock without being allowed to delete protected versions.
+- **List markers**: a list marker that sorts before the prefix no longer excludes everything that follows it.
+- **Request body draining**: the request body is drained before an error response is written, so a rejected request no longer leaves the connection in a state that breaks keep-alive reuse.
+- **Multipart bookkeeping**: completing a multipart upload commits the upload and removes the `.uploads` metadata atomically, and purging or aborting a completed upload is metadata-only. Multipart upload checksum inheritance and validation were tightened as well.
+- **S3 tables**: catalog resources the caller cannot access are hidden instead of listed.

@@ -90,7 +90,7 @@ Restore:
 
 - CLI at startup: `./qdrant --storage-snapshot /path/to/full.snapshot`
 
-## Snapshot storage configuration (paths, temp, S3)
+## Snapshot storage configuration (paths, temp, object storage)
 
 Local filesystem defaults:
 
@@ -101,9 +101,56 @@ Config knobs:
 - `storage.snapshots_path` (env: `QDRANT__STORAGE__SNAPSHOTS_PATH`)
 - `storage.temp_path` (optional separate temp dir for snapshot creation; useful if the storage disk is slow or space-constrained)
 
-S3 support (S3-compatible):
+### Object storage backends (`1.19.2`)
 
-- Configure `storage.snapshots_config` with `snapshots_storage: s3` and `s3_config` (bucket/region/access_key/secret_key/endpoint_url).
+`storage.snapshots_config.snapshots_storage` selects the backend: `"local"` (default), `"s3"`, `"gcs"` (alias `"gcp"`), or `"azure"`.
+
+Each backend has its own config block next to the selector:
+
+| Backend | Config block | Required fields | Credential / endpoint fields |
+| --- | --- | --- | --- |
+| S3 / S3-compatible | `s3_config` | `bucket` | `region`, `access_key`, `secret_key`, `endpoint_url` |
+| Google Cloud Storage | `gcs_config` | `bucket` | `service_account_path`, `service_account_key`, `application_credentials_path`, `endpoint_url` |
+| Azure Blob Storage | `azure_config` | `account`, `container` | `access_key`, `sas_token`, or `client_id` + `client_secret` + `tenant_id`; `endpoint_url` |
+
+```yaml
+storage:
+  snapshots_config:
+    snapshots_storage: gcs
+    gcs_config:
+      bucket: "my-bucket"
+      prefix: "team-a/qdrant"
+```
+
+Credential chains — leave the credential fields empty to use them:
+
+- **S3:** `AWS_*` environment variables and the default AWS credential chain.
+- **GCS:** Application Default Credentials — `GOOGLE_*` environment variables, the gcloud credentials file, or the metadata server on GCE/GKE.
+- **Azure:** `AZURE_*` environment variables, managed identity, or the Azure CLI.
+
+Operational notes:
+
+- Plain `http://` endpoints are allowed only when `endpoint_url` is explicitly set (emulators such as MinIO, fake-gcs-server, Azurite). Real cloud endpoints always use TLS.
+- `endpoint_url` also covers S3-compatible stores (MinIO and similar), so the same `s3_config` block works for both AWS and a local emulator.
+- A config block for a backend **other than the selected one is ignored**, and Qdrant logs a warning about it — in practice this means a typo in `snapshots_storage`.
+- A backend can be selected without its config block; the client then resolves everything from the environment, and fails at startup if the bucket/account cannot be resolved.
+
+### Snapshot prefix for object storage (`1.19.2`)
+
+Every object-storage backend takes an optional `prefix` (`s3_config.prefix`, `gcs_config.prefix`, `azure_config.prefix`):
+
+- Objects are written as `<prefix>/snapshots/<collection>/<snapshot>.snapshot`.
+- Leading, trailing and repeated slashes in the prefix are dropped; an empty (or slash-only) prefix leaves object keys exactly where they were.
+- The prefix is invisible in the names Qdrant reports back — `GET /collections/{name}/snapshots` still returns plain file names, and downloads/deletes work with those names.
+- Objects outside the prefix are invisible to the API: they are not listed, not downloaded, and not deleted.
+
+Use it to run several Qdrant deployments in one bucket/container without collisions, and to keep backups under a dedicated, separately lifecycle-managed prefix.
+
+## `1.19.2` snapshot changes
+
+- Shard transfers over the snapshot method now report the transferred bytes and the transfer rate in the transfer `comment` (visible on the source peer and, during snapshot recovery, on the target peer), so throughput can be read instead of estimated.
+- A stale snapshot transfer on a recovering peer no longer breaks the other peers of the cluster.
+- Uploading a snapshot without a collection configuration no longer writes the server-side path into the logs (see `references/security.md`).
 
 ## Operational guidelines
 

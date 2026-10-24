@@ -2,8 +2,8 @@
 name: zvec
 description: "Zvec in-process vector database. Covers collections, indexing, embeddings, reranking, and persistence. Use when embedding Zvec into applications or tuning retrieval/storage behavior. Keywords: Zvec, HNSW-RaBitQ, vector database, ANN."
 metadata:
-  version: "0.7.0"
-  release_date: "2026-08-24"
+  version: "0.8.0"
+  release_date: "2026-10-21"
 ---
 
 # Zvec
@@ -21,6 +21,7 @@ Zvec is a lightweight, in-process vector database meant to be embedded into appl
 - Reranking pipelines: `references/reranker.md`
 - Data modeling & collections: `references/collections.md`
 - CRUD / search operations: `references/data-operations.md`
+- Chinese FTS dictionaries (Jieba): `references/fts-chinese-dictionaries.md`
 - Configuration & persistence: `references/configuration.md`
 
 ## Operator recipes (high signal)
@@ -49,12 +50,35 @@ Zvec is a lightweight, in-process vector database meant to be embedded into appl
   - Add/drop/alter scalar columns via `add_column()`, `drop_column()`, `alter_column()`.
   - Manage indexes via `create_index()` / `drop_index()` (scalar). Vector indexes cannot be dropped.
 
+- Chinese full-text search
+  - The default Jieba dictionary and HMM model are embedded in the native libraries; nothing to install.
+  - Override the main dictionary per FTS field with `extra_params.jieba_dict_dir`, or set `ZVEC_JIEBA_DICT_DIR`; field configuration wins over the environment variable.
+  - Add domain vocabulary with `user_dict_path`; custom user dictionaries stay isolated between tokenizer instances.
+  - The global `init(jieba_dict_dir=...)` configuration was removed in `0.8.0` — see `references/fts-chinese-dictionaries.md` for the migration.
+
 ## Critical prohibitions
 
 - Do not mirror vendor docs verbatim; summarize in your own words.
 - Do not assume a client/server deployment model: Zvec is in-process.
 - Do not add project-specific paths, secrets, or environment assumptions.
-- Do not choose `HNSW-RaBitQ` on unsupported hardware; current docs limit it to `x86_64` with `AVX2` or better.
+- Do not choose `HNSW-RaBitQ` on unsupported hardware; it stays limited to `x86_64` with `AVX2` or better (Windows `x86_64` included since `0.8.0`).
+- Do not call `init(jieba_dict_dir=...)` or the `set_default_jieba_dict_dir()` / `get_default_jieba_dict_dir()` helpers — removed in `0.8.0`. Configure the FTS field or use `ZVEC_JIEBA_DICT_DIR`.
+
+## Release Highlights (0.8.0)
+
+- **Jieba global dictionary configuration removed (breaking).** `init(jieba_dict_dir=...)`, `set_default_jieba_dict_dir()`, `get_default_jieba_dict_dir()` and the matching C/C++ global-directory APIs are gone; the default dictionary and HMM model are embedded in the native libraries. Override the main dictionary per field with `FtsIndexParam.extra_params.jieba_dict_dir` or the `ZVEC_JIEBA_DICT_DIR` env var (field configuration wins); add business vocabulary with `user_dict_path`. Migration: `references/fts-chinese-dictionaries.md`.
+- **Embedded Chinese FTS dictionary.** The default Jieba dictionary and HMM model ship as LZ4-compressed resources in the Python wheels and native SDKs. Parsed defaults are shared across tokenizer instances, while custom user dictionaries stay isolated between them.
+- **Uniform quantization wired into collections.** Uniform `UINT4` joins `UINT7`/`UINT8`, and all three are now connected to the database layer and HNSW. A shared quantization range removes per-datapoint score reconstruction at query time; sharing min/max across all indexed points increases quantization error and lowers recall.
+- **Turbo PQ and FastScan.** `PQ-INT4` plus a 4-bit PQ FastScan implementation with packed block scanning, SIMD and scalar distance kernels, and precomputed residual distance tables for IVF.
+- **OPQ preprocessing.** Optimized Product Quantization rotation in the Turbo framework; training and serialization logic is consolidated across the PQ quantizers.
+- **Shared page cache for vector indexes.** HNSW, IVF and DiskANN read through one buffer-backed cache with pinned reads and batched page access; DiskANN falls back to direct I/O under cache pressure.
+- **More flexible identifiers.** Document IDs accept valid UTF-8 up to 1024 bytes; collection names accept 1–256 bytes of valid UTF-8 (no control or separator characters); field names keep an ASCII charset, are capped at 64 bytes, and reject reserved internal names.
+- **Wider platform coverage.** Intel Mac (macOS `x86_64`) builds, Windows ARM64 with MSVC plus Windows ARM64 SDK packages, and native Python 3.11–3.14 wheels.
+- **DiskANN beyond Linux/macOS.** DiskANN now runs on Windows (asynchronous unbuffered reads through I/O completion ports) and on mobile (portable `pread` for Android and iOS). RaBitQ indexes work on Windows `x86_64`.
+- **Turbo distance kernels across index families.** Flat, HNSW, IVF and DiskANN migrated to Turbo distance computation with AVX2, AVX512, AVX512-FP16, SSE and ARM NEON kernels selected at runtime; the largest gains are on INT4 kernels and Linux ARM workloads.
+- **Cheaper builds, faster HNSW RaBitQ.** IVF and DiskANN builds use less memory (fewer vector copies, streamed merged inputs, bounded temporary buffers); HNSW RaBitQ construction reuses raw vectors during neighbor pruning and batches Flat provider lookups under segment locking.
+- **Vamana search and refinement.** Split contiguous packed layout, optimized candidate state and prefetching, corrected medoid selection, and two-pass graph construction enabled by default. HNSW and Vamana can refine with FP16 or UINT8 vectors, with `scale_factor` controlling the candidate budget.
+- **Stability fixes.** `fetch()`/`query()` no longer crash or lose rows when racing a segment switch or flush; reads of writing segments are synchronized; Flat cache synchronization and key-map iterator lifetimes are fixed; vector-to-row mappings survive index rebuilds containing deleted rows; IVF `n_iters` propagation is corrected.
 
 ## Release Highlights (0.7.0)
 
@@ -108,4 +132,5 @@ Zvec is a lightweight, in-process vector database meant to be embedded into appl
 - Documentation: https://zvec.org/en/docs/
 - GitHub: https://github.com/alibaba/zvec
 - Releases: https://github.com/alibaba/zvec/releases
+- Release notes (0.8.0): https://github.com/alibaba/zvec/releases/tag/v0.8.0
 - Issues: https://github.com/alibaba/zvec/issues

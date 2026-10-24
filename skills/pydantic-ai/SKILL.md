@@ -2,8 +2,8 @@
 name: pydantic-ai
 description: "Pydantic AI Python agent framework. Covers typed tools, model providers, evals, MCP, UI adapters, and observability. Use when building Python AI agents with Pydantic AI, configuring model providers, implementing typed tools/dependencies, running evals, or integrating MCP servers. Keywords: pydantic-ai, agents, evals, MCP, Logfire."
 metadata:
-  version: "2.48.0"
-  release_date: "2026-09-23"
+  version: "2.59.0"
+  release_date: "2026-10-21"
 ---
 
 # Pydantic AI
@@ -23,6 +23,11 @@ Python agent framework for building production-grade GenAI applications with the
 | Integrations | [integrations.md](references/integrations.md) |
 | Graphs       | [graphs.md](references/graphs.md)             |
 | UI Streams   | [ui.md](references/ui.md)                     |
+| Workspaces & Sandboxes | [workspaces-and-sandboxes.md](references/workspaces-and-sandboxes.md) |
+| Realtime (speech-to-speech) | [realtime.md](references/realtime.md) |
+| MCP Apps     | [mcp-apps.md](references/mcp-apps.md)         |
+| Decision Models | [decision-models.md](references/decision-models.md) |
+| Security     | [security.md](references/security.md)         |
 | Installation | [installation.md](references/installation.md) |
 
 ## When to Use
@@ -37,6 +42,18 @@ Python agent framework for building production-grade GenAI applications with the
 ## Installation
 
 See `references/installation.md` for full/slim install options and optional dependency groups. Requires Python 3.10+.
+
+## Release Highlights (2.49.0 -> 2.59.0)
+
+- **Security (upgrade)**: three advisories landed in this window - the local `web_fetch` HTML conversion stall (High, GHSA-4whf-38hw-pxxh, fixed in `2.59.0`/`v1.107.9`), MCP server URLs/tokens/custom headers leaking into OpenTelemetry traces and URL-derived credential exposure (Medium, GHSA-xv4x-g8mx-ch56, fixed in `2.58.0`/`v1.107.8`), and client-triggered tool execution through the Vercel AI/AG-UI adapters with server-side `message_history` (Medium, GHSA-5pfm-2g3g-gh85, fixed in `2.58.0`). Rotate MCP credentials when upgrading from below `2.58.0`. Details in `references/security.md`.
+- **Workspaces and sandboxes** (`2.52.0`+): `ctx.workspace` gives `Coder`, `Shell` and `FileSystem` one API for files and commands, running locally or in a sandbox with durable execution. New providers: `SpritesSandbox` (Fly.io Sprite), `E2BSandbox`, `SSHWorkspace`, `BubblewrapSandbox`, and `DaytonaSandbox` (`2.59.0`); `ModalSandboxBackend` replaces `ModalSandboxSession`. `Coder` file tools get a retry budget of 5 and keep scratch files out of the project. See `references/workspaces-and-sandboxes.md`.
+- **Realtime** (`2.49.0` - `2.59.0`): OpenAI GPT-Live via `OpenAILiveModel` (`2.51.0`) with browser WebRTC (`2.52.0`), `ElevenLabsRealtimeModel` (`2.58.0`), `azure_voice_live_voice` (`2.52.0`), `gemini-3.8-live` (`2.50.0`), `RealtimeSession.wait_for_reply()` (`2.49.0`), `context_window_used` (`2.51.0`), the `async_tool_call_mode` profile setting (`2.52.0`), and the `AnswersRevised` / `OutputItemCut` lifecycle events (`2.59.0`). See `references/realtime.md`.
+- **Provider-neutral errors** (`2.59.0`): `ModelRateLimitError`, `ModelUnavailableError`, `ModelServerError`, `ModelContextWindowExceededError`, plus `ModelHTTPError.for_category` to map a raw provider error onto them.
+- **MCP Apps** (`2.57.0`): tool results can carry resources and app surfaces, forwarded to the AG-UI and Vercel AI frontends. `MCPToolset.read_resource_contents` and `MCPToolset.call_tool_for_app` read a resource or call an app-producing tool; `ToolKind` typed tool parts (`2.58.0`) let any module emit a typed tool part. See `references/mcp-apps.md`.
+- **Decision models** (`2.49.0` - `2.50.0`): `DecisionModel` (the base `TypeSafeModel` builds on) answers several questions in one call and routes from the answers, with route fields, `decision_route_threshold`, `ModelSelectionContext.prompt` and `RunContext.in_durable_context`. `TypeSafeModel` gained "none of these" semantics and whole-number `Choice` options; `BoolCriteria` types boolean answers. See `references/decision-models.md`.
+- **Providers and models** (`2.49.0` - `2.59.0`): Claude Sonnet 5.5 (`claude-sonnet-5-5`) with `AnthropicModel` default `max_tokens` raised from 4096 to 16384 on Sonnet 4.5+ (and defaulting to the model's maximum output); `MetaProvider` for Meta Muse (`2.57.0`); OpenAI `gpt-6-sol`/`gpt-6-luna`/`gpt-6-astra` on Bedrock Converse with `temperature`/`top_p` dropped for GPT-5.6/GPT-6 there; `GitHubCopilotProvider` can send a configurable `copilot-integration-id`; shut-down Groq models (`playai-tts`, `playai-tts-arabic`, `meta-llama/llama-guard-4-12b`, `meta-llama/llama-4-maverick-17b-128e-instruct`) were removed.
+- **Agent control** (`2.57.0` - `2.59.0`): `DelegationTasks.steer` steers a running delegated task; `ModelSettings['max_retries']`, whole-agent `timeout=` and `RunContext.deadline`; `ApprovalReviewer` lets a model approve low-risk tool calls before a person sees them; `on_change='append'` for dynamic instruction prefixes (also opt-in on `FunctionToolset.instructions`); `tool_calls_limit` is checked before each `CodeMode` nested call; `BackgroundTools` results are framed as `<tool_result>` tool output; `read_file` can return images and PDFs; `SqliteStepStore` stores each message once.
+- **Breaking change** (`2.52.0`): `SubAgents` no longer load agent files by default, and `inherit_tools` is deprecated.
 
 ## Release Highlights (2.40.0 -> 2.48.0)
 
@@ -236,6 +253,9 @@ result = agent.run_sync('What is my name?', deps=Deps(user_id=123))
 - Do not use `run_stream` without handling partial outputs
 - Do not forget to close MCP connections (`async with agent`)
 - Do not assume capability order is arbitrary once multiple wrappers/hooks are involved; define it explicitly when composition matters.
+- Do not run below `2.59.0` with the local `web_fetch` tool, and do not run below `2.58.0` with native MCP servers - see `references/security.md`.
+- Do not export MCP traces before checking for leaked server URLs, tokens and headers; rotate any credential that was exposed before the `2.58.0` upgrade.
+- Do not treat server-side `message_history` as a security boundary behind a Vercel AI or AG-UI endpoint.
 
 ## Common Patterns
 

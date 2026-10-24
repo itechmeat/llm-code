@@ -2,7 +2,7 @@
 
 What changed in PostgreSQL 19 compared to 18, plus the full list of incompatible changes to plan for before upgrading.
 
-> **Beta status.** PostgreSQL 19 is currently at **Beta 3 (2026-08-13)**. GA is expected **September/October 2026**, after further betas and release candidates. Behavior, feature details, and APIs may still change before GA — one feature (non-text output formats for `pg_dumpall`) was already reverted between Beta 1 and Beta 2. Do not run beta builds in production. Beta clusters may require `initdb` or a full `pg_upgrade` cycle if catalog contents change between beta releases, so treat every beta-to-beta step as a major version upgrade.
+> **Release candidate status.** PostgreSQL 19 is at **RC 1 (2026-10-15)**. RC 1 is feature-complete: it is mostly identical to the initial release of PostgreSQL 19, so the feature list in this reference is final apart from fixes. The release team moved the fixes of the November 12, 2026 update release into 19 first, which is why **RC 2** ships on the same day; **GA is planned for 2026-11-19**. Do not run release candidates in production. Catalog contents can still change between RC builds, so treat every RC-to-RC step as a major version upgrade (`initdb` or a full `pg_upgrade` cycle).
 
 Latest stable line remains **18.6 (2026-08-13)**; use that for production until 19 goes GA.
 
@@ -247,6 +247,7 @@ AIX support is restored (gcc, 64-bit only). Solaris uses unnamed POSIX semaphore
 ## Links
 
 - [PostgreSQL 19 release notes](https://www.postgresql.org/docs/19/release-19.html)
+- [PostgreSQL 19 RC 1 announcement](https://www.postgresql.org/about/news/postgresql-19-rc-1-released-3409/)
 - [PostgreSQL 19 Beta 2 announcement](https://www.postgresql.org/about/news/postgresql-19-beta-2-released-3350/)
 - [Beta testing information](https://www.postgresql.org/developer/beta/)
 - [PostgreSQL 19 open items](https://wiki.postgresql.org/wiki/PostgreSQL_19_Open_Items)

@@ -127,6 +127,7 @@ Crawl websites with AI-guided instructions.
 | format            | string   | `"markdown"` | `"markdown"` or `"text"`                          |
 | include_images    | bool     | false        | Extract images                                    |
 | chunks_per_source | int      | 3            | 1-5, only with `instructions`                     |
+| max_age_hours     | int      | -            | Age budget for crawled content (renamed from `max_hours` in `0.8.5`) |
 | timeout           | float    | 150          | 10-150 seconds                                    |
 | include_favicon   | bool     | false        | Include favicon URLs                              |
 | include_usage     | bool     | false        | Include credit usage info                         |

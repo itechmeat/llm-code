@@ -17,6 +17,14 @@ Zvec is an **in-process** vector database: you embed it into your application pr
 - Schema is **dynamic** (you can add/remove scalar fields and indexes without recreating the collection).
 - No cross-collection queries (no joins/unions/multi-collection search).
 
+### Identifier rules
+
+- Document ID: valid UTF-8, up to 1024 bytes.
+- Collection name: valid UTF-8, 1–256 bytes, no control or path separator characters.
+- Field name: ASCII charset, up to 64 bytes, no reserved internal names.
+
+See `references/collections.md` for the collection-level rules.
+
 ### Persistence model
 
 - Each collection is persisted in its own directory and is self-contained (directory can be relocated).
@@ -44,7 +52,7 @@ Embedding models are typically trained with a particular similarity objective (c
 
 - Flat/brute-force search is exact but becomes too slow at scale.
 - ANN indexes trade a small amount of accuracy for large speed gains.
-- Docs mention index types: Flat, HNSW, IVF.
+- Docs mention index types: Flat, HNSW, HNSW-RaBitQ, IVF, DiskANN, and FTS (see `references/indexing.md`).
 
 ANN quality is often measured as $\text{Recall@}k$:
 

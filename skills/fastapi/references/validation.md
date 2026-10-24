@@ -120,6 +120,66 @@ async def read_items(
 hidden: Annotated[str | None, Query(include_in_schema=False)] = None
 ```
 
+## Extra JSON Schema Properties (0.155.0)
+
+The deprecated `**extra` keyword arguments were removed from `Path`, `Query`, `Header`, `Cookie`, `Body`, `Form`, and `File`. Unknown keyword arguments now raise `TypeError`.
+
+To add custom properties to the generated JSON Schema, use `json_schema_extra`:
+
+```python
+# ✅ 0.155.0+
+q: Annotated[str | None, Query(json_schema_extra={"custom": "value"})] = None
+
+# ❌ removed in 0.155.0 — raises TypeError
+q: Annotated[str | None, Query(custom="value")] = None
+```
+
+The same applies to `Path`, `Header`, `Cookie`, `Body`, `Form`, and `File`.
+
+## Defaults Are Not Validated by Default (0.148.0)
+
+Defaults for omitted `Query`, `Header`, `Cookie`, and `Form` parameters — and for the fields of parameter models — are no longer treated as user input:
+
+- The default is **not** validated unless `validate_default=True` is set.
+- Applying a default does **not** mark the field as explicitly set, so `model_dump(exclude_unset=True)` excludes it.
+- Default factories run once per request.
+- Validation errors no longer include injected defaults in `input`.
+
+```python
+from pydantic import BaseModel, Field
+
+# Individual parameter
+q: Annotated[str, Query(min_length=3, validate_default=True)] = "abc"
+
+# Field of a parameter model
+class FilterParams(BaseModel):
+    limit: int = Field(10, gt=0, validate_default=True)
+```
+
+`Body(validate_default=True)` is honored too. If you relied on validators running for omitted values, enable default validation explicitly.
+
+## Pydantic Validation Options (0.154.0)
+
+Request parameters accept Pydantic validation options, so a parameter can use the same rules as a model field:
+
+```python
+q: Annotated[str, Query(validate_default=True, strict=False)]
+```
+
+Available options include `validate_default`, `strict`, `discriminator`, `union_mode`, `fail_fast`, `multiple_of`, `allow_inf_nan`, `max_digits`, `decimal_places`, `alias_priority`, `validation_alias`, and `serialization_alias`.
+
+## Alias Choices
+
+`alias` accepts an `AliasChoices` instance to read a parameter from more than one name:
+
+```python
+from pydantic import AliasChoices
+
+q: Annotated[str | None, Query(alias=AliasChoices("q", "search"))] = None
+```
+
+`AliasChoices` is supported for query/header/cookie parameters (`0.156.3`), path parameters (`0.156.5`), named JSON body parameters, and form model extraction (`0.156.4`). For form and file parameters, validation error locations report the correct alias (`0.156.7`).
+
 ## Best Practice: Use Annotated
 
 ```python

@@ -24,6 +24,10 @@ A high-quality, unstyled React toast component to generate notifications.
 - The `render` prop is now honored in `Toast.Title`, `Toast.Description`, and `Toast.Action`, so you can swap or extend their default elements.
 - Remaining timer calculation for paused/regained-focus toasts was fixed.
 
+## v1.9.0 notes
+
+- Timers stay paused during overlapping interactions, so a toast that is interacted with twice in a row does not resume its countdown early.
+
 ## Demo
 
 ### Tailwind

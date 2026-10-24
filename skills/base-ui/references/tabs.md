@@ -8,6 +8,10 @@ description: A high-quality, unstyled React tabs component for toggling between 
 
 A high-quality, unstyled React tabs component for toggling between related panels on the same page.
 
+## v1.9.0 notes
+
+- Tabs with function values can be selected correctly, so a `value` that is a function is no longer compared by reference alone.
+
 ## Demo
 
 ### Tailwind

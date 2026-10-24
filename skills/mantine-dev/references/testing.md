@@ -261,8 +261,9 @@ describe('Select', () => {
     
     // Select option
     await userEvent.click(screen.getByRole('option', { name: 'Canada' }));
-    
-    expect(onChange).toHaveBeenCalledWith('Canada');
+
+    // Select calls onChange with (value, option) – the option argument is nullable
+    expect(onChange).toHaveBeenCalledWith('Canada', { value: 'Canada', label: 'Canada' });
   });
 });
 ```

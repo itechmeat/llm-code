@@ -116,6 +116,14 @@ Operational implication:
 - TurboQuant 4-bit (`"turbo4"`) can act as the datatype of primary vector storage: store only 4-bit quantized vectors and spare the disk space that original vectors would take.
 - `max_resident_memory_percent` from strict mode is deprecated in favor of the global quota API.
 
+`1.19.2` notes:
+
+- **Write tearing is prevented in all Gridstore storages.** A torn write could previously corrupt storage; this is a data-integrity fix, so treat it as a reason to upgrade rather than only a performance note.
+- A mutable payload index can be loaded again after a torn write, which previously caused a crash loop on startup.
+- Proxy segments (the copy-on-write layer used during optimization) now persist their state, so a restart no longer pins the WAL and no longer needs a long WAL replay.
+- Updates are no longer blocked while the segment manifest is synchronized or while optimizations are being planned — write latency no longer spikes on those paths.
+- Cardinality estimates are bounded by the number of points, so an estimate can no longer exceed the actual size of the collection.
+
 ## Upgrade note (v1.17.0)
 
 Qdrant v1.17.x removes RocksDB support in favor of gridstore. If you are upgrading from older minor versions (notably v1.15.x), avoid jumping directly to v1.17.x.

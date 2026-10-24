@@ -2,8 +2,8 @@
 name: pipecat
 description: "Pipecat realtime voice/multimodal bots. Covers pipelines/frames, transports, RTVI, Pipecat Cloud deploy. Use when building real-time voice bots (STT/LLM/TTS pipelines), multimodal AI agents, WebRTC/WebSocket transports, or deploying to Pipecat Cloud. Keywords: pipecat, pipecat-ai, RTVI, WebRTC, voice bot."
 metadata:
-  version: "1.11.0"
-  release_date: "2026-09-18"
+  version: "1.13.0"
+  release_date: "2026-10-18"
 ---
 
 # Pipecat
@@ -33,6 +33,7 @@ It composes streaming speech/LLM/TTS services into a low-latency pipeline, conne
 - CLI (init/tail/cloud): `references/cli.md`
 - Function calling (server): `references/function-calling.md`
 - Context management: `references/context-management.md`
+- Files & images in the LLM context (send-file, FileResolver, uploads): `references/files-and-images.md`
 - LLM inference: `references/llm-inference.md`
 - Text to speech (TTS): `references/text-to-speech.md`
 - Deployment (pattern/platforms): `references/deployment.md`
@@ -95,6 +96,63 @@ It composes streaming speech/LLM/TTS services into a low-latency pipeline, conne
 - Do not assume `OpenAIResponsesLLMService` is HTTP-based anymore; WebSocket is now the default implementation.
 - Do not send a single `button` field in the RTVI `dtmf` client message; as of `1.6.0` it requires `buttons` (a list), and `RTVI.PROTOCOL_VERSION` is `2.1.0`.
 - Do not filter OTel dashboards on old GenAI span attribute names (`az.ai.openai`, `xai`, `mistral`, `gen_ai.usage.reasoning_tokens`, bare `tokens.*`); `1.6.0` renamed these to standard `gen_ai.*` conventions.
+- Do not use `UninterruptibleFrame`, `BaseUIWorker`, `ReplyToolMixin`, `EvalJudge(llm)`, `VoicemailDetector(llm=...)`, the `BACKEND_PAIRING_INSTRUCTION` / `FRONTEND_PAIRING_INSTRUCTION` constants, or the startup warmup timing hooks; they are deprecated in `1.13.0` and removed in `2.0.0`.
+- Do not rely on the `mcp` extra with the 1.x SDK; `1.13.0` requires `mcp[cli]>=2.1.1,<3`.
+- Do not let the LLM fetch arbitrary URLs: `FileResolver` only downloads publicly routable addresses or CIDR ranges listed in `allowed_url_networks` / `PIPECAT_ALLOWED_FILE_URL_NETWORKS`, and it refuses redirects.
+
+## Release Highlights (1.12.0 -> 1.13.0)
+
+### Files and images in the conversation (1.13.0)
+
+- **RTVI `send-file`**: clients can now send files and images to the bot, and they enter the LLM context. New frames `FileRawFrame`, `InputFileRawFrame` and `UserFileRawFrame` carry the payload as inline base64 or as a URL.
+- **Context methods**: `LLMContext.create_file_message()`, `create_file_url_message()` and `add_file_frame_message()` produce universal `file_base64` (base64 data URL) and `file_url` content items that each adapter translates (Anthropic, AWS Bedrock, Gemini, OpenAI Chat, OpenAI Responses). Unsupported MIME types fail during conversion instead of being dropped silently.
+- **Resolution at request time**: each adapter declares which URLs its provider can fetch itself (public `http(s)` per MIME type, `s3://` via Bedrock IAM, `gs://` via Vertex Gemini IAM, Gemini Files API URIs) and those pass through. Everything else is downloaded by the new `FileResolver` (`pipecat.utils.file_resolver`) and inlined at conversion time, so the context keeps only the URL while the bytes live in an in-memory cache keyed by URL. Each file is fetched once, not per turn; services sharing one resolver reuse each other's downloads. A URL is assumed to identify immutable content - `FileResolver.forget(url)` forces a re-fetch.
+- **SSRF guard**: the resolver downloads `http(s)` URLs only when the resolved address is publicly routable or falls inside its `allowed_url_networks` CIDR ranges (default from `PIPECAT_ALLOWED_FILE_URL_NETWORKS`); redirects are refused and the download is capped at 50 MB. Other schemes go to its `FileStorage`.
+- **Storage**: `FileStorage` (`pipecat.utils.file_storage`) with a `LocalFileStorage` default. `save()` returns a URL the backend can resolve later (`pipecat:<id>` for local storage); a custom backend can mint `gs://` or `s3://` URLs the provider may fetch itself. A backend whose URLs it owns can set `delete_after_load` (as `LocalFileStorage` does) so the file is deleted once its bytes are cached.
+- **Runner uploads**: the development runner gains `POST /sessions/{session_id}/files` (50 MB cap), enabled with `-u/--uploads-folder` or `PIPECAT_UPLOADS_FOLDER`, answering with an RTVI file source. A flat `POST /files` exists for transports whose clients never learn a session id. `/start` responses advertise the route as `fileUploadUrl`; `--uploads-folder-max-files` (default 10) trims the oldest uploads.
+- **Custom storage**: define a `create_file_storage()` function next to `bot()`; whichever host runs the bot discovers it, so bot code stays identical across hosts. The active backend is injected as `runner_args.file_storage`.
+- **Rejected requests**: `LLMContext.remove_invalid_file_message()` drops the oldest file or image message added since the last successful reply when OpenAI, Anthropic, Bedrock or Gemini rejects the request.
+
+See `references/files-and-images.md` for the full flow.
+
+### Backend LLM (1.13.0)
+
+- **`LLMWithBackend`** (`pipecat.pipeline.llm_with_backend`, alpha): a conversational frontend LLM (text or speech-to-speech) with a backend LLM (in a `BackendLLMWorker`) it delegates to for deeper thinking and tool orchestration. The frontend keeps the conversation moving while the backend does the heavy lifting and sends messages to the frontend as it works. It drops into a pipeline where a standalone LLM would go.
+- **Pairing configuration**: `pairing_instruction` on `BackendLLMWorker` and `frontend_pairing_instruction` on `BackendConnector` replace the `BACKEND_PAIRING_INSTRUCTION` / `FRONTEND_PAIRING_INSTRUCTION` constants; the request strategies take their own texts as arguments (`frontend_instruction`, `tool_description`, `request_instruction`).
+- **External function calls**: new frames report calls that ran outside the pipeline - `ExternalFunctionCallsStartedFrame`, `ExternalFunctionCallInProgressFrame`, `ExternalFunctionCallResultFrame`, `ExternalFunctionCallCancelFrame`. `RTVIObserver` turns them into the usual `llm-function-call-*` messages under the per-function report level. `LLMService.cancel_function_calls()` cancels every in-flight call, async ones included. `LLMAssistantAggregator.has_synchronous_function_calls_in_progress` tells whether a synchronous call is running.
+- **Speech-to-speech**: the services now take messages appended to the conversation (`LLMMessagesAppendFrame`) into their session, each on whatever channel its provider offers - OpenAI Realtime, Azure Realtime and Grok as conversation items, Gemini Live as client content that does not complete the turn, Nova Sonic as a text event.
+
+### Provider settings (1.12.0 - 1.13.0)
+
+- `FishAudioTTSService.Settings` gained `chunk_length`, `min_chunk_length`, `condition_on_previous_chunks`, `prosody_normalize_loudness`.
+- `OpenRouterLLMService.Settings` gained `provider` for provider routing preferences (`provider={"sort": "latency"}`).
+- `GrokLLMService.Settings` gained `reasoning_effort` (`low`, `medium`, `high`; `xhigh` on `grok-4.6`+; `none` where supported).
+
+### Deprecations and removals (removed in 2.0.0)
+
+- **`UninterruptibleFrame`** is gone: a frame class that should not be interrupted declares `interruptible: bool = field(default=False, init=False)` instead.
+- **`EvalJudge`** no longer takes an LLM service directly: pass `EvalJudge(LLMClassifier(llm=service), explainer=service)`. The judge now decides every verdict with a classifier, and the explainer LLM supplies the reason behind every `no` and every verdict below `explain_below` (`explainer: false` turns reasons off).
+- **`VoicemailDetector`** is now a single processor that takes a `classifier`, instead of a parallel pipeline with its own LLM; its `llm` and `custom_system_prompt` parameters are deprecated (the `llm` is wrapped in an `LLMClassifier` meanwhile). It asks the classifier after each transcription and acts once the caller has been quiet for `decision_timeout` (default 1 s).
+- **`BaseUIWorker`** is deprecated in favor of `UIWorker`, which now reports its job groups to the client on its own. **`ReplyToolMixin`** is deprecated in favor of `screen_tools`, and `UIWorker.respond_to_job` no longer takes `tts_speak`.
+- **Startup warmup timings** are gone: `StartupTimingReport.warmup`, `StartupWarmupTiming`, `StartupWarmup` and the `on_startup_warmup()` hook were removed - pipecat warms no deferred imports while the pipeline sets up.
+- **`max_frames`** on `TurnTrackingObserver` and `UserBotLatencyObserver` is deprecated; observers no longer keep a window of the frames they have seen.
+- **Removed**: `NotifierGate`, `ClassifierGate`, `ConversationGate` and `ClassificationProcessor` from `pipecat.extensions.voicemail.voicemail_detector`, plus the `CLASSIFIER_RESPONSE_INSTRUCTION` and `DEFAULT_SYSTEM_PROMPT` attributes of `VoicemailDetector`.
+- **Breaking dependency**: the `mcp` extra now requires the 2.x SDK (`mcp[cli]>=2.1.1,<3`); `MCPClient` no longer runs on the 1.x SDK.
+
+### Fixes (1.12.0 - 1.13.0)
+
+- An `LLMService` regression where re-advertising a tool with the same name but a different handler silently kept the previous handler - auto-registered handlers are rebound, explicit `register_function` registrations are untouched.
+- `InworldRealtimeLLMService` resent a server-VAD user transcript after a fast tool result context update, duplicating user turns and responses; Inworld extensions are serialized under `providerData` instead of `provider_data`.
+- NVIDIA STT settings changes now apply to the running stream (the service used to rebuild its config without reconnecting).
+- Flows node transitions: an interruption could leave the LLM running with the previous node's context and tools - the queued `LLMMessagesAppendFrame`/`LLMMessagesUpdateFrame` and `LLMSetToolsFrame` are now uninterruptible.
+- `TelnyxFrameSerializer` now sends `OutputTransportMessageFrame` and `OutputTransportMessageUrgentFrame` to the client as JSON instead of dropping them.
+- The eval harness no longer treats the bot's earlier speech as its reply when a scenario interrupts the bot; `pipecat eval suite` keeps `concurrency` runs going at all times, taking the next run in manifest order.
+- `MoondreamService` with transformers 5: loading the model on a GPU or Apple Silicon failed, and a loaded model produced garbage descriptions.
+- A bridged `PipelineWorker` reported every frame from its LLM twice over RTVI - `enable_rtvi` now defaults to off for a bridged pipeline worker.
+- TTS word tracking no longer falls out of step on markdown-heavy replies (Cartesia's trailing period, provider-specific symbols).
+- `WorkerRunner` no longer skips a worker added while the runner was still starting; `pcm_to_wav()` no longer drops samples with a typed `memoryview`; `is_silence()` no longer misclassifies full-scale negative int16 samples as silence.
+- `MOQTransport` no longer ends the call when a relay refuses a subscription with `dropped` - it retries and redials as for any relay loss.
+- `RTVIObserver` remembers only the frames it handles, and observers no longer keep the IDs of every frame for the life of the session; `on_user_turn_idle` fires again after a turn that ended with no transcript.
 
 ## Release Highlights (1.9.0 -> 1.11.0)
 

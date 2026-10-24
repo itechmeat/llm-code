@@ -60,3 +60,31 @@ Sources:
 - Publish one security baseline covering mTLS, JWT write/read controls, HTTPS, UI exposure, and secret injection.
 - Keep separate environment templates for local, internal production, and internet-facing deployments.
 - Test every enabled security layer end-to-end, including S3-to-filer HTTPS/JWT flows.
+
+## Trusted Proxies and Admin Reachability (4.48)
+
+### What changed
+
+- **S3 forwarded client addresses are allowlisted.** `security.toml` gained a `[s3.trusted_proxies]` section:
+
+  ```toml
+  [s3.trusted_proxies]
+  white_list = "10.10.10.0/24" # comma separated; bare IPs or CIDRs
+  ```
+
+  Only when the direct TCP peer is in the allowlist are `X-Forwarded-For` (walked right-to-left, skipping trusted hops) and then `X-Real-Ip` used to derive `aws:SourceIp`. Otherwise the direct peer address is used. The list is applied to the bucket policy engine, the IAM attached-policy engine, and the IAM role/session policy middleware, and is reloaded on `SIGHUP` together with the JWT signing keys.
+- **The admin HTTP bind default depends on authentication.** If `-adminPassword` is set or `[https.admin]` mTLS is configured, the `-ip` default auto-upgrades to `0.0.0.0`; without authentication the default stays on loopback so the unauthenticated admin API is never exposed on the network. An explicit `-ip` is always honored.
+- **The admin worker/plugin gRPC control plane honors `-ip`.** It used to bind `:port`, wildcard-binding every interface and ignoring the operator's setting - the only gRPC listener that did so. With `-ip=127.0.0.1` the worker gRPC port (HTTP port + 10000) is now loopback-only, matching the master, filer and volume listeners.
+
+### Actionable takeaways
+
+- If you run SeaweedFS behind a reverse proxy and use `IpAddress` / `NotIpAddress` conditions in bucket or IAM policies, add the proxy's address range to `s3.trusted_proxies.white_list`, otherwise every request looks like it came from the proxy.
+- After upgrading from `4.47`, re-check that the admin UI is still reachable from where it was reachable before. An authenticated deployment that lost network access after `4.40` now works again without adding `-ip=0.0.0.0`.
+- Audit the worker gRPC port (`HTTP port + 10000`) on every host: on older releases it was reachable from the network even when `-ip` was loopback.
+
+### Gotchas / prohibitions
+
+- Do not put a broad range (for example `0.0.0.0/0`) in `s3.trusted_proxies.white_list`; every caller would then be able to claim any `aws:SourceIp`.
+- Do not rely on forwarded headers for IP-based policy decisions without configuring the allowlist - the direct peer address is used instead.
+- Do not expose the admin HTTP listener without authentication on a shared network; the `0.0.0.0` default only applies when a password or mTLS is configured.
+- Do not leave the worker gRPC port open to the internet when the admin API is intended to be private.

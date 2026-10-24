@@ -1,9 +1,9 @@
 ---
 name: open-meteo
-description: "Integrate Open-Meteo Weather Forecast, Air Quality, and Geocoding APIs: query design, variable selection, timezone/timeformat/units, multi-location batching, and robust error handling. Use when fetching weather forecasts, air quality/pollen data, or geocoding place names to coordinates via Open-Meteo. Keywords: Open-Meteo, /v1/forecast, /v1/air-quality, geocoding-api, hourly, daily, current, timezone=auto, timeformat=unixtime, models, WMO weather_code, CAMS, GeoNames, httpx, FastAPI, pytest."
+description: "Integrate Open-Meteo Weather Forecast, Air Quality, and Geocoding APIs: query design, variable selection, timezone/timeformat/units, multi-location batching, and reliable error handling. Use when fetching weather forecasts, air quality/pollen data, or geocoding place names to coordinates via Open-Meteo. Keywords: Open-Meteo, /v1/forecast, /v1/air-quality, geocoding-api, hourly, daily, current, timezone=auto, timeformat=unixtime, models, WMO weather_code, CAMS, GeoNames, httpx, FastAPI, pytest."
 metadata:
-  version: "1.6.0"
-  release_date: "2026-09-10"
+  version: "1.7.0"
+  release_date: "2026-10-16"
 ---
 
 # Open Meteo
@@ -11,6 +11,17 @@ metadata:
 ## Goal
 
 Provide a reliable, production-friendly way to call Open-Meteo APIs (Forecast, Air Quality, Geocoding), choose variables, control time/units/timezone, and parse responses consistently.
+
+## Quick navigation
+
+| Topic                              | Reference                                      |
+| ---------------------------------- | ---------------------------------------------- |
+| Weather Forecast API reference      | `references/forecast-api.md`                   |
+| Air Quality API reference          | `references/air-quality-api.md`                |
+| Geocoding API reference            | `references/geocoding-api.md`                  |
+| Provider/model selection (`models=`) | `references/models.md`                        |
+| WMO weather interpretation codes   | `references/weather-codes.md`                  |
+| Worked examples (geocode → fetch)  | `references/examples.md`                       |
 
 ## Steps
 
@@ -76,6 +87,11 @@ Provide a reliable, production-friendly way to call Open-Meteo APIs (Forecast, A
 - You can fetch Air Quality data for at least one pollutant and one AQI metric.
 - Your client code handles both HTTP-level failures and JSON-level `error: true` with clear messages.
 - Attribution requirements from the docs are captured for Air Quality (CAMS) and Geocoding (GeoNames).
+
+## Release Notes
+
+- `1.7.0` (2026-10-16) changes the server side, not the request contract of `/v1/forecast`, `/v1/air-quality`, and the geocoding API: DWD ICON, ECMWF, KMA, and CMC providers moved to a shared internal structure, the DMI migration finished, and the icon API moved to v1 URLs with an EPS resolution switch (native icon grid domains added). A new environment variable limits the atomic block cache to pressure-level files.
+- Fixes in the same release: HRRR and NAM wind direction is now relative to true north, ECMWF daily maximum/minimum temperatures are correct, missing temperature extrema are derived and daily interval aggregations aligned, and bounding-box requests account for model elevation.
 
 ## Links
 

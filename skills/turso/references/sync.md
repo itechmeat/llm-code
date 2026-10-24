@@ -129,3 +129,12 @@ A Turso Cloud database replicates either through classic page-based WAL shipping
 - No code changes are needed to benefit from this — connect the same way regardless of the remote's journal mode.
 
 Related fixes: a change-count leak from sequences running under MVCC is fixed, and `pull()` no longer breaks on tables with composite or non-rowid primary keys — replaying a `DELETE` could previously panic, and upsert conflict targets only matched the first column of a composite key instead of the full key.
+
+## Embedded Replicas in Other Languages
+
+The JavaScript sync package (`@tursodatabase/sync`) is one way to run queries against a local replica that syncs in the background. The .NET provider exposes the same model with explicit control:
+
+- Connection-string replica — add `Replica Path=./replica.db` to a remote connection string, plus `Sync Interval` (seconds) and `Pooling`.
+- Managed API — `TursoSyncDatabase.CreateAsync(new TursoSyncDatabaseOptions(...))` with `PullAsync()`, `PushAsync()`, `CheckpointAsync()` and `GetStatsAsync()`. `PullAsync` never pushes local writes; `PushAsync` follows the sync engine's last-write-wins conflict policy.
+
+See [serverless-drivers.md](serverless-drivers.md) for the .NET details and the other language drivers.
